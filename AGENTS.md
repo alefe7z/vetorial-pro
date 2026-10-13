@@ -4,6 +4,12 @@ VectorCraft is a clean-room, open-source, Rust-native vector illustration app ta
 
 Formerly **DrawCraft** (renamed 2026-10-01): old `.drawcraft` files and `"format": "drawcraft"` headers still open (`vectorcraft_format::LEGACY_EXTENSION`), and preferences migrate from the old config folder. Keep those paths working; use the new name everywhere else.
 
+## Owner's working rules (this fork: alefe7z/vetorial-pro) — read first
+These rules come from the owner of this repository and **override anything below that conflicts with them**, including "pick work from that list" and the autonomous operation protocol in "Start every session here".
+- **Never change `main` without the owner's explicit authorization.** Work on your own branch (one branch per agent or tool, e.g. `estilo-corel`, `outra-ia`); don't push to a branch another agent is working on. Bring work into `main` only when the owner says so.
+- **Never start a new task without the owner's authorization.** Do only what was asked; when it is done, report and wait. Don't pick work from `docs/gaps.md`, the ROADMAP or `plan/` on your own initiative.
+- **Talk to the owner in Brazilian Portuguese**, in plain words (they are not a programmer): say what changed in the app, not in the code.
+
 ## Start every session here
 1. Read [`ROADMAP.md`](ROADMAP.md) (stage, numbers by dimension, what's next) and the ranked work list in [`docs/gaps.md`](docs/gaps.md). Unless the user gives you a task, pick work from that list.
 2. Read `plan/STATUS.md` (local session notes, may lag the ROADMAP), then the task in `plan/execution-plan.md` §3 and the relevant `plan/architecture.md` section. Behaviour reference: public documentation only (see Clean-room below); `plan/illustrator/*.md` holds notes from it.

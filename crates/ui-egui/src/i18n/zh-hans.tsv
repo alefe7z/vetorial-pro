@@ -3899,3 +3899,16 @@ lighting	Light	光源
 	Original project (VectorCraft)	原始项目（VectorCraft）
 	Based on VectorCraft (open source, MIT OR Apache-2.0)	基于 VectorCraft（开源，MIT OR Apache-2.0）
 	Vetorial is based on VectorCraft (© ArtCraft Team and contributors), MIT OR Apache-2.0. Fonts: Source Sans 3, Inter, JetBrains Mono (OFL). Icons: Lucide (ISC).	Vetorial 基于 VectorCraft（© ArtCraft Team 及贡献者），MIT OR Apache-2.0。字体：Source Sans 3、Inter、JetBrains Mono（OFL）。图标：Lucide（ISC）。
+	Bézier Tool	贝塞尔工具
+	B-Spline Tool	B 样条工具
+	Polyline Tool	折线工具
+	3-Point Curve Tool	三点曲线工具
+	 to add a cusp node  |  	以添加尖突节点  |  
+	 to add a smooth node  |  	以添加平滑节点  |  
+	 to add a control point  |  	以添加控制点  |  
+	 to remove the last point  |  	以删除最后一个点  |  
+	 to add a straight segment  |  	以添加直线段  |  
+	 to draw freehand  |  	以徒手绘制  |  
+	 from the start to the end point  |  	从起点到终点  |  
+	 to bend the curve through that point  |  	以使曲线经过该点弯曲  |  
+	 to cancel	以取消

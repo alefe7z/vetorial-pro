@@ -4742,3 +4742,16 @@ mark-style	Japanese	Japonské
 	Original project (VectorCraft)	Původní projekt (VectorCraft)
 	Based on VectorCraft (open source, MIT OR Apache-2.0)	Založeno na VectorCraft (open source, MIT OR Apache-2.0)
 	Vetorial is based on VectorCraft (© ArtCraft Team and contributors), MIT OR Apache-2.0. Fonts: Source Sans 3, Inter, JetBrains Mono (OFL). Icons: Lucide (ISC).	Vetorial vychází z VectorCraft (© ArtCraft Team a přispěvatelé), MIT OR Apache-2.0. Písma: Source Sans 3, Inter, JetBrains Mono (OFL). Ikony: Lucide (ISC).
+	Bézier Tool	Nástroj Bézier
+	B-Spline Tool	Nástroj B-spline
+	Polyline Tool	Nástroj Lomená čára
+	3-Point Curve Tool	Nástroj Křivka ze 3 bodů
+	 to add a cusp node  |  	 přidá ostrý uzel  |  
+	 to add a smooth node  |  	 přidá hladký uzel  |  
+	 to add a control point  |  	 přidá řídicí bod  |  
+	 to remove the last point  |  	 odebere poslední bod  |  
+	 to add a straight segment  |  	 přidá rovný úsek  |  
+	 to draw freehand  |  	 kreslí od ruky  |  
+	 from the start to the end point  |  	 od počátečního ke koncovému bodu  |  
+	 to bend the curve through that point  |  	 ohne křivku tímto bodem  |  
+	 to cancel	 zruší

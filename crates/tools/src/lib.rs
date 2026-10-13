@@ -10,6 +10,7 @@
 pub mod bbox;
 pub mod builder;
 pub mod catalog;
+pub mod corel;
 pub mod corners;
 pub mod cropimage;
 pub mod cut;
@@ -605,7 +606,8 @@ pub fn create(id: &str) -> Box<dyn Tool> {
         "rectangle" | "roundedRectangle" | "ellipse" | "polygon" | "star" | "lineSegment" => Box::new(shape::ShapeTool::new(id)),
         // Not in the toolbar: `file.place.queue` loads it.
         "place" => Box::new(place::PlaceTool::default()),
-        other => symbolism::create(other)
+        other => corel::create(other)
+            .or_else(|| symbolism::create(other))
             .or_else(|| builder::create(other))
             .or_else(|| draw2::create(other))
             .or_else(|| xform::create(other))

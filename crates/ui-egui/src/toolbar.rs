@@ -50,6 +50,7 @@ pub const BASIC: &[(&str, &[&[&str]])] = &[
             &["paintbrush", "blobBrush"],
             &["pen", "addAnchor", "deleteAnchor", "anchorPoint"],
             &["curvature"],
+            &["bezier", "bspline", "polyline", "threePointCurve"],
         ],
     ),
     (

@@ -4266,3 +4266,16 @@ theme	Appearance	Erscheinungsbild
 	Original project (VectorCraft)	Ursprüngliches Projekt (VectorCraft)
 	Based on VectorCraft (open source, MIT OR Apache-2.0)	Basiert auf VectorCraft (Open Source, MIT OR Apache-2.0)
 	Vetorial is based on VectorCraft (© ArtCraft Team and contributors), MIT OR Apache-2.0. Fonts: Source Sans 3, Inter, JetBrains Mono (OFL). Icons: Lucide (ISC).	Vetorial basiert auf VectorCraft (© ArtCraft Team und Mitwirkende), MIT OR Apache-2.0. Schriften: Source Sans 3, Inter, JetBrains Mono (OFL). Symbole: Lucide (ISC).
+	Bézier Tool	Bézier-Werkzeug
+	B-Spline Tool	B-Spline-Werkzeug
+	Polyline Tool	Polylinien-Werkzeug
+	3-Point Curve Tool	3-Punkt-Kurven-Werkzeug
+	 to add a cusp node  |  	 fügt einen spitzen Knoten hinzu  |  
+	 to add a smooth node  |  	 fügt einen glatten Knoten hinzu  |  
+	 to add a control point  |  	 fügt einen Kontrollpunkt hinzu  |  
+	 to remove the last point  |  	 entfernt den letzten Punkt  |  
+	 to add a straight segment  |  	 fügt ein gerades Segment hinzu  |  
+	 to draw freehand  |  	 zeichnet freihändig  |  
+	 from the start to the end point  |  	 vom Anfangs- zum Endpunkt  |  
+	 to bend the curve through that point  |  	 biegt die Kurve durch diesen Punkt  |  
+	 to cancel	 bricht ab

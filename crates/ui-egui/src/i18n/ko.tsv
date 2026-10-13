@@ -4275,3 +4275,16 @@ lighting	Light	광원
 	Original project (VectorCraft)	원본 프로젝트(VectorCraft)
 	Based on VectorCraft (open source, MIT OR Apache-2.0)	VectorCraft 기반(오픈 소스, MIT OR Apache-2.0)
 	Vetorial is based on VectorCraft (© ArtCraft Team and contributors), MIT OR Apache-2.0. Fonts: Source Sans 3, Inter, JetBrains Mono (OFL). Icons: Lucide (ISC).	Vetorial은 VectorCraft(© ArtCraft Team 및 기여자)를 기반으로 합니다. MIT OR Apache-2.0. 글꼴: Source Sans 3, Inter, JetBrains Mono(OFL). 아이콘: Lucide(ISC).
+	Bézier Tool	베지어 도구
+	B-Spline Tool	B-스플라인 도구
+	Polyline Tool	폴리라인 도구
+	3-Point Curve Tool	3점 곡선 도구
+	 to add a cusp node  |  	 첨점 노드 추가  |  
+	 to add a smooth node  |  	 매끄러운 노드 추가  |  
+	 to add a control point  |  	 제어점 추가  |  
+	 to remove the last point  |  	 마지막 점 제거  |  
+	 to add a straight segment  |  	 직선 세그먼트 추가  |  
+	 to draw freehand  |  	 자유곡선 그리기  |  
+	 from the start to the end point  |  	 시작점에서 끝점까지  |  
+	 to bend the curve through that point  |  	 그 점을 지나도록 곡선 구부리기  |  
+	 to cancel	 취소

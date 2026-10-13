@@ -51,6 +51,9 @@ pub struct PenTool {
     convert: Option<AnchorTool>,
     /// Smart Guides for the anchors placed (and the pointer hovering).
     snap: DrawSnap,
+    /// Vetorial: the CorelDRAW-style Bézier tool (`bezier`, see `corel.rs`): no rubber band, a
+    /// double-click ends the curve and the readout shows the segment's and the curve's length.
+    corel: bool,
 }
 
 /// An anchor being placed, as the press decided: where it is, the path it goes on (none: the
@@ -151,7 +154,7 @@ fn set_out_handle(id: NodeId, si: usize, ai: usize, h: Point) -> Action {
 
 impl Tool for PenTool {
     fn id(&self) -> &'static str {
-        "pen"
+        if self.corel { "bezier" } else { "pen" }
     }
     fn busy(&self) -> bool {
         self.drag.is_some() || self.handle.is_some() || self.convert.is_some()
@@ -323,6 +326,9 @@ impl Tool for PenTool {
                 }
                 vec![Action::Commit]
             }
+            // The Bézier tool: a double-click ends the curve (its second press, on the last anchor,
+            // only retracted that anchor's outgoing handle).
+            PointerKind::DoubleClick if self.corel => self.deactivate(cx),
             PointerKind::DoubleClick => vec![],
         }
     }
@@ -349,7 +355,16 @@ impl Tool for PenTool {
             return t.overlays(cx);
         }
         let mut o = vec![];
+        if self.corel
+            && self.drag.is_none()
+            && let (Some((id, _, last, _)), Some(h)) = (self.active(cx), self.hover)
+        {
+            let drawn = cx.doc.node(id).and_then(|n| n.path_data()).map_or(0.0, |pd| crate::corel::length(&pd.to_bezpath()));
+            let segment = h.distance(last);
+            o.extend(crate::corel::length_readout(cx, h, segment, drawn + segment));
+        }
         if cx.pen_rubber_band
+            && !self.corel
             && self.drag.is_none()
             && self.handle.is_none()
             && let (Some((id, _, last, out)), Some(h)) = (self.active(cx), self.hover)
@@ -404,6 +419,11 @@ impl Tool for PenTool {
 }
 
 impl PenTool {
+    /// The CorelDRAW-style Bézier tool (`bezier`).
+    pub fn corel() -> Self {
+        Self { corel: true, ..Self::default() }
+    }
+
     /// The open path being drawn: the one the pen made or went on with, while it is the single
     /// selected open path.
     fn active(&self, cx: &ToolContext) -> Option<(NodeId, Point, Point, Point)> {

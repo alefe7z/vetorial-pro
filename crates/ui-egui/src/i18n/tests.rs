@@ -1270,7 +1270,7 @@ fn czech_render_site_follow_up() {
         ("All placeable files", "Všechny soubory pro umístění"),
         ("SVG Compressed", "Komprimované SVG"),
         ("PDF-compatible .ai", ".ai kompatibilní s PDF"),
-        ("VectorCraft Template", "Šablona VectorCraft"),
+        ("VectorCraft Template", "Šablona Vetorial"),
     ] {
         assert_eq!(tr_ctx(cs(), "file-filter", source), expected);
         assert_eq!(tr_ctx(Lang::EN, "file-filter", source), source);

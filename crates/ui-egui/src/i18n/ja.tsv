@@ -4305,3 +4305,16 @@ lighting	Light	ライト
 	Original project (VectorCraft)	元のプロジェクト（VectorCraft）
 	Based on VectorCraft (open source, MIT OR Apache-2.0)	VectorCraft をベースにしています（オープンソース、MIT OR Apache-2.0）
 	Vetorial is based on VectorCraft (© ArtCraft Team and contributors), MIT OR Apache-2.0. Fonts: Source Sans 3, Inter, JetBrains Mono (OFL). Icons: Lucide (ISC).	Vetorial は VectorCraft（© ArtCraft Team と貢献者）をベースにしています。MIT OR Apache-2.0。フォント: Source Sans 3、Inter、JetBrains Mono（OFL）。アイコン: Lucide（ISC）。
+	Bézier Tool	ベジェツール
+	B-Spline Tool	B スプラインツール
+	Polyline Tool	ポリラインツール
+	3-Point Curve Tool	3 点曲線ツール
+	 to add a cusp node  |  	：尖点ノードを追加  |  
+	 to add a smooth node  |  	：スムーズノードを追加  |  
+	 to add a control point  |  	：制御点を追加  |  
+	 to remove the last point  |  	：最後の点を削除  |  
+	 to add a straight segment  |  	：直線セグメントを追加  |  
+	 to draw freehand  |  	：フリーハンドで描画  |  
+	 from the start to the end point  |  	：始点から終点まで  |  
+	 to bend the curve through that point  |  	：その点を通るようにカーブを曲げる  |  
+	 to cancel	：キャンセル

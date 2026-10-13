@@ -4307,3 +4307,16 @@ lighting	Light	Свет
 	Original project (VectorCraft)	Исходный проект (VectorCraft)
 	Based on VectorCraft (open source, MIT OR Apache-2.0)	Основано на VectorCraft (открытый исходный код, MIT OR Apache-2.0)
 	Vetorial is based on VectorCraft (© ArtCraft Team and contributors), MIT OR Apache-2.0. Fonts: Source Sans 3, Inter, JetBrains Mono (OFL). Icons: Lucide (ISC).	Vetorial основан на VectorCraft (© ArtCraft Team и участники), MIT OR Apache-2.0. Шрифты: Source Sans 3, Inter, JetBrains Mono (OFL). Значки: Lucide (ISC).
+	Bézier Tool	Инструмент «Безье»
+	B-Spline Tool	Инструмент «B-сплайн»
+	Polyline Tool	Инструмент «Ломаная»
+	3-Point Curve Tool	Инструмент «Кривая по 3 точкам»
+	 to add a cusp node  |  	 для добавления острого узла  |  
+	 to add a smooth node  |  	 для добавления гладкого узла  |  
+	 to add a control point  |  	 для добавления контрольной точки  |  
+	 to remove the last point  |  	 для удаления последней точки  |  
+	 to add a straight segment  |  	 для добавления прямого сегмента  |  
+	 to draw freehand  |  	 для рисования от руки  |  
+	 from the start to the end point  |  	 от начальной до конечной точки  |  
+	 to bend the curve through that point  |  	 чтобы изогнуть кривую через эту точку  |  
+	 to cancel	 для отмены

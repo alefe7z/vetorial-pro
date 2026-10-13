@@ -1,10 +1,11 @@
-# Gera o Vetorial.exe para Windows (64 bits) a cada atualização do código.
-# O .exe fica em Actions → (a execução) → Artifacts → Vetorial-windows.
+# Gera o Vetorial.exe para Windows (64 bits) a cada atualização do código, em qualquer branch.
+# O .exe fica em Actions → (a execução) → Artifacts → Vetorial-<branch>-windows
+# (main e estavel-v1: versão estável; estilo-corel: versão em desenvolvimento).
 name: Gerar EXE
 
 on:
   push:
-    branches: [main]
+    branches: ['**']
   workflow_dispatch:
 
 concurrency:
@@ -48,6 +49,6 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: Vetorial-windows
+          name: Vetorial-${{ github.ref_name }}-windows
           path: dist/
           if-no-files-found: error

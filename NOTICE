@@ -1,3 +1,14 @@
+Vetorial
+A modified version of VectorCraft (https://github.com/storytold/vectorcraft), distributed under the
+same licence: MIT OR Apache-2.0, at your option (LICENSE-MIT, LICENSE-APACHE).
+Changes from VectorCraft: product renamed to Vetorial in the interface and the Windows executable;
+ArtCraft community links (Discord, website) removed; Help links point to Vetorial's repository and
+credit the original project; Brazilian Portuguese is the default interface language; a Windows build
+workflow (.github/workflows/gerar-exe.yml) replaces the upstream release workflows.
+Vetorial is not affiliated with or endorsed by the ArtCraft Team.
+
+---- Original notice ----
+
 VectorCraft
 Copyright (c) 2026 ArtCraft Team and the VectorCraft contributors.
 Licensed under the MIT License or the Apache License, Version 2.0, at your option

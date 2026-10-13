@@ -1,0 +1,53 @@
+# Gera o Vetorial.exe para Windows (64 bits) a cada atualização do código.
+# O .exe fica em Actions → (a execução) → Artifacts → Vetorial-windows.
+name: Gerar EXE
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: gerar-exe-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_INCREMENTAL: 0
+
+jobs:
+  windows:
+    name: Windows x64
+    runs-on: windows-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-pc-windows-msvc
+
+      # Guarda o que já foi compilado: a partir da 2ª vez fica bem mais rápido.
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: vetorial-windows-x64
+
+      - name: Compilar o Vetorial
+        shell: pwsh
+        env:
+          # Sem dependência do Visual C++ Redistributable no computador do usuário.
+          CARGO_TARGET_X86_64_PC_WINDOWS_MSVC_RUSTFLAGS: "-C target-feature=+crt-static"
+        run: cargo build --release --locked -p vectorcraft --target x86_64-pc-windows-msvc
+
+      - name: Preparar o pacote
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path dist | Out-Null
+          Copy-Item target/x86_64-pc-windows-msvc/release/vectorcraft.exe dist/Vetorial.exe
+          Copy-Item LICENSE-MIT, LICENSE-APACHE, NOTICE -Destination dist/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Vetorial-windows
+          path: dist/
+          if-no-files-found: error

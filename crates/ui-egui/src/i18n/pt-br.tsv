@@ -106,7 +106,7 @@
 	A lower value follows the stroke closely; a higher one gives fewer points and smoother curves.	Um valor menor segue o traço de perto; um valor maior gera menos pontos e curvas mais suaves.
 	A new preset starting from the selected one	Um novo predefinido a partir do selecionado
 	A saved copy of the selected preset	Uma cópia salva do predefinido selecionado
-	About VectorCraft	Sobre o VectorCraft
+	About VectorCraft	Sobre o Vetorial
 	Absolute Position	Posição Absoluta
 	Accurate	Preciso
 	Abutting	Contíguo
@@ -196,7 +196,7 @@
 	Appearance Panel	Painel Aparência
 	Appearance of Black	Aparência do Preto
 	Appearance panel	Painel de Aparência
-	Applies the next time VectorCraft starts.	Aplica na próxima inicialização do VectorCraft.
+	Applies the next time VectorCraft starts.	Aplica na próxima inicialização do Vetorial.
 	Applies when the linked file is relinked or updated.	Aplica quando o arquivo vinculado é revinculado ou atualizado.
 	Apply Brush	Aplicar Pincel
 	Apply Character Style	Aplicar Estilo de Caractere
@@ -225,8 +225,6 @@
 	Arrange: Bring to Front	Organizar: Trazer para Frente
 	Arrowheads:	Pontas de Seta:
 	Art using a deleted global swatch keeps its colour.	A arte que usa uma amostra global excluída mantém sua cor.
-	ArtCraft Website	Site do ArtCraft
-	ArtCraft website	Site do ArtCraft
 	Artboard Options	Opções de Mesa de Trabalho
 	Artboard Options: edit with the Artboard tool	Opções de Mesa de Trabalho: edite com a ferramenta Mesa de Trabalho
 	Artboard Options…	Opções de Mesa de Trabalho…
@@ -353,7 +351,7 @@
 	Check Script	Verificar Script
 	Check Script…	Verificar Script…
 	Copy Report	Copiar Relatório
-	VectorCraft read this script without running it.	O VectorCraft leu este script sem executá-lo.
+	VectorCraft read this script without running it.	O Vetorial leu este script sem executá-lo.
 	Needs nothing beyond plain JavaScript	Precisa apenas de JavaScript simples
 	Needs the script language's own objects or directives	Precisa de objetos ou diretivas próprios da linguagem do script
 	Needs the document model	Precisa do modelo de documento
@@ -1181,10 +1179,7 @@
 	Isolate Selected Group	Isolar Grupo Selecionado
 	Italian	Italiano
 	Join	Unir
-	Join Our Discord	Junte-se ao nosso Discord
 	Join Tool	Ferramenta Unir
-	Join our Discord	Junte-se ao nosso Discord
-	Join the ArtCraft community on Discord (discord.gg/artcraft)	Junte-se à comunidade do ArtCraft no Discord (discord.gg/artcraft)
 	Join the lines of each paragraph	Junte as linhas de cada parágrafo
 	Justification…	Justificação…
 	Keep Formatting	Manter Formatação
@@ -1795,7 +1790,7 @@
 	Quarter Space	Espaço de Quarto
 	Quick Actions	Ações Rápidas
 	Quickly start a new file	Começar rapidamente um novo arquivo
-	Quit VectorCraft	Sair do VectorCraft
+	Quit VectorCraft	Sair do Vetorial
 	RECENT	RECENTES
 	RGB Color	Cor RGB
 	Radar Graph Tool	Ferramenta Gráfico de Radar
@@ -1904,7 +1899,7 @@
 	{count} folder(s) or file(s) couldn't be read	{count} pasta(s) ou arquivo(s) não puderam ser lidos
 	The search stopped at its limit: search a smaller folder.	A pesquisa parou no limite: pesquise uma pasta menor.
 	Copy only fonts you own or are licensed to install.	Copie apenas fontes que sejam suas ou que você tenha licença para instalar.
-	VectorCraft copies the fonts to {folder}.	O VectorCraft copia as fontes para {folder}.
+	VectorCraft copies the fonts to {folder}.	O Vetorial copia as fontes para {folder}.
 	Registered Trademark Symbol	Símbolo de Marca Registrada
 	Registry name:	Nome do registro:
 	Release	Liberar
@@ -1993,7 +1988,7 @@
 	Revert	Reverter
 	Revert to the saved version of “{name}”?	Reverter para a versão salva de “{name}”?
 	Replace “{name}”, the file this document was opened from?	Substituir “{name}”, o arquivo do qual este documento foi aberto?
-	Opening it left out what VectorCraft can't read yet ({what}), so replacing it loses that for good. Save under another name to keep it.	Ao abri-lo, ficou de fora o que o VectorCraft ainda não consegue ler ({what}), então substituí-lo perde isso para sempre. Salve com outro nome para mantê-lo.
+	Opening it left out what VectorCraft can't read yet ({what}), so replacing it loses that for good. Save under another name to keep it.	Ao abri-lo, ficou de fora o que o Vetorial ainda não consegue ler ({what}), então substituí-lo perde isso para sempre. Salve com outro nome para mantê-lo.
 	Revolve…	Revolver…
 	Right Grid:	Grade Direita:
 	Right Indent	Recuo Direito
@@ -2612,10 +2607,8 @@
 	Vector Halftone	Meio-tom Vetorial
 	Vector Halftone…	Meio-tom Vetorial…
 	Vector illustration — fast, open, scriptable.	Ilustração vetorial — rápida, aberta, scriptável.
-	VectorCraft Help…	Ajuda do VectorCraft…
-	VectorCraft didn't quit normally last time. These documents had unsaved changes:	O VectorCraft não fechou normalmente da última vez. Estes documentos tinham alterações não salvas:
-	VectorCraft on GitHub	VectorCraft no GitHub
-	VectorCraft on getartcraft.com	VectorCraft em getartcraft.com
+	VectorCraft Help…	Ajuda do Vetorial…
+	VectorCraft didn't quit normally last time. These documents had unsaved changes:	O Vetorial não fechou normalmente da última vez. Estes documentos tinham alterações não salvas:
 	Vectors	Vetores
 	Version {version} — open-source vector illustration in pure Rust.	Versão {version} — ilustração vetorial de código aberto em Rust puro.
 	Version:	Versão:
@@ -2646,7 +2639,7 @@
 	Web Shift	Web Shift
 	Web Snap:	Web Snap:
 	Weight:	Peso:
-	Welcome to VectorCraft	Bem-vindo ao VectorCraft
+	Welcome to VectorCraft	Bem-vindo ao Vetorial
 	When pasting text	Ao colar texto
 	White	Branco
 	Widget Position:	Posição do Widget:
@@ -2771,7 +2764,7 @@ imageTrace	Outline	Contorno
 
 # The macOS menu bar (native_menu): the app and Window menus' system items, Settings pages.
 	Services	Serviços
-	Hide VectorCraft	Ocultar o VectorCraft
+	Hide VectorCraft	Ocultar o Vetorial
 	Hide Others	Ocultar Outros
 	Zoom	Zoom
 	Bring All to Front	Trazer Todas para a Frente
@@ -2780,7 +2773,7 @@ imageTrace	Outline	Contorno
 	On: one locked object showing the document, updated when it changes.	Ativado: um objeto bloqueado que mostra o documento, atualizado quando ele muda.
 	Off: an editable copy of its art, embedded in this document.	Desativado: uma cópia editável da arte, incorporada neste documento.
 	Images: link to the file instead of only embedding it.	Imagens: vincular ao arquivo em vez de apenas incorporá-lo.
-	VectorCraft documents: one locked object, updated when the file changes.	Documentos do VectorCraft: um objeto bloqueado, atualizado quando o arquivo muda.
+	VectorCraft documents: one locked object, updated when the file changes.	Documentos do Vetorial: um objeto bloqueado, atualizado quando o arquivo muda.
 	A file dialog is open: choose there first	Há uma caixa de diálogo de arquivos aberta: escolha nela primeiro
 	The document was closed while its file dialog was open	O documento foi fechado enquanto sua caixa de diálogo de arquivos estava aberta
 	The dialog was closed before its file dialog answered	O diálogo foi fechado antes que sua caixa de diálogo de arquivos respondesse
@@ -3255,7 +3248,7 @@ axis	Both	Ambos
 @msg	can't encode the document: {0}	não foi possível codificar o documento: {0}
 @msg	can't parse shortcut `{c}`	não foi possível interpretar o atalho `{c}`
 @msg	can't parse shortcut `{s}` for `{k}`	não foi possível interpretar o atalho `{s}` de `{k}`
-@msg	can't save version {0}: VectorCraft writes versions {MIN_VERSION} to {VERSION}	não foi possível salvar a versão {0}: o VectorCraft grava as versões {MIN_VERSION} a {VERSION}
+@msg	can't save version {0}: VectorCraft writes versions {MIN_VERSION} to {VERSION}	não foi possível salvar a versão {0}: o Vetorial grava as versões {MIN_VERSION} a {VERSION}
 @msg	can't write .{ext} images	não é possível gravar imagens .{ext}
 @msg	cannot distort a zero-size bounding box	não é possível distorcer uma caixa delimitadora de tamanho zero
 @msg	cannot read PDF: {0}	não foi possível ler o PDF: {0}
@@ -3279,7 +3272,7 @@ axis	Both	Ambos
 @msg	empty brush stroke	traço de pincel vazio
 @msg	empty cutter	cortador vazio
 @msg	empty path	traçado vazio
-@msg	file version {0} is newer than this VectorCraft supports ({VERSION})	a versão {0} do arquivo é mais recente do que este VectorCraft suporta ({VERSION})
+@msg	file version {0} is newer than this VectorCraft supports ({VERSION})	a versão {0} do arquivo é mais recente do que este Vetorial suporta ({VERSION})
 @msg	freeform point {i} needs `at` [x, y] and a valid `color`	o ponto {i} de forma livre precisa de `at` [x, y] e de uma `color` válida
 @msg	freeform line {i} must be an array of point indices	a linha {i} de forma livre deve ser uma matriz de índices de pontos
 @msg	give both `start` and `end` [x, y] (or neither)	informe `start` e `end` [x, y] (ou nenhum dos dois)
@@ -3297,9 +3290,9 @@ axis	Both	Ambos
 @msg	invalid PDF setting: {0}	configuração de PDF inválida: {0}
 @msg	invalid image data for `{0}`	dados de imagem inválidos para `{0}`
 @msg	invalid parameters for `{cmd}`: {msg}	parâmetros inválidos para `{cmd}`: {msg}
-@msg	is not an image VectorCraft reads	não é uma imagem que o VectorCraft lê
-@msg	it uses `{at}`, which VectorCraft's PostScript reader doesn't know	usa `{at}`, que o leitor de PostScript do VectorCraft não conhece
-@msg	it uses `{at}`, which VectorCraft's PostScript reader doesn't know, in {procs}	usa `{at}`, que o leitor de PostScript do VectorCraft não conhece, em {procs}
+@msg	is not an image VectorCraft reads	não é uma imagem que o Vetorial lê
+@msg	it uses `{at}`, which VectorCraft's PostScript reader doesn't know	usa `{at}`, que o leitor de PostScript do Vetorial não conhece
+@msg	it uses `{at}`, which VectorCraft's PostScript reader doesn't know, in {procs}	usa `{at}`, que o leitor de PostScript do Vetorial não conhece, em {procs}
 @msg	its Windows metafile preview was opened instead, which may simplify the art	a visualização em metarquivo do Windows foi aberta no lugar, o que pode simplificar a arte
 @msg	its preview was placed instead, at screen resolution	a visualização foi inserida no lugar, em resolução de tela
 @msg	join needs open paths	unir exige traçados abertos
@@ -3402,8 +3395,8 @@ axis	Both	Ambos
 @msg	no user workspace `{from}`	nenhum espaço de trabalho do usuário `{from}`
 @msg	node {_1} is not text	o nó {_1} não é texto
 @msg	not a DXF drawing	não é um desenho DXF
-@msg	not a VectorCraft file: {0}	não é um arquivo do VectorCraft: {0}
-@msg	not a VectorCraft shortcut set (missing `overrides`)	não é um conjunto de atalhos do VectorCraft (falta `overrides`)
+@msg	not a VectorCraft file: {0}	não é um arquivo do Vetorial: {0}
+@msg	not a VectorCraft shortcut set (missing `overrides`)	não é um conjunto de atalhos do Vetorial (falta `overrides`)
 @msg	not a graphic style library (format `{_1}`)	não é uma biblioteca de estilos gráficos (formato `{_1}`)
 @msg	not a stored central record	não é um registro central armazenado
 @msg	not a valid plug-in module: {0}	não é um módulo de plug-in válido: {0}
@@ -3624,9 +3617,9 @@ axis	Both	Ambos
 @msg	Sent to {_1}	Enviado para {_1}
 @msg	{_1} files	{_1} arquivos
 @msg	The graphics were lost and have been restarted	Os gráficos foram perdidos e reiniciados
-@msg	The graphics processor tried first couldn't show the window, so VectorCraft started again on {summary}	O processador gráfico tentado primeiro não conseguiu exibir a janela, então o VectorCraft reiniciou em {summary}
-@msg	Loading VectorCraft…	Carregando o VectorCraft…
-@msg	VectorCraft failed to start: {e}	Falha ao iniciar o VectorCraft: {e}
+@msg	The graphics processor tried first couldn't show the window, so VectorCraft started again on {summary}	O processador gráfico tentado primeiro não conseguiu exibir a janela, então o Vetorial reiniciou em {summary}
+@msg	Loading VectorCraft…	Carregando o Vetorial…
+@msg	VectorCraft failed to start: {e}	Falha ao iniciar o Vetorial: {e}
 @msg	A browser with WebGPU or WebGL2 is required.	É necessário um navegador com WebGPU ou WebGL2.
 @msg	The graphics were lost and couldn't be restarted.	Os gráficos foram perdidos e não puderam ser reiniciados.
 @msg	Your unsaved changes are kept in this browser: reload the page to get them back.	Suas alterações não salvas ficam neste navegador: recarregue a página para recuperá-las.
@@ -3648,23 +3641,23 @@ axis	Both	Ambos
 @msg	it has more than {MAX_NODES} objects	tem mais de {MAX_NODES} objetos
 @msg	it has no layers	não tem camadas
 @msg	it has too many values in a row	tem valores demais em sequência
-@msg	it has {_1}, which VectorCraft doesn't read from it yet	tem {_1}, que o VectorCraft ainda não lê desse arquivo
+@msg	it has {_1}, which VectorCraft doesn't read from it yet	tem {_1}, que o Vetorial ainda não lê desse arquivo
 @msg	its objects are nested too deeply	seus objetos estão aninhados com profundidade excessiva
 @msg	its section ending with `%{end}` doesn't end	sua seção que termina com `%{end}` não termina
 @msg	objects with several fills or strokes, effects or brushes came in as their drawn look ({_1}): their appearance isn't editable yet	objetos com vários preenchimentos ou traços, efeitos ou pincéis entraram com a aparência desenhada ({_1}): sua aparência ainda não é editável
 @msg	gradient “{name}” isn't defined in the file: a plain colour stands in for it	o gradiente “{name}” não está definido no arquivo: uma cor sólida o substitui
-@msg	an image VectorCraft can't read was left out	uma imagem que o VectorCraft não consegue ler foi omitida
+@msg	an image VectorCraft can't read was left out	uma imagem que o Vetorial não consegue ler foi omitida
 @msg	an image whose data is cut short was left out	uma imagem com dados incompletos foi omitida
 @msg	its editing data doesn't say where its art is	seus dados de edição não indicam onde está a arte
 @msg	this file was saved without PDF compatibility, and its editing data can't be read ({why})	este arquivo foi salvo sem compatibilidade com PDF e seus dados de edição não podem ser lidos ({why})
 @msg	No fonts are missing in this document	Nenhuma fonte está ausente neste documento
-@msg	VectorCraft doesn't search other apps' or the system's folders: {path}	O VectorCraft não pesquisa pastas de outros aplicativos nem do sistema: {path}
-@msg	VectorCraft doesn't search the Shared or Public folder in Users: {path}	O VectorCraft não pesquisa a pasta Compartilhado ou Público em Usuários: {path}
+@msg	VectorCraft doesn't search other apps' or the system's folders: {path}	O Vetorial não pesquisa pastas de outros aplicativos nem do sistema: {path}
+@msg	VectorCraft doesn't search the Shared or Public folder in Users: {path}	O Vetorial não pesquisa a pasta Compartilhado ou Público em Usuários: {path}
 @msg	{path} is not a folder	{path} não é uma pasta
 @msg	the search couldn't start: try again in a moment	não foi possível iniciar a pesquisa: tente novamente em instantes
 @msg	searching a folder isn't available on the web	pesquisar em uma pasta não está disponível na web
 @msg	every search thread stopped on an internal error (please report this bug)	todos os processos de pesquisa pararam por um erro interno (relate este bug)
-@msg	VectorCraft's Fonts folder isn't set here: the desktop app and vectorcraft-cli set it	A pasta Fontes do VectorCraft não está definida aqui: o aplicativo para desktop e o vectorcraft-cli a definem
+@msg	VectorCraft's Fonts folder isn't set here: the desktop app and vectorcraft-cli set it	A pasta Fontes do Vetorial não está definida aqui: o aplicativo para desktop e o vectorcraft-cli a definem
 @msg	choose the font files to add	escolha os arquivos de fonte a adicionar
 @msg	{n} font file(s) are now in {folder}	{n} arquivo(s) de fonte agora está(ão) em {folder}
 @msg	{n} font file(s) are now in {folder}; {failed} couldn't be added: {reason}	{n} arquivo(s) de fonte agora está(ão) em {folder}; {failed} não pôde(puderam) ser adicionado(s): {reason}
@@ -3732,7 +3725,7 @@ axis	Both	Ambos
 	Film Grain…	Granulação de filme…
 	Grain	Grão
 	Highlight Area	Área de realces
-@msg	the compressed file unpacks to more than VectorCraft reads ({_1} MB of document, {_2} MB per image)	o arquivo compactado se expande para mais do que o VectorCraft lê ({_1} MB de documento, {_2} MB por imagem)
+@msg	the compressed file unpacks to more than VectorCraft reads ({_1} MB of document, {_2} MB per image)	o arquivo compactado se expande para mais do que o Vetorial lê ({_1} MB de documento, {_2} MB por imagem)
 @msg	the document is too large to save compressed ({0}): save it with Use Compression off	o documento é grande demais para ser salvo compactado ({0}): salve-o com Usar Compressão desativado
 @msg	the file stopped being read (please report this bug)	a leitura do arquivo foi interrompida (informe este erro)
 	Concentric Dividers:	Divisórias concêntricas:
@@ -3750,3 +3743,998 @@ axis	Both	Ambos
 @msg	unknown parameter `{key}`; the command takes no parameters	parâmetro desconhecido `{key}`; o comando não tem parâmetros
 @msg	unknown parameter `{key}`; the command takes: {keys}	parâmetro desconhecido `{key}`; o comando aceita: {keys}
 	Load EPS into Clipboard	Carregar EPS na Área de Transferência
+	Vetorial on GitHub	Vetorial no GitHub
+	Original project (VectorCraft)	Projeto original (VectorCraft)
+	Based on VectorCraft (open source, MIT OR Apache-2.0)	Baseado no VectorCraft (código aberto, MIT OR Apache-2.0)
+	Vetorial is based on VectorCraft (© ArtCraft Team and contributors), MIT OR Apache-2.0. Fonts: Source Sans 3, Inter, JetBrains Mono (OFL). Icons: Lucide (ISC).	O Vetorial é baseado no VectorCraft (© ArtCraft Team e colaboradores), MIT OR Apache-2.0. Fontes: Source Sans 3, Inter, JetBrains Mono (OFL). Ícones: Lucide (ISC).
+# Added for Vetorial (2026-10): strings the other catalogs had and this one lacked.
+	Glowing Edges	Bordas brilhantes
+	Edge Width	Largura da borda
+	Edge Brightness	Brilho da borda
+	Smoothness	Suavidade
+	Color Halftone	Meio-tom colorido
+	Crystallize	Cristalizar
+	Mezzotint	Mezzotinta
+	Pointillize	Pontilhar
+	Max. Radius	Raio máx.
+	Channel 1	Canal 1
+	Channel 2	Canal 2
+	Channel 3	Canal 3
+	Channel 4	Canal 4
+	Cell Size	Tamanho da célula
+	Fine Dots	Pontos finos
+	Medium Dots	Pontos médios
+	Grainy Dots	Pontos granulados
+	Coarse Dots	Pontos grossos
+	Short Lines	Linhas curtas
+	Medium Lines	Linhas médias
+	Long Lines	Linhas longas
+	Short Strokes	Traços curtos
+	Medium Strokes	Traços médios
+	Long Strokes	Traços longos
+	Radial Blur	Desfoque radial
+	Smart Blur	Desfoque inteligente
+	Unsharp Mask	Máscara de nitidez
+	Gaussian Blur	Desfoque gaussiano
+	Method	Método
+	Quality	Qualidade
+	Radius	Raio
+	Spin	Giro
+	Draft	Rascunho
+	Good	Boa
+	Best	Ótima
+	Action {n}	Ação {n}
+	Add Swatches	Adicionar amostras
+	Align center	Alinhar ao centro
+	Align left	Alinhar à esquerda
+	Align right	Alinhar à direita
+	All colours are within the CMYK gamut	Todas as cores estão dentro da gama CMYK
+	Alt	Alt
+	Amount	Quantidade
+	Area Type Options	Opções de texto de área
+	Art	Arte
+	Ascender	Ascendente
+	Auto Color	Cor automática
+	Axis:	Eixo:
+	Backspace	Backspace
+	Baseline	Linha de base
+	Basic Latin	Latim básico
+	Black and White	Preto e branco
+	Black and White Logo	Logotipo preto e branco
+	Bottom	Inferior
+	Bottom in Front	Inferior na frente
+	Bounds	Limites
+	Bounds (Fill Proportionally)	Limites (preencher proporcionalmente)
+	Bounds (Fit Proportionally)	Limites (ajustar proporcionalmente)
+	Brick by Column	Tijolo por coluna
+	Brick by Row	Tijolo por linha
+	Bristle	Cerdas
+	Calligraphic	Caligráfico
+	Cap	Extremidade
+	Center on Artboard	Centralizar na prancheta
+	Center-Justified Tab	Tabulação centralizada
+	Change Screen Mode (F)	Alterar modo de tela (F)
+	Character Style	Estilo de caractere
+	Classic Defaults	Padrões clássicos
+	Client-side (.html)	Lado do cliente (.html)
+	Cmd	Cmd
+	Collect Links in a Separate Folder	Reunir vínculos em uma pasta separada
+	Color (,)	Cor (,)
+	Color bars	Barras de cores
+	Color Group	Grupo de cores
+	Color Library	Biblioteca de cores
+	Color Management	Gerenciamento de cores
+	Color Mixer (Shift-click the chip)	Misturador de cores (Shift+clique na amostra)
+	Color Table ({n} color)	Tabela de cores ({n} cor)
+	Color Table ({n} colors)	Tabela de cores ({n} cores)
+	Color Theme	Tema de cores
+	Compression	Compactação
+	Compression › Color › Above Ppi	Compactação › Cor › Acima de ppi
+	Contrast	Contraste
+	Convert To Outlines	Converter em contornos
+	Copied the CSS of {rules} object(s)	CSS de {rules} objeto(s) copiado
+	Copy All Objects	Copiar todos os objetos
+	Copy Fonts Used in the Document	Copiar fontes usadas no documento
+	Copy Links	Copiar vínculos
+	Descender	Descendente
+	Flip	Inverter
+	Couldn't copy to the system clipboard: {e}	Não foi possível copiar para a área de transferência do sistema: {e}
+	Couldn't paste from the clipboard: {e}	Não foi possível colar da área de transferência: {e}
+	Couldn't save recovery data: {e}	Não foi possível salvar os dados de recuperação: {e}
+	Couldn't {} {name}: {e}	Não foi possível {} {name}: {e}
+	Create PDF layers from top-level layers	Criar camadas PDF a partir das camadas de nível superior
+	Create Report	Criar relatório
+	Ctrl	Ctrl
+	Currency & Symbols	Moedas e símbolos
+	Cyan	Ciano
+	Dash Pattern	Padrão de tracejado
+	Decimal-Justified Tab	Tabulação decimal
+	Default Actions	Ações padrão
+	Default Figure	Algarismos padrão
+	Default Printer	Impressora padrão
+	Delete Layer	Excluir camada
+	Delete these {n} graphic styles?	Excluir estes {n} estilos gráficos?
+	Delete this {n} graphic style?	Excluir este {n} estilo gráfico?
+	Discarded {} recovered document(s)	{} documento(s) recuperado(s) descartado(s)
+	Do Not Move	Não mover
+	Document profile	Perfil do documento
+	Document Swatches	Amostras do documento
+	Download	Baixar
+	Downloaded {what}	{what} baixado
+	Downloaded {} file(s)	{} arquivo(s) baixado(s)
+	Draw Behind	Desenhar atrás
+	Draw Inside	Desenhar dentro
+	Draw Normal	Desenhar normal
+	Drop Shadow	Sombra projetada
+	Duplicate and Offset 10 pt	Duplicar e deslocar 10 pt
+	Duplicate Layer	Duplicar camada
+	Edit Toolbar	Editar barra de ferramentas
+	Edit Views	Editar vistas
+	Embedded {n} image(s)	{n} imagem(ns) incorporada(s)
+	Embedded {n} image(s); {missing} missing: relink them first	{n} imagem(ns) incorporada(s); {missing} ausente(s): revincule primeiro
+	English	Inglês
+	Entire Font	Fonte inteira
+	Export Asset	Exportar recurso
+	Exported {count} file(s) to {folder}	{count} arquivo(s) exportado(s) para {folder}
+	Exported {path}	{path} exportado
+	Exported {what}	{what} exportado
+	Exported {what} with {} note(s): {first}	{what} exportado com {} observação(ões): {first}
+	Exporting {}	Exportando {}
+	File Dimensions	Dimensões do arquivo
+	Fill: click for swatches, Shift-click for the color mixer	Preenchimento: clique para amostras, Shift+clique para o misturador de cores
+	Spacing	Espaçamento
+	Fit in View	Ajustar à vista
+	Flat Logo	Logotipo plano
+	Flattener presets	Predefinições do nivelador
+	Focal Fill	Preenchimento focal
+	Focal Stroke	Traçado focal
+	Fractional Widths	Larguras fracionárias
+	Free	Livre
+	General › Placement › X	Geral › Posicionamento › X
+	General › Thumbnails	Geral › Miniaturas
+	Global Process Color, CMYK	Cor de processo global, CMYK
+	Gradient (.)	Gradiente (.)
+	Graph Data	Dados do gráfico
+	Graph Type	Tipo de gráfico
+	New Design	Novo design
+	Delete Design	Excluir design
+	Paste Design	Colar design
+	Select Unused	Selecionar não usados
+	Import Data…	Importar dados…
+	Transpose	Transpor
+	Switch x/y	Trocar x/y
+	Number of Decimals:	Número de casas decimais:
+	Column Width:	Largura da coluna:
+	No Legend	Sem legenda
+	Standard Legend	Legenda padrão
+	Legends in Wedges	Legendas nas fatias
+	Ratio	Proporção
+	Even	Uniforme
+	Stacked	Empilhado
+	Graphic Style Libraries Menu	Menu de bibliotecas de estilos gráficos
+	Greek & Cyrillic	Grego e cirílico
+	Hex by Column	Hexágono por coluna
+	Hex by Row	Hexágono por linha
+	High	Alta
+	High (300 ppi)	Alta (300 ppi)
+	Horizontal %	% horizontal
+	Horizontal Distribute Center	Distribuir centros na horizontal
+	Horizontal Distribute Left	Distribuir à esquerda na horizontal
+	Horizontal Distribute Right	Distribuir à direita na horizontal
+	Auto Grouping	Agrupamento automático
+	Ignore White	Ignorar branco
+	Image	Imagem
+	Imported {what}: {}	{what} importado: {}
+	Include Blacks with CMY:	Incluir pretos com CMY:
+	Include Cmy Blacks	Incluir pretos CMY
+	Input Black	Preto de entrada
+	Input White	Branco de entrada
+	Installed plug-in {}	Plug-in {} instalado
+	Internal CSS	CSS interno
+	Justify all lines	Justificar todas as linhas
+	Justify with last line aligned center	Justificar com a última linha centralizada
+	Justify with last line aligned left	Justificar com a última linha à esquerda
+	Justify with last line aligned right	Justificar com a última linha à direita
+	Keep the pasted color as a new swatch with a numbered name.	Manter a cor colada como nova amostra com nome numerado.
+	Keep:	Manter:
+	Lab	Lab
+	Lab Values	Valores Lab
+	Large List View	Vista de lista grande
+	Large Thumbnail View	Vista de miniaturas grandes
+	Large Thumbnails	Miniaturas grandes
+	Last Effect: {}	Último efeito: {}
+	Thai	Tailandês
+	Latin Extended	Latim estendido
+	Latin-1 Supplement	Suplemento Latim-1
+	Layer	Camada
+	Layer Names	Nomes das camadas
+	Left in Front	Esquerda na frente
+	Left-Justified Tab	Tabulação à esquerda
+	Letter	Carta
+	Light Blue	Azul-claro
+	Lightness	Luminosidade
+	Link	Vincular
+	Low	Baixa
+	Mac	Mac
+	Magenta	Magenta
+	Make Envelope	Criar envelope
+	Marks and Bleed	Marcas e sangria
+	Marks and Bleeds	Marcas e sangrias
+	Matte	Fosco
+	Maximum	Máximo
+	Medium (150 ppi)	Média (150 ppi)
+	Medium Thumbnail View	Vista de miniaturas médias
+	Medium Thumbnails	Miniaturas médias
+	Minimal	Mínimo
+	Miter Limit	Limite de chanfro
+	Miter Limit:	Limite de chanfro:
+	Mixed Objects	Objetos mistos
+	Mojikumi	Mojikumi
+	Move All Objects	Mover todos os objetos
+	N pt per	N pt por
+	N slices …, evenly spaced	N fatias …, espaçadas igualmente
+	Name 40%	Nome 40%
+	Name* @ 66.67 % (RGB/Preview)	Nome* @ 66,67 % (RGB/Visualização)
+	Name* @ 66.67% (RGB/Preview)	Nome* @ 66,67% (RGB/Visualização)
+	Roundness:	Arredondamento:
+	Fixed	Fixo
+	Pressure	Pressão
+	Bristle Length:	Comprimento das cerdas:
+	Bristle Density:	Densidade das cerdas:
+	Bristle Thickness:	Espessura das cerdas:
+	Paint Opacity:	Opacidade da tinta:
+	Stiffness:	Rigidez:
+	Round Point	Ponta redonda
+	Flat Point	Ponta plana
+	Round Blunt	Redonda rombuda
+	Flat Blunt	Plana rombuda
+	Round Curve	Redonda curva
+	Flat Curve	Plana curva
+	Round Angle	Redonda angular
+	Flat Angle	Plana angular
+	Round Fan	Leque redondo
+	Flat Fan	Leque plano
+	New View	Nova vista
+	No Break	Sem quebra
+	No saved views (View → New View…)	Nenhuma vista salva (Exibir → Nova vista…)
+	No Thumbnails	Sem miniaturas
+	None (/)	Nenhum (/)
+	None (keep transparency)	Nenhum (manter transparência)
+	Offset X	Deslocamento X
+	Opacity: 50% Multiply	Opacidade: 50% Multiplicação
+	Opacity: Default	Opacidade: padrão
+	Opened with {} note(s): {}	Aberto com {} observação(ões): {}
+	Other Libraries	Outras bibliotecas
+	Out of Gamut Warning	Aviso de fora da gama
+	Out of Web Color Warning	Aviso de cor fora da Web
+	Output	Saída
+	Output Black	Preto de saída
+	Output White	Branco de saída
+	Output › Mode	Saída › Modo
+	Packaged {n} file(s) in {folder}{note}	{n} arquivo(s) empacotado(s) em {folder}{note}
+	Packaged {n} file(s){note}	{n} arquivo(s) empacotado(s){note}
+	Page information	Informações da página
+	Paragraph Style	Estilo de parágrafo
+	Perspective grid presets	Predefinições da grade de perspectiva
+	Phone 390×844	Celular 390×844
+	Place onto a new locked, dimmed template layer below the current layer	Colocar em uma nova camada de modelo bloqueada e esmaecida abaixo da camada atual
+	Point Sample	Amostra de ponto
+	Postcard	Cartão-postal
+	Presentation Attributes	Atributos de apresentação
+	Preset {}	Predefinição {}
+	Preview in Browser needs the desktop app (the web downloads files instead)	Visualizar no navegador requer o aplicativo de desktop (a versão web baixa os arquivos)
+	Print presets	Predefinições de impressão
+	Proportional Oldstyle	Proporcional estilo antigo
+	Punctuation	Pontuação
+	Radius 1	Raio 1
+	Radius 2	Raio 2
+	Radius1	Raio1
+	Radius2	Raio2
+	Rasterize	Rasterizar
+	Recent	Recentes
+	Recent File	Arquivo recente
+	Recent Font	Fonte recente
+	Rectangle: Sunshine	Retângulo: Raios de sol
+	Horizontal Dividers:	Divisores horizontais:
+	Vertical Dividers:	Divisores verticais:
+	List Folder	Pasta da lista
+	Begin Undo Group	Iniciar grupo de desfazer
+	End Undo Group	Encerrar grupo de desfazer
+	Redo {}	Refazer {}
+	Reflect Horizontal	Refletir na horizontal
+	Registration marks	Marcas de registro
+	Relink Linked Files to the Document	Revincular arquivos vinculados ao documento
+	Relinked {n} image(s)	{n} imagem(ns) revinculada(s)
+	Relinked {n} image(s); not in that folder: {}	{n} imagem(ns) revinculada(s); fora dessa pasta: {}
+	Relinked {} image(s)	{} imagem(ns) revinculada(s)
+	Find Linked Files	Localizar arquivos vinculados
+	Find Linked Files in Folder…	Localizar arquivos vinculados na pasta…
+	Choose the file to relink each linked file to. Files with the size and contents saved with the link come first.	Escolha o arquivo ao qual revincular cada arquivo vinculado. Os arquivos com o tamanho e o conteúdo salvos no vínculo aparecem primeiro.
+	Same file	Mesmo arquivo
+	Same size	Mesmo tamanho
+	Don't Relink	Não revincular
+	Copy into the document's folder	Copiar para a pasta do documento
+	Repeat Options	Opções de repetição
+	Reset with Mesh	Redefinir com malha
+	Reset with Warp	Redefinir com deformação
+	Reset {}	Redefinir {}
+	Restored {} recovered document(s): save them to keep them	{} documento(s) recuperado(s) restaurado(s): salve-os para mantê-los
+	Right in Front	Direita na frente
+	Right-Justified Tab	Tabulação à direita
+	Rotate 90° CW	Girar 90° no sentido horário
+	Same As Source	Igual à origem
+	Saved	Salvo
+	Saved recovery data for {title}	Dados de recuperação de {title} salvos
+	Saved to User Defined: {}	Salvo em Definido pelo usuário: {}
+	Saved {n} files beside {path}	{n} arquivos salvos ao lado de {path}
+	Saved {path}	{path} salvo
+	Saved {path} with {} note(s): {first}	{path} salvo com {} observação(ões): {first}
+	Saving	Salvando
+	Saving Poster.vectorcraft	Salvando Poster.vectorcraft
+	Saving recovery data for {}	Salvando dados de recuperação de {}
+	Saving {}	Salvando {}
+	Scatter	Dispersão
+	Screen (72 ppi)	Tela (72 ppi)
+	Security	Segurança
+	Select All Art on Layer	Selecionar toda a arte da camada
+	Select All Pins	Selecionar todos os alfinetes
+	Select text or click into text with the Type tool to insert glyphs	Selecione um texto ou clique dentro de um texto com a ferramenta Texto para inserir glifos
+	Server-side (.map)	Lado do servidor (.map)
+	Set 1	Conjunto 1
+	Set base color	Definir cor base
+	Settings…	Configurações…
+	Show All Swatches	Mostrar todas as amostras
+	Show and print from the Lab definition; PDF files carry it as the ink's alternate color.	Mostrar e imprimir pela definição Lab; os arquivos PDF a levam como cor alternativa da tinta.
+	Show and separate through the working CMYK space, as in older documents.	Mostrar e separar pelo espaço CMYK de trabalho, como nos documentos antigos.
+	Show Color Groups	Mostrar grupos de cores
+	Show Color Swatches	Mostrar amostras de cor
+	Show Embedded	Mostrar incorporados
+	Show Gradient Swatches	Mostrar amostras de gradiente
+	Show Mesh	Mostrar malha
+	Show Missing	Mostrar ausentes
+	Show Modified	Mostrar modificados
+	Show Pattern Swatches	Mostrar amostras de padrão
+	Ridges per segment:	Cristas por segmento:
+	Small List View	Vista de lista pequena
+	Small Thumbnail View	Vista de miniaturas pequenas
+	Small Thumbnails	Miniaturas pequenas
+	Corner	Canto
+	Smooth Color	Cor suave
+	Social Square Post 1080×1080	Post quadrado para redes sociais 1080×1080
+	Sort by Status	Ordenar por status
+	Source Sans 3	Source Sans 3
+	Specified Distance	Distância especificada
+	Specified Steps	Etapas especificadas
+	Total:	Total:
+	Add Guides	Adicionar guias
+	Standard Vertical Roman Alignment	Alinhamento romano vertical padrão
+	Stroke: click for swatches, Shift-click for the color mixer	Traçado: clique para amostras, Shift+clique para o misturador de cores
+	Style Attributes	Atributos de estilo
+	Style Attributes (Entity References)	Atributos de estilo (referências de entidade)
+	Subscript	Subscrito
+	Summary	Resumo
+	Superscript	Sobrescrito
+	Swap the selected object for the file, keeping its place and transform	Trocar o objeto selecionado pelo arquivo, mantendo a posição e a transformação
+	Swatch Libraries Menu	Menu de bibliotecas de amostras
+	Create New Library…	Criar nova biblioteca…
+	Rename Library…	Renomear biblioteca…
+	New Group…	Novo grupo…
+	No Group	Sem grupo
+	Rename Group…	Renomear grupo…
+	Delete Group	Excluir grupo
+	Import Library…	Importar biblioteca…
+	Export Library…	Exportar biblioteca…
+	Graphic	Gráfico
+	System Layout	Layout do sistema
+	Tabular Lining	Tabular alinhado
+	Tabular Oldstyle	Tabular estilo antigo
+	Tate-chu-yoko	Tate-chu-yoko
+	Temperature	Temperatura
+	Templates	Modelos
+	Text Wrap Options	Opções de contorno de texto
+	Tile Full Pages	Lado a lado páginas inteiras
+	Tint	Matiz
+	Tip extends past the end point	A ponta ultrapassa o ponto final
+	Tip on the end point	Ponta no ponto final
+	Toolbar: Add Tool	Barra de ferramentas: adicionar ferramenta
+	Toolbar: Remove Tool	Barra de ferramentas: remover ferramenta
+	Toolbar: Reset	Barra de ferramentas: redefinir
+	Top	Superior
+	Top in Front	Superior na frente
+	Transforms	Transformações
+	Transparent (Default)	Transparente (padrão)
+	Trim marks	Marcas de corte
+	Type on a Path Options	Opções de texto no traçado
+	Undo {}	Desfazer {}
+	Unembedded to {}	Desincorporado para {}
+	Unicode	Unicode
+	Unicode (UTF-16)	Unicode (UTF-16)
+	Unicode (UTF-8)	Unicode (UTF-8)
+	Unique	Único
+	Unite and Simplify	Unir e simplificar
+	Untitled	Sem título
+	Updated {} image(s)	{} imagem(ns) atualizada(s)
+	Use the document's swatch: pasted colors take its color.	Usar a amostra do documento: as cores coladas assumem a cor dela.
+	User Library	Biblioteca do usuário
+	User Preset	Predefinição do usuário
+	New Variable	Nova variável
+	New Data Set	Novo conjunto de dados
+	Vertical %	% vertical
+	Vertical Distribute Bottom	Distribuir à base na vertical
+	Vertical Distribute Center	Distribuir centros na vertical
+	Vertical Distribute Top	Distribuir ao topo na vertical
+	Very High	Muito alta
+	View {n}	Vista {n}
+	Web 1920×1080	Web 1920×1080
+	Web Safe RGB	RGB seguro para a Web
+	Weight	Espessura
+	Windows	Windows
+	Working CMYK (don't tag)	CMYK de trabalho (sem marcar)
+	Workspace {i}	Espaço de trabalho {i}
+	Yellow	Amarelo
+	[Normal Character Style]	[Estilo de caractere normal]
+	[Normal Paragraph Style]	[Estilo de parágrafo normal]
+	Joins	Junções
+	Axis	Eixo
+@msg	Copied the script report	Relatório do script copiado
+@msg	axis must be "vertical", "horizontal" or an angle in degrees, not `{v}`	o eixo deve ser "vertical", "horizontal" ou um ângulo em graus, não `{v}`
+@msg	give corners of the path: anchors where its sides meet at an angle	informe os cantos do traçado: âncoras onde os lados se encontram em ângulo
+@msg	give horizontal or vertical	informe horizontal ou vertical
+@msg	object {id} is not a selected top-level object	o objeto {id} não é um objeto de nível superior selecionado
+@msg	{path}: not a file	{path}: não é um arquivo
+@msg	linked pictures show the low-resolution preview saved in the file until their files are found: relink them in the Links panel	as imagens vinculadas mostram a visualização de baixa resolução salva no arquivo até que seus arquivos sejam encontrados: revincule-as no painel Vínculos
+@msg	area type in frames too short for a line of the font it shows in got taller frames ({_1}): their type wouldn't show otherwise	texto de área em quadros baixos demais para uma linha da fonte em que aparece ganhou quadros mais altos ({_1}): caso contrário, o texto não apareceria
+@msg	every numbered name for {name} is taken in the document's folder	todos os nomes numerados para {name} já estão em uso na pasta do documento
+@msg	No linked files to look for	Não há arquivos vinculados para procurar
+@msg	Relinked {n} image(s); {name} couldn't be relinked: {reason}	{n} imagem(ns) revinculada(s); não foi possível revincular {name}: {reason}
+	Drag art, colors and text styles here to reuse them across documents. Libraries are stored on this machine — no account required.	Arraste arte, cores e estilos de texto para cá para reutilizá-los entre documentos. As bibliotecas ficam guardadas neste computador — não é preciso conta.
+	1 Color Job	Trabalho de 1 cor
+	2 Color Job	Trabalho de 2 cores
+	3 Color Job	Trabalho de 3 cores
+	CMYK Equivalents	Equivalentes CMYK
+	3 x 3 Average	Média 3 x 3
+	5 x 5 Average	Média 5 x 5
+	PDF File	Arquivo PDF
+	CMYK profile in effect	Perfil CMYK em uso
+	De-Interlace	Desentrelaçar
+	Eliminate	Eliminar
+	Create New Fields by	Criar novos campos por
+	Odd Fields	Campos ímpares
+	Even Fields	Campos pares
+	Duplication	Duplicação
+	Interpolation	Interpolação
+	Craquelure	Craquelado
+	Mosaic Tiles	Ladrilhos de mosaico
+	Patchwork	Colcha de retalhos
+	Stained Glass	Vitral
+	Texturizer	Texturizador
+	Crack Spacing	Espaçamento das rachaduras
+	Crack Depth	Profundidade das rachaduras
+	Crack Brightness	Brilho das rachaduras
+	Grain Type	Tipo de granulação
+	Tile Size	Tamanho do ladrilho
+	Grout Width	Largura do rejunte
+	Lighten Grout	Clarear rejunte
+	Square Size	Tamanho do quadrado
+	Relief	Relevo
+	Border Thickness	Espessura da borda
+	Light Intensity	Intensidade da luz
+	Light Direction	Direção da luz
+	Sprinkles	Granulado
+	Clumped	Aglomerado
+	Contrasty	Contrastado
+	Enlarged	Ampliado
+	Stippled	Pontilhado
+	Speckle	Salpicado
+	Brick	Tijolo
+	Burlap	Juta
+	Canvas	Tela
+	Sandstone	Arenito
+	Bottom Left	Inferior esquerdo
+	Top Left	Superior esquerdo
+	Top Right	Superior direito
+	Bottom Right	Inferior direito
+effect	Soft	Suave
+	Edge	Borda
+	Value Axis	Eixo de valores
+	On Left Side	No lado esquerdo
+	On Right Side	No lado direito
+	On Both Sides	Em ambos os lados
+	Short	Curto
+	Full Width	Largura total
+	Diffuse Glow	Brilho difuso
+	Glass	Vidro
+	Ocean Ripple	Ondulação oceânica
+	Graininess	Granulação
+	Glow Amount	Quantidade de brilho
+	Clear Amount	Quantidade de limpeza
+	Ripple Size	Tamanho da ondulação
+	Ripple Magnitude	Intensidade da ondulação
+	Blocks	Blocos
+	Frosted	Fosco
+	Tiny Lens	Lente minúscula
+	Variable Options	Opções de variável
+	Edit Data Set	Editar conjunto de dados
+	Accented Edges	Bordas acentuadas
+	Angled Strokes	Traços angulares
+	Crosshatch	Hachura cruzada
+	Dark Strokes	Traços escuros
+	Ink Outlines	Contornos a tinta
+	Spatter	Respingo
+	Sprayed Strokes	Traços borrifados
+	Sumi-e	Sumi-ê
+	Direction Balance	Equilíbrio de direção
+	Stroke Length	Comprimento do traço
+	Sharpness	Nitidez
+	Strength	Intensidade
+	Balance	Equilíbrio
+	Black Intensity	Intensidade do preto
+	White Intensity	Intensidade do branco
+	Dark Intensity	Intensidade escura
+	Spray Radius	Raio do borrifo
+	Stroke Direction	Direção do traço
+	Stroke Width	Largura do traço
+	Stroke Pressure	Pressão do traço
+	Right Diagonal	Diagonal direita
+	Left Diagonal	Diagonal esquerda
+	Linux Display Server	Servidor de exibição do Linux
+	X11 (XWayland)	X11 (XWayland)
+	Back	Trás
+	Both sides	Ambos os lados
+	Classic	Clássico
+	Cove	Côncavo
+	Depth	Profundidade
+	Front	Frente
+	Isometric Bottom	Isométrica inferior
+	Isometric Left	Isométrica esquerda
+	Isometric Right	Isométrica direita
+	Isometric Top	Isométrica superior
+	Off-Axis Back	Fora do eixo atrás
+	Off-Axis Bottom	Fora do eixo abaixo
+	Off-Axis Front	Fora do eixo à frente
+	Off-Axis Left	Fora do eixo à esquerda
+	Off-Axis Right	Fora do eixo à direita
+	Off-Axis Top	Fora do eixo acima
+	Ogee	Gola
+	Reset all 3D settings to their defaults.	Redefinir todas as configurações 3D para os padrões.
+	Step	Degrau
+	Taper	Afunilar
+	Twist	Torcer
+	Volume	Volume
+3d	Cap	Tampa
+3d	Solid	Sólido
+3d	Hollow	Oco
+3d	Bevel	Chanfro
+3d	Rounded	Arredondado
+3d	Space	Espaço
+	Bevel Shape	Forma do chanfro
+	Bevel Inside	Chanfro para dentro
+	Bevel both sides	Chanfro em ambos os lados
+	Presets	Predefinições
+@msg	An object takes one 3D effect. Edit the existing effect's options, or remove it first.	Um objeto aceita um efeito 3D. Edite as opções do efeito existente ou remova-o primeiro.
+@msg	{label} currently requires a path or compound path. Convert type, images and groups to paths first.	{label} atualmente requer um traçado ou um traçado composto. Converta textos, imagens e grupos em traçados primeiro.
+@msg	{label} requires a shape with at least two anchors	{label} requer uma forma com pelo menos duas âncoras
+@msg	The shape is too complex for a 3D effect	A forma é complexa demais para um efeito 3D
+@msg	The 3D surface is too complex; simplify the shape	A superfície 3D é complexa demais; simplifique a forma
+	1 Layer	1 camada
+	1 bit	1 bit
+	16 Colors	16 cores
+	16 bit	16 bits
+	16 bits/pixel	16 bits/pixel
+	2-Up	2 por página
+	24 bit	24 bits
+	24 bits/pixel	24 bits/pixel
+	256 Colors	256 cores
+	2K Cinema	Cinema 2K
+	2up	2 por página
+	3 Colors	3 cores
+	32 bit	32 bits
+	32 bits/pixel	32 bits/pixel
+	4 bit	4 bits
+	4-Up	4 por página
+	4K Cinema	Cinema 4K
+	4K UHD	4K UHD
+	4up	4 por página
+	6 Colors	6 cores
+	8 Colors	8 cores
+	8 bit	8 bits
+	8K UHD	8K UHD
+	@{login}: {prs}, {commits}, +{added} / −{deleted} lines (Δ {delta}), +{binary_added} / −{binary_deleted} binary assets, {first} – {last}	@{login}: {prs}, {commits}, +{added} / −{deleted} linhas (Δ {delta}), +{binary_added} / −{binary_deleted} recursos binários, {first} – {last}
+	A3	A3
+	A4	A4
+	A5	A5
+	A6	A6
+	Absolute Colorimetric	Colorimétrico absoluto
+	Adaptive	Adaptável
+	All Affected Objects	Todos os objetos afetados
+	All Layers	Todas as camadas
+	All Rasterized Regions	Todas as regiões rasterizadas
+	All Slices	Todas as fatias
+	All shortcuts reset to defaults.	Todos os atalhos foram redefinidos para os padrões.
+	Alt+Click	Alt+clique
+	Alt+Drag	Alt+arrastar
+	Analogous	Análoga
+	Analogous 2	Análoga 2
+	Anchors	Âncoras
+	Any except extracting pages	Qualquer uma, exceto extrair páginas
+	Area Type	Texto de área
+	Arrow	Seta
+	Arrow (open)	Seta (aberta)
+	Art & Illustration	Arte e ilustração
+	Art Optimized	Otimizado para arte
+	Art and Bright Colors	Arte e cores vivas
+	Ascent	Ascendente
+	Auto Size	Tamanho automático
+	B4	B4
+	B5	B5
+	Bar	Barra
+	Barbed	Farpada
+	Baseline (Standard)	Linha de base (padrão)
+	Baseline Optimized	Linha de base otimizada
+	Basic	Básico
+	Bicubic	Bicúbica
+	Black & White	Preto e branco
+	Black Outline	Contorno preto
+	Bloat	Inflar
+	Bounding Box	Caixa delimitadora
+	Bracket	Colchete
+	Branding	Identidade visual
+	Brown	Marrom
+	Business Card 3.5 × 2 in	Cartão de visita 3,5 × 2 pol
+	Business Card 85 × 55 mm	Cartão de visita 85 × 55 mm
+	CRLF (Windows)	CRLF (Windows)
+	Cap Height	Altura das maiúsculas
+	Chevron	Divisa
+	Circle (open)	Círculo (aberto)
+	Click, then press the new shortcut (Esc cancels)	Clique e pressione o novo atalho (Esc cancela)
+	Clip Group	Grupo de recorte
+	Color Table (4 colors)	Tabela de cores (4 cores)
+	Command	Comando
+	Commenting, filling in form fields and signing	Comentar, preencher campos de formulário e assinar
+	Complementary	Complementar
+	Complementary 2	Complementar 2
+	Complete	Completo
+	Composite	Composto
+	Compound	Composto
+	Compound 2	Composto 2
+	Concave	Côncavo
+	Convert to Global	Converter em global
+	Convert to destination	Converter para o destino
+	Convert to destination (preserve numbers)	Converter para o destino (preservar números)
+	Cool	Fria
+	Copyright and Contact Info	Direitos autorais e contato
+	Copyrighted	Protegido por direitos autorais
+	Cross	Cruz
+	Current Colors	Cores atuais
+	Current Colors (0)	Cores atuais (0)
+	Custom Scale	Escala personalizada
+	DWG (use DXF)	DWG (use DXF)
+	Default Graphic Style	Estilo gráfico padrão
+	Diamond (open)	Losango (aberto)
+	Differences from VectorCraft Default:	Diferenças em relação ao Padrão do Vetorial:
+	Differences from [Default]:	Diferenças em relação a [Padrão]:
+	Diffusion	Difusão
+	Direct Selection	Seleção direta
+	Distance	Distância
+	Distance:	Distância:
+	Do Not Scale	Não dimensionar
+	Don't include profiles	Não incluir perfis
+	Dot Gain 15%	Ganho de ponto 15%
+	Dot on Bar	Ponto na barra
+	Double Arrow	Seta dupla
+	Double Bar	Barra dupla
+	Double Slash	Barra inclinada dupla
+	Down (right reading)	Para baixo (leitura à direita)
+	Drop	Gota
+	Envelope	Envelope
+	Envelope #10	Envelope nº 10
+	Envelope DL	Envelope DL
+	Exact	Exato
+	Expand 1 Selected	Expandir 1 selecionado
+	Expand Object	Expandir objeto
+	Expanded Patterns	Padrões expandidos
+	Feather	Difuminar
+	Filling in form fields and signing	Preencher campos de formulário e assinar
+	Film & Video	Cinema e vídeo
+	First Baseline	Primeira linha de base
+	Fit to Page	Ajustar à página
+	Fork	Forquilha
+	Freeform	Forma livre
+	GIF, 128 colours	GIF, 128 cores
+	Go to Conflict	Ir para o conflito
+	Graphic Styles (4)	Estilos gráficos (4)
+	Gray	Cinza
+	Gray Gamma 2.2	Gama de cinza 2.2
+	Greeting Card	Cartão comemorativo
+	Grey	Cinza
+	Grid Repeat	Repetição em grade
+	Group Selection	Seleção de grupo
+	Guide	Guia
+	Gutter	Medianiz
+	Gutter:	Medianiz:
+	HDTV 1080p	HDTV 1080p
+	HDTV 720p	HDTV 720p
+	HTML and Images	HTML e imagens
+	Half Arrow (left)	Meia seta (esquerda)
+	Half Arrow (right)	Meia seta (direita)
+	Half Circle	Meio círculo
+	Hand	Mão
+	Harmony Rules	Regras de harmonia
+	Heavy Ink	Tinta pesada
+	Hexagon	Hexágono
+	Hexagon (open)	Hexágono (aberto)
+	High Contrast	Alto contraste
+	High Contrast 2	Alto contraste 2
+	High Contrast 3	Alto contraste 3
+	High Fidelity Photo	Foto de alta fidelidade
+	High Quality Print	Impressão de alta qualidade
+	High Resolution	Alta resolução
+	High resolution	Alta resolução
+	Image Trace (Make and Expand)	Rastreamento de imagem (criar e expandir)
+	Images Only	Somente imagens
+	Imported. Press OK to keep the imported set.	Importado. Pressione OK para manter o conjunto importado.
+	Include all profiles	Incluir todos os perfis
+	Include destination profile	Incluir o perfil de destino
+	Include tagged source profiles	Incluir os perfis de origem marcados
+	Inserting, deleting and rotating pages	Inserir, excluir e girar páginas
+	Joins:	Junções:
+	Justify	Justificar
+	Keeps the document editable: VectorCraft reopens the PDF with nothing lost. For files you'll edit again.	Mantém o documento editável: o Vetorial reabre o PDF sem perder nada. Para arquivos que você vai editar de novo.
+	Keyboard Shortcuts	Atalhos de teclado
+	Kite	Pipa
+	LF (macOS, Linux)	LF (macOS, Linux)
+	Lab Spot Colors	Cores especiais Lab
+	Landscape (flipped)	Paisagem (invertida)
+	Language Level 2	Nível de linguagem 2
+	Language Level 3	Nível de linguagem 3
+	Lasso	Laço
+	Leaf	Folha
+	Left Complement	Complemento esquerdo
+	Legal	Ofício (Legal)
+	Length	Comprimento
+	Length:	Comprimento:
+	Letterhead A4	Papel timbrado A4
+	Letterhead Letter	Papel timbrado Carta
+	Line Art	Desenho de linha
+	Linear	Linear
+	Logo 1000×1000	Logotipo 1000×1000
+	Low Fidelity Photo	Foto de baixa fidelidade
+	Low Resolution	Baixa resolução
+	Low resolution (150 ppi)	Baixa resolução (150 ppi)
+	Make Text Wrap	Criar contorno de texto
+	Maximize Editability	Maximizar a editabilidade
+	Measure	Medir
+	Medium Resolution	Resolução média
+	Menu Commands	Comandos de menu
+	Mesh	Malha
+	Minimum	Mínimo
+	Mirror Repeat	Repetição espelhada
+	Mobile	Celular
+	Monochromatic	Monocromática
+	Monochrome	Monocromático
+	Muted	Suave
+	Negative	Negativo
+	No Dither	Sem pontilhamento
+	No Slices	Sem fatias
+	No conversion	Sem conversão
+	No downsampling	Sem redução de resolução
+	None (Color Preview)	Nenhum (visualização de cores)
+	Orange	Laranja
+	Outlined Strokes	Traçados contornados
+	Outlined Text	Texto contornado
+	Oval	Oval
+	PDF 1.7	PDF 1.7
+	PDF/X-1a:2001	PDF/X-1a:2001
+	PDF/X-3:2002	PDF/X-3:2002
+	PDF/X-4:2010	PDF/X-4:2010
+	PRs	PRs
+	Page Cover 1640×624	Capa de página 1640×624
+	Pattern Swatches	Amostras de padrão
+	Pen	Caneta
+	Pentagram	Pentagrama
+	Perceptual	Perceptivo
+	Phone 360×800	Celular 360×800
+	Phone 375×667	Celular 375×667
+	Phone 375×812	Celular 375×812
+	Phone 393×852	Celular 393×852
+	Phone 412×915	Celular 412×915
+	Phone 430×932	Celular 430×932
+	Photo Low Fidelity	Foto de baixa fidelidade
+	Pink	Rosa
+	Pixel	Pixel
+	Placed Document	Documento colocado
+	Plus	Mais
+	Points:	Pontos:
+	Portrait (flipped)	Retrato (invertido)
+	Positive	Positivo
+	Poster 18 × 24 in	Pôster 18 × 24 pol
+	Poster 24 × 36 in	Pôster 24 × 36 pol
+	Preserve	Preservar
+	Preserve Appearance	Preservar aparência
+	Preserve Tints	Preservar matizes
+	Preset {number}	Predefinição {number}
+	Press Quality	Qualidade de impressão gráfica
+	Press keys…	Pressione as teclas…
+	Print & Proof	Impressão e prova
+	Printing & Proofing	Impressão e prova
+	Profile Cover 1500×500	Capa de perfil 1500×500
+	Public Domain	Domínio público
+	Pucker	Franzir
+	Purple	Roxo
+	RECENT (1)	RECENTES (1)
+	RGB	RGB
+	Radial Repeat	Repetição radial
+	Rasterized Complex Regions	Regiões complexas rasterizadas
+	Relative Colorimetric	Colorimétrico relativo
+	Release Image Trace	Liberar rastreamento de imagem
+	Release Text Wrap	Liberar contorno de texto
+	Remove the shortcut	Remover o atalho
+	Reset Automation	Redefinir Automação
+	Reset Essentials Classic	Redefinir Essentials Classic
+	Reset Layout	Redefinir Layout
+	Reset Painting	Redefinir Pintura
+	Reset Printing and Proofing	Redefinir Impressão e prova
+	Reset Tracing	Redefinir Vetorização
+	Reset Typography	Redefinir Tipografia
+	Reset Web	Redefinir Web
+	Reset to Defaults	Redefinir para os padrões
+	Restricted Colors	Cores restritas
+	Reverse Triangle	Triângulo invertido
+	Right Complement	Complemento direito
+	Roman	Romano
+	Rotate View	Girar vista
+	Run Length	Run Length
+	SVG 1.1	SVG 1.1
+	Save Selection	Salvar seleção
+	Scale Tints	Dimensionar matizes
+	Scale X	Escala X
+	Scale X:	Escala X:
+	Scale Y	Escala Y
+	Scale Y:	Escala Y:
+	Scallop	Recorte ondulado
+	Scissors	Tesoura
+	Selected Slices	Fatias selecionadas
+	Selected Styles Only (0)	Somente estilos selecionados (0)
+	Selected Swatches Only (0)	Somente amostras selecionadas (0)
+	Selective	Seletivo
+	Separations	Separações
+	Set:	Conjunto:
+	Shades	Sombras
+	Shades of Gray	Tons de cinza
+	Shear:	Inclinação:
+	Shift+Click	Shift+clique
+	Shift+Drag	Shift+arrastar
+	Shortcut	Atalho
+	Shrink Text to Fit	Reduzir o texto para caber
+	Silhouettes	Silhuetas
+	Simplified Chinese	Chinês simplificado
+	Simulate	Simular
+	Simulate prints overprints as Overprint Preview shows them; separations always keep them. A preset flattens transparency before printing (PostScript files always flatten it).	Simular imprime as superimposições como a Visualização de superimposição as mostra; as separações sempre as mantêm. Uma predefinição nivela a transparência antes de imprimir (os arquivos PostScript sempre a nivelam).
+	Sketched Art	Arte esboçada
+	Slash	Barra inclinada
+	Smallest File Size	Menor tamanho de arquivo
+	Social	Redes sociais
+	Social Landscape Post 1200×630	Post paisagem para redes sociais 1200×630
+	Social Portrait Post 1080×1350	Post retrato para redes sociais 1080×1350
+	Social Story 1080×1920	Story para redes sociais 1080×1920
+	Social Tall Post 1000×1500	Post alto para redes sociais 1000×1500
+	Sort by Hue	Ordenar por matiz
+	Sort by Luminance	Ordenar por luminância
+	Sort by Popularity	Ordenar por popularidade
+	Spectrum	Espectro
+	Split Complementary	Complementar dividida
+	Spot Colors (0)	Cores especiais (0)
+	Square (open)	Quadrado (aberto)
+	Square 8 × 8 in	Quadrado 8 × 8 pol
+	Subsample	Subamostragem
+	Subset	Subconjunto
+	Sunshine	Raios de sol
+	Swallowtail	Rabo de andorinha
+	Symbol	Símbolo
+	TIFF (8-bit Color)	TIFF (cor de 8 bits)
+	TIFF (Black & White)	TIFF (preto e branco)
+	Tablet 1024×1366	Tablet 1024×1366
+	Tablet 1024×768	Tablet 1024×768
+	Tablet 768×1024	Tablet 768×1024
+	Tablet 800×1280	Tablet 800×1280
+	Tablet 820×1180	Tablet 820×1180
+	Tablet 834×1194	Tablet 834×1194
+	Tabloid	Tabloide
+	Tag	Etiqueta
+	Tag (open)	Etiqueta (aberta)
+	Technical Drawing	Desenho técnico
+	Tetrad	Tétrade
+	Tetrad 2	Tétrade 2
+	Tetrad 3	Tétrade 3
+	Text Displayed in Cell	Texto exibido na célula
+	Tile Imageable Areas	Lado a lado áreas imprimíveis
+	Tool	Ferramenta
+	Touch Type	Retocar texto
+	Transparent Objects	Objetos transparentes
+	Triad	Tríade
+	Triad 2	Tríade 2
+	Triad 3	Tríade 3
+	Triangle	Triângulo
+	Triangle (open)	Triângulo (aberto)
+	Triangle to Bar	Triângulo para barra
+	True Colors	Cores reais
+	Twirl	Redemoinho
+	Type Optimized	Otimizado para texto
+	UTF-16 (Unicode)	UTF-16 (Unicode)
+	Unknown	Desconhecido
+	Unsorted	Não ordenado
+	Up (right reading)	Para cima (leitura à direita)
+	Use Default	Usar padrão
+	Variation	Variação
+	VectorCraft Default	Padrão do Vetorial
+	VectorCraft Defaults	Padrões do Vetorial
+	VectorCraft Generic CMYK (SWOP-like)	CMYK genérico do Vetorial (tipo SWOP)
+	VectorCraft Swatches (.vcswatches)	Amostras do Vetorial (.vcswatches)
+	Vertical Align	Alinhamento vertical
+	Vertical Area Type	Texto de área vertical
+	Vertical Type	Texto vertical
+	Vertical Type on a Path	Texto vertical no traçado
+	Video 1920×1080	Vídeo 1920×1080
+	Video 3840×2160	Vídeo 3840×2160
+	Video Banner 2560×1440	Banner de vídeo 2560×1440
+	Video Thumbnail 1280×720	Miniatura de vídeo 1280×720
+	Visible & Printable Layers	Camadas visíveis e imprimíveis
+	Visible Layers	Camadas visíveis
+	Vivid	Vívida
+	Warm	Quente
+	Watch 184×224	Relógio 184×224
+	Watch 198×242	Relógio 198×242
+	Web 1024×768	Web 1024×768
+	Web 1280×720	Web 1280×720
+	Web 1280×800	Web 1280×800
+	Web 1366×768	Web 1366×768
+	Web 1440×900	Web 1440×900
+	Web 1600×900	Web 1600×900
+	WebP	WebP
+	Working RGB	RGB de trabalho
+	Wrinkle	Enrugar
+	X:	X:
+	Y:	Y:
+	[Custom]	[Personalizado]
+	[Default]	[Padrão]
+	[High Quality Print]	[Impressão de alta qualidade]
+	[High Resolution]	[Alta resolução]
+	[Low Resolution]	[Baixa resolução]
+	[Medium Resolution]	[Resolução média]
+	[PDF/X-1a:2001]	[PDF/X-1a:2001]
+	[PDF/X-3:2002]	[PDF/X-3:2002]
+	[PDF/X-4:2010]	[PDF/X-4:2010]
+	[Press Quality]	[Qualidade de impressão gráfica]
+	[Smallest File Size]	[Menor tamanho de arquivo]
+	[VectorCraft Default]	[Padrão do Vetorial]
+	of	de
+	sRGB IEC61966-2.1	sRGB IEC61966-2.1
+	x Height	Altura x
+	▾ Default Actions	▾ Ações padrão
+	⚠ {chord} was already used by {names} — it has been removed there.	⚠ {chord} já era usado por {names} — foi removido de lá.
+@id	file.close	Fechar
+@id	pathfinder.add	Unir
+@msg	this kind of brush has no options dialog yet	este tipo de pincel ainda não tem caixa de opções
+@plural	{n} PR|{n} PRs	{n} PR|{n} PRs
+@plural	{n} commit|{n} commits	{n} commit|{n} commits
+@plural	{n} shortcut is assigned more than once|{n} shortcuts are assigned more than once	{n} atalho está atribuído mais de uma vez|{n} atalhos estão atribuídos mais de uma vez
+diagnostics	render	renderização
+diagnostics	ui	interface
+effect	Horizontal	Horizontal
+effect	Points	Pontos
+effect	Regular	Regular
+effect	Vertical	Vertical
+file-filter	All placeable files	Todos os arquivos que podem ser colocados
+file-filter	All readable files	Todos os arquivos legíveis
+file-filter	Flattener presets	Predefinições do nivelador
+file-filter	PDF presets	Predefinições de PDF
+file-filter	PDF-compatible .ai	.ai compatível com PDF
+file-filter	Print presets	Predefinições de impressão
+file-filter	SVG Compressed	SVG compactado
+file-filter	Swatch libraries	Bibliotecas de amostras
+file-filter	Templates	Modelos
+file-filter	VectorCraft Template	Modelo do Vetorial
+gradient-kind	Radial	Radial
+mark-style	Japanese	Japonês
+theme	Appearance	Aparência
+@msg	an image of {w} × {h} pixels is too large to draw	uma imagem de {w} × {h} pixels é grande demais para desenhar

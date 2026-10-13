@@ -48,7 +48,7 @@
 	A lower value follows the stroke closely; a higher one gives fewer points and smoother curves.	数值较小时紧贴所绘线条，较大时锚点较少、曲线更平滑。
 	A new preset starting from the selected one	以所选预设为基础的新预设
 	A saved copy of the selected preset	所选预设的副本
-	About VectorCraft	关于 VectorCraft
+	About VectorCraft	关于 Vetorial
 	above	以上
 	Absolute Position	绝对位置
 	Accurate	精确
@@ -186,8 +186,6 @@
 	Artboard {number}	画板 {number}
 	Artboard:	画板：
 	Artboards	画板
-	ArtCraft Website	ArtCraft 网站
-	ArtCraft website	ArtCraft 网站
 	Artwork Colors	图稿颜色
 	As Multiple Assets	作为多个资源
 	As Single Asset	作为单一资源
@@ -334,7 +332,7 @@
 	Check Script	检查脚本
 	Check Script…	检查脚本…
 	Copy Report	复制报告
-	VectorCraft read this script without running it.	VectorCraft 读取了此脚本，但没有运行它。
+	VectorCraft read this script without running it.	Vetorial 读取了此脚本，但没有运行它。
 	Needs nothing beyond plain JavaScript	只需要普通的 JavaScript
 	Needs the script language's own objects or directives	需要脚本语言自身的对象或指令
 	Needs the document model	需要文档模型
@@ -1315,9 +1313,6 @@
 	Isolate Group	隔离编组
 	Italian	意大利语
 	Join	连接
-	Join Our Discord	加入 Discord
-	Join our Discord	加入我们的 Discord
-	Join the ArtCraft community on Discord (discord.gg/artcraft)	在 Discord 加入 ArtCraft 社区 (discord.gg/artcraft)
 	Join the lines of each paragraph	合并每个段落的行
 	Join Tool	连接工具
 	Justification…	对齐设置…
@@ -1893,7 +1888,6 @@
 	Paragraph Style Options	段落样式选项
 	Paragraph Styles	段落样式
 	Paragraph Symbol	段落符号
-	Part of ArtCraft. MIT OR Apache-2.0. Fonts: Source Sans 3, Inter, JetBrains Mono (OFL). Icons: Lucide (ISC) + VectorCraft.	ArtCraft 的一部分。MIT OR Apache-2.0。字体：Source Sans 3、Inter、JetBrains Mono (OFL)。图标：Lucide (ISC) + VectorCraft。
 	Password	口令
 	Paste	粘贴
 	Paste in Back	贴在后面
@@ -2070,7 +2064,7 @@
 	Quarter Space	四分之一空格
 	Quick Actions	快速操作
 	Quickly start a new file	快速新建文件
-	Quit VectorCraft	退出 VectorCraft
+	Quit VectorCraft	退出 Vetorial
 	Radar Graph Tool	雷达图工具
 	Radial	径向
 	Radial Glows	径向光晕
@@ -2194,7 +2188,7 @@
 	{count} folder(s) or file(s) couldn't be read	有 {count} 个文件夹或文件无法读取
 	The search stopped at its limit: search a smaller folder.	搜索已达上限而停止：请搜索较小的文件夹。
 	Copy only fonts you own or are licensed to install.	只复制您拥有或已获得安装许可的字体。
-	VectorCraft copies the fonts to {folder}.	VectorCraft 会将字体复制到 {folder}。
+	VectorCraft copies the fonts to {folder}.	Vetorial 会将字体复制到 {folder}。
 	Registered Trademark Symbol	注册商标符号
 	Registration marks	对位标记
 	Registry name:	登录名称：
@@ -2299,7 +2293,7 @@
 	Revert	恢复
 	Revert to the saved version of “{name}”?	要恢复为“{name}”已存储的版本吗？
 	Replace “{name}”, the file this document was opened from?	要替换“{name}”（打开此文档的源文件）吗？
-	Opening it left out what VectorCraft can't read yet ({what}), so replacing it loses that for good. Save under another name to keep it.	打开时略去了 VectorCraft 尚无法读取的内容（{what}），替换该文件会永久丢失这些内容。要保留它们，请以其他名称存储。
+	Opening it left out what VectorCraft can't read yet ({what}), so replacing it loses that for good. Save under another name to keep it.	打开时略去了 Vetorial 尚无法读取的内容（{what}），替换该文件会永久丢失这些内容。要保留它们，请以其他名称存储。
 	Revolve…	回转…
 	RGB Color	RGB 颜色
 	Right	右
@@ -3086,11 +3080,9 @@
 	Vector Halftone	矢量半色调
 	Vector Halftone…	矢量半调…
 	Vector illustration — fast, open, scriptable.	矢量插画　—　快速、开放、可脚本化。
-	VectorCraft	VectorCraft
-	VectorCraft didn't quit normally last time. These documents had unsaved changes:	VectorCraft 上次未正常退出。以下文档有未存储的更改：
-	VectorCraft Help…	VectorCraft 说明…
-	VectorCraft on getartcraft.com	getartcraft.com 上的 VectorCraft
-	VectorCraft on GitHub	GitHub 上的 VectorCraft
+	VectorCraft	Vetorial
+	VectorCraft didn't quit normally last time. These documents had unsaved changes:	Vetorial 上次未正常退出。以下文档有未存储的更改：
+	VectorCraft Help…	Vetorial 说明…
 	Vectors	矢量
 	Version {version} — open-source vector illustration in pure Rust.	版本 {version} — 以纯 Rust 打造的开放原始码矢量插画软件。
 	Version:	版本：
@@ -3131,7 +3123,7 @@
 	Web Snap:	Web 色偏：
 	Weight	粗细
 	Weight:	粗细：
-	Welcome to VectorCraft	欢迎使用 VectorCraft
+	Welcome to VectorCraft	欢迎使用 Vetorial
 	When pasting text	粘贴文字时
 	White	白色
 	Widget Position:	Widget 位置：
@@ -3267,7 +3259,7 @@ imageTrace	Outline	轮廓
 	  — {n} characters from another font	  — {n} 个字符来自其他字体
 	[Normal Character Style]	[正常字符样式]
 	[Normal Paragraph Style]	[正常段落样式]
-	VectorCraft Defaults	VectorCraft 默认
+	VectorCraft Defaults	Vetorial 默认
 	Menu Commands	菜单命令
 	Tool	工具
 	Command	命令
@@ -3336,7 +3328,7 @@ imageTrace	Outline	轮廓
 	X:	X：
 	Y:	Y：
 	Text Displayed in Cell	单元格中显示的文本
-	Part of ArtCraft. MIT OR Apache-2.0. Fonts: Source Sans 3, Inter, JetBrains Mono, Noto Sans SC (OFL). Icons: Lucide (ISC) + VectorCraft.	ArtCraft 的一部分。MIT 或 Apache-2.0 许可。字体：Source Sans 3、Inter、JetBrains Mono、Noto Sans SC (OFL)。图标：Lucide (ISC)+ VectorCraft。
+	Part of ArtCraft. MIT OR Apache-2.0. Fonts: Source Sans 3, Inter, JetBrains Mono, Noto Sans SC (OFL). Icons: Lucide (ISC) + VectorCraft.	ArtCraft 的一部分。MIT 或 Apache-2.0 许可。字体：Source Sans 3、Inter、JetBrains Mono、Noto Sans SC (OFL)。图标：Lucide (ISC)+ Vetorial。
 	RGB	RGB
 	Pattern Swatches	图案色板
 	Default Graphic Style	默认图形样式
@@ -3374,16 +3366,16 @@ imageTrace	Outline	轮廓
 	GIF, 128 colours	GIF，128 色
 	Selected Styles Only (0)	仅所选样式 (0)
 	Selected Swatches Only (0)	仅所选色板 (0)
-	VectorCraft Swatches (.vcswatches)	VectorCraft 色板 (.vcswatches)
+	VectorCraft Swatches (.vcswatches)	Vetorial 色板 (.vcswatches)
 	Social	社交
 	Exact	精确
 	Visible & Printable Layers	可见且可打印的图层
 	SVG 1.1	SVG 1.1
 	Unsorted	不排序
-	Differences from VectorCraft Default:	与 VectorCraft 默认设置的差异：
+	Differences from VectorCraft Default:	与 Vetorial 默认设置的差异：
 	Differences from [Default]:	与 [默认] 的差异：
-	Keeps the document editable: VectorCraft reopens the PDF with nothing lost. For files you'll edit again.	保持文档可编辑：VectorCraft 可无损重新打开该 PDF。适合还会再次编辑的文件。
-	VectorCraft Default	VectorCraft 默认设置
+	Keeps the document editable: VectorCraft reopens the PDF with nothing lost. For files you'll edit again.	保持文档可编辑：Vetorial 可无损重新打开该 PDF。适合还会再次编辑的文件。
+	VectorCraft Default	Vetorial 默认设置
 	PDF 1.7	PDF 1.7
 	[Default]	[默认]
 	[Custom]	[自定义]
@@ -3396,7 +3388,7 @@ imageTrace	Outline	轮廓
 	[PDF/X-4:2010]	[PDF/X-4:2010]
 	[Press Quality]	[印刷质量]
 	[Smallest File Size]	[最小文件大小]
-	[VectorCraft Default]	[VectorCraft 默认设置]
+	[VectorCraft Default]	[Vetorial 默认设置]
 	High Resolution	高分辨率
 	Maximize Editability	最大化可编辑性
 	Preserve Appearance	保留外观
@@ -3474,7 +3466,7 @@ imageTrace	Outline	轮廓
 	Technical Drawing	技术绘图
 	Photo Low Fidelity	低保真照片
 	Restricted Colors	受限颜色
-	VectorCraft Generic CMYK (SWOP-like)	VectorCraft 通用 CMYK (类 SWOP)
+	VectorCraft Generic CMYK (SWOP-like)	Vetorial 通用 CMYK (类 SWOP)
 	sRGB IEC61966-2.1	sRGB IEC61966-2.1
 	Working RGB	工作 RGB
 	Dot Gain 15%	网点扩大 15%
@@ -3503,7 +3495,7 @@ imageTrace	Outline	轮廓
 # The Layers panel, the graphics processor preference and the font menu's filters.
 	All Scripts	所有文字系统
 	Any Kind	所有类型
-	Applies the next time VectorCraft starts.	下次启动 VectorCraft 时生效。
+	Applies the next time VectorCraft starts.	下次启动 Vetorial 时生效。
 	Collapse to Icons	折叠为图标
 	Decorative	装饰
 	Dim Images to:	图像变暗至：
@@ -3635,14 +3627,14 @@ axis	Both	两者
 
 # The macOS menu bar (native_menu): the app and Window menus' system items, Settings pages.
 	Services	服务
-	Hide VectorCraft	隐藏 VectorCraft
+	Hide VectorCraft	隐藏 Vetorial
 	Bring All to Front	前置全部窗口
 	Settings	设置
 	Break Link	断开链接
 	On: one locked object showing the document, updated when it changes.	开启：以一个锁定对象显示文档，文档更改时随之更新。
 	Off: an editable copy of its art, embedded in this document.	关闭：将其图稿的可编辑副本嵌入此文档。
 	Images: link to the file instead of only embedding it.	图像：链接到文件，而不只是嵌入。
-	VectorCraft documents: one locked object, updated when the file changes.	VectorCraft 文档：一个锁定对象，文件更改时随之更新。
+	VectorCraft documents: one locked object, updated when the file changes.	Vetorial 文档：一个锁定对象，文件更改时随之更新。
 	A file dialog is open: choose there first	文件对话框已打开：请先在其中选择
 	The document was closed while its file dialog was open	文件对话框打开期间，文档已关闭
 	The dialog was closed before its file dialog answered	文件对话框给出结果之前，对话框已关闭
@@ -3903,3 +3895,7 @@ lighting	Light	光源
 @msg	unknown parameter `{key}`; the command takes: {keys}	未知参数 `{key}`；该命令接受：{keys}
 	Load EPS into Clipboard	将 EPS 载入剪贴板
 @msg	an image of {w} × {h} pixels is too large to draw	{w} × {h} 像素的图像过大，无法绘制
+	Vetorial on GitHub	GitHub 上的 Vetorial
+	Original project (VectorCraft)	原始项目（VectorCraft）
+	Based on VectorCraft (open source, MIT OR Apache-2.0)	基于 VectorCraft（开源，MIT OR Apache-2.0）
+	Vetorial is based on VectorCraft (© ArtCraft Team and contributors), MIT OR Apache-2.0. Fonts: Source Sans 3, Inter, JetBrains Mono (OFL). Icons: Lucide (ISC).	Vetorial 基于 VectorCraft（© ArtCraft Team 及贡献者），MIT OR Apache-2.0。字体：Source Sans 3、Inter、JetBrains Mono（OFL）。图标：Lucide（ISC）。

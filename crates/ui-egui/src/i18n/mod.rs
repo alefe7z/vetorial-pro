@@ -367,7 +367,8 @@ fn detect_system_lang() -> Lang {
     if let Some(l) = windows_locale().as_deref().and_then(lang_from_tag) {
         return l;
     }
-    Lang::EN
+    // Vetorial: Brazilian Portuguese unless the system asks for another supported language.
+    Lang::from_code("pt-br").unwrap_or(Lang::EN)
 }
 
 /// The first supported language in a `defaults read` list like `(\n    "ja-JP",\n    "en-US"\n)`.

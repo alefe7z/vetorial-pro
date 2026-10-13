@@ -4311,3 +4311,16 @@ lighting	Light	Luce
 	Original project (VectorCraft)	Progetto originale (VectorCraft)
 	Based on VectorCraft (open source, MIT OR Apache-2.0)	Basato su VectorCraft (open source, MIT OR Apache-2.0)
 	Vetorial is based on VectorCraft (© ArtCraft Team and contributors), MIT OR Apache-2.0. Fonts: Source Sans 3, Inter, JetBrains Mono (OFL). Icons: Lucide (ISC).	Vetorial è basato su VectorCraft (© ArtCraft Team e collaboratori), MIT OR Apache-2.0. Font: Source Sans 3, Inter, JetBrains Mono (OFL). Icone: Lucide (ISC).
+	Bézier Tool	Strumento Bézier
+	B-Spline Tool	Strumento B-spline
+	Polyline Tool	Strumento Polilinea
+	3-Point Curve Tool	Strumento Curva a 3 punti
+	 to add a cusp node  |  	 per aggiungere un nodo cuspide  |  
+	 to add a smooth node  |  	 per aggiungere un nodo morbido  |  
+	 to add a control point  |  	 per aggiungere un punto di controllo  |  
+	 to remove the last point  |  	 per rimuovere l'ultimo punto  |  
+	 to add a straight segment  |  	 per aggiungere un segmento dritto  |  
+	 to draw freehand  |  	 per disegnare a mano libera  |  
+	 from the start to the end point  |  	 dal punto iniziale a quello finale  |  
+	 to bend the curve through that point  |  	 per curvare la linea attraverso quel punto  |  
+	 to cancel	 per annullare

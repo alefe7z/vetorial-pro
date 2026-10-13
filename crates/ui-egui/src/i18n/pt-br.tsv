@@ -3872,7 +3872,6 @@ axis	Both	Ambos
 	Edit Views	Editar vistas
 	Embedded {n} image(s)	{n} imagem(ns) incorporada(s)
 	Embedded {n} image(s); {missing} missing: relink them first	{n} imagem(ns) incorporada(s); {missing} ausente(s): revincule primeiro
-	English	Inglês
 	Entire Font	Fonte inteira
 	Export Asset	Exportar recurso
 	Exported {count} file(s) to {folder}	{count} arquivo(s) exportado(s) para {folder}
@@ -4711,7 +4710,7 @@ effect	Soft	Suave
 	sRGB IEC61966-2.1	sRGB IEC61966-2.1
 	x Height	Altura x
 	▾ Default Actions	▾ Ações padrão
-	⚠ {chord} was already used by {names} — it has been removed there.	⚠ {chord} já era usado por {names} — foi removido de lá.
+	⚠ {chord} was already used by {names} — it has been removed there.	Atenção: {chord} já era usado por {names}; foi removido de lá.
 @id	file.close	Fechar
 @id	pathfinder.add	Unir
 @msg	this kind of brush has no options dialog yet	este tipo de pincel ainda não tem caixa de opções
@@ -4738,3 +4737,16 @@ gradient-kind	Radial	Radial
 mark-style	Japanese	Japonês
 theme	Appearance	Aparência
 @msg	an image of {w} × {h} pixels is too large to draw	uma imagem de {w} × {h} pixels é grande demais para desenhar
+	Bézier Tool	Ferramenta Bézier
+	B-Spline Tool	Ferramenta B-Spline
+	Polyline Tool	Ferramenta Polilinha
+	3-Point Curve Tool	Ferramenta Curva de 3 pontos
+	 to add a cusp node  |  	 para adicionar um nó cúspide  |  
+	 to add a smooth node  |  	 para adicionar um nó suave  |  
+	 to add a control point  |  	 para adicionar um ponto de controle  |  
+	 to remove the last point  |  	 para remover o último ponto  |  
+	 to add a straight segment  |  	 para adicionar um segmento reto  |  
+	 to draw freehand  |  	 para desenhar à mão livre  |  
+	 from the start to the end point  |  	 do ponto inicial ao ponto final  |  
+	 to bend the curve through that point  |  	 para curvar a linha passando por esse ponto  |  
+	 to cancel	 para cancelar

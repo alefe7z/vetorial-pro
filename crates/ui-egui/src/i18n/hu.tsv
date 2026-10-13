@@ -4709,3 +4709,16 @@ imageTrace	Outline	Körvonal
 	Original project (VectorCraft)	Eredeti projekt (VectorCraft)
 	Based on VectorCraft (open source, MIT OR Apache-2.0)	A VectorCraft alapján (nyílt forráskódú, MIT OR Apache-2.0)
 	Vetorial is based on VectorCraft (© ArtCraft Team and contributors), MIT OR Apache-2.0. Fonts: Source Sans 3, Inter, JetBrains Mono (OFL). Icons: Lucide (ISC).	A Vetorial a VectorCraft alapján készült (© ArtCraft Team és közreműködők), MIT OR Apache-2.0. Betűtípusok: Source Sans 3, Inter, JetBrains Mono (OFL). Ikonok: Lucide (ISC).
+	Bézier Tool	Bézier
+	B-Spline Tool	B-spline
+	Polyline Tool	Vonallánc
+	3-Point Curve Tool	3 pontos görbe
+	 to add a cusp node  |  	 – csúcspont hozzáadása  |  
+	 to add a smooth node  |  	 – sima csomópont hozzáadása  |  
+	 to add a control point  |  	 – vezérlőpont hozzáadása  |  
+	 to remove the last point  |  	 – az utolsó pont eltávolítása  |  
+	 to add a straight segment  |  	 – egyenes szakasz hozzáadása  |  
+	 to draw freehand  |  	 – szabadkézi rajzolás  |  
+	 from the start to the end point  |  	 a kezdőponttól a végpontig  |  
+	 to bend the curve through that point  |  	 – a görbe meghajlítása azon a ponton át  |  
+	 to cancel	 – mégse

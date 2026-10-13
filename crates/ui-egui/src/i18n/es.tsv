@@ -4683,3 +4683,16 @@ mark-style	Japanese	Japonesas
 	Original project (VectorCraft)	Proyecto original (VectorCraft)
 	Based on VectorCraft (open source, MIT OR Apache-2.0)	Basado en VectorCraft (código abierto, MIT OR Apache-2.0)
 	Vetorial is based on VectorCraft (© ArtCraft Team and contributors), MIT OR Apache-2.0. Fonts: Source Sans 3, Inter, JetBrains Mono (OFL). Icons: Lucide (ISC).	Vetorial se basa en VectorCraft (© ArtCraft Team y colaboradores), MIT OR Apache-2.0. Fuentes: Source Sans 3, Inter, JetBrains Mono (OFL). Iconos: Lucide (ISC).
+	Bézier Tool	Herramienta Bézier
+	B-Spline Tool	Herramienta B-spline
+	Polyline Tool	Herramienta Polilínea
+	3-Point Curve Tool	Herramienta Curva de 3 puntos
+	 to add a cusp node  |  	 para agregar un nodo de cúspide  |  
+	 to add a smooth node  |  	 para agregar un nodo suave  |  
+	 to add a control point  |  	 para agregar un punto de control  |  
+	 to remove the last point  |  	 para quitar el último punto  |  
+	 to add a straight segment  |  	 para agregar un segmento recto  |  
+	 to draw freehand  |  	 para dibujar a mano alzada  |  
+	 from the start to the end point  |  	 del punto inicial al final  |  
+	 to bend the curve through that point  |  	 para curvar la línea por ese punto  |  
+	 to cancel	 para cancelar

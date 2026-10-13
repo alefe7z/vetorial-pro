@@ -32,6 +32,13 @@ pub const TOOL_GROUPS: &[&[ToolInfo]] = &[
         t("anchorPoint", "Anchor Point Tool", Some("Shift+C"), "tool-anchor"),
     ],
     &[t("curvature", "Curvature Tool", Some("Shift+~"), "tool-curvature")],
+    // Vetorial: the CorelDRAW-style curve tools (crates/tools/src/corel.rs).
+    &[
+        t("bezier", "Bézier Tool", None, "dc-bezier"),
+        t("bspline", "B-Spline Tool", None, "dc-bspline"),
+        t("polyline", "Polyline Tool", None, "dc-polyline"),
+        t("threePointCurve", "3-Point Curve Tool", None, "dc-3pt-curve"),
+    ],
     &[
         t("type", "Type Tool", Some("T"), "tool-type"),
         t("areaType", "Area Type Tool", None, "tool-type-area"),

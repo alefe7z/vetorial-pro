@@ -4293,3 +4293,16 @@ theme	Appearance	Giao diện
 	Original project (VectorCraft)	Dự án gốc (VectorCraft)
 	Based on VectorCraft (open source, MIT OR Apache-2.0)	Dựa trên VectorCraft (mã nguồn mở, MIT OR Apache-2.0)
 	Vetorial is based on VectorCraft (© ArtCraft Team and contributors), MIT OR Apache-2.0. Fonts: Source Sans 3, Inter, JetBrains Mono (OFL). Icons: Lucide (ISC).	Vetorial dựa trên VectorCraft (© ArtCraft Team và những người đóng góp), MIT OR Apache-2.0. Phông chữ: Source Sans 3, Inter, JetBrains Mono (OFL). Biểu tượng: Lucide (ISC).
+	Bézier Tool	Công cụ Bézier
+	B-Spline Tool	Công cụ B-Spline
+	Polyline Tool	Công cụ Đường gấp khúc
+	3-Point Curve Tool	Công cụ Đường cong 3 điểm
+	 to add a cusp node  |  	 để thêm nút nhọn  |  
+	 to add a smooth node  |  	 để thêm nút trơn  |  
+	 to add a control point  |  	 để thêm điểm điều khiển  |  
+	 to remove the last point  |  	 để xóa điểm cuối cùng  |  
+	 to add a straight segment  |  	 để thêm đoạn thẳng  |  
+	 to draw freehand  |  	 để vẽ tự do  |  
+	 from the start to the end point  |  	 từ điểm đầu đến điểm cuối  |  
+	 to bend the curve through that point  |  	 để uốn đường cong qua điểm đó  |  
+	 to cancel	 để hủy

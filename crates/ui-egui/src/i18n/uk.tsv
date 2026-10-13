@@ -4291,3 +4291,16 @@ lighting	Light	Світло
 	Original project (VectorCraft)	Оригінальний проєкт (VectorCraft)
 	Based on VectorCraft (open source, MIT OR Apache-2.0)	На основі VectorCraft (відкритий код, MIT OR Apache-2.0)
 	Vetorial is based on VectorCraft (© ArtCraft Team and contributors), MIT OR Apache-2.0. Fonts: Source Sans 3, Inter, JetBrains Mono (OFL). Icons: Lucide (ISC).	Vetorial створено на основі VectorCraft (© ArtCraft Team і учасники), MIT OR Apache-2.0. Шрифти: Source Sans 3, Inter, JetBrains Mono (OFL). Значки: Lucide (ISC).
+	Bézier Tool	Інструмент «Безьє»
+	B-Spline Tool	Інструмент «B-сплайн»
+	Polyline Tool	Інструмент «Ламана»
+	3-Point Curve Tool	Інструмент «Крива за 3 точками»
+	 to add a cusp node  |  	 для додавання гострого вузла  |  
+	 to add a smooth node  |  	 для додавання гладкого вузла  |  
+	 to add a control point  |  	 для додавання контрольної точки  |  
+	 to remove the last point  |  	 для видалення останньої точки  |  
+	 to add a straight segment  |  	 для додавання прямого сегмента  |  
+	 to draw freehand  |  	 для малювання від руки  |  
+	 from the start to the end point  |  	 від початкової до кінцевої точки  |  
+	 to bend the curve through that point  |  	 щоб вигнути криву через цю точку  |  
+	 to cancel	 для скасування

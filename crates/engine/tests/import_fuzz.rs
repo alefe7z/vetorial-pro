@@ -6,7 +6,8 @@
 //! of every kind with random contents) opened, placed or pasted, nor EPS and PostScript files
 //! (damaged ones, hostile programs) read by the PostScript interpreter, nor the editing data of
 //! Illustrator EPS and `.ai` files (the layers they carry, damaged or hostile), nor Affinity documents
-//! (mutated object streams, archives and indexed PNG previews, hostile image dimensions), nor the
+//! (mutated object streams, archives and indexed PNG previews, hostile image dimensions), nor
+//! CorelDRAW drawings (mutated RIFF trees, compressed lists, zipped containers), nor the
 //! font files a folder search reads (damaged fonts, collections whose headers give any count of
 //! faces), nor scripts written for the reference app checked without running them (garbage,
 //! generated script text and mutated scripts).
@@ -231,6 +232,27 @@ proptest! {
         let n = bytes.len();
         for (at, b) in edits { bytes[at % n] = b; }
         survive("Affinity native container", || vectorcraft_engine::cmd::fileio::load("x.af", &bytes).ok().map(|l| l.doc))?;
+    }
+
+    #[test]
+    fn coreldraw_files_with_mutated_bytes_render_and_export(
+        edits in prop::collection::vec((0usize..8192, any::<u8>()), 1..16),
+        cut in 0usize..8192,
+        zipped in any::<bool>(),
+    ) {
+        use vectorcraft_corel::synth;
+        let packed = synth::cmpr(&[(b"fild", synth::fill(9, [10, 20, 30])[8..].to_vec())]);
+        let star = synth::object(
+            synth::loda(0x14, &[(0x1e, synth::curve(&[(0.0, 1.0, 0x00), (0.6, -0.8, 0x40)])), (0x14, 9u32.to_le_bytes().to_vec()), (0x2af8, synth::polygon_transform(5, 2, 20.0, (0.0, 0.0)))]),
+            Some([1.0, 0.0, 0.0, 1.0, 5.0, 5.0]),
+        );
+        let riff = synth::riff(b'B', &[packed, synth::page(0, &[synth::layer(&[star])])]);
+        let riff = if cut % 2 == 0 { riff } else { synth::sample() };
+        let mut bytes = if zipped { synth::zip(&[("content/riffData.cdr", riff)]) } else { riff };
+        let n = bytes.len();
+        for (at, b) in edits { bytes[at % n] = b; }
+        bytes.truncate(cut.max(12));
+        survive("CorelDRAW file", || vectorcraft_engine::cmd::fileio::load("x.cdr", &bytes).ok().map(|l| l.doc))?;
     }
 
     #[test]

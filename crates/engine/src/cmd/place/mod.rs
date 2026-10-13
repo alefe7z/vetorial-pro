@@ -198,13 +198,14 @@ fn load(p: &Value, cmd: &str, board: Option<Rect>) -> Result<Loaded> {
             // Of the open options, only a DXF drawing's apply (the colour mode stays the file's).
             let o = fileio::LoadOptions { dxf: opts.dxf, ..Default::default() };
             let mut l = fileio::load_with(src.name, &src.bytes, &o)?;
-            // An Affinity file whose native document couldn't be read is only its preview: it
+            // An Affinity or CorelDRAW file whose drawing couldn't be read is only its preview: it
             // must never silently stand in for the art.
             if l.preview_only {
+                let app = l.format.label;
                 return Err(bad(
                     cmd,
                     format!(
-                        "{name}: only this Affinity file's embedded preview could be read; use File › Open to see it with its warning, or export SVG or PDF from Affinity before placing"
+                        "{name}: only this {app} file's embedded preview could be read; use File › Open to see it with its warning, or export SVG or PDF from {app} before placing"
                     ),
                 ));
             }

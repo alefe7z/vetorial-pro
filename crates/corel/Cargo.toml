@@ -1,0 +1,18 @@
+[package]
+name = "vectorcraft-corel"
+description = "Bounded reader for CorelDRAW documents (.cdr, .cdt): RIFF and zipped containers, pages, layers, curves, shapes, fills and outlines"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[lints]
+workspace = true
+
+[features]
+# Synthetic-file builders for tests; not a CorelDRAW exporter.
+synth = []
+
+[dependencies]
+flate2 = { workspace = true }
+kurbo = { workspace = true }

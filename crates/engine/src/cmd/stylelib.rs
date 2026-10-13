@@ -224,7 +224,13 @@ fn load(s: &mut Session, p: &Value) -> Result<Value> {
             None => {
                 let loaded = super::fileio::load(file, bytes).map_err(|e| bad(C, e.to_string()))?;
                 if loaded.preview_only {
-                    return Err(bad(C, "only this Affinity file's embedded preview could be read; use File › Open to see it with its warning"));
+                    return Err(bad(
+                        C,
+                        format!(
+                            "only this {} file's embedded preview could be read; use File › Open to see it with its warning",
+                            loaded.format.label
+                        ),
+                    ));
                 }
                 StyleLibrary::from_document(&loaded.doc, &[], stem(file).to_string()).map_err(|e| bad(C, e))
             }

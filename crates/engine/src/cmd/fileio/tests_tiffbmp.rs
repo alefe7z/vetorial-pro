@@ -143,7 +143,7 @@ fn the_formats_are_listed_and_write_one_file_per_artboard() {
     let find = |id: &str| r["formats"].as_array().unwrap().iter().find(|f| f["id"] == id).unwrap().clone();
     let (tiff, bmp, tga) = (find("tiff"), find("bmp"), find("tga"));
     assert_eq!((tiff["write"].as_bool(), tiff["read"].as_bool()), (Some(true), Some(true)));
-    assert_eq!((bmp["write"].as_bool(), tga["write"].as_bool(), tga["read"].as_bool()), (Some(true), Some(true), Some(false)));
+    assert_eq!((bmp["write"].as_bool(), tga["write"].as_bool(), tga["read"].as_bool()), (Some(true), Some(true), Some(true)));
     for (f, keys) in [
         (&tiff, &["colorModel", "lzw", "byteOrder", "embedIcc", "ppi", "antiAlias"][..]),
         (&bmp, &["colorModel", "depth", "fileFormat", "rle", "flipRows", "reduction", "dither"]),

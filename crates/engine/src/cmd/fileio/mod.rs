@@ -15,12 +15,14 @@
 //! - `eps`: EPS export options (flattened transparency, previews, the embedded document), `document.exportEps`.
 //! - `dxfimport`: the DXF options `document.open` and Place read, `document.dxfInfo`.
 //! - `metafile`: EMF and WMF export, open and place.
+//! - `corel`: CorelDRAW `.cdr`/`.cdt` open and place (its thumbnail when the drawing can't be read).
 //!
 //! [`FORMATS`] is the single list of formats (append-only); open dialogs use [`open_filters`],
 //! agents query `document.formats`.
 
 mod affinity;
 mod batch;
+mod corel;
 pub mod dxf;
 pub mod dxfimport;
 mod encode;
@@ -87,7 +89,7 @@ pub fn specs() -> Vec<CommandSpec> {
             "Open Document",
             [],
             None,
-            "{path | name | dataBase64 (a file's path, or its name with its bytes), pages?: \"2-3, 5\" (PDF/.ai: 1-based, default all; one artboard each) | page?: n, cropTo?: bounding|art|crop (default)|trim|bleed|media (the box each artboard gets; bounding: the art's bounds; trim: the bleed box round it becomes the document's bleed; a PDF-compatible .ai or a PDF saved with its editing data opens on its trim boxes for crop), password? (encrypted PDFs; see document.pdfInfo), textAs?: text (default: point type per line, lines wrapped in a frame as area type where they lay out the same, in the file's fonts by name; missing ones are listed in warnings) | outlines (glyph paths), layers?: true (default: optional content groups become layers with their visibility, print state and lock — art that is off comes in as a hidden layer; other art goes to a layer per page) | false (one layer per page, without the art that is off; Save then asks for a name), editingData?: true (default: an EPS, .ai or PDF that carries its editor's own copy of the art opens from it, with its layers, hidden objects, guides, artboards and the art outside them; a .ai or PDF whose type shows opens from its PDF part with textAs: outlines) | \"always\" (as true, and a .ai's editing copy is used even where it draws differently from its PDF part, which can be older; the warnings say so) | false (only what its page or PDF part prints, for print pipelines; a .ai saved without PDF compatibility then can't be opened), colorMode?: rgb|cmyk (the mode the document opens in, its colours converted as file.documentColorMode does, grays? as there; default: the file's — a PDF keeps CMYK, Gray and spot inks (spot swatches at a tint) and opens in CMYK when painted mostly in CMYK), grays?: as file.documentColorMode, dxf?: {layout?: \"Model\" (default) | a paper layout's name (document.dxfInfo lists them), unit?, scale? (the ratio: 1 unit of the art = scale drawing units; default: the drawing at 1:1 in its own unit), fit?: false (scale to fit an artboard of fitTo?: [612, 792], turned to the art's orientation), scaleLineweights?: false (lineweights scale with the art), center?: true (false: the drawing's origin on the artboard's bottom-left corner; fitted art's bottom-left corner), mergeLayers?: false (all art on one layer)} (DXF), crop?: as cropTo (its older name)} → {index, title, format, warnings, restored, missingLinks, modifiedLinks, updatedLinks: [{name, path, ids}]}; any readable format (see document.formats): .vectorcraft/.drawcraft, .svg/.svgz, .pdf/.ai, .ait, ASCII .dxf (each DXF layer with art a layer; blocks symbols; what can't come in is listed in warnings), PNG/JPEG/GIF/WebP/TIFF/BMP (an image opens as a document of its size at the resolution it declares, as file.place sizes it; 72 ppi, 1 px = 1 pt, when it declares none), .emf/.wmf (one artboard, the picture's frame; records VectorCraft doesn't read are skipped with one warning), .eps and PostScript .ai (one artboard, the bounding box: an EPS file VectorCraft wrote restores the document it carries, restored: true; other files are read by a PostScript interpreter — paths, colours and spot inks, clips, gradients, images, type in the fonts named — and come in as their TIFF preview, with a warning, when their PostScript can't be read). A PDF/.ai/.ait or SVG saved with Preserve Editing restores the native document it carries (restored: true; a PDF only when no pages are picked), unless the file was changed elsewhere since or the data can't be read: then its artwork is imported and the first warning says why. Templates (native templates, .ait) open as a new untitled document; a restored .ai keeps its path (Save writes .ai again). Linked images are read from their files (looked for at their path, then relative to the document): missing ones show their saved preview (links.relink), modified ones are read again only with Preferences › Update Links: Automatically (else links.update). An SVG's <image> files (relative links from the SVG's folder) stay linked, SVG files become art, missing ones a placeholder in their box (a warning and missingLinks)",
+            "{path | name | dataBase64 (a file's path, or its name with its bytes), pages?: \"2-3, 5\" (PDF/.ai: 1-based, default all; one artboard each) | page?: n, cropTo?: bounding|art|crop (default)|trim|bleed|media (the box each artboard gets; bounding: the art's bounds; trim: the bleed box round it becomes the document's bleed; a PDF-compatible .ai or a PDF saved with its editing data opens on its trim boxes for crop), password? (encrypted PDFs; see document.pdfInfo), textAs?: text (default: point type per line, lines wrapped in a frame as area type where they lay out the same, in the file's fonts by name; missing ones are listed in warnings) | outlines (glyph paths), layers?: true (default: optional content groups become layers with their visibility, print state and lock — art that is off comes in as a hidden layer; other art goes to a layer per page) | false (one layer per page, without the art that is off; Save then asks for a name), editingData?: true (default: an EPS, .ai or PDF that carries its editor's own copy of the art opens from it, with its layers, hidden objects, guides, artboards and the art outside them; a .ai or PDF whose type shows opens from its PDF part with textAs: outlines) | \"always\" (as true, and a .ai's editing copy is used even where it draws differently from its PDF part, which can be older; the warnings say so) | false (only what its page or PDF part prints, for print pipelines; a .ai saved without PDF compatibility then can't be opened), colorMode?: rgb|cmyk (the mode the document opens in, its colours converted as file.documentColorMode does, grays? as there; default: the file's — a PDF keeps CMYK, Gray and spot inks (spot swatches at a tint) and opens in CMYK when painted mostly in CMYK), grays?: as file.documentColorMode, dxf?: {layout?: \"Model\" (default) | a paper layout's name (document.dxfInfo lists them), unit?, scale? (the ratio: 1 unit of the art = scale drawing units; default: the drawing at 1:1 in its own unit), fit?: false (scale to fit an artboard of fitTo?: [612, 792], turned to the art's orientation), scaleLineweights?: false (lineweights scale with the art), center?: true (false: the drawing's origin on the artboard's bottom-left corner; fitted art's bottom-left corner), mergeLayers?: false (all art on one layer)} (DXF), crop?: as cropTo (its older name)} → {index, title, format, warnings, restored, missingLinks, modifiedLinks, updatedLinks: [{name, path, ids}]}; any readable format (see document.formats): .vectorcraft/.drawcraft, .svg/.svgz, .pdf/.ai, .ait, ASCII .dxf (each DXF layer with art a layer; blocks symbols; what can't come in is listed in warnings), PNG/JPEG/GIF/WebP/TIFF/BMP/Targa/Netpbm/QOI/ICO/HDR/EXR/DDS/Farbfeld (an image opens as a document of its size at the resolution it declares, as file.place sizes it; 72 ppi, 1 px = 1 pt, when it declares none), .emf/.wmf (one artboard, the picture's frame; records VectorCraft doesn't read are skipped with one warning), CorelDRAW .cdr/.cdt (pages as artboards side by side, layers, groups and shapes with solid fills and outlines; text, bitmaps and other fills are listed in warnings; the embedded thumbnail when the drawing can't be read, which Place refuses; .cdt opens untitled), .eps, .ps and PostScript .ai (one artboard, the bounding box: an EPS file VectorCraft wrote restores the document it carries, restored: true; other files are read by a PostScript interpreter — paths, colours and spot inks, clips, gradients, images, type in the fonts named — and come in as their TIFF preview, with a warning, when their PostScript can't be read). A PDF/.ai/.ait or SVG saved with Preserve Editing restores the native document it carries (restored: true; a PDF only when no pages are picked), unless the file was changed elsewhere since or the data can't be read: then its artwork is imported and the first warning says why. Templates (native templates, .ait) open as a new untitled document; a restored .ai keeps its path (Save writes .ai again). Linked images are read from their files (looked for at their path, then relative to the document): missing ones show their saved preview (links.relink), modified ones are read again only with Preferences › Update Links: Automatically (else links.update). An SVG's <image> files (relative links from the SVG's folder) stay linked, SVG files become art, missing ones a placeholder in their box (a warning and missingLinks)",
             always,
             load::open
         ),
@@ -579,14 +581,30 @@ pub const FORMATS: &[Format] = &[
     },
     Format { id: "emf", label: "EMF", extensions: &["emf"], mime: "image/emf", read: true, write: true, raster: false, options: metafile::OPTIONS },
     Format { id: "wmf", label: "WMF", extensions: &["wmf"], mime: "image/wmf", read: true, write: true, raster: false, options: metafile::OPTIONS },
-    Format { id: "tga", label: "Targa", extensions: &["tga"], mime: "image/x-tga", read: false, write: true, raster: true, options: TGA_OPTIONS },
+    Format { id: "tga", label: "Targa", extensions: &["tga"], mime: "image/x-tga", read: true, write: true, raster: true, options: TGA_OPTIONS },
     Format { id: "psd", label: "PSD", extensions: &["psd"], mime: "image/x-psd", read: true, write: true, raster: true, options: PSD_OPTIONS },
     // Affinity Photo's `.afphoto` opens by its content but isn't listed: Finder shouldn't offer a
     // vector app for a raster editor's documents.
     reader("affinity", "Affinity", &["af", "afdesign", "afpub"], "application/vnd.affinity", false),
     // Photoshop's large document format: read like a PSD (its merged image), never written.
     reader("psb", "PSB", &["psb"], "image/x-psb", true),
+    // CorelDRAW drawings and templates: shapes, fills, outlines, pages and layers; the embedded
+    // thumbnail when the drawing can't be read.
+    reader("cdr", "CorelDRAW", CDR_EXTS, "application/vnd.corel-draw", false),
+    // PostScript programs, read by the EPS interpreter.
+    reader("ps", "PostScript", &["ps"], "application/postscript", false),
+    // Raster formats read through the image decoders (stored as PNG once placed).
+    reader("pnm", "Netpbm", &["pbm", "pgm", "ppm", "pnm", "pam"], "image/x-portable-anymap", true),
+    reader("qoi", "QOI", &["qoi"], "image/qoi", true),
+    reader("ico", "Windows Icon", &["ico"], "image/x-icon", true),
+    reader("hdr", "Radiance HDR", &["hdr"], "image/vnd.radiance", true),
+    reader("exr", "OpenEXR", &["exr"], "image/x-exr", true),
+    reader("dds", "DirectDraw Surface", &["dds"], "image/vnd-ms.dds", true),
+    reader("ff", "Farbfeld", &["ff"], "image/x-farbfeld", true),
 ];
+
+/// CorelDRAW drawings (`.cdr`) and templates (`.cdt`, opened as new untitled documents).
+pub const CDR_EXTS: &[&str] = &["cdr", "cdt"];
 
 /// Every extension `document.open` reads (the "All readable files" filter of open dialogs).
 pub const OPEN_EXTS: &[&str] = &[
@@ -615,12 +633,27 @@ pub const OPEN_EXTS: &[&str] = &[
     "af",
     "afdesign",
     "afpub",
+    "cdr",
+    "cdt",
+    "ps",
+    "tga",
+    "pbm",
+    "pgm",
+    "ppm",
+    "pnm",
+    "pam",
+    "qoi",
+    "ico",
+    "hdr",
+    "exr",
+    "dds",
+    "ff",
 ];
 
 /// Extensions in [`OPEN_EXTS`] the desktop packaging doesn't associate with VectorCraft: Photoshop
-/// documents belong to raster editors, so Finder and file managers don't offer a vector app for
-/// them (File › Open and Place still read them).
-pub const UNASSOCIATED_EXTS: &[&str] = &["psd", "psb"];
+/// documents and the less common raster formats belong to raster editors and viewers, so Finder and
+/// file managers don't offer a vector app for them (File › Open and Place still read them).
+pub const UNASSOCIATED_EXTS: &[&str] = &["psd", "psb", "tga", "pbm", "pgm", "ppm", "pnm", "pam", "qoi", "ico", "hdr", "exr", "dds", "ff"];
 
 /// The extension that picks each writable format when exporting (the format's first; PNG-8 shares
 /// `.png` with PNG, so `.png` comes once), in [`FORMATS`] order.
@@ -664,6 +697,21 @@ pub const PLACE_EXTS: &[&str] = &[
     "af",
     "afdesign",
     "afpub",
+    "cdr",
+    "cdt",
+    "ps",
+    "tga",
+    "pbm",
+    "pgm",
+    "ppm",
+    "pnm",
+    "pam",
+    "qoi",
+    "ico",
+    "hdr",
+    "exr",
+    "dds",
+    "ff",
     "txt",
 ];
 
@@ -1074,6 +1122,8 @@ pub(crate) fn write_or_return(path: Option<&str>, bytes: &[u8], extra: Value) ->
 mod tests;
 #[cfg(test)]
 mod tests_affinity;
+#[cfg(test)]
+mod tests_corel;
 #[cfg(test)]
 mod tests_pdf;
 #[cfg(test)]

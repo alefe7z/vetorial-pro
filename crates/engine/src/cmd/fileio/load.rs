@@ -73,10 +73,14 @@ pub fn detect(name: &str, bytes: &[u8]) -> Option<&'static Format> {
     if vectorcraft_svg::is_svgz(bytes) {
         return format("svgz");
     }
+    if vectorcraft_corel::is_cdr(bytes) {
+        // A template keeps its meaning from the extension.
+        return format("cdr");
+    }
     if vectorcraft_pdf::is_postscript(bytes) {
         // PostScript (.eps, and .ai saved without PDF compatibility) by any name; .ai and .ait
         // keep their meaning (a template), read as PostScript all the same.
-        return by_name.filter(|f| matches!(f.id, "ai" | "ait")).or_else(|| format("eps"));
+        return by_name.filter(|f| matches!(f.id, "ai" | "ait" | "ps")).or_else(|| format("eps"));
     }
     if bytes.starts_with(b"%PDF") {
         // .ai and .ait files are PDF inside; the extension keeps the template meaning.
@@ -248,6 +252,13 @@ pub fn load_with(name: &str, bytes: &[u8], opts: &LoadOptions) -> Result<Loaded>
             preview_only = i.preview_only;
             (i.doc, i.warnings, false)
         }
+        "cdr" => {
+            let mut i = super::corel::import(&title, bytes)?;
+            preview_only = i.preview_only;
+            // A CorelDRAW template opens as a new untitled document.
+            i.doc.template = super::extension(name) == "cdt";
+            (i.doc, i.warnings, false)
+        }
         _ if format.raster => (raster_doc(&title, bytes)?, vec![], false),
         _ => return Err(err(format!("{} files can't be opened yet", format.label))),
     };
@@ -319,9 +330,10 @@ pub fn open_read(s: &mut Session, file: ReadFile, path: Option<String>) -> Resul
 pub fn open_template(s: &mut Session, name: &str, bytes: &[u8], path: Option<&str>) -> Result<Value> {
     let loaded = load(name, bytes)?;
     if loaded.preview_only {
-        return Err(err(
-            "only this Affinity file's embedded preview could be read: use File › Open to see it with its warning, or export SVG or PDF from Affinity first",
-        ));
+        let app = loaded.format.label;
+        return Err(err(format!(
+            "only this {app} file's embedded preview could be read: use File › Open to see it with its warning, or export SVG or PDF from {app} first"
+        )));
     }
     open_loaded(s, loaded, path.map(str::to_string), &LoadOptions::default(), true)
 }
@@ -425,6 +437,10 @@ pub fn raster_image(bytes: &[u8]) -> Result<RasterImage> {
     let mut limits = image::Limits::default();
     limits.max_alloc = Some(MAX_RASTER_ALLOC);
     reader.limits(limits);
+    // Targa files have no signature: told by their header.
+    if reader.format().is_none() && looks_like_tga(bytes) {
+        reader.set_format(image::ImageFormat::Tga);
+    }
     let kind = reader.format().ok_or_else(|| err("not an image VectorCraft reads (see document.formats)"))?;
     let f = image_format(kind).ok_or_else(|| err(format!("{kind:?} images can't be opened (see document.formats)")))?;
     let cmyk = || ImageBlob::new(f.mime, bytes.to_vec()).cmyk().is_some();
@@ -441,6 +457,14 @@ pub fn raster_image(bytes: &[u8]) -> Result<RasterImage> {
         None => reader.decode().map_err(err)?.to_rgba8(),
     };
     as_png(img, ppi)
+}
+
+/// Does `bytes` start with a plausible Targa header (no colour map or a colour map, a known image
+/// type, a size and a usual depth)?
+fn looks_like_tga(bytes: &[u8]) -> bool {
+    let [_, map, kind, ..] = bytes else { return false };
+    let u16_at = |at: usize| bytes.get(at..at + 2).map_or(0, |b| u16::from_le_bytes([b[0], b[1]]));
+    *map <= 1 && matches!(kind, 1 | 2 | 3 | 9 | 10 | 11) && u16_at(12) > 0 && u16_at(14) > 0 && matches!(bytes.get(16), Some(8 | 15 | 16 | 24 | 32))
 }
 
 /// `img` stored as a PNG that keeps the file's resolution.

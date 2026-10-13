@@ -38,6 +38,7 @@ vectorcraft-metafile = { path = "crates/metafile" }
 vectorcraft-plugins = { path = "crates/plugins" }
 vectorcraft-affinity = { path = "crates/affinity" }
 vectorcraft-scriptcheck = { path = "crates/scriptcheck" }
+vectorcraft-corel = { path = "crates/corel" }
 
 # foundation
 kurbo = { version = "0.13", features = ["serde"] }
@@ -59,7 +60,7 @@ wat = "1.228"
 
 # rendering / formats
 vello_cpu = { version = "0.2", features = ["f32_pipeline"] }
-image = { version = "0.25", default-features = false, features = ["png", "jpeg", "webp", "gif", "tiff", "bmp"] }
+image = { version = "0.25", default-features = false, features = ["png", "jpeg", "webp", "gif", "tiff", "bmp", "tga", "pnm", "qoi", "ico", "hdr", "exr", "dds", "ff"] }
 usvg = "0.48"
 krilla = "0.8"
 skrifa = "0.47"

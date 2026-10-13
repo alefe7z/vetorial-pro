@@ -46,9 +46,12 @@ jobs:
           New-Item -ItemType Directory -Force -Path dist | Out-Null
           Copy-Item target/x86_64-pc-windows-msvc/release/vectorcraft.exe dist/Vetorial.exe
           Copy-Item LICENSE-MIT, LICENSE-APACHE, NOTICE -Destination dist/
+          # Nomes de artefato não podem ter "/" (ex.: claude/minha-branch).
+          $safe = '${{ github.ref_name }}' -replace '[\\/:*?"<>|]', '-'
+          "ARTIFACT=Vetorial-$safe-windows" | Out-File -FilePath $env:GITHUB_ENV -Append
 
       - uses: actions/upload-artifact@v4
         with:
-          name: Vetorial-${{ github.ref_name }}-windows
+          name: ${{ env.ARTIFACT }}
           path: dist/
           if-no-files-found: error

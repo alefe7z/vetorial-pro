@@ -4325,3 +4325,52 @@ lighting	Light	Luce
 	 to bend the curve through that point  |  	 per curvare la linea attraverso quel punto  |  
 	 to cancel	 per annullare
 	Nudge Distance	Distanza di spostamento
+	Color Palettes	Tavolozze colori
+	Color Palette	Tavolozza colori
+	Close All Palettes	Chiudi tutte le tavolozze
+	Document Palette	Tavolozza del documento
+	Default CMYK Palette	Tavolozza CMYK predefinita
+	Default RGB Palette	Tavolozza RGB predefinita
+	Open Palette…	Apri tavolozza…
+	Create Palette from Selection	Crea tavolozza dalla selezione
+	Create Palette from Document	Crea tavolozza dal documento
+	Palette Editor…	Editor tavolozze…
+	Palette Editor	Editor tavolozze
+	Palette Eyedropper	Contagocce tavolozza
+	New Palette	Nuova tavolozza
+	Edit Palette	Modifica tavolozza
+	Delete Palette	Elimina tavolozza
+	Add Color	Aggiungi colore
+	Add a colour from the art to this palette	Aggiungi a questa tavolozza un colore della grafica
+	Apply Changes	Applica modifiche
+	Click a colour on the art to add it to the palette	Fai clic su un colore della grafica per aggiungerlo alla tavolozza
+	Close Palette	Chiudi tavolozza
+	Delete Color	Elimina colore
+	Make Editable Copy	Crea copia modificabile
+	None (click: fill, right-click: stroke)	Nessuno (clic: riempimento, clic destro: traccia)
+	Rename Palette	Rinomina tavolozza
+	Scroll	Scorri
+	Show as Bar	Mostra come barra
+	This palette is read only: make an editable copy to change it.	Questa tavolozza è di sola lettura: crea una copia modificabile per cambiarla.
+	{name} (copy)	{name} (copia)
+@msg	missing `library`	manca `library`
+@msg	no such user palette	nessuna tavolozza utente di questo tipo
+@msg	no swatch library `{key}` (see swatch.library.list)	nessuna libreria di campioni `{key}` (vedi swatch.library.list)
+@msg	open a document to sample its colours	apri un documento per campionarne i colori
+@msg	side is right, left, top or bottom, not `{s}`	il lato è right, left, top o bottom, non `{s}`
+	Dock Right	Ancora a destra
+	Dock Left	Ancora a sinistra
+	Dock Top	Ancora in alto
+	Dock Bottom	Ancora in basso
+	Color palettes	Tavolozze colori
+	User Palette	Tavolozza utente
+	User Palette 1	Tavolozza utente 1
+	User Palette 2	Tavolozza utente 2
+	User Palette 3	Tavolozza utente 3
+	User Palette 4	Tavolozza utente 4
+	User Palette 5	Tavolozza utente 5
+	User Palette 6	Tavolozza utente 6
+	User Palette 7	Tavolozza utente 7
+	User Palette 8	Tavolozza utente 8
+	User Palette 9	Tavolozza utente 9
+	User Palette 10	Tavolozza utente 10

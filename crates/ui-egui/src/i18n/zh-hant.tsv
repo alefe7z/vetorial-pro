@@ -3694,3 +3694,52 @@ lighting	Light	光源
 	 to bend the curve through that point  |  	可讓曲線彎曲通過該點  |  
 	 to cancel	可取消
 	Nudge Distance	微移距離
+	Color Palettes	調色盤
+	Color Palette	調色盤
+	Close All Palettes	關閉所有調色盤
+	Document Palette	文件調色盤
+	Default CMYK Palette	預設 CMYK 調色盤
+	Default RGB Palette	預設 RGB 調色盤
+	Open Palette…	開啟調色盤…
+	Create Palette from Selection	從選取範圍建立調色盤
+	Create Palette from Document	從文件建立調色盤
+	Palette Editor…	調色盤編輯器…
+	Palette Editor	調色盤編輯器
+	Palette Eyedropper	調色盤滴管
+	New Palette	新增調色盤
+	Edit Palette	編輯調色盤
+	Delete Palette	刪除調色盤
+	Add Color	新增顏色
+	Add a colour from the art to this palette	將圖稿中的顏色加入此調色盤
+	Apply Changes	套用變更
+	Click a colour on the art to add it to the palette	按一下圖稿上的顏色以加入調色盤
+	Close Palette	關閉調色盤
+	Delete Color	刪除顏色
+	Make Editable Copy	建立可編輯副本
+	None (click: fill, right-click: stroke)	無 (按一下: 填色, 按右鍵: 筆畫)
+	Rename Palette	重新命名調色盤
+	Scroll	捲動
+	Show as Bar	顯示為列
+	This palette is read only: make an editable copy to change it.	此調色盤為唯讀：請建立可編輯副本以進行變更。
+	{name} (copy)	{name} (副本)
+@msg	missing `library`	未提供 `library`
+@msg	no such user palette	沒有此使用者調色盤
+@msg	no swatch library `{key}` (see swatch.library.list)	沒有色票庫 `{key}` (請參閱 swatch.library.list)
+@msg	open a document to sample its colours	請開啟文件以取樣其顏色
+@msg	side is right, left, top or bottom, not `{s}`	side 應為 right、left、top 或 bottom，而不是 `{s}`
+	Dock Right	停駐在右側
+	Dock Left	停駐在左側
+	Dock Top	停駐在頂端
+	Dock Bottom	停駐在底端
+	Color palettes	調色盤
+	User Palette	使用者調色盤
+	User Palette 1	使用者調色盤 1
+	User Palette 2	使用者調色盤 2
+	User Palette 3	使用者調色盤 3
+	User Palette 4	使用者調色盤 4
+	User Palette 5	使用者調色盤 5
+	User Palette 6	使用者調色盤 6
+	User Palette 7	使用者調色盤 7
+	User Palette 8	使用者調色盤 8
+	User Palette 9	使用者調色盤 9
+	User Palette 10	使用者調色盤 10

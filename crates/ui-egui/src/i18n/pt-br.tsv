@@ -4751,3 +4751,52 @@ theme	Appearance	Aparência
 	 to bend the curve through that point  |  	 para curvar a linha passando por esse ponto  |  
 	 to cancel	 para cancelar
 	Nudge Distance	Distância de deslocamento
+	Color Palettes	Paletas de cores
+	Color Palette	Paleta de cores
+	Close All Palettes	Fechar todas as paletas
+	Document Palette	Paleta de documentos
+	Default CMYK Palette	Paleta CMYK padrão
+	Default RGB Palette	Paleta RGB padrão
+	Open Palette…	Abrir paleta…
+	Create Palette from Selection	Criar paleta da seleção
+	Create Palette from Document	Criar paleta do documento
+	Palette Editor…	Editor de paletas…
+	Palette Editor	Editor de paletas
+	Palette Eyedropper	Conta-gotas da paleta
+	New Palette	Nova paleta
+	Edit Palette	Editar paleta
+	Delete Palette	Excluir paleta
+	Add Color	Adicionar cor
+	Add a colour from the art to this palette	Adicionar a esta paleta uma cor do desenho
+	Apply Changes	Aplicar alterações
+	Click a colour on the art to add it to the palette	Clique numa cor do desenho para adicioná-la à paleta
+	Close Palette	Fechar paleta
+	Delete Color	Excluir cor
+	Make Editable Copy	Criar cópia editável
+	None (click: fill, right-click: stroke)	Nenhum (clique: preenchimento, clique direito: contorno)
+	Rename Palette	Renomear paleta
+	Scroll	Rolar
+	Show as Bar	Mostrar como barra
+	This palette is read only: make an editable copy to change it.	Esta paleta é somente leitura: crie uma cópia editável para alterá-la.
+	{name} (copy)	{name} (cópia)
+@msg	missing `library`	falta `library`
+@msg	no such user palette	essa paleta do usuário não existe
+@msg	no swatch library `{key}` (see swatch.library.list)	não há biblioteca de amostras `{key}` (veja swatch.library.list)
+@msg	open a document to sample its colours	abra um documento para colher as cores dele
+@msg	side is right, left, top or bottom, not `{s}`	o lado é right, left, top ou bottom, não `{s}`
+	Dock Right	Encaixar à direita
+	Dock Left	Encaixar à esquerda
+	Dock Top	Encaixar em cima
+	Dock Bottom	Encaixar embaixo
+	Color palettes	Paletas de cores
+	User Palette	Paleta do usuário
+	User Palette 1	Paleta do usuário 1
+	User Palette 2	Paleta do usuário 2
+	User Palette 3	Paleta do usuário 3
+	User Palette 4	Paleta do usuário 4
+	User Palette 5	Paleta do usuário 5
+	User Palette 6	Paleta do usuário 6
+	User Palette 7	Paleta do usuário 7
+	User Palette 8	Paleta do usuário 8
+	User Palette 9	Paleta do usuário 9
+	User Palette 10	Paleta do usuário 10

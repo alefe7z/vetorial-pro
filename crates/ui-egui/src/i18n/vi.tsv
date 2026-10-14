@@ -4307,3 +4307,52 @@ theme	Appearance	Giao diện
 	 to bend the curve through that point  |  	 để uốn đường cong qua điểm đó  |  
 	 to cancel	 để hủy
 	Nudge Distance	Khoảng dịch chuyển
+	Color Palettes	Bảng màu
+	Color Palette	Bảng màu
+	Close All Palettes	Đóng tất cả bảng màu
+	Document Palette	Bảng màu tài liệu
+	Default CMYK Palette	Bảng màu CMYK mặc định
+	Default RGB Palette	Bảng màu RGB mặc định
+	Open Palette…	Mở bảng màu…
+	Create Palette from Selection	Tạo bảng màu từ vùng chọn
+	Create Palette from Document	Tạo bảng màu từ tài liệu
+	Palette Editor…	Trình chỉnh sửa bảng màu…
+	Palette Editor	Trình chỉnh sửa bảng màu
+	Palette Eyedropper	Ống hút bảng màu
+	New Palette	Bảng màu mới
+	Edit Palette	Sửa bảng màu
+	Delete Palette	Xóa bảng màu
+	Add Color	Thêm màu
+	Add a colour from the art to this palette	Thêm một màu từ hình vẽ vào bảng màu này
+	Apply Changes	Áp dụng thay đổi
+	Click a colour on the art to add it to the palette	Nhấp vào một màu trên hình vẽ để thêm vào bảng màu
+	Close Palette	Đóng bảng màu
+	Delete Color	Xóa màu
+	Make Editable Copy	Tạo bản sao có thể sửa
+	None (click: fill, right-click: stroke)	Không (nhấp: tô, nhấp phải: nét)
+	Rename Palette	Đổi tên bảng màu
+	Scroll	Cuộn
+	Show as Bar	Hiện dạng thanh
+	This palette is read only: make an editable copy to change it.	Bảng màu này chỉ đọc: hãy tạo bản sao có thể sửa để thay đổi.
+	{name} (copy)	{name} (bản sao)
+@msg	missing `library`	thiếu `library`
+@msg	no such user palette	không có bảng màu người dùng này
+@msg	no swatch library `{key}` (see swatch.library.list)	không có thư viện mẫu màu `{key}` (xem swatch.library.list)
+@msg	open a document to sample its colours	mở một tài liệu để lấy mẫu màu
+@msg	side is right, left, top or bottom, not `{s}`	cạnh là right, left, top hoặc bottom, không phải `{s}`
+	Dock Right	Neo bên phải
+	Dock Left	Neo bên trái
+	Dock Top	Neo phía trên
+	Dock Bottom	Neo phía dưới
+	Color palettes	Bảng màu
+	User Palette	Bảng màu người dùng
+	User Palette 1	Bảng màu người dùng 1
+	User Palette 2	Bảng màu người dùng 2
+	User Palette 3	Bảng màu người dùng 3
+	User Palette 4	Bảng màu người dùng 4
+	User Palette 5	Bảng màu người dùng 5
+	User Palette 6	Bảng màu người dùng 6
+	User Palette 7	Bảng màu người dùng 7
+	User Palette 8	Bảng màu người dùng 8
+	User Palette 9	Bảng màu người dùng 9
+	User Palette 10	Bảng màu người dùng 10

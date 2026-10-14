@@ -1029,6 +1029,6 @@ mod tests {
         let texts = Panel::new().frame(&mut app, vec![], Modifiers::NONE);
         assert!(texts.iter().any(|(t, _)| t == "#FFFFFF"), "the stop's colour row: {texts:?}");
         stop_eyedropper(&mut app);
-        assert_eq!((app.session.tool_id(), app.session.tool_options()), ("eyedropper", json!({"stop": "gradient"})));
+        assert_eq!((app.session.tool_id(), app.session.tool_options()), ("eyedropper", json!({"stop": "gradient", "palette": null})));
     }
 }

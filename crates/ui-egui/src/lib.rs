@@ -38,6 +38,7 @@ pub mod menus;
 pub mod native_menu;
 pub mod opening;
 pub mod palette;
+pub mod palette_bars;
 mod panel_docking;
 pub mod panels;
 pub mod picks;
@@ -1247,6 +1248,10 @@ impl VectorcraftApp {
         }
         if self.ui.toolbar && self.ui.screen_mode < 3 {
             toolbar::show(self, ui);
+        }
+        // The colour palette bars sit at the window's edges, outside the dock.
+        if self.ui.screen_mode < 3 {
+            palette_bars::show(self, ui);
         }
         if self.ui.dock && self.ui.screen_mode < 3 {
             dock::show(self, ui);

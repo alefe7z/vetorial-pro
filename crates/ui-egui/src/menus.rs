@@ -451,6 +451,48 @@ pub const UI_COMMANDS: &[(&str, &str, &str, &str)] = &[
         "",
         "{names?: [the swatches selected in the Swatches panel]} open Save Swatch Library (dialog `saveSwatchLibrary`: name, format: vcswatches|gpl|ase|css, user: save to the user library folder, selectedOnly); OK runs swatch.library.save",
     ),
+    (
+        "window.colorPalette",
+        "Color Palette",
+        "",
+        "{library: swatch library id or name, or \"document\" (the document's swatches), show?: bool (default: toggle), side?: \"right\"|\"left\"|\"top\"|\"bottom\" (the edge it docks on; default right)} show or close a colour palette bar at the window's edge (UI state `palette_bars`): a click on a colour paints the selection's fill, a right-click its stroke → {library, shown}",
+    ),
+    ("window.colorPalettes.closeAll", "Close All Palettes", "", "{} close every colour palette bar"),
+    (
+        "window.colorPalettes.open",
+        "Open Palette…",
+        "",
+        "{path?} (default: pick a file) load a colour palette (.vcswatches, .gpl, .ase, .acb, CorelDRAW .xml: swatch.library.load) and show it as a bar → swatch.library.load's result",
+    ),
+    (
+        "window.colorPalettes.fromSelection",
+        "Create Palette from Selection",
+        "",
+        "{name?} (default: the document's name) a new palette of the selected art's colours in the user library folder (swatch.library.new), shown as a bar and opened in the Palette Editor",
+    ),
+    (
+        "window.colorPalettes.fromDocument",
+        "Create Palette from Document",
+        "",
+        "{name?} (default: the document's name) a new palette of the document's swatches in the user library folder (swatch.library.new), shown as a bar and opened in the Palette Editor",
+    ),
+    ("window.colorPalettes.editor", "Palette Editor…", "", "{library?: id or \"document\"} open the Palette Editor"),
+    (
+        "ui.paletteBar.eyedropper",
+        "Palette Eyedropper",
+        "",
+        "{library: id or \"document\"} the next click on the art adds its colour to the palette (Eyedropper tool option `palette`); a read-only palette is copied into the user library folder first and the bar shows the copy → {library}",
+    ),
+    ("window.userColorPalette1", "User Palette 1", "", "{} show or close the 1. User Defined palette as a bar"),
+    ("window.userColorPalette2", "User Palette 2", "", "{} show or close the 2. User Defined palette as a bar"),
+    ("window.userColorPalette3", "User Palette 3", "", "{} show or close the 3. User Defined palette as a bar"),
+    ("window.userColorPalette4", "User Palette 4", "", "{} show or close the 4. User Defined palette as a bar"),
+    ("window.userColorPalette5", "User Palette 5", "", "{} show or close the 5. User Defined palette as a bar"),
+    ("window.userColorPalette6", "User Palette 6", "", "{} show or close the 6. User Defined palette as a bar"),
+    ("window.userColorPalette7", "User Palette 7", "", "{} show or close the 7. User Defined palette as a bar"),
+    ("window.userColorPalette8", "User Palette 8", "", "{} show or close the 8. User Defined palette as a bar"),
+    ("window.userColorPalette9", "User Palette 9", "", "{} show or close the 9. User Defined palette as a bar"),
+    ("window.userColorPalette10", "User Palette 10", "", "{} show or close the 10. User Defined palette as a bar"),
     ("window.userSwatchLibrary1", "User Swatch Library 1", "", "{} open the 1. User Defined swatch library (swatch.library.list, category user)"),
     ("window.userSwatchLibrary2", "User Swatch Library 2", "", "{} open the 2. User Defined swatch library"),
     ("window.userSwatchLibrary3", "User Swatch Library 3", "", "{} open the 3. User Defined swatch library"),
@@ -920,6 +962,9 @@ pub fn check_params(session: &vectorcraft_engine::Session, id: &str, params: &Va
 
 pub fn run_ui_command(app: &mut VectorcraftApp, id: &str, p: &Value) -> Option<Result<Value, String>> {
     if let Some(result) = crate::panel_docking::command(app, id, p) {
+        return Some(result);
+    }
+    if let Some(result) = crate::palette_bars::command(app, id, p) {
         return Some(result);
     }
     if id == "app.language" {
@@ -1494,6 +1539,9 @@ pub fn checked(app: &VectorcraftApp, id: &str, p: &Value) -> Option<bool> {
             crate::i18n::Lang::from_code(pref).is_some_and(|l| l.code().eq_ignore_ascii_case(lang))
         });
     }
+    if let Some(on) = crate::palette_bars::checked(app, id, p) {
+        return Some(on);
+    }
     let v = &app.ui.view;
     // An item that can be on or off is `Some` whatever the document and selection (off with none):
     // the macOS menu bar can't change an item's kind without rebuilding.
@@ -1630,6 +1678,7 @@ pub fn dynamic_label(app: &VectorcraftApp, id: &str, label: &str) -> String {
         id if id.starts_with(crate::panels::graphic_styles::USER_SLOT) => {
             crate::panels::graphic_styles::user_library(app, id).map_or_else(|| "—".into(), |l| l.name)
         }
+        id if id.starts_with(crate::palette_bars::USER_SLOT) => crate::palette_bars::user_library(app, id).map_or_else(|| "—".into(), |l| l.name),
         id if id.starts_with(crate::dialogs::perspective_presets::SLOT) => {
             crate::dialogs::perspective_presets::slot_preset(app, id).unwrap_or_else(|| "—".into())
         }
@@ -1645,10 +1694,11 @@ pub fn dynamic_label(app: &VectorcraftApp, id: &str, label: &str) -> String {
 /// plug-in? Such names are shown as they are, never translated (a workspace the user calls
 /// "Layers" stays "Layers").
 fn shows_a_name(id: &str, label: &str) -> bool {
-    const SLOTS: [&str; 6] = [
+    const SLOTS: [&str; 7] = [
         "file.openRecent",
         "view.goto",
         "type.recentFont",
+        crate::palette_bars::USER_SLOT,
         crate::panels::swatches::USER_SLOT,
         crate::panels::graphic_styles::USER_SLOT,
         crate::dialogs::perspective_presets::SLOT,
@@ -1715,6 +1765,7 @@ fn hidden_when_disabled(id: &str) -> bool {
         || id.starts_with("file.openRecent")
         || id.starts_with(crate::panels::swatches::USER_SLOT)
         || id.starts_with(crate::panels::graphic_styles::USER_SLOT)
+        || id.starts_with(crate::palette_bars::USER_SLOT)
         || id.starts_with(crate::dialogs::perspective_presets::SLOT)
 }
 
@@ -1998,6 +2049,11 @@ pub fn enabled(app: &VectorcraftApp, id: &str) -> bool {
         "ui.flattenTransparencyDialog" => app.session.active().is_some_and(|d| !d.selection.is_empty()),
         "ui.saveGraphicStyleLibrary" => app.session.active().is_some(),
         id if id.starts_with(crate::panels::graphic_styles::USER_SLOT) => crate::panels::graphic_styles::user_library(app, id).is_some(),
+        id if id.starts_with(crate::palette_bars::USER_SLOT) => crate::palette_bars::user_library(app, id).is_some(),
+        "window.colorPalettes.fromSelection" => {
+            app.session.swatch_libraries.user_dir().is_some() && app.session.active().is_some_and(|d| !d.selection.is_empty())
+        }
+        "window.colorPalettes.fromDocument" => app.session.swatch_libraries.user_dir().is_some() && app.session.active().is_some(),
         "ui.expandDialog" => app.session.active().is_some_and(|d| !d.selection.is_empty()),
         "ui.spotColors" => app.session.active().is_some(),
         "ui.menuDialog" => app.session.active().is_some_and(|d| !d.selection.is_empty()),
@@ -2623,6 +2679,7 @@ pub fn menu_tree_named(english_names: bool) -> Vec<(&'static str, Vec<Item>)> {
                 c("Contextual Task Bar", "window.taskBar"),
                 c("Tools", "window.toolbar"),
                 sub("Toolbars", vec![c("Advanced", "window.toolbarAdvanced"), c("Double Column", "window.toolbarColumns")]),
+                sub("Color Palettes", crate::palette_bars::window_menu()),
                 Sep,
                 panel("Actions", "actions"),
                 panel("Align", "align"),

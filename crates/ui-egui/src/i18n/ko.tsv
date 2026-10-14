@@ -4289,3 +4289,52 @@ lighting	Light	광원
 	 to bend the curve through that point  |  	 그 점을 지나도록 곡선 구부리기  |  
 	 to cancel	 취소
 	Nudge Distance	이동 간격
+	Color Palettes	색상 팔레트
+	Color Palette	색상 팔레트
+	Close All Palettes	모든 팔레트 닫기
+	Document Palette	문서 팔레트
+	Default CMYK Palette	기본 CMYK 팔레트
+	Default RGB Palette	기본 RGB 팔레트
+	Open Palette…	팔레트 열기…
+	Create Palette from Selection	선택 영역에서 팔레트 만들기
+	Create Palette from Document	문서에서 팔레트 만들기
+	Palette Editor…	팔레트 편집기…
+	Palette Editor	팔레트 편집기
+	Palette Eyedropper	팔레트 스포이드
+	New Palette	새 팔레트
+	Edit Palette	팔레트 편집
+	Delete Palette	팔레트 삭제
+	Add Color	색상 추가
+	Add a colour from the art to this palette	아트워크의 색상을 이 팔레트에 추가
+	Apply Changes	변경 내용 적용
+	Click a colour on the art to add it to the palette	아트워크의 색상을 클릭하여 팔레트에 추가
+	Close Palette	팔레트 닫기
+	Delete Color	색상 삭제
+	Make Editable Copy	편집 가능한 사본 만들기
+	None (click: fill, right-click: stroke)	없음 (클릭: 칠, 오른쪽 클릭: 획)
+	Rename Palette	팔레트 이름 바꾸기
+	Scroll	스크롤
+	Show as Bar	막대로 표시
+	This palette is read only: make an editable copy to change it.	이 팔레트는 읽기 전용입니다. 변경하려면 편집 가능한 사본을 만드십시오.
+	{name} (copy)	{name} (사본)
+@msg	missing `library`	`library`이(가) 없습니다
+@msg	no such user palette	해당 사용자 팔레트가 없습니다
+@msg	no swatch library `{key}` (see swatch.library.list)	견본 라이브러리 `{key}`이(가) 없습니다 (swatch.library.list 참조)
+@msg	open a document to sample its colours	색상을 샘플링하려면 문서를 여십시오
+@msg	side is right, left, top or bottom, not `{s}`	side는 right, left, top 또는 bottom입니다 (`{s}` 아님)
+	Dock Right	오른쪽에 도킹
+	Dock Left	왼쪽에 도킹
+	Dock Top	위쪽에 도킹
+	Dock Bottom	아래쪽에 도킹
+	Color palettes	색상 팔레트
+	User Palette	사용자 팔레트
+	User Palette 1	사용자 팔레트 1
+	User Palette 2	사용자 팔레트 2
+	User Palette 3	사용자 팔레트 3
+	User Palette 4	사용자 팔레트 4
+	User Palette 5	사용자 팔레트 5
+	User Palette 6	사용자 팔레트 6
+	User Palette 7	사용자 팔레트 7
+	User Palette 8	사용자 팔레트 8
+	User Palette 9	사용자 팔레트 9
+	User Palette 10	사용자 팔레트 10

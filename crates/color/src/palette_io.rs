@@ -2,7 +2,8 @@
 //! and colour groups exactly), `.gpl` palettes (8-bit RGB; colour groups as `# Group:` comment
 //! headers), swatch exchange `.ase` files (binary: solid colors in their own model, global, spot
 //! and process colors, color groups), color books `.acb` (read only: the books a user owns, such
-//! as a Pantone book) and CSS custom properties (written only).
+//! as a Pantone book), CorelDRAW palettes `.xml` (read only, [`crate::corel_palette`]) and CSS
+//! custom properties (written only).
 
 use std::collections::{HashMap, HashSet};
 
@@ -316,6 +317,9 @@ pub fn read(text: &str, name: &str) -> Result<SwatchLibrary, String> {
     if text.starts_with(GPL_HEADER) {
         return Ok(read_gpl(text, name));
     }
+    if crate::corel_palette::sniff(text) {
+        return crate::corel_palette::read(text, name);
+    }
     if text.starts_with('{') {
         let f: NativeFile = serde_json::from_str(text).map_err(|e| format!("not a swatch library: {e}"))?;
         if f.format != NATIVE_FORMAT {
@@ -327,13 +331,13 @@ pub fn read(text: &str, name: &str) -> Result<SwatchLibrary, String> {
         }
         return Ok(lib);
     }
-    Err("not a swatch library (.vcswatches or .gpl)".into())
+    Err("not a swatch library (.vcswatches, .gpl or a CorelDRAW .xml palette)".into())
 }
 
 /// Is `text` a library [`read`] understands?
 pub fn sniff(text: &str) -> bool {
     let t = text.trim_start_matches('\u{feff}').trim_start();
-    t.starts_with(GPL_HEADER) || (t.starts_with('{') && t.contains(NATIVE_FORMAT))
+    t.starts_with(GPL_HEADER) || (t.starts_with('{') && t.contains(NATIVE_FORMAT)) || crate::corel_palette::sniff(t)
 }
 
 /// Read the bytes of a library file: a swatch exchange `.ase` file, else a `.vcswatches` or

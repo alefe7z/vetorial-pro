@@ -72,7 +72,7 @@ pub fn specs() -> Vec<CommandSpec> {
             "Other Library…",
             ["Window", "Swatch Libraries"],
             None,
-            "{path? | data?: file text | dataBase64?, name?: file name (default: the path's)} load a .vcswatches, .gpl, .ase (swatch exchange) or .acb (color book, read only) library, or the swatches of any document VectorCraft opens (see document.formats), for the library panel (Window → Swatch Libraries lists it until the app quits; a file of the user library folder, or a file with the same extension and bytes as one there, opens as that User Defined library) → {library: id, name, count}",
+            "{path? | data?: file text | dataBase64?, name?: file name (default: the path's)} load a .vcswatches, .gpl, .ase (swatch exchange), .acb (color book, read only) or CorelDRAW .xml palette (read only) library, or the swatches of any document VectorCraft opens (see document.formats), for the library panel (Window → Swatch Libraries lists it until the app quits; a file of the user library folder, or a file with the same extension and bytes as one there, opens as that User Defined library) → {library: id, name, count}",
             always,
             load
         ),
@@ -84,6 +84,33 @@ pub fn specs() -> Vec<CommandSpec> {
             "{library: id or name of a loaded library (category \"loaded\", swatch.library.load)} copy it into the user library folder of the desktop app, whose libraries VectorCraft lists as User Defined every time it starts (a loaded library is listed until the app quits): a library file as it is, the swatches of a document or a library loaded from data as a .vcswatches file. A name the folder already has gets a number (\"Brand 2.ase\") and no file is replaced; when the folder already holds the same file, that file is used. The library is then listed as User Defined only, and until the app quits commands given its loaded id use the copy; a User Defined library comes back as it is → {library: its User Defined id, name, count, path, copied: false when nothing was written}",
             has_user_folder,
             copy_to_user
+        ),
+        cmd!(
+            "swatch.library.new",
+            "New Palette",
+            ["Window", "Color Palettes"],
+            None,
+            "{name?: \"New Palette\", from?: \"document\" (the document's swatches) | \"selection\" (the solid colours of the selected art) | library id or name (a copy of it), colors?: [color, as paint.setFill's] (added after `from`)} make an editable palette: a .vcswatches library in the user library folder, listed as User Defined. A name the folder already has gets a number → {library: its id, name, path, count}",
+            has_user_folder,
+            new_palette
+        ),
+        cmd!(
+            "swatch.library.edit",
+            "Edit Palette",
+            ["Window", "Color Palettes"],
+            None,
+            "{library: a User Defined library's id or name, op: \"add\"|\"set\"|\"delete\"|\"move\"|\"rename\", color?: colour as paint.setFill's (add; set: the new colour), name?: the colour (set, delete, move; add: its name, default its values), names?: [colours to delete], index?: add: where among the ungrouped colours (default: the end); move: the new index in its own list, newName?: set: the colour's new name; rename: the palette's} change a palette of the user library folder and save its file (.vcswatches, .gpl or .ase; a read-only .acb or .xml palette is copied with swatch.library.new {from} first). Names stay unique: a taken one gets a number → {library, name: the colour's name (add, set, move) or the library's (rename), count}",
+            has_user_folder,
+            edit_palette
+        ),
+        cmd!(
+            "swatch.library.delete",
+            "Delete Palette",
+            ["Window", "Color Palettes"],
+            None,
+            "{library: a User Defined library's id or name} delete its file from the user library folder → {library, path}",
+            has_user_folder,
+            delete_palette
         ),
     ]
 }
@@ -130,7 +157,7 @@ impl LibraryFile for SwatchLibrary {
 }
 
 /// The extensions of library files [`palette_io::read_bytes`] reads.
-pub const LIBRARY_EXTS: &[&str] = &["vcswatches", "gpl", "ase", "acb"];
+pub const LIBRARY_EXTS: &[&str] = &["vcswatches", "gpl", "ase", "acb", "xml"];
 
 /// A library file the save commands write ([`Libraries::write`]).
 pub(crate) enum FileData {
@@ -300,6 +327,177 @@ impl<L: LibraryFile> Libraries<L> {
         self.copied.push((id.to_string(), info.id.clone()));
         Ok((info, lib, written.is_some()))
     }
+}
+
+impl Libraries<SwatchLibrary> {
+    /// Write a new library file `bytes` into the user library folder as `name`.`ext` (a name the
+    /// folder has gets a number) → its User Defined id and path.
+    fn create_user(&mut self, name: &str, ext: &str, bytes: &[u8], cmd: &str) -> Result<(String, String)> {
+        let dir = self.user_dir().ok_or_else(|| bad(cmd, "no user library folder here"))?.to_string();
+        let mut taken: HashSet<String> = library_files(&dir, LIBRARY_EXTS).iter().map(|p| file_name(p).to_lowercase()).collect();
+        let file = free_name(&library_file_name(name, ext), &mut taken);
+        let path = std::path::Path::new(&dir).join(&file).to_string_lossy().to_string();
+        // The app's own folder, under a name made safe: no root applies.
+        crate::file_access::unconfined(|| create_dir(&dir).and_then(|()| write_new_file(&path, bytes)))?;
+        self.rescan();
+        Ok((format!("user/{file}"), path))
+    }
+
+    /// The User Defined library `key` (an id or a name) with its file.
+    fn user_library(&self, key: &str, cmd: &str) -> Result<(LibraryInfo, Arc<SwatchLibrary>, String)> {
+        let e = self
+            .extra
+            .iter()
+            .filter(|e| e.info.category == "user")
+            .find(|e| e.info.id == key)
+            .or_else(|| self.extra.iter().filter(|e| e.info.category == "user").find(|e| e.info.name.eq_ignore_ascii_case(key)))
+            .ok_or_else(|| bad(cmd, format!("`{key}` isn't a palette of the user library folder (make one with swatch.library.new)")))?;
+        let path = e.path.clone().ok_or_else(|| bad(cmd, format!("`{key}` has no file")))?;
+        Ok((e.info.clone(), e.lib.clone(), path))
+    }
+}
+
+/// The colour of a palette `color` param.
+fn palette_color(v: Option<&Value>, cmd: &str) -> Result<vectorcraft_color::Color> {
+    let v = v.ok_or_else(|| bad(cmd, "missing `color`"))?;
+    super::color_value(v).ok_or_else(|| bad(cmd, format!("bad color {v}")))
+}
+
+/// `base`, or `base N` with the first number no swatch of `lib` has (but `except`).
+fn free_swatch_name(lib: &SwatchLibrary, base: &str, except: Option<&str>) -> String {
+    let base = base.trim();
+    let base = if base.is_empty() { "Color" } else { base };
+    let taken = |n: &str| Some(n) != except && lib.iter().any(|w| w.name == n);
+    if !taken(base) {
+        return base.to_string();
+    }
+    (2..).map(|i| format!("{base} {i}")).find(|n| !taken(n)).unwrap_or_else(|| base.to_string())
+}
+
+fn new_palette(s: &mut Session, p: &Value) -> Result<Value> {
+    const C: &str = "swatch.library.new";
+    let name = str_param(p, "name").map(str::trim).filter(|n| !n.is_empty()).unwrap_or("New Palette").to_string();
+    let mut lib = match str_param(p, "from") {
+        None => SwatchLibrary::default(),
+        Some("document") => document_library(&s.doc()?.doc, &[], name.clone(), C)?,
+        Some("selection") => {
+            let st = s.doc()?;
+            if st.selection.objects.is_empty() {
+                return Err(bad(C, "select artwork to make a palette of its colours"));
+            }
+            let (mut linked, mut colors) = (vec![], vec![]);
+            super::swatch::artwork_colors(&st.doc, &st.selection.objects, false, &mut linked, &mut colors);
+            let mut lib = SwatchLibrary::default();
+            for c in linked.iter().filter_map(|n| st.doc.swatch(n).and_then(|w| w.paint.color())).chain(colors) {
+                if !lib.iter().any(|w| w.paint.color() == Some(c)) {
+                    let n = free_swatch_name(&lib, &vectorcraft_doc::swatches::color_name(c), None);
+                    lib.swatches.push(Swatch { name: n, paint: Paint::solid(c), global: false, spot: false });
+                }
+            }
+            lib
+        }
+        Some(key) => {
+            let (_, from) = library(s, key).ok_or_else(|| bad(C, format!("no swatch library `{key}` (see swatch.library.list)")))?;
+            (*from).clone()
+        }
+    };
+    lib.name = name;
+    if let Some(list) = p.get("colors").and_then(Value::as_array) {
+        for v in list {
+            let c = palette_color(Some(v), C)?;
+            let n = free_swatch_name(&lib, &vectorcraft_doc::swatches::color_name(c), None);
+            lib.swatches.push(Swatch { name: n, paint: Paint::solid(c), global: false, spot: false });
+        }
+    }
+    let bytes = palette_io::write(&lib, PaletteFormat::Native).map_err(|e| bad(C, e))?;
+    let (id, path) = s.swatch_libraries.create_user(&lib.name, PaletteFormat::Native.id(), &bytes, C)?;
+    let (info, lib) = s.swatch_libraries.get(&id).ok_or_else(|| bad(C, format!("the new palette `{id}` can't be read back")))?;
+    Ok(json!({"library": info.id, "name": info.name, "path": path, "count": lib.len()}))
+}
+
+fn edit_palette(s: &mut Session, p: &Value) -> Result<Value> {
+    const C: &str = "swatch.library.edit";
+    let key = str_param(p, "library").ok_or_else(|| bad(C, "missing `library`"))?;
+    let (info, lib, path) = s.swatch_libraries.user_library(key, C)?;
+    let format = PaletteFormat::parse(&extension(&path)).filter(|f| f.readable()).ok_or_else(|| {
+        bad(C, format!("`{}` is read only (a .{} file): copy it with swatch.library.new {{from}} to edit it", info.name, extension(&path)))
+    })?;
+    let mut lib = (*lib).clone();
+    let name_param = |k: &str| str_param(p, k).map(str::trim).filter(|n| !n.is_empty());
+    // The list holding swatch `name`, and its index there.
+    fn find<'a>(lib: &'a mut SwatchLibrary, name: &str) -> Option<(&'a mut Vec<Swatch>, usize)> {
+        if let Some(i) = lib.swatches.iter().position(|w| w.name == name) {
+            return Some((&mut lib.swatches, i));
+        }
+        lib.groups.iter_mut().find_map(|g| g.swatches.iter().position(|w| w.name == name).map(|i| (&mut g.swatches, i)))
+    }
+    let missing = |n: &str| bad(C, format!("`{}` has no colour `{n}`", info.name));
+    let result_name = match str_param(p, "op").unwrap_or("") {
+        "add" => {
+            let c = palette_color(p.get("color"), C)?;
+            let base = name_param("name").map_or_else(|| vectorcraft_doc::swatches::color_name(c), str::to_string);
+            let n = free_swatch_name(&lib, &base, None);
+            let at = p.get("index").and_then(Value::as_u64).map_or(lib.swatches.len(), |i| (i as usize).min(lib.swatches.len()));
+            lib.swatches.insert(at, Swatch { name: n.clone(), paint: Paint::solid(c), global: false, spot: false });
+            n
+        }
+        "set" => {
+            let name = name_param("name").ok_or_else(|| bad(C, "missing `name`"))?;
+            let color = p.get("color").filter(|v| !v.is_null()).map(|v| palette_color(Some(v), C)).transpose()?;
+            let new_name = name_param("newName").map(|n| free_swatch_name(&lib, n, Some(name)));
+            let (list, i) = find(&mut lib, name).ok_or_else(|| missing(name))?;
+            let w = &mut list[i];
+            if let Some(c) = color {
+                w.paint = Paint::solid(c);
+            }
+            if let Some(n) = new_name {
+                w.name = n;
+            }
+            w.name.clone()
+        }
+        "delete" => {
+            let mut names = str_list(p, "names");
+            names.extend(name_param("name").map(str::to_string));
+            if names.is_empty() {
+                return Err(bad(C, "give `name` or `names`"));
+            }
+            for n in &names {
+                let (list, i) = find(&mut lib, n).ok_or_else(|| missing(n))?;
+                list.remove(i);
+            }
+            lib.groups.retain(|g| !g.swatches.is_empty());
+            String::new()
+        }
+        "move" => {
+            let name = name_param("name").ok_or_else(|| bad(C, "missing `name`"))?;
+            let to = p.get("index").and_then(Value::as_u64).ok_or_else(|| bad(C, "missing `index`"))? as usize;
+            let (list, i) = find(&mut lib, name).ok_or_else(|| missing(name))?;
+            let w = list.remove(i);
+            let to = to.min(list.len());
+            list.insert(to, w);
+            name.to_string()
+        }
+        "rename" => {
+            lib.name = name_param("newName").ok_or_else(|| bad(C, "missing `newName`"))?.to_string();
+            lib.name.clone()
+        }
+        other => return Err(bad(C, format!("op is add, set, delete, move or rename, not `{other}`"))),
+    };
+    let bytes = palette_io::write(&lib, format).map_err(|e| bad(C, e))?;
+    // The app's own folder: no root applies.
+    crate::file_access::unconfined(|| write_file(&path, &bytes))?;
+    s.swatch_libraries.rescan();
+    let count = s.swatch_libraries.get(&info.id).map_or(0, |(_, l)| l.len());
+    Ok(json!({"library": info.id, "name": result_name, "count": count}))
+}
+
+fn delete_palette(s: &mut Session, p: &Value) -> Result<Value> {
+    const C: &str = "swatch.library.delete";
+    let key = str_param(p, "library").ok_or_else(|| bad(C, "missing `library`"))?;
+    let (info, _, path) = s.swatch_libraries.user_library(key, C)?;
+    crate::file_access::unconfined(|| std::fs::remove_file(&path).map_err(|e| bad(C, format!("{path}: {e}"))))?;
+    s.swatch_libraries.rescan();
+    Ok(json!({"library": info.id, "path": path}))
 }
 
 /// The file name of library `name` with extension `ext`: characters file systems reject become

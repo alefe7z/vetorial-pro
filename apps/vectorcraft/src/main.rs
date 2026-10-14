@@ -244,13 +244,17 @@ fn decode_saved_prefs(bytes: &[u8]) -> Option<vectorcraft_ui_egui::UiState> {
 }
 
 fn load_prefs(app: &mut VectorcraftApp, saved: Option<vectorcraft_ui_egui::UiState>) {
-    if !prefs_enabled() {
-        return;
+    if prefs_enabled() {
+        if let Some(ui) = saved {
+            app.ui = ui.sanitized();
+        }
+        vectorcraft_ui_egui::prefs_dialog::restore(app);
     }
-    if let Some(ui) = saved {
-        app.ui = ui.sanitized();
+    // A first launch (or preferences saved before there were palette bars) docks the default ones.
+    if !app.ui.palette_bars_set {
+        app.ui.palette_bars = vectorcraft_ui_egui::palette_bars::defaults();
+        app.ui.palette_bars_set = true;
     }
-    vectorcraft_ui_egui::prefs_dialog::restore(app);
 }
 
 fn save_prefs(app: &VectorcraftApp) {

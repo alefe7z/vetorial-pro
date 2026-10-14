@@ -4697,3 +4697,52 @@ mark-style	Japanese	Japonesas
 	 to bend the curve through that point  |  	 para curvar la línea por ese punto  |  
 	 to cancel	 para cancelar
 	Nudge Distance	Distancia de desplazamiento
+	Color Palettes	Paletas de colores
+	Color Palette	Paleta de colores
+	Close All Palettes	Cerrar todas las paletas
+	Document Palette	Paleta del documento
+	Default CMYK Palette	Paleta CMYK predeterminada
+	Default RGB Palette	Paleta RGB predeterminada
+	Open Palette…	Abrir paleta…
+	Create Palette from Selection	Crear paleta a partir de la selección
+	Create Palette from Document	Crear paleta a partir del documento
+	Palette Editor…	Editor de paletas…
+	Palette Editor	Editor de paletas
+	Palette Eyedropper	Cuentagotas de paleta
+	New Palette	Nueva paleta
+	Edit Palette	Editar paleta
+	Delete Palette	Eliminar paleta
+	Add Color	Añadir color
+	Add a colour from the art to this palette	Añadir a esta paleta un color de la ilustración
+	Apply Changes	Aplicar cambios
+	Click a colour on the art to add it to the palette	Haga clic en un color de la ilustración para añadirlo a la paleta
+	Close Palette	Cerrar paleta
+	Delete Color	Eliminar color
+	Make Editable Copy	Crear copia editable
+	None (click: fill, right-click: stroke)	Ninguno (clic: relleno, clic derecho: trazo)
+	Rename Palette	Cambiar nombre de paleta
+	Scroll	Desplazar
+	Show as Bar	Mostrar como barra
+	This palette is read only: make an editable copy to change it.	Esta paleta es de solo lectura: cree una copia editable para cambiarla.
+	{name} (copy)	{name} (copia)
+@msg	missing `library`	falta `library`
+@msg	no such user palette	no existe esa paleta de usuario
+@msg	no swatch library `{key}` (see swatch.library.list)	no hay biblioteca de muestras `{key}` (vea swatch.library.list)
+@msg	open a document to sample its colours	abra un documento para tomar sus colores
+@msg	side is right, left, top or bottom, not `{s}`	el lado es right, left, top o bottom, no `{s}`
+	Dock Right	Acoplar a la derecha
+	Dock Left	Acoplar a la izquierda
+	Dock Top	Acoplar arriba
+	Dock Bottom	Acoplar abajo
+	Color palettes	Paletas de colores
+	User Palette	Paleta de usuario
+	User Palette 1	Paleta de usuario 1
+	User Palette 2	Paleta de usuario 2
+	User Palette 3	Paleta de usuario 3
+	User Palette 4	Paleta de usuario 4
+	User Palette 5	Paleta de usuario 5
+	User Palette 6	Paleta de usuario 6
+	User Palette 7	Paleta de usuario 7
+	User Palette 8	Paleta de usuario 8
+	User Palette 9	Paleta de usuario 9
+	User Palette 10	Paleta de usuario 10

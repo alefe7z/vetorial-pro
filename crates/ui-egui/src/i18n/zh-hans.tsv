@@ -3913,3 +3913,52 @@ lighting	Light	光源
 	 to bend the curve through that point  |  	以使曲线经过该点弯曲  |  
 	 to cancel	以取消
 	Nudge Distance	微移距离
+	Color Palettes	调色板
+	Color Palette	调色板
+	Close All Palettes	关闭所有调色板
+	Document Palette	文档调色板
+	Default CMYK Palette	默认 CMYK 调色板
+	Default RGB Palette	默认 RGB 调色板
+	Open Palette…	打开调色板…
+	Create Palette from Selection	从所选内容创建调色板
+	Create Palette from Document	从文档创建调色板
+	Palette Editor…	调色板编辑器…
+	Palette Editor	调色板编辑器
+	Palette Eyedropper	调色板吸管
+	New Palette	新建调色板
+	Edit Palette	编辑调色板
+	Delete Palette	删除调色板
+	Add Color	添加颜色
+	Add a colour from the art to this palette	将图稿中的颜色添加到此调色板
+	Apply Changes	应用更改
+	Click a colour on the art to add it to the palette	单击图稿上的颜色以将其添加到调色板
+	Close Palette	关闭调色板
+	Delete Color	删除颜色
+	Make Editable Copy	创建可编辑副本
+	None (click: fill, right-click: stroke)	无 (单击: 填色, 右键单击: 描边)
+	Rename Palette	重命名调色板
+	Scroll	滚动
+	Show as Bar	显示为栏
+	This palette is read only: make an editable copy to change it.	此调色板为只读：请创建可编辑副本以进行更改。
+	{name} (copy)	{name} (副本)
+@msg	missing `library`	缺少 `library`
+@msg	no such user palette	没有此用户调色板
+@msg	no swatch library `{key}` (see swatch.library.list)	没有色板库 `{key}` (参见 swatch.library.list)
+@msg	open a document to sample its colours	请打开文档以取样其颜色
+@msg	side is right, left, top or bottom, not `{s}`	side 应为 right、left、top 或 bottom，而不是 `{s}`
+	Dock Right	停靠在右侧
+	Dock Left	停靠在左侧
+	Dock Top	停靠在顶部
+	Dock Bottom	停靠在底部
+	Color palettes	调色板
+	User Palette	用户调色板
+	User Palette 1	用户调色板 1
+	User Palette 2	用户调色板 2
+	User Palette 3	用户调色板 3
+	User Palette 4	用户调色板 4
+	User Palette 5	用户调色板 5
+	User Palette 6	用户调色板 6
+	User Palette 7	用户调色板 7
+	User Palette 8	用户调色板 8
+	User Palette 9	用户调色板 9
+	User Palette 10	用户调色板 10

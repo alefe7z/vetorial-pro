@@ -4305,3 +4305,52 @@ lighting	Light	Світло
 	 to bend the curve through that point  |  	 щоб вигнути криву через цю точку  |  
 	 to cancel	 для скасування
 	Nudge Distance	Крок зсуву
+	Color Palettes	Палітри кольорів
+	Color Palette	Палітра кольорів
+	Close All Palettes	Закрити всі палітри
+	Document Palette	Палітра документа
+	Default CMYK Palette	Типова палітра CMYK
+	Default RGB Palette	Типова палітра RGB
+	Open Palette…	Відкрити палітру…
+	Create Palette from Selection	Створити палітру з виділення
+	Create Palette from Document	Створити палітру з документа
+	Palette Editor…	Редактор палітр…
+	Palette Editor	Редактор палітр
+	Palette Eyedropper	Піпетка палітри
+	New Palette	Нова палітра
+	Edit Palette	Змінити палітру
+	Delete Palette	Видалити палітру
+	Add Color	Додати колір
+	Add a colour from the art to this palette	Додати до палітри колір з ілюстрації
+	Apply Changes	Застосувати зміни
+	Click a colour on the art to add it to the palette	Клацніть колір на ілюстрації, щоб додати його до палітри
+	Close Palette	Закрити палітру
+	Delete Color	Видалити колір
+	Make Editable Copy	Створити редаговану копію
+	None (click: fill, right-click: stroke)	Немає (клацання: заливка, правий клац: обведення)
+	Rename Palette	Перейменувати палітру
+	Scroll	Прокрутити
+	Show as Bar	Показувати як панель
+	This palette is read only: make an editable copy to change it.	Ця палітра лише для читання: щоб змінити її, створіть редаговану копію.
+	{name} (copy)	{name} (копія)
+@msg	missing `library`	не вказано `library`
+@msg	no such user palette	такої палітри користувача немає
+@msg	no swatch library `{key}` (see swatch.library.list)	немає бібліотеки зразків `{key}` (див. swatch.library.list)
+@msg	open a document to sample its colours	відкрийте документ, щоб узяти його кольори
+@msg	side is right, left, top or bottom, not `{s}`	сторона: right, left, top або bottom, а не `{s}`
+	Dock Right	Закріпити праворуч
+	Dock Left	Закріпити ліворуч
+	Dock Top	Закріпити вгорі
+	Dock Bottom	Закріпити внизу
+	Color palettes	Палітри кольорів
+	User Palette	Палітра користувача
+	User Palette 1	Палітра користувача 1
+	User Palette 2	Палітра користувача 2
+	User Palette 3	Палітра користувача 3
+	User Palette 4	Палітра користувача 4
+	User Palette 5	Палітра користувача 5
+	User Palette 6	Палітра користувача 6
+	User Palette 7	Палітра користувача 7
+	User Palette 8	Палітра користувача 8
+	User Palette 9	Палітра користувача 9
+	User Palette 10	Палітра користувача 10

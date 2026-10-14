@@ -257,6 +257,10 @@ pub struct UiState {
     /// `libraries` while the dock is collapsed).
     pub open_panel: Option<String>,
     pub control_bar: bool,
+    /// The colour palette bars docked at the window's edges (Window → Color Palettes).
+    pub palette_bars: Vec<crate::palette_bars::PaletteBar>,
+    /// The palette bars were set up once (a first launch shows [`crate::palette_bars::defaults`]).
+    pub palette_bars_set: bool,
     pub toolbar: bool,
     pub toolbar_double: bool,
     /// Advanced toolbar (every tool group) instead of the categorized Basic toolbar.
@@ -602,6 +606,8 @@ impl Default for UiState {
             dock_collapsed: false,
             open_panel: None,
             control_bar: false,
+            palette_bars: vec![],
+            palette_bars_set: false,
             toolbar: true,
             toolbar_double: false,
             toolbar_advanced: false,

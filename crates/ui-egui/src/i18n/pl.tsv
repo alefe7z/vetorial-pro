@@ -4598,3 +4598,52 @@ mark-style	Japanese	Japońskie
 	 to bend the curve through that point  |  	 aby wygiąć krzywą przez ten punkt  |  
 	 to cancel	 aby anulować
 	Nudge Distance	Odległość przesunięcia
+	Color Palettes	Palety kolorów
+	Color Palette	Paleta kolorów
+	Close All Palettes	Zamknij wszystkie palety
+	Document Palette	Paleta dokumentu
+	Default CMYK Palette	Domyślna paleta CMYK
+	Default RGB Palette	Domyślna paleta RGB
+	Open Palette…	Otwórz paletę…
+	Create Palette from Selection	Utwórz paletę z zaznaczenia
+	Create Palette from Document	Utwórz paletę z dokumentu
+	Palette Editor…	Edytor palet…
+	Palette Editor	Edytor palet
+	Palette Eyedropper	Kroplomierz palety
+	New Palette	Nowa paleta
+	Edit Palette	Edytuj paletę
+	Delete Palette	Usuń paletę
+	Add Color	Dodaj kolor
+	Add a colour from the art to this palette	Dodaj do tej palety kolor z grafiki
+	Apply Changes	Zastosuj zmiany
+	Click a colour on the art to add it to the palette	Kliknij kolor w grafice, aby dodać go do palety
+	Close Palette	Zamknij paletę
+	Delete Color	Usuń kolor
+	Make Editable Copy	Utwórz edytowalną kopię
+	None (click: fill, right-click: stroke)	Brak (kliknięcie: wypełnienie, prawy przycisk: obrys)
+	Rename Palette	Zmień nazwę palety
+	Scroll	Przewiń
+	Show as Bar	Pokaż jako pasek
+	This palette is read only: make an editable copy to change it.	Ta paleta jest tylko do odczytu: aby ją zmienić, utwórz edytowalną kopię.
+	{name} (copy)	{name} (kopia)
+@msg	missing `library`	brak `library`
+@msg	no such user palette	nie ma takiej palety użytkownika
+@msg	no swatch library `{key}` (see swatch.library.list)	brak biblioteki próbek `{key}` (zob. swatch.library.list)
+@msg	open a document to sample its colours	otwórz dokument, aby pobrać jego kolory
+@msg	side is right, left, top or bottom, not `{s}`	strona to right, left, top lub bottom, nie `{s}`
+	Dock Right	Zadokuj po prawej
+	Dock Left	Zadokuj po lewej
+	Dock Top	Zadokuj u góry
+	Dock Bottom	Zadokuj na dole
+	Color palettes	Palety kolorów
+	User Palette	Paleta użytkownika
+	User Palette 1	Paleta użytkownika 1
+	User Palette 2	Paleta użytkownika 2
+	User Palette 3	Paleta użytkownika 3
+	User Palette 4	Paleta użytkownika 4
+	User Palette 5	Paleta użytkownika 5
+	User Palette 6	Paleta użytkownika 6
+	User Palette 7	Paleta użytkownika 7
+	User Palette 8	Paleta użytkownika 8
+	User Palette 9	Paleta użytkownika 9
+	User Palette 10	Paleta użytkownika 10

@@ -4756,3 +4756,52 @@ theme	Appearance	Apparence
 	 to bend the curve through that point  |  	 pour courber la ligne par ce point  |  
 	 to cancel	 pour annuler
 	Nudge Distance	Distance de déplacement
+	Color Palettes	Palettes de couleurs
+	Color Palette	Palette de couleurs
+	Close All Palettes	Fermer toutes les palettes
+	Document Palette	Palette du document
+	Default CMYK Palette	Palette CMJN par défaut
+	Default RGB Palette	Palette RVB par défaut
+	Open Palette…	Ouvrir une palette…
+	Create Palette from Selection	Créer une palette à partir de la sélection
+	Create Palette from Document	Créer une palette à partir du document
+	Palette Editor…	Éditeur de palettes…
+	Palette Editor	Éditeur de palettes
+	Palette Eyedropper	Pipette de palette
+	New Palette	Nouvelle palette
+	Edit Palette	Modifier la palette
+	Delete Palette	Supprimer la palette
+	Add Color	Ajouter une couleur
+	Add a colour from the art to this palette	Ajouter à cette palette une couleur de l’illustration
+	Apply Changes	Appliquer les modifications
+	Click a colour on the art to add it to the palette	Cliquez sur une couleur de l’illustration pour l’ajouter à la palette
+	Close Palette	Fermer la palette
+	Delete Color	Supprimer la couleur
+	Make Editable Copy	Créer une copie modifiable
+	None (click: fill, right-click: stroke)	Aucun (clic : fond, clic droit : contour)
+	Rename Palette	Renommer la palette
+	Scroll	Défiler
+	Show as Bar	Afficher en barre
+	This palette is read only: make an editable copy to change it.	Cette palette est en lecture seule : créez une copie modifiable pour la changer.
+	{name} (copy)	{name} (copie)
+@msg	missing `library`	`library` manquant
+@msg	no such user palette	aucune palette utilisateur de ce type
+@msg	no swatch library `{key}` (see swatch.library.list)	aucune bibliothèque de nuancier `{key}` (voir swatch.library.list)
+@msg	open a document to sample its colours	ouvrez un document pour prélever ses couleurs
+@msg	side is right, left, top or bottom, not `{s}`	le côté est right, left, top ou bottom, pas `{s}`
+	Dock Right	Ancrer à droite
+	Dock Left	Ancrer à gauche
+	Dock Top	Ancrer en haut
+	Dock Bottom	Ancrer en bas
+	Color palettes	Palettes de couleurs
+	User Palette	Palette utilisateur
+	User Palette 1	Palette utilisateur 1
+	User Palette 2	Palette utilisateur 2
+	User Palette 3	Palette utilisateur 3
+	User Palette 4	Palette utilisateur 4
+	User Palette 5	Palette utilisateur 5
+	User Palette 6	Palette utilisateur 6
+	User Palette 7	Palette utilisateur 7
+	User Palette 8	Palette utilisateur 8
+	User Palette 9	Palette utilisateur 9
+	User Palette 10	Palette utilisateur 10

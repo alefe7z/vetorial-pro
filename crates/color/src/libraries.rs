@@ -65,6 +65,8 @@ pub const SWATCH_LIBRARIES: &[BuiltinLibrary] = &[
     lib!("metallic-gradients", "Metallic Gradients", metallic),
     lib!("perceptual-scales", "Perceptual Scales", perceptual),
     lib!("harmony-sets", "Harmony Sets", harmony_sets),
+    lib!("default-cmyk", "Default CMYK Palette", default_cmyk),
+    lib!("default-rgb", "Default RGB Palette", default_rgb),
 ];
 
 /// The built-in gradient libraries (Window → Swatch Libraries → Gradients), in menu order.
@@ -210,6 +212,63 @@ fn hue_row(prefix: &str, l: f64, c: f64) -> SwatchGroup {
 // ---------- the libraries ----------
 
 /// The 216 colours whose channels are multiples of 0x33, named by their hex value.
+/// The hues of the default palettes, around the colour wheel from cyan, as the cyan, magenta and
+/// yellow amounts that make them (red, green and blue are the two-ink mixes).
+const DEFAULT_HUES: [[f32; 3]; 12] = [
+    [1.0, 0.0, 0.0],
+    [1.0, 0.5, 0.0],
+    [1.0, 1.0, 0.0],
+    [0.5, 1.0, 0.0],
+    [0.0, 1.0, 0.0],
+    [0.0, 1.0, 0.5],
+    [0.0, 1.0, 1.0],
+    [0.0, 0.5, 1.0],
+    [0.0, 0.0, 1.0],
+    [0.5, 0.0, 1.0],
+    [1.0, 0.0, 1.0],
+    [1.0, 0.0, 0.5],
+];
+
+/// A percentage as the default palettes name it (`55`).
+fn pct(v: f32) -> i32 {
+    (v * 100.0).round() as i32
+}
+
+/// The default CMYK palette, one flat list as a palette bar shows it: black, the greys, white,
+/// then each hue at full strength, two tints and two shades (with black). Named by their inks.
+fn default_cmyk() -> (Vec<Swatch>, Vec<SwatchGroup>) {
+    let cmyk = |c: f32, m: f32, y: f32, k: f32| solid(format!("C{} M{} Y{} K{}", pct(c), pct(m), pct(y), pct(k)), Color::cmyk(c, m, y, k));
+    let mut s: Vec<Swatch> = (0..=10).rev().map(|i| cmyk(0.0, 0.0, 0.0, i as f32 / 10.0)).collect();
+    for [c, m, y] in DEFAULT_HUES {
+        s.push(cmyk(c, m, y, 0.0));
+    }
+    for (scale, k) in [(0.6, 0.0), (0.3, 0.0), (1.0, 0.3), (1.0, 0.6)] {
+        for [c, m, y] in DEFAULT_HUES {
+            s.push(cmyk(c * scale, m * scale, y * scale, k));
+        }
+    }
+    (s, vec![])
+}
+
+/// The default RGB palette: black, the greys, white, then each hue at full strength, two lighter
+/// and two darker. Named by their 8-bit values.
+fn default_rgb() -> (Vec<Swatch>, Vec<SwatchGroup>) {
+    let rgb = |r: f32, g: f32, b: f32| {
+        let [r, g, b] = [r, g, b].map(|v| (v.clamp(0.0, 1.0) * 255.0).round() as u8);
+        solid(format!("R{r} G{g} B{b}"), Color::rgb8(r, g, b))
+    };
+    let mut s: Vec<Swatch> = (0..=10).map(|i| rgb(i as f32 / 10.0, i as f32 / 10.0, i as f32 / 10.0)).collect();
+    // The RGB of a hue is what its inks leave of white.
+    let hue = |[c, m, y]: [f32; 3]| [1.0 - c, 1.0 - m, 1.0 - y];
+    for (white, dark) in [(0.0, 1.0), (0.4, 1.0), (0.7, 1.0), (0.0, 0.7), (0.0, 0.4)] {
+        for h in DEFAULT_HUES {
+            let [r, g, b] = hue(h).map(|v| (v + (1.0 - v) * white) * dark);
+            s.push(rgb(r, g, b));
+        }
+    }
+    (s, vec![])
+}
+
 fn web_safe() -> (Vec<Swatch>, Vec<SwatchGroup>) {
     let mut s = Vec::with_capacity(216);
     for r in 0..6u8 {

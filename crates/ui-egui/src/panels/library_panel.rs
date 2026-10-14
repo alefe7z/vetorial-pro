@@ -503,7 +503,7 @@ mod tests {
         assert_eq!(neighbour::<SwatchLibraries>(&app, "web-safe-216", 1).as_deref(), Some(SWATCH_IDS[1]));
     }
 
-    const SWATCH_IDS: [&str; 9] = [
+    const SWATCH_IDS: [&str; 11] = [
         "web-safe-216",
         "grays-neutrals",
         "earth-tones",
@@ -513,6 +513,8 @@ mod tests {
         "metallic-gradients",
         "perceptual-scales",
         "harmony-sets",
+        "default-cmyk",
+        "default-rgb",
     ];
 
     #[test]

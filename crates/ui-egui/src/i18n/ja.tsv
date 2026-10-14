@@ -4319,3 +4319,52 @@ lighting	Light	ライト
 	 to bend the curve through that point  |  	：その点を通るようにカーブを曲げる  |  
 	 to cancel	：キャンセル
 	Nudge Distance	微調整距離
+	Color Palettes	カラーパレット
+	Color Palette	カラーパレット
+	Close All Palettes	すべてのパレットを閉じる
+	Document Palette	ドキュメントパレット
+	Default CMYK Palette	デフォルト CMYK パレット
+	Default RGB Palette	デフォルト RGB パレット
+	Open Palette…	パレットを開く…
+	Create Palette from Selection	選択範囲からパレットを作成
+	Create Palette from Document	ドキュメントからパレットを作成
+	Palette Editor…	パレットエディター…
+	Palette Editor	パレットエディター
+	Palette Eyedropper	パレットのスポイト
+	New Palette	新規パレット
+	Edit Palette	パレットを編集
+	Delete Palette	パレットを削除
+	Add Color	カラーを追加
+	Add a colour from the art to this palette	アートワークのカラーをこのパレットに追加
+	Apply Changes	変更を適用
+	Click a colour on the art to add it to the palette	アートワークのカラーをクリックしてパレットに追加
+	Close Palette	パレットを閉じる
+	Delete Color	カラーを削除
+	Make Editable Copy	編集可能なコピーを作成
+	None (click: fill, right-click: stroke)	なし (クリック: 塗り、右クリック: 線)
+	Rename Palette	パレット名を変更
+	Scroll	スクロール
+	Show as Bar	バーとして表示
+	This palette is read only: make an editable copy to change it.	このパレットは読み取り専用です。変更するには編集可能なコピーを作成してください。
+	{name} (copy)	{name} (コピー)
+@msg	missing `library`	`library` がありません
+@msg	no such user palette	そのユーザーパレットはありません
+@msg	no swatch library `{key}` (see swatch.library.list)	スウォッチライブラリ `{key}` はありません (swatch.library.list を参照)
+@msg	open a document to sample its colours	カラーを抽出するにはドキュメントを開いてください
+@msg	side is right, left, top or bottom, not `{s}`	side は right、left、top、bottom のいずれかです (`{s}` ではありません)
+	Dock Right	右にドッキング
+	Dock Left	左にドッキング
+	Dock Top	上にドッキング
+	Dock Bottom	下にドッキング
+	Color palettes	カラーパレット
+	User Palette	ユーザーパレット
+	User Palette 1	ユーザーパレット 1
+	User Palette 2	ユーザーパレット 2
+	User Palette 3	ユーザーパレット 3
+	User Palette 4	ユーザーパレット 4
+	User Palette 5	ユーザーパレット 5
+	User Palette 6	ユーザーパレット 6
+	User Palette 7	ユーザーパレット 7
+	User Palette 8	ユーザーパレット 8
+	User Palette 9	ユーザーパレット 9
+	User Palette 10	ユーザーパレット 10

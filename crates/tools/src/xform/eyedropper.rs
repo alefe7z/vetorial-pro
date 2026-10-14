@@ -10,6 +10,10 @@
 //! The Gradient panel's eyedropper sets the `stop` option (the tool to return to): the next click
 //! samples the colour under the cursor into the selected gradient stop (`paint.sampleColor
 //! {stop}`) and switches back to that tool.
+//!
+//! A palette bar's eyedropper sets the `palette` option (`{library, back}`): the next click on the
+//! art adds the colour under the cursor to that palette (`swatch.new` for the document palette,
+//! else `swatch.library.edit {op: "add"}`) and switches back to tool `back`.
 
 use serde_json::{Value, json};
 use vectorcraft_color::{Color, Paint};
@@ -25,6 +29,9 @@ use crate::{Action, Cursor, Mods, PointerEvent, PointerKind, Tool, ToolContext};
 pub struct EyedropperTool {
     /// Sampling for the selected gradient stop: the tool to switch back to afterwards.
     stop: Option<String>,
+    /// Sampling into a palette: its library key ("document": the document's swatches) and the
+    /// tool to switch back to afterwards.
+    palette: Option<(String, String)>,
 }
 
 /// The colour of `paint` at `p` (gradients are sampled along their vector, radial ones honouring
@@ -74,6 +81,21 @@ impl Tool for EyedropperTool {
         // Object Selection by Path Only say.
         let opts = vectorcraft_doc::hit::HitOptions { path_only: false, type_path_only: false, ..cx.hit_options() };
         let stop = self.stop.as_ref().zip(cx.gradient_stop);
+        if let Some((library, back)) = self.palette.clone() {
+            let Some(h) = hit_test_visible(cx.doc, ev.pos, opts) else { return vec![] };
+            let src = paint_owner(cx.doc, h.leaf);
+            let Some(n) = cx.doc.node(src) else { return vec![] };
+            let sampled =
+                if matches!(n.kind, NodeKind::Image(_)) { image_color_at(cx, n, ev.pos) } else { paint_sample(n, h.kind == HitKind::Stroke, ev.pos) };
+            let Some(c) = sampled else { return vec![] };
+            let add = if library == "document" {
+                Action::Exec("swatch.new".into(), json!({ "color": color_json(&c) }))
+            } else {
+                Action::Exec("swatch.library.edit".into(), json!({ "library": library, "op": "add", "color": color_json(&c) }))
+            };
+            self.palette = None;
+            return vec![add, Action::SwitchTool(back)];
+        }
         // Reading a source is independent of its editability. Only Alt's reverse operation
         // writes to the clicked object; Shift+Alt appends its appearance to the selection.
         let h = if ev.mods.alt && !ev.mods.shift && stop.is_none() { hit_test(cx.doc, ev.pos, opts) } else { hit_test_visible(cx.doc, ev.pos, opts) };
@@ -98,12 +120,18 @@ impl Tool for EyedropperTool {
     }
 
     fn options(&self) -> Value {
-        json!({ "stop": self.stop })
+        let palette = self.palette.as_ref().map(|(library, back)| json!({ "library": library, "back": back }));
+        json!({ "stop": self.stop, "palette": palette })
     }
 
     fn set_option(&mut self, key: &str, value: &Value) {
-        if key == "stop" {
-            self.stop = value.as_str().map(str::to_string);
+        match key {
+            "stop" => self.stop = value.as_str().map(str::to_string),
+            "palette" => {
+                let field = |k: &str| value.get(k).and_then(Value::as_str).map(str::to_string);
+                self.palette = field("library").map(|l| (l, field("back").unwrap_or_else(|| "selection".into())));
+            }
+            _ => {}
         }
     }
 
@@ -144,7 +172,7 @@ mod tests {
         let mut cx = cx(&d, &s, &p);
         let mut t = EyedropperTool::default();
         t.set_option("stop", &json!("gradient"));
-        assert_eq!(t.options(), json!({"stop": "gradient"}));
+        assert_eq!(t.options(), json!({"stop": "gradient", "palette": null}));
         // Without a selected stop the click copies the appearance as usual.
         let a = t.pointer(&cx, &PointerEvent::new(PointerKind::Down, 150.0, 150.0));
         assert!(matches!(&a[0], Action::Exec(c, _) if c == "appearance.copyFrom"));
@@ -159,7 +187,31 @@ mod tests {
                 Action::SwitchTool("gradient".into())
             ]
         );
-        assert_eq!(t.options(), json!({"stop": null}), "one sample only");
+        assert_eq!(t.options(), json!({"stop": null, "palette": null}), "one sample only");
+    }
+
+    #[test]
+    fn the_palette_option_adds_the_colour_clicked_to_the_palette_then_switches_back() {
+        let (d, _) = doc_with_rect();
+        let (s, p) = (Selection::default(), paint());
+        let mut t = EyedropperTool::default();
+        t.set_option("palette", &json!({"library": "user/Mine.vcswatches", "back": "selection"}));
+        assert!(t.pointer(&cx(&d, &s, &p), &PointerEvent::new(PointerKind::Down, 400.0, 400.0)).is_empty(), "empty canvas: still waiting");
+        let a = t.pointer(&cx(&d, &s, &p), &PointerEvent::new(PointerKind::Down, 100.0, 150.0));
+        assert_eq!(
+            a,
+            vec![
+                Action::Exec(
+                    "swatch.library.edit".into(),
+                    json!({"library": "user/Mine.vcswatches", "op": "add", "color": color_json(&Color::BLACK)})
+                ),
+                Action::SwitchTool("selection".into())
+            ]
+        );
+        t.set_option("palette", &json!({"library": "document", "back": "pen"}));
+        let a = t.pointer(&cx(&d, &s, &p), &PointerEvent::new(PointerKind::Down, 150.0, 150.0));
+        assert_eq!(a, vec![Action::Exec("swatch.new".into(), json!({"color": color_json(&Color::WHITE)})), Action::SwitchTool("pen".into())]);
+        assert_eq!(t.options()["palette"], json!(null));
     }
 
     /// The hex of the colour a `paint.sampleColor` action samples.

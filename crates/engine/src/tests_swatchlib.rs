@@ -446,3 +446,67 @@ fn gradient_libraries_are_listed_and_gradient_swatches_rename_and_take_new_gradi
     run(&mut s, "swatch.edit", json!({"name": "Red", "paint": {"color": "#00ff00"}}));
     assert_eq!(doc(&s).swatch("Red").unwrap().paint.color().map(|c| c.to_hex()), Some("#00ff00".into()));
 }
+
+#[test]
+fn the_default_cmyk_and_rgb_palettes_are_built_in() {
+    let mut s = session();
+    let cmyk = run(&mut s, "swatch.library.get", json!({"library": "default-cmyk"}));
+    let sw = cmyk["swatches"].as_array().unwrap();
+    assert_eq!(sw[0]["name"], "C0 M0 Y0 K100");
+    assert_eq!(sw[10]["name"], "C0 M0 Y0 K0");
+    assert!(sw.iter().all(|w| w["color"]["model"] == "cmyk"));
+    let rgb = run(&mut s, "swatch.library.get", json!({"library": "Default RGB Palette"}));
+    assert!(rgb["swatches"].as_array().unwrap().iter().all(|w| w["color"]["model"] == "rgb"));
+    assert_eq!(rgb["swatches"][0]["hex"], "#000000");
+}
+
+#[test]
+fn palettes_are_made_edited_and_deleted_in_the_user_folder() {
+    let dir = temp_dir("palette-edit");
+    let mut s = session();
+    s.swatch_libraries.set_user_dir(Some(dir.to_string_lossy().to_string()));
+    run(&mut s, "shape.rectangle", json!({"x": 0, "y": 0, "width": 10, "height": 10}));
+    run(&mut s, "paint.setFill", json!({"color": "#ff0000"}));
+    let made = run(&mut s, "swatch.library.new", json!({"name": "Mine", "from": "selection", "colors": ["#00ff00"]}));
+    let id = made["library"].as_str().unwrap().to_string();
+    assert!(id.starts_with("user/Mine"), "{made}");
+    assert!(made["count"].as_u64().unwrap() >= 2, "{made}");
+    // Add, recolour and rename, move, delete: each saved to the file.
+    let added = run(
+        &mut s,
+        "swatch.library.edit",
+        json!({"library": id, "op": "add", "color": {"c": 100, "m": 0, "y": 0, "k": 0}, "name": "Ciano", "index": 0}),
+    );
+    assert_eq!(added["name"], "Ciano");
+    run(&mut s, "swatch.library.edit", json!({"library": "Mine", "op": "set", "name": "Ciano", "color": "#0000ff", "newName": "Azul"}));
+    s.swatch_libraries.rescan();
+    let lib = run(&mut s, "swatch.library.get", json!({"library": id}));
+    assert_eq!(lib["swatches"][0]["name"], "Azul");
+    assert_eq!(lib["swatches"][0]["hex"], "#0000ff");
+    run(&mut s, "swatch.library.edit", json!({"library": id, "op": "move", "name": "Azul", "index": 99}));
+    let lib = run(&mut s, "swatch.library.get", json!({"library": id}));
+    let names: Vec<&str> = lib["swatches"].as_array().unwrap().iter().map(|w| w["name"].as_str().unwrap()).collect();
+    assert_eq!(names.last(), Some(&"Azul"));
+    run(&mut s, "swatch.library.edit", json!({"library": id, "op": "delete", "name": "Azul"}));
+    run(&mut s, "swatch.library.edit", json!({"library": id, "op": "rename", "newName": "Minha"}));
+    let lib = run(&mut s, "swatch.library.get", json!({"library": id}));
+    assert_eq!(lib["name"], "Minha");
+    assert!(!lib["swatches"].as_array().unwrap().iter().any(|w| w["name"] == "Azul"));
+    // Built-in palettes are read only; a copy can be edited.
+    assert!(s.execute("swatch.library.edit", &json!({"library": "default-cmyk", "op": "add", "color": "#000"})).is_err());
+    let copy = run(&mut s, "swatch.library.new", json!({"name": "CMYK", "from": "default-cmyk"}));
+    assert_eq!(copy["count"], run(&mut s, "swatch.library.get", json!({"library": "default-cmyk"}))["swatches"].as_array().unwrap().len());
+    run(&mut s, "swatch.library.delete", json!({"library": copy["library"]}));
+    assert!(s.execute("swatch.library.get", &json!({"library": copy["library"]})).is_err());
+    assert!(s.execute("swatch.library.edit", &json!({"library": id, "op": "bogus"})).is_err());
+    std::fs::remove_dir_all(dir).ok();
+}
+
+#[test]
+fn coreldraw_palettes_load_read_only() {
+    let mut s = session();
+    let xml =
+        r#"<?xml version="1.0"?><palette name="Corel"><colors><page><color cs="CMYK" tints="0,1,1,0" name="Vermelho"/></page></colors></palette>"#;
+    let r = run(&mut s, "swatch.library.load", json!({"data": xml, "name": "corel.xml"}));
+    assert_eq!((r["name"].as_str(), r["count"].as_u64()), (Some("Corel"), Some(1)));
+}

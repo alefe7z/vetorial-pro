@@ -1,5 +1,5 @@
 //! Untrusted files never crash the app: garbage, truncated, mutated and hostile SVG, PDF and DXF input,
-//! mutated raster images (Photoshop documents among them) placed with File → Place, and swatch (`.vcswatches`, `.gpl`, `.ase`), graphic style (`.vcstyles`) and flattener preset
+//! mutated raster images (Photoshop documents among them) placed with File → Place, and swatch (`.vcswatches`, `.gpl`, `.ase`, CorelDRAW `.xml`), graphic style (`.vcstyles`) and flattener preset
 //! (`.vcflattener`) libraries, and native files (compressed, damaged, saved for older versions),
 //! must load as an error or as a document that then renders and exports, without a panic; nor may
 //! bitmaps, PDF and text pasted from other apps, nor EMF and WMF pictures (damaged files, records
@@ -947,7 +947,7 @@ proptest! {
     #![proptest_config(config())]
 
     #[test]
-    fn library_garbage_never_panics(s in ".{0,300}", head in prop::sample::select(vec!["", "GIMP Palette\n","{\"format\": \"vcswatches\", ", "{\"format\": \"vcstyles\", ", "{\"format\": \"vcflattener\", ", "{\"name\": \"L\", "])) {
+    fn library_garbage_never_panics(s in ".{0,300}", head in prop::sample::select(vec!["", "GIMP Palette\n", "<palette name=\"P\"><colors><page>","{\"format\": \"vcswatches\", ", "{\"format\": \"vcstyles\", ", "{\"format\": \"vcflattener\", ", "{\"name\": \"L\", "])) {
         let data = format!("{head}{s}");
         swatches("swatch library garbage", &data)?;
         styles("style library garbage", &data)?;
@@ -959,6 +959,12 @@ proptest! {
     fn mutated_swatch_libraries_never_panic(cut in 0usize..20_000, edits in prop::collection::vec(arb_edit(), 0..10), gpl in any::<bool>()) {
         let text = saved("swatch.library.save", json!({"format": if gpl { "gpl" } else { "vcswatches" }}));
         swatches("mutated swatch library", &mutate_text(&text, cut, &edits))?;
+    }
+
+    #[test]
+    fn mutated_coreldraw_palettes_never_panic(cut in 0usize..2_000, edits in prop::collection::vec(arb_edit(), 0..10)) {
+        let xml = r#"<?xml version="1.0"?><palette name="P"><colorspaces><cs name="Ink"><color cs="LAB" tints="0.5,0.4,0.6"/><color cs="CMYK" tints="0,0.2,0.9,0"/></cs></colorspaces><colors><page><color cs="CMYK" tints="0,1,1,0" name="Red"/><color cs="Ink" tints="0.5" name="Ink 50"/><color cs="HSB" tints="0.3,1,1"/><color cs="GRAY" tints="0.5"/></page><page name="G"><color cs="RGB" tints="0,0.5,1"/><color cs="YIQ" tints="0.5,0.5,0.5"/><color cs="HLS" tints="0.1,0.5,1"/></page></colors></palette>"#;
+        swatches("mutated CorelDRAW palette", &mutate_text(xml, cut, &edits))?;
     }
 
     #[test]

@@ -4280,3 +4280,52 @@ theme	Appearance	Erscheinungsbild
 	 to bend the curve through that point  |  	 biegt die Kurve durch diesen Punkt  |  
 	 to cancel	 bricht ab
 	Nudge Distance	Verschiebeabstand
+	Color Palettes	Farbpaletten
+	Color Palette	Farbpalette
+	Close All Palettes	Alle Paletten schließen
+	Document Palette	Dokumentpalette
+	Default CMYK Palette	Standard-CMYK-Palette
+	Default RGB Palette	Standard-RGB-Palette
+	Open Palette…	Palette öffnen…
+	Create Palette from Selection	Palette aus Auswahl erstellen
+	Create Palette from Document	Palette aus Dokument erstellen
+	Palette Editor…	Paletteneditor…
+	Palette Editor	Paletteneditor
+	Palette Eyedropper	Paletten-Pipette
+	New Palette	Neue Palette
+	Edit Palette	Palette bearbeiten
+	Delete Palette	Palette löschen
+	Add Color	Farbe hinzufügen
+	Add a colour from the art to this palette	Eine Farbe aus dem Bildmaterial zu dieser Palette hinzufügen
+	Apply Changes	Änderungen anwenden
+	Click a colour on the art to add it to the palette	Klicken Sie auf eine Farbe im Bildmaterial, um sie der Palette hinzuzufügen
+	Close Palette	Palette schließen
+	Delete Color	Farbe löschen
+	Make Editable Copy	Bearbeitbare Kopie erstellen
+	None (click: fill, right-click: stroke)	Ohne (Klick: Fläche, Rechtsklick: Kontur)
+	Rename Palette	Palette umbenennen
+	Scroll	Blättern
+	Show as Bar	Als Leiste anzeigen
+	This palette is read only: make an editable copy to change it.	Diese Palette ist schreibgeschützt: Erstellen Sie eine bearbeitbare Kopie, um sie zu ändern.
+	{name} (copy)	{name} (Kopie)
+@msg	missing `library`	`library` fehlt
+@msg	no such user palette	keine solche Benutzerpalette
+@msg	no swatch library `{key}` (see swatch.library.list)	keine Farbfeldbibliothek `{key}` (siehe swatch.library.list)
+@msg	open a document to sample its colours	öffnen Sie ein Dokument, um seine Farben aufzunehmen
+@msg	side is right, left, top or bottom, not `{s}`	Seite ist right, left, top oder bottom, nicht `{s}`
+	Dock Right	Rechts andocken
+	Dock Left	Links andocken
+	Dock Top	Oben andocken
+	Dock Bottom	Unten andocken
+	Color palettes	Farbpaletten
+	User Palette	Benutzerpalette
+	User Palette 1	Benutzerpalette 1
+	User Palette 2	Benutzerpalette 2
+	User Palette 3	Benutzerpalette 3
+	User Palette 4	Benutzerpalette 4
+	User Palette 5	Benutzerpalette 5
+	User Palette 6	Benutzerpalette 6
+	User Palette 7	Benutzerpalette 7
+	User Palette 8	Benutzerpalette 8
+	User Palette 9	Benutzerpalette 9
+	User Palette 10	Benutzerpalette 10

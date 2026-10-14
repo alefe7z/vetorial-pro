@@ -4723,3 +4723,52 @@ imageTrace	Outline	Körvonal
 	 to bend the curve through that point  |  	 – a görbe meghajlítása azon a ponton át  |  
 	 to cancel	 – mégse
 	Nudge Distance	Léptetési távolság
+	Color Palettes	Színpaletták
+	Color Palette	Színpaletta
+	Close All Palettes	Összes paletta bezárása
+	Document Palette	Dokumentum palettája
+	Default CMYK Palette	Alapértelmezett CMYK paletta
+	Default RGB Palette	Alapértelmezett RGB paletta
+	Open Palette…	Paletta megnyitása…
+	Create Palette from Selection	Paletta létrehozása a kijelölésből
+	Create Palette from Document	Paletta létrehozása a dokumentumból
+	Palette Editor…	Palettaszerkesztő…
+	Palette Editor	Palettaszerkesztő
+	Palette Eyedropper	Paletta pipetta
+	New Palette	Új paletta
+	Edit Palette	Paletta szerkesztése
+	Delete Palette	Paletta törlése
+	Add Color	Szín hozzáadása
+	Add a colour from the art to this palette	Szín hozzáadása a rajzból ehhez a palettához
+	Apply Changes	Módosítások alkalmazása
+	Click a colour on the art to add it to the palette	Kattintson egy színre a rajzon, hogy a palettához adja
+	Close Palette	Paletta bezárása
+	Delete Color	Szín törlése
+	Make Editable Copy	Szerkeszthető másolat készítése
+	None (click: fill, right-click: stroke)	Nincs (kattintás: kitöltés, jobb kattintás: körvonal)
+	Rename Palette	Paletta átnevezése
+	Scroll	Görgetés
+	Show as Bar	Megjelenítés sávként
+	This palette is read only: make an editable copy to change it.	Ez a paletta csak olvasható: módosításhoz készítsen szerkeszthető másolatot.
+	{name} (copy)	{name} (másolat)
+@msg	missing `library`	hiányzik: `library`
+@msg	no such user palette	nincs ilyen felhasználói paletta
+@msg	no swatch library `{key}` (see swatch.library.list)	nincs `{key}` színminta-könyvtár (lásd swatch.library.list)
+@msg	open a document to sample its colours	nyisson meg egy dokumentumot a színei mintázásához
+@msg	side is right, left, top or bottom, not `{s}`	az oldal right, left, top vagy bottom lehet, nem `{s}`
+	Dock Right	Dokkolás jobbra
+	Dock Left	Dokkolás balra
+	Dock Top	Dokkolás felülre
+	Dock Bottom	Dokkolás alulra
+	Color palettes	Színpaletták
+	User Palette	Felhasználói paletta
+	User Palette 1	Felhasználói paletta 1
+	User Palette 2	Felhasználói paletta 2
+	User Palette 3	Felhasználói paletta 3
+	User Palette 4	Felhasználói paletta 4
+	User Palette 5	Felhasználói paletta 5
+	User Palette 6	Felhasználói paletta 6
+	User Palette 7	Felhasználói paletta 7
+	User Palette 8	Felhasználói paletta 8
+	User Palette 9	Felhasználói paletta 9
+	User Palette 10	Felhasználói paletta 10

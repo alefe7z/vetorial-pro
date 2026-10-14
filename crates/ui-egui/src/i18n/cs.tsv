@@ -4756,3 +4756,52 @@ mark-style	Japanese	Japonské
 	 to bend the curve through that point  |  	 ohne křivku tímto bodem  |  
 	 to cancel	 zruší
 	Nudge Distance	Vzdálenost posunu
+	Color Palettes	Palety barev
+	Color Palette	Paleta barev
+	Close All Palettes	Zavřít všechny palety
+	Document Palette	Paleta dokumentu
+	Default CMYK Palette	Výchozí paleta CMYK
+	Default RGB Palette	Výchozí paleta RGB
+	Open Palette…	Otevřít paletu…
+	Create Palette from Selection	Vytvořit paletu z výběru
+	Create Palette from Document	Vytvořit paletu z dokumentu
+	Palette Editor…	Editor palet…
+	Palette Editor	Editor palet
+	Palette Eyedropper	Kapátko palety
+	New Palette	Nová paleta
+	Edit Palette	Upravit paletu
+	Delete Palette	Odstranit paletu
+	Add Color	Přidat barvu
+	Add a colour from the art to this palette	Přidat do této palety barvu z kresby
+	Apply Changes	Použít změny
+	Click a colour on the art to add it to the palette	Klepněte na barvu v kresbě a přidejte ji do palety
+	Close Palette	Zavřít paletu
+	Delete Color	Odstranit barvu
+	Make Editable Copy	Vytvořit upravitelnou kopii
+	None (click: fill, right-click: stroke)	Žádná (klepnutí: výplň, pravé tlačítko: tah)
+	Rename Palette	Přejmenovat paletu
+	Scroll	Posunout
+	Show as Bar	Zobrazit jako pruh
+	This palette is read only: make an editable copy to change it.	Tato paleta je jen pro čtení: pro úpravy vytvořte upravitelnou kopii.
+	{name} (copy)	{name} (kopie)
+@msg	missing `library`	chybí `library`
+@msg	no such user palette	taková uživatelská paleta neexistuje
+@msg	no swatch library `{key}` (see swatch.library.list)	knihovna vzorků `{key}` neexistuje (viz swatch.library.list)
+@msg	open a document to sample its colours	otevřete dokument, abyste z něj mohli odebírat barvy
+@msg	side is right, left, top or bottom, not `{s}`	strana je right, left, top nebo bottom, ne `{s}`
+	Dock Right	Ukotvit vpravo
+	Dock Left	Ukotvit vlevo
+	Dock Top	Ukotvit nahoře
+	Dock Bottom	Ukotvit dole
+	Color palettes	Palety barev
+	User Palette	Uživatelská paleta
+	User Palette 1	Uživatelská paleta 1
+	User Palette 2	Uživatelská paleta 2
+	User Palette 3	Uživatelská paleta 3
+	User Palette 4	Uživatelská paleta 4
+	User Palette 5	Uživatelská paleta 5
+	User Palette 6	Uživatelská paleta 6
+	User Palette 7	Uživatelská paleta 7
+	User Palette 8	Uživatelská paleta 8
+	User Palette 9	Uživatelská paleta 9
+	User Palette 10	Uživatelská paleta 10

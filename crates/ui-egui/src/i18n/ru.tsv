@@ -4321,3 +4321,52 @@ lighting	Light	Свет
 	 to bend the curve through that point  |  	 чтобы изогнуть кривую через эту точку  |  
 	 to cancel	 для отмены
 	Nudge Distance	Шаг сдвига
+	Color Palettes	Цветовые палитры
+	Color Palette	Цветовая палитра
+	Close All Palettes	Закрыть все палитры
+	Document Palette	Палитра документа
+	Default CMYK Palette	Палитра CMYK по умолчанию
+	Default RGB Palette	Палитра RGB по умолчанию
+	Open Palette…	Открыть палитру…
+	Create Palette from Selection	Создать палитру из выделения
+	Create Palette from Document	Создать палитру из документа
+	Palette Editor…	Редактор палитр…
+	Palette Editor	Редактор палитр
+	Palette Eyedropper	Пипетка палитры
+	New Palette	Новая палитра
+	Edit Palette	Изменить палитру
+	Delete Palette	Удалить палитру
+	Add Color	Добавить цвет
+	Add a colour from the art to this palette	Добавить в палитру цвет из иллюстрации
+	Apply Changes	Применить изменения
+	Click a colour on the art to add it to the palette	Щёлкните цвет на иллюстрации, чтобы добавить его в палитру
+	Close Palette	Закрыть палитру
+	Delete Color	Удалить цвет
+	Make Editable Copy	Создать редактируемую копию
+	None (click: fill, right-click: stroke)	Нет (щелчок: заливка, правый щелчок: обводка)
+	Rename Palette	Переименовать палитру
+	Scroll	Прокрутить
+	Show as Bar	Показывать как панель
+	This palette is read only: make an editable copy to change it.	Эта палитра только для чтения: чтобы изменить её, создайте редактируемую копию.
+	{name} (copy)	{name} (копия)
+@msg	missing `library`	не указан `library`
+@msg	no such user palette	такой пользовательской палитры нет
+@msg	no swatch library `{key}` (see swatch.library.list)	нет библиотеки образцов `{key}` (см. swatch.library.list)
+@msg	open a document to sample its colours	откройте документ, чтобы взять его цвета
+@msg	side is right, left, top or bottom, not `{s}`	сторона: right, left, top или bottom, а не `{s}`
+	Dock Right	Закрепить справа
+	Dock Left	Закрепить слева
+	Dock Top	Закрепить сверху
+	Dock Bottom	Закрепить снизу
+	Color palettes	Цветовые палитры
+	User Palette	Пользовательская палитра
+	User Palette 1	Пользовательская палитра 1
+	User Palette 2	Пользовательская палитра 2
+	User Palette 3	Пользовательская палитра 3
+	User Palette 4	Пользовательская палитра 4
+	User Palette 5	Пользовательская палитра 5
+	User Palette 6	Пользовательская палитра 6
+	User Palette 7	Пользовательская палитра 7
+	User Palette 8	Пользовательская палитра 8
+	User Palette 9	Пользовательская палитра 9
+	User Palette 10	Пользовательская палитра 10

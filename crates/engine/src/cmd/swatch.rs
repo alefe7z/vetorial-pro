@@ -253,7 +253,7 @@ fn swatch_delete(s: &mut Session, p: &Value) -> Result<Value> {
 /// colours belong to (added to `swatches` once each) and the other colours (added to `colors` once
 /// each). A tint (a linked colour that differs from its swatch's) brings its swatch, and with
 /// `tints` its own colour too. Links to missing swatches count as unlinked.
-fn artwork_colors(d: &Document, ids: &[NodeId], tints: bool, swatches: &mut Vec<String>, colors: &mut Vec<Color>) {
+pub(super) fn artwork_colors(d: &Document, ids: &[NodeId], tints: bool, swatches: &mut Vec<String>, colors: &mut Vec<Color>) {
     for n in ids.iter().filter_map(|id| d.node(*id)) {
         node_colors(n, &mut |c, link| {
             let sw = link.and_then(|l| d.swatch(l)).filter(|w| w.paint.color().is_some());

@@ -52,6 +52,7 @@ mod new_document;
 pub mod new_swatch;
 pub mod office_export;
 pub mod package;
+pub mod palette_editor;
 pub(crate) mod path_ops;
 pub mod pdf_presets;
 pub mod perspective_grid;
@@ -242,6 +243,7 @@ registry! {
     ColorBalance: [color_balance::KIND] => color_balance::SPEC,
     Saturate: [saturate::KIND] => saturate::SPEC,
     SaveSwatchLibrary: [save_swatch_library::KIND] => save_swatch_library::SPEC,
+    PaletteEditor: [palette_editor::KIND] => palette_editor::SPEC,
     TileEdgeColor: [tile_edge_color::KIND] => tile_edge_color::SPEC,
     EyedropperOptions: [eyedropper::KIND] => eyedropper::SPEC,
     FlattenTransparency: [flatten::KIND] => flatten::SPEC,

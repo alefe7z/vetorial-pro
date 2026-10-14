@@ -206,6 +206,23 @@ pub fn anchor_buttons(app: &mut VectorcraftApp, ui: &mut Ui, controls: AnchorCon
 /// The room the Control bar's inline X/Y/W/H fields need; with less, only the Transform link shows.
 const INLINE_TRANSFORM_WIDTH: f32 = 440.0;
 
+/// The nudge distance, as CorelDRAW's property bar shows it with nothing selected: the arrow keys
+/// move the selection by it (Shift: ten times). It is General › Keyboard Increment, saved with the
+/// preferences.
+fn nudge_field(app: &mut VectorcraftApp, ui: &mut Ui, units: vectorcraft_doc::Unit) {
+    let t = Tokens::get(ui.ctx());
+    let tip = tl!("Nudge Distance");
+    icons::icon(ui, "move", 16.0, t.text).on_hover_text(tip);
+    let inc = app.session.prefs.keyboard_increment;
+    let resp = widgets::num_field(ui, "cb-nudge", Some(inc), units, 80.0);
+    if let Some(v) = resp
+        && v.is_finite()
+        && let Err(e) = app.run("prefs.set", json!({"key": "keyboardIncrement", "value": v.clamp(0.001, 1296.0)}))
+    {
+        app.status(e);
+    }
+}
+
 /// The Control bar (Window → Control), context-sensitive like Illustrator's.
 pub fn control_bar(app: &mut VectorcraftApp, ui: &mut Ui) {
     let t = Tokens::get(ui.ctx());
@@ -290,6 +307,8 @@ pub fn control_bar(app: &mut VectorcraftApp, ui: &mut Ui) {
                 ui.separator();
                 crate::panels::character::control_bar(app, ui);
                 if sel.is_empty() {
+                    nudge_field(app, ui, units);
+                    ui.separator();
                     if widgets::flat_button(ui, tl!("Document Setup"), 112.0).clicked() {
                         app.run("file.documentSetup", json!({})).ok();
                     }

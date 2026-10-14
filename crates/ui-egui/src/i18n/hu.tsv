@@ -4722,3 +4722,4 @@ imageTrace	Outline	Körvonal
 	 from the start to the end point  |  	 a kezdőponttól a végpontig  |  
 	 to bend the curve through that point  |  	 – a görbe meghajlítása azon a ponton át  |  
 	 to cancel	 – mégse
+	Nudge Distance	Léptetési távolság

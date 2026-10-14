@@ -126,3 +126,23 @@ fn ruler_labels_have_the_steps_decimals() {
     assert_eq!(ruler_label(-0.0000001, 0.5), "0");
     assert_eq!(ruler_label(-2.5, 0.5), "-2.5");
 }
+
+#[test]
+fn the_control_bar_shows_the_nudge_distance_with_nothing_selected() {
+    let mut app = app_with_rect();
+    general_mm(&mut app);
+    // 300 mm, as typed in CorelDRAW's Nudge Distance.
+    let pt = 300.0 / 25.4 * 72.0;
+    app.run("prefs.set", json!({"key": "keyboardIncrement", "value": pt})).unwrap();
+    run(&mut app, "select.none", json!({}));
+    let shown = texts(&mut app, crate::chrome::control_bar);
+    assert!(shows(&shown, &Unit::Millimeters.format(pt)), "{shown:?}");
+    // The arrow keys move the selection by it.
+    run(&mut app, "select.all", json!({}));
+    let x0 = app.selection_box().unwrap().center().x;
+    run(&mut app, "object.nudge", json!({"dx": 1, "dy": 0}));
+    assert!((app.selection_box().unwrap().center().x - x0 - pt).abs() < 1e-6);
+    // With a selection the field gives way to the object's own controls.
+    let shown = texts(&mut app, crate::chrome::control_bar);
+    assert!(!shows(&shown, &Unit::Millimeters.format(pt)), "{shown:?}");
+}

@@ -4318,3 +4318,4 @@ lighting	Light	ライト
 	 from the start to the end point  |  	：始点から終点まで  |  
 	 to bend the curve through that point  |  	：その点を通るようにカーブを曲げる  |  
 	 to cancel	：キャンセル
+	Nudge Distance	微調整距離

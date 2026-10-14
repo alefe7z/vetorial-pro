@@ -127,7 +127,7 @@ impl Settle {
         }
         let waited = now - self.since;
         // The clock went back (a new egui context): don't wait for it to catch up.
-        if waited >= SETTLE_SECS || waited < 0.0 {
+        if !(0.0..SETTLE_SECS).contains(&waited) {
             return true;
         }
         ctx.request_repaint_after(std::time::Duration::from_secs_f64((SETTLE_SECS - waited).max(0.0)));

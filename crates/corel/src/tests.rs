@@ -169,11 +169,21 @@ fn x6_external_streams() {
         pointer.extend_from_slice(&v.to_le_bytes());
     }
     let root = riff(b'G', &[page(0, &[layer(&[list(b"obj ", &[list(b"lgob", &[leaf(b"loda", &pointer)])])])])]);
-    let z = zip(&[("content/root.dat", root), ("content/dataFileList.dat", b"s1.dat\n".to_vec()), ("content/data/s1.dat", stream)]);
+    let z = zip(&[("content/root.dat", root.clone()), ("content/dataFileList.dat", b"s1.dat\n".to_vec()), ("content/data/s1.dat", stream.clone())]);
     let d = read(&z, Limits::default()).unwrap();
     assert_eq!(d.version, 1600);
     let b = shapes(&d)[0].path.bounding_box();
     assert!(near(b.x1, 20.0) && near(b.y1, 10.0), "{b:?}");
+    // A stream past the limit (a file's bitmaps) is left out with a warning; the drawing still opens.
+    let z = zip(&[
+        ("content/root.dat", root),
+        ("content/dataFileList.dat", b"s1.dat\nBitmaps.dat\n".to_vec()),
+        ("content/data/s1.dat", stream),
+        ("content/data/Bitmaps.dat", vec![0; 5000]),
+    ]);
+    let d = read(&z, Limits { max_stream: 4096, ..Limits::default() }).unwrap();
+    assert_eq!(shapes(&d).len(), 1);
+    assert!(d.warnings.iter().any(|w| w.contains("Bitmaps.dat") && w.contains("too large")), "{:?}", d.warnings);
 }
 
 #[test]

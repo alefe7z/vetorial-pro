@@ -127,6 +127,9 @@ pub(crate) fn drawing(file: &File, limits: Limits) -> Result<Drawing, Error> {
         shapes: 0,
         limits,
     };
+    for name in &file.skipped {
+        r.warn(&format!("part `{name}` of the file is too large to read and was left out (embedded bitmaps aren't imported)"));
+    }
     r.styles(&file.records);
     let mut pages = Vec::new();
     r.pages(&file.records, &mut pages);

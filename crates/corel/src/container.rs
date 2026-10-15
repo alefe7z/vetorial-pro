@@ -22,6 +22,8 @@ pub(crate) struct File {
     pub records: Vec<Record>,
     /// The external data streams (X6 and later: `content/data/*` in `dataFileList.dat` order).
     pub streams: Vec<Vec<u8>>,
+    /// Data streams too large to read (embedded bitmaps, usually), left empty.
+    pub skipped: Vec<String>,
 }
 
 fn u16_at(b: &[u8], at: usize) -> Option<u16> {
@@ -229,6 +231,7 @@ impl Riff {
 /// Open a CorelDRAW file down to its RIFF tree.
 pub(crate) fn open(bytes: &[u8], limits: Limits) -> Result<File, Error> {
     let mut streams = Vec::new();
+    let mut skipped = Vec::new();
     let riff: std::borrow::Cow<[u8]> = if bytes.starts_with(b"RIFF") {
         bytes.into()
     } else if let Some(zip) = Zip::new(bytes) {
@@ -238,7 +241,16 @@ pub(crate) fn open(bytes: &[u8], limits: Limits) -> Result<File, Error> {
                 let root = zip.read("content/root.dat", limits.max_stream).ok_or(Error::NotCdr)??;
                 if let Some(list) = zip.read("content/dataFileList.dat", 1 << 20).transpose()? {
                     for name in list.split(|c| *c == b'\n').map(|n| String::from_utf8_lossy(n).trim().to_string()).filter(|n| !n.is_empty()) {
-                        let s = zip.read(&format!("content/data/{name}"), limits.max_stream).transpose()?.unwrap_or_default();
+                        // A stream past the limit (the file's bitmaps, which aren't read) is left
+                        // empty: the drawing doesn't need it.
+                        let s = match zip.read(&format!("content/data/{name}"), limits.max_stream).transpose() {
+                            Ok(s) => s.unwrap_or_default(),
+                            Err(Error::TooLarge(_)) => {
+                                skipped.push(name);
+                                vec![]
+                            }
+                            Err(e) => return Err(e),
+                        };
                         streams.push(s);
                         if streams.len() > 65_536 {
                             return Err(Error::TooLarge("too many data streams".into()));
@@ -260,7 +272,7 @@ pub(crate) fn open(bytes: &[u8], limits: Limits) -> Result<File, Error> {
         Some(Record::List { children, .. }) if records.is_empty() => children,
         _ => return Err(Error::Damaged("no RIFF tree".into())),
     };
-    Ok(File { version, records, streams })
+    Ok(File { version, records, streams, skipped })
 }
 
 /// The preview picture of a CorelDRAW file, as a complete BMP or PNG file.

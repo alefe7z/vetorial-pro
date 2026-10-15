@@ -157,12 +157,16 @@ pub fn thumb_to_doc(region: DRect, thumb: Rect, p: egui::Pos2) -> Point {
     Point::new(region.x0 + (p.x as f64 - ox) / s, region.y0 + (p.y as f64 - oy) / s)
 }
 
-/// Slider position (0..1) ↔ zoom percent on Illustrator's log range 3.13 %–64 000 %.
+/// The zoom range in percent.
+const MIN_PCT: f64 = crate::state::MIN_ZOOM * 100.0;
+const MAX_PCT: f64 = crate::state::MAX_ZOOM * 100.0;
+
+/// Slider position (0..1) ↔ zoom percent on a log scale over the zoom range.
 pub fn zoom_to_slider(z: f64) -> f64 {
-    ((z.clamp(3.13, 64000.0)).ln() - 3.13f64.ln()) / (64000f64.ln() - 3.13f64.ln())
+    ((z.clamp(MIN_PCT, MAX_PCT)).ln() - MIN_PCT.ln()) / (MAX_PCT.ln() - MIN_PCT.ln())
 }
 pub fn slider_to_zoom(t: f64) -> f64 {
-    (3.13f64.ln() + t.clamp(0.0, 1.0) * (64000f64.ln() - 3.13f64.ln())).exp()
+    (MIN_PCT.ln() + t.clamp(0.0, 1.0) * (MAX_PCT.ln() - MIN_PCT.ln())).exp()
 }
 
 pub fn show(app: &mut VectorcraftApp, ui: &mut Ui) {
@@ -242,7 +246,7 @@ pub fn show(app: &mut VectorcraftApp, ui: &mut Ui) {
             app.run("view.zoomIn", json!({})).ok();
         }
         if let Some(z) = z {
-            app.run("view.setZoom", json!({"zoom": z.clamp(3.13, 64000.0)})).ok();
+            app.run("view.setZoom", json!({"zoom": z.clamp(MIN_PCT, MAX_PCT)})).ok();
         }
     });
 }
@@ -271,8 +275,8 @@ mod tests {
 
     #[test]
     fn zoom_slider_roundtrip() {
-        assert!((zoom_to_slider(3.13)).abs() < 1e-9);
-        assert!((zoom_to_slider(64000.0) - 1.0).abs() < 1e-9);
+        assert!((zoom_to_slider(MIN_PCT)).abs() < 1e-9);
+        assert!((zoom_to_slider(MAX_PCT) - 1.0).abs() < 1e-9);
         assert!((slider_to_zoom(zoom_to_slider(100.0)) - 100.0).abs() < 1e-6);
     }
 

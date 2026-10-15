@@ -34,7 +34,7 @@ impl View {
     pub fn of(st: &vectorcraft_engine::DocState) -> Self {
         match &st.view {
             Some(v) if v.zoom.is_finite() && v.zoom > 0.0 && v.center.x.is_finite() && v.center.y.is_finite() => Self {
-                zoom: v.zoom.clamp(0.0313, 640.0),
+                zoom: v.zoom.clamp(MIN_ZOOM, MAX_ZOOM),
                 center: v.center,
                 fitted: true,
                 rotation: if v.rotation.is_finite() { v.rotation } else { 0.0 },
@@ -45,7 +45,13 @@ impl View {
     }
 }
 
-/// Illustrator's preset zoom stops, in percent.
+/// The zoom range, as a scale (1 = 100 %): from 0.01 % to 100 000 000 %, practically unlimited
+/// (the view keeps its arithmetic in f64; the renderer draws in screen space).
+pub const MIN_ZOOM: f64 = 0.0001;
+pub const MAX_ZOOM: f64 = 1_000_000.0;
+
+/// Preset zoom stops, in percent (Illustrator's, then doubling); past them, Zoom In and Zoom Out
+/// double and halve up to the zoom range's ends.
 pub const ZOOM_STOPS: [f64; 26] = [
     3.13, 4.17, 6.25, 8.33, 12.5, 16.67, 25.0, 33.33, 50.0, 66.67, 100.0, 150.0, 200.0, 300.0, 400.0, 600.0, 800.0, 1200.0, 1600.0, 2400.0, 3200.0,
     4800.0, 6400.0, 12800.0, 25600.0, 64000.0,
@@ -54,11 +60,11 @@ pub const ZOOM_STOPS: [f64; 26] = [
 pub fn next_zoom(z: f64, up: bool) -> f64 {
     let pct = z * 100.0;
     let stop = if up {
-        ZOOM_STOPS.iter().find(|s| **s > pct + 0.01).copied().unwrap_or(64000.0)
+        ZOOM_STOPS.iter().find(|s| **s > pct + 0.01).copied().unwrap_or(pct * 2.0)
     } else {
-        ZOOM_STOPS.iter().rev().find(|s| **s < pct - 0.01).copied().unwrap_or(3.13)
+        ZOOM_STOPS.iter().rev().find(|s| **s < pct - 0.01).copied().unwrap_or(pct / 2.0)
     };
-    stop / 100.0
+    (stop / 100.0).clamp(MIN_ZOOM, MAX_ZOOM)
 }
 
 /// Format like Illustrator's tab/zoom field: up to 2 decimals, no trailing zeros.
@@ -689,7 +695,11 @@ mod tests {
     fn zoom_steps() {
         assert_eq!(next_zoom(1.0, true), 1.5);
         assert!((next_zoom(1.0, false) - 0.6667).abs() < 1e-9);
-        assert_eq!(next_zoom(640.0, true), 640.0);
+        // Past the last stop (64 000 %) the zoom doubles, up to the range's ends.
+        assert_eq!(next_zoom(640.0, true), 1280.0);
+        assert_eq!(next_zoom(MAX_ZOOM, true), MAX_ZOOM);
+        assert_eq!(next_zoom(0.0313, false), 0.01565);
+        assert_eq!(next_zoom(MIN_ZOOM, false), MIN_ZOOM);
         assert_eq!(zoom_label(0.6667), "66.67%");
         assert_eq!(zoom_label(1.0), "100%");
         assert_eq!(zoom_label(0.125), "12.5%");

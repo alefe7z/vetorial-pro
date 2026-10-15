@@ -197,7 +197,17 @@ impl Unit {
     pub fn ruler_step(self, zoom: f64) -> f64 {
         const STEPS: [f64; 19] =
             [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10.0, 25.0, 50.0, 100.0, 200.0, 500.0, 1000.0, 2000.0, 5000.0, 10000.0];
-        STEPS.iter().copied().find(|s| s * self.points() * zoom >= 50.0).unwrap_or(10000.0)
+        let px = self.points() * zoom;
+        if !px.is_finite() || px <= 0.0 {
+            return 1.0;
+        }
+        if let Some(s) = STEPS.iter().copied().find(|s| s * px >= 50.0).filter(|s| *s > STEPS[0] || STEPS[0] * px < 500.0) {
+            return s;
+        }
+        // Past the table (zoomed far in or out): 1, 2 and 5 times a power of ten.
+        let target = 50.0 / px;
+        let decade = 10f64.powi(target.log10().floor().clamp(-12.0, 12.0) as i32);
+        [1.0, 2.0, 5.0, 10.0].into_iter().map(|m| m * decade).find(|s| *s >= target).unwrap_or(decade * 10.0)
     }
     /// `v` (points) on the nearest ruler tick at `zoom` ([`Self::ruler_step`]).
     pub fn snap_to_ruler_tick(self, v: f64, zoom: f64) -> f64 {
@@ -1501,6 +1511,20 @@ impl Document {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn ruler_steps_keep_labels_about_50_px_apart_at_any_zoom() {
+        assert_eq!(Unit::Points.ruler_step(1.0), 50.0);
+        assert_eq!(Unit::Points.ruler_step(0.5), 100.0);
+        // Far in and far out, past the table: 1, 2 and 5 times a power of ten.
+        assert!((Unit::Points.ruler_step(1_000_000.0) - 5e-5).abs() < 1e-12);
+        assert!((Unit::Points.ruler_step(0.0001) - 5e5).abs() < 1e-6);
+        for zoom in [1e-4, 1e-3, 0.03, 1.0, 64.0, 640.0, 1e4, 1e6] {
+            let px = Unit::Points.ruler_step(zoom) * zoom;
+            assert!((50.0..=500.0).contains(&px), "{zoom}: {px}");
+        }
+        assert_eq!(Unit::Points.ruler_step(0.0), 1.0);
+    }
     use vectorcraft_geom::shapes;
 
     fn doc_with_rects() -> (Document, NodeId, NodeId) {

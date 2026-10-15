@@ -1,32 +1,29 @@
-# VectorCraft app icon
+# Vetorial Pro app icon
 
-**Creature:** a regal engraved dragon, VectorCraft's mascot.
+**Mark:** a white serif "V" on a violet rounded square: the Vetorial Pro logo, designed by the
+project owner.
 
-**Style:** an engraving-style portrait in the Crafting Apps owl template (the FilmCraft owl): a tight
-head-and-shoulders portrait on a full-bleed field, no frame or roundel, with the body running off the tile.
-
-**Palette** (exactly three colours):
+**Palette:**
 
 | Colour | Hex | Used for |
 |---|---|---|
-| Ink | `#0b0b0c` | line work and contour |
-| Paper | `#efe9dc` | the figure |
-| VectorCraft colour | `#e8573f` | the full-bleed field |
+| Violet | `#5614C9` | the rounded square |
+| White | `#FFFFFF` | the "V" |
 
-**Tile:** `viewBox="0 0 512 512"`, a rounded square with `rx=112`, clipped. The macOS files add Apple's
+**Tile:** `viewBox="0 0 512 512"`, the owner's artwork scaled from its 13598.65-unit drawing into the
+512 tile, corners as drawn (`rx` 1171.46 of 13598.65, about 44 at 512). The macOS files add Apple's
 transparent margin (tile = 824/1024 of the canvas); Windows and Linux use the tile edge to edge.
 
-**Provenance:** the owner's original ArtCraft drawing (2880 px, keyed to the palette), vectorised with
-craftrules `assets/logo-options/_tools/vectorize_tile.py`. The drawing is kept in craftrules at
-`craftrules/assets/app-icons/vectorcraft/source.png`, not here. `vectorcraft.svg` is the canonical
-artwork. Licence: see `LICENSE.txt`.
+**Provenance:** the owner's own logo (`vetorialprologo.svg`, made in CorelDRAW), kept as its two shapes
+with the editor's metadata removed. `vectorcraft.svg` is the canonical artwork (the file names keep
+the upstream project's names so packaging finds them). Licence: see `LICENSE.txt`.
 
 ## Files
 
 | File | What | Used by |
 |---|---|---|
-| `vectorcraft.svg` | master vector (traced at 2048 px, about 700 KB) | source for everything below |
-| `vectorcraft-small.svg` | lighter vector (traced at 1024 px, about 370 KB) | `hicolor/scalable` |
+| `vectorcraft.svg` | master vector | source for everything below |
+| `vectorcraft-small.svg` | the same vector (kept for the scalable Linux icon) | `hicolor/scalable` |
 | `vectorcraft-1024.png` | full tile, 1024 px | docs, store listings |
 | `vectorcraft-macos-512.png` | tile with Apple margin, 512 px | runtime Dock icon (`apps/vectorcraft/src/main.rs`) |
 | `vectorcraft.icns` | macOS icon set, 16 to 1024 px | `cargo xtask bundle` (`CFBundleIconFile`) |

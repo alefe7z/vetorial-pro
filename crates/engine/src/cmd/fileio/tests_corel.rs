@@ -78,7 +78,10 @@ fn an_unreadable_drawing_opens_as_its_thumbnail_and_is_not_placed() {
     let guide = synth::object(synth::loda(3, &[(0x1e, synth::curve(&[(0.0, 0.0, 0), (5.0, 0.0, 0x40)]))]), None);
     let f = synth::riff(
         b'B',
-        &[synth::leaf(b"DISP", &[vec![0; 4], synth::dib([0, 255, 0])].concat()), synth::page(0x00ff_0000, &[synth::layer(&[guide])])],
+        &[
+            synth::leaf(b"DISP", &[vec![0; 4], synth::dib([0, 255, 0])].concat()),
+            synth::page(0x00ff_0000, &[synth::layer_flags(0x9801_000a, &[guide])]),
+        ],
     );
     let l = load("thumb.cdr", &f).unwrap();
     assert!(l.preview_only);

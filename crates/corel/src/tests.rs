@@ -70,7 +70,8 @@ fn open_paths_are_not_filled() {
 fn ellipses_arcs_and_pies() {
     let whole = object(loda(2, &[(0x1e, ellipse(40.0, 20.0, 0.0, 0.0, false))]), None);
     let pie = object(loda(2, &[(0x1e, ellipse(40.0, 40.0, 0.0, 90.0, true))]), None);
-    let d = read(&riff(b'B', &[page(0, &[layer(&[whole, pie])])]), Limits::default()).unwrap();
+    // The file lists the frontmost object first: the pie is drawn above the ellipse.
+    let d = read(&riff(b'B', &[page(0, &[layer(&[pie, whole])])]), Limits::default()).unwrap();
     let s = shapes(&d);
     let b = s[0].path.bounding_box();
     assert!(near(b.x0, 0.0) && near(b.x1, 40.0) && near(b.y0, 0.0) && near(b.y1, 20.0), "{b:?}");
@@ -234,4 +235,73 @@ fn shape_limit() {
     let d = read(&f, Limits { max_shapes: 2, ..Limits::default() }).unwrap();
     assert_eq!(d.shape_count(), 2);
     assert!(!d.warnings.is_empty());
+}
+
+#[test]
+fn x6_inline_values_the_desktop_and_placed_objects() {
+    // CorelDRAW 2020 and later: short values (flags) sit in the 16-byte record itself (stream
+    // 0xffffffff, their length, the value); the art may be on the master page's desktop layer
+    // (flags 0x08), with its guides (0x0a) and grid (0x5a) left out.
+    let inline = |v: u32| [u32::MAX.to_le_bytes(), 4u32.to_le_bytes(), v.to_le_bytes(), [0; 4]].concat();
+    let layer_of = |flags: u32, objects: &[Vec<u8>]| {
+        let mut children = vec![leaf(b"flgs", &inline(flags))];
+        children.extend_from_slice(objects);
+        list(b"layr", &children)
+    };
+    let guide = object(loda(3, &[(0x1e, curve(&[(-100.0, 0.0, 0x00), (100.0, 0.0, 0x40)]))]), None);
+    let placed = object(loda(3, &[(0x1e, curve(&[(0.0, 0.0, 0x00), (10.0, 10.0, 0x40)]))]), None);
+    let group = list(b"grp ", &[list(b"lgob", &[leaf(b"trfd", &[0; 4])]), placed]);
+    let master = list(
+        b"page",
+        &[
+            leaf(b"flgs", &inline(0x9001_0040)),
+            layer_of(0x9801_000a, std::slice::from_ref(&guide)),
+            layer_of(0x9801_0008, &[group]),
+            layer_of(0x9801_015a, &[guide]),
+        ],
+    );
+    let own = object(loda(3, &[(0x1e, curve(&[(0.0, 0.0, 0x00), (5.0, 5.0, 0x40)]))]), None);
+    let page1 = list(b"page", &[leaf(b"flgs", &inline(0x9000_0040)), layer_of(0x9800_0000, &[own])]);
+    let root = riff(b'G', &[leaf(b"vrsn", &[u32::MAX.to_le_bytes(), 2u32.to_le_bytes(), 1600u32.to_le_bytes(), [0; 4]].concat()), master, page1]);
+    let d = read(&zip(&[("content/root.dat", root)]), Limits::default()).unwrap();
+    assert_eq!(d.version, 1600);
+    assert_eq!(d.pages.len(), 1, "the desktop's art joins the first page: {d:?}");
+    let s = shapes(&d);
+    assert_eq!(s.len(), 2, "the guides and the grid are left out");
+    let b = s[0].path.bounding_box();
+    assert!(near(b.x1, 10.0), "the desktop layer is below the page's own: {b:?}");
+}
+
+/// A real file, read from `CDR_FILE` (never committed: files users send stay local). Prints what
+/// was read: `CDR_FILE=/path/x.cdr cargo test -p vectorcraft-corel real_file -- --ignored --nocapture`.
+#[test]
+#[ignore]
+fn real_file() {
+    let Ok(path) = std::env::var("CDR_FILE") else { return };
+    let bytes = std::fs::read(path).unwrap();
+    let d = read(&bytes, Limits::default()).unwrap();
+    println!("version {} page {:?}", d.version, d.page_size);
+    for (i, p) in d.pages.iter().enumerate() {
+        let count: usize = p.layers.iter().map(|l| l.objects.len()).sum();
+        println!("page {i}: {} layers, {count} top objects", p.layers.len());
+    }
+    let s = shapes(&d);
+    println!("{} shapes", s.len());
+    for sh in s.iter().take(8) {
+        println!("  {:?} fill {:?} stroke {:?}", sh.path.bounding_box(), sh.fill, sh.stroke.as_ref().map(|s| (s.width, s.color)));
+    }
+    let mut widths = std::collections::BTreeMap::new();
+    for sh in &s {
+        if let Some(st) = &sh.stroke {
+            *widths.entry(format!("{:.3} {:?}", st.width, st.color)).or_insert(0) += 1;
+        }
+    }
+    println!("strokes {widths:?}");
+    let all = s.iter().map(|sh| sh.path.bounding_box()).reduce(|a, b| a.union(b));
+    println!("all {all:?}");
+    for sh in s.iter().filter(|sh| sh.path.bounding_box().area() > 20000.0) {
+        let b = sh.path.bounding_box();
+        println!("big {:.0},{:.0} – {:.0},{:.0} fill {:?}", b.x0, b.y0, b.x1, b.y1, sh.fill);
+    }
+    println!("warnings: {:?}", d.warnings);
 }

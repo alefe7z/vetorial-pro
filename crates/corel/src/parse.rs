@@ -11,7 +11,7 @@ use crate::{Color, Drawing, Error, Layer, Limits, Object, Page, Shape, Stroke};
 
 const TEXT: &str = "text isn't imported yet";
 const BITMAPS: &str = "bitmaps aren't imported yet";
-const GRADIENTS: &str = "gradient fills come in as a solid colour";
+const GRADIENTS: &str = "gradient fills come in as a solid colour (their first colour, where it can be read)";
 const PATTERNS: &str = "pattern, texture and PostScript fills come in as a solid colour";
 const SPOT: &str = "palette and spot colours come in as grey";
 const COLORS: &str = "colours of a model the reader doesn't know come in as black";
@@ -133,6 +133,16 @@ pub(crate) fn drawing(file: &File, limits: Limits) -> Result<Drawing, Error> {
     r.styles(&file.records);
     let mut pages = Vec::new();
     r.pages(&file.records, &mut pages);
+    // The art on master pages (the desktop, master layers) goes below the first page's own.
+    let (masters, pages): (Vec<_>, Vec<_>) = pages.into_iter().partition(|(_, master)| *master);
+    let mut pages: Vec<Page> = pages.into_iter().map(|(p, _)| p).collect();
+    let shared: Vec<Layer> = masters.into_iter().flat_map(|(p, _)| p.layers).collect();
+    if !shared.is_empty() {
+        match pages.first_mut() {
+            Some(first) => first.layers.splice(0..0, shared).for_each(drop),
+            None => pages.push(Page { layers: shared }),
+        }
+    }
     Ok(Drawing { version: r.version, page_size: r.page_size, pages, warnings: r.warnings })
 }
 
@@ -160,14 +170,15 @@ impl Reader<'_> {
     }
 
     /// A record's data, from its external stream in CorelDRAW X6 and later (a 16-byte record
-    /// naming the stream, the length and the offset).
+    /// naming the stream, the length and the offset). Stream `0xffffffff` holds a short value in
+    /// the record itself: its length, then up to 8 bytes.
     fn data<'d>(&'d self, data: &'d [u8]) -> &'d [u8] {
         if self.version < 1600 || data.len() != 16 {
             return data;
         }
         let (Some(index), Some(len), Some(at)) = (u32_at(data, 0), u32_at(data, 4), u32_at(data, 8)) else { return data };
         if index == u32::MAX {
-            return data;
+            return data.get(8..8 + (len as usize).min(8)).unwrap_or(&[]);
         }
         let (len, at) = (len as usize, at as usize);
         self.streams.get(index as usize).and_then(|s| s.get(at..at.checked_add(len)?)).unwrap_or(&[])
@@ -182,6 +193,7 @@ impl Reader<'_> {
                 Record::List { children, .. } => self.styles(children),
                 Record::Leaf { id, data } => match id {
                     b"vrsn" => {
+                        let data = self.data(data);
                         if let Some(v) = R::new(data, 0, false).u16().map(u32::from).filter(|v| (300..=4000).contains(v)) {
                             self.version = v;
                         }
@@ -299,7 +311,7 @@ impl Reader<'_> {
             }
             2 => {
                 self.warn(GRADIENTS);
-                Fill::Solid(Color::Gray(160))
+                Fill::Solid(self.gradient_start(data).unwrap_or(Color::Gray(160)))
             }
             7 | 9 | 10 | 11 => {
                 self.warn(PATTERNS);
@@ -308,6 +320,22 @@ impl Reader<'_> {
             _ => Fill::None,
         };
         Some((id, fill))
+    }
+
+    /// The first colour of a fountain fill (CorelDRAW 2020 and later, as files of version 2400
+    /// lay it out: a stop count at 62, then 45-byte stops from 65, each with its colour at 4 and its
+    /// position, 0 to 100, at 42). `None` when the record doesn't look like that.
+    fn gradient_start(&mut self, data: &[u8]) -> Option<Color> {
+        if self.version < 2200 {
+            return None;
+        }
+        let count = R::new(data, 62, false).u16()?;
+        let position = R::new(data, 65 + 42, false).u16()?;
+        let model = R::new(data, 65 + 4, false).u16()?;
+        if !(2..=256).contains(&count) || position != 0 || !matches!(model, 1..=0x15 | 0x19 | 0x1e) {
+            return None;
+        }
+        self.color(&mut R::new(data, 65 + 4, false))
     }
 
     fn outline(&mut self, data: &[u8]) -> Option<(u32, Option<Stroke>)> {
@@ -366,7 +394,7 @@ impl Reader<'_> {
 
     // ---------- pages ----------
 
-    fn pages(&mut self, records: &[Record], out: &mut Vec<Page>) {
+    fn pages(&mut self, records: &[Record], out: &mut Vec<(Page, bool)>) {
         for r in records {
             let Record::List { kind, children } = r else { continue };
             match kind {
@@ -381,39 +409,79 @@ impl Reader<'_> {
         }
     }
 
-    fn page(&mut self, children: &[Record]) -> Option<Page> {
+    /// A page with something on it, and whether it is a master page.
+    fn page(&mut self, children: &[Record]) -> Option<(Page, bool)> {
         // A master page (its flags in 0x00ff0000) holds the guides, the desktop and the grid.
         let flags = children.iter().find_map(|r| match r {
             Record::Leaf { id: [b'f', b'l', b'g', b's'], data } => u32_at(self.data(data), 0),
             _ => None,
         });
-        if self.version >= 400 && flags.is_some_and(|f| f & 0x00ff_0000 != 0) {
-            return None;
-        }
+        let master = self.version >= 400 && flags.is_some_and(|f| f & 0x00ff_0000 != 0);
         let mut layers = Vec::new();
-        self.layers(children, &mut layers);
+        self.layers(children, &mut layers, master);
+        // The top layer comes first in the file.
+        layers.reverse();
+        if master {
+            // Its guides and grid are left out; the art on its other layers (the desktop, master
+            // layers) shows on the pages.
+            layers.retain(|l| !l.objects.is_empty());
+            return (!layers.is_empty()).then_some((Page { layers }, true));
+        }
         if layers.is_empty() {
             let mut objects = Vec::new();
             self.collect(children, &mut objects, None);
+            objects.reverse();
             layers.push(Layer { name: "Layer 1".into(), objects });
         }
         layers.retain(|l| !l.objects.is_empty());
-        (!layers.is_empty()).then_some(Page { layers })
+        (!layers.is_empty()).then_some((Page { layers }, false))
     }
 
-    fn layers(&mut self, records: &[Record], out: &mut Vec<Layer>) {
+    /// The layers in `records`. On a master page, the guides and grid layers (flags `0x0a` and
+    /// `0x5a` in their low byte; the desktop's is `0x08`) are left out.
+    fn layers(&mut self, records: &[Record], out: &mut Vec<Layer>, master: bool) {
         for r in records {
             let Record::List { kind, children } = r else { continue };
             match kind {
                 b"layr" => {
+                    let flags = children.iter().find_map(|r| match r {
+                        Record::Leaf { id: [b'f', b'l', b'g', b's'], data } => u32_at(self.data(data), 0),
+                        _ => None,
+                    });
+                    if master && flags.is_none_or(|f| matches!(f & 0xff, 0x0a | 0x5a)) {
+                        continue;
+                    }
                     let mut objects = Vec::new();
                     self.collect(children, &mut objects, None);
-                    out.push(Layer { name: format!("Layer {}", out.len() + 1), objects });
+                    objects.reverse();
+                    let name = self.layer_name(children).unwrap_or_else(|| format!("Layer {}", out.len() + 1));
+                    out.push(Layer { name, objects });
                 }
                 b"obj " | b"grp " | b"lnkg" | b"page" => {}
-                _ => self.layers(children, out),
+                _ => self.layers(children, out, master),
             }
         }
+    }
+
+    /// A layer's name: argument `0x3e8` of its own `loda` (UTF-16 from CorelDRAW 10 on, else
+    /// 8-bit), up to its terminating zero.
+    fn layer_name(&self, children: &[Record]) -> Option<String> {
+        let mut leaves = Vec::new();
+        own(children, b"loda", &mut leaves);
+        let data = self.data(leaves.first()?);
+        let n = (u32_at(data, 4)? as usize).min(64);
+        let (args, types) = (u32_at(data, 8)? as usize, u32_at(data, 12)? as usize);
+        let i = (0..n).find(|&i| u32_at(data, types + 4 * (n - 1 - i)) == Some(0x3e8))?;
+        let at = u32_at(data, args + 4 * i)? as usize;
+        let bytes = data.get(at..)?;
+        let name: String = if self.version >= 1000 {
+            let units: Vec<u16> = bytes.chunks_exact(2).map(|c| u16::from_le_bytes([c[0], c[1]])).take_while(|&u| u != 0).take(256).collect();
+            String::from_utf16_lossy(&units)
+        } else {
+            bytes.iter().take_while(|&&b| b != 0).take(256).map(|&b| char::from(b)).collect()
+        };
+        let name = name.trim().to_string();
+        (!name.is_empty()).then_some(name)
     }
 
     /// The objects and groups in `records`; `group`: the innermost group's transform.
@@ -430,6 +498,8 @@ impl Reader<'_> {
                     let own = self.transform(children);
                     let mut kids = Vec::new();
                     self.collect(children, &mut kids, Some(own));
+                    // CorelDRAW lists the frontmost object first; ours are bottom first.
+                    kids.reverse();
                     if !kids.is_empty() {
                         out.push(Object::Group(kids));
                     }
@@ -501,7 +571,10 @@ impl Reader<'_> {
             return None;
         }
         self.shapes += 1;
-        path.apply_affine(group.unwrap_or(Affine::IDENTITY) * self.transform(children));
+        // From X6 on, an object's own transform already places it on the page (it includes its
+        // groups'); older files compose the groups' transforms.
+        let group = if self.version >= 1600 { Affine::IDENTITY } else { group.unwrap_or(Affine::IDENTITY) };
+        path.apply_affine(group * self.transform(children));
         let closed = path.elements().iter().any(|e| matches!(e, PathEl::ClosePath));
         let fill = match loda.fill.and_then(|id| self.fills.get(&id)) {
             Some(Fill::Solid(c)) if closed => Some(*c),

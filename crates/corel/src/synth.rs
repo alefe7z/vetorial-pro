@@ -187,7 +187,12 @@ pub fn page(flags: u32, layers: &[Vec<u8>]) -> Vec<u8> {
 
 /// A layer of objects.
 pub fn layer(objects: &[Vec<u8>]) -> Vec<u8> {
-    let mut children = vec![leaf(b"flgs", &0u32.to_le_bytes())];
+    layer_flags(0, objects)
+}
+
+/// A layer with `flags` (in a master page, `0x0a` in the low byte: its guides layer).
+pub fn layer_flags(flags: u32, objects: &[Vec<u8>]) -> Vec<u8> {
+    let mut children = vec![leaf(b"flgs", &flags.to_le_bytes())];
     children.extend_from_slice(objects);
     list(b"layr", &children)
 }
@@ -298,7 +303,7 @@ pub fn sample() -> Vec<u8> {
             leaf(b"vrsn", &1100u16.to_le_bytes()),
             leaf(b"DISP", &[vec![0; 4], dib([0, 255, 0])].concat()),
             doc,
-            page(0x00ff_0000, &[layer(&[guide])]),
+            page(0x00ff_0000, &[layer_flags(0x9801_000a, &[guide])]),
             page(0, &[layer(&[rect])]),
         ],
     )

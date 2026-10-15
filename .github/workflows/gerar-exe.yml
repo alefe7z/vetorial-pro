@@ -1,11 +1,9 @@
-# Gera o Vetorial.exe para Windows (64 bits) a cada atualização do código, em qualquer branch.
-# O .exe fica em Actions → (a execução) → Artifacts → Vetorial-<branch>-windows
-# (main e estavel-v1: versão estável; estilo-corel: versão em desenvolvimento).
+# Gera o Vetorial.exe para Windows (64 bits) só quando o dono pede: em Actions → Gerar EXE →
+# Run workflow (escolhendo a branch), ou por uma IA a pedido dele. Enviar código não gera o .exe.
+# O .exe fica em Actions → (a execução) → Artifacts → Vetorial-<branch>-windows.
 name: Gerar EXE
 
 on:
-  push:
-    branches: ['**']
   workflow_dispatch:
 
 concurrency:

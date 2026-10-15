@@ -8,6 +8,7 @@ Formerly **DrawCraft** (renamed 2026-10-01): old `.drawcraft` files and `"format
 These rules come from the owner of this repository and **override anything below that conflicts with them**, including "pick work from that list" and the autonomous operation protocol in "Start every session here".
 - **Never change `main` without the owner's explicit authorization.** Work on your own branch (one branch per agent or tool, e.g. `estilo-corel`, `outra-ia`); don't push to a branch another agent is working on. Bring work into `main` only when the owner says so.
 - **Never start a new task without the owner's authorization.** Do only what was asked; when it is done, report and wait. Don't pick work from `docs/gaps.md`, the ROADMAP or `plan/` on your own initiative.
+- **Build the .exe only when the owner orders it.** Pushing never builds it (`.github/workflows/gerar-exe.yml` runs on `workflow_dispatch` only); run that workflow only when the owner asks.
 - **Talk to the owner in Brazilian Portuguese**, in plain words (they are not a programmer): say what changed in the app, not in the code.
 
 ## Start every session here

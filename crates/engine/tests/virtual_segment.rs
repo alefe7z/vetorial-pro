@@ -165,3 +165,75 @@ fn the_tool_highlights_then_deletes_on_click_and_drag() {
     }
     assert_eq!(spans(&s, h), vec![(0, 100, false)]);
 }
+
+/// A path crossing itself like a fish (CorelDRAW's own demo): one tail goes, then the other, and
+/// the loop stays, its ends meeting where the crossing was.
+#[test]
+fn a_self_crossing_path_loses_its_tails_one_by_one() {
+    let mut s = session();
+    let pts = [(0, 0), (300, 300), (400, 200), (300, 100), (0, 300)];
+    let anchors: Vec<_> = pts.iter().map(|(x, y)| json!({"x": x, "y": y})).collect();
+    let r = s.execute("path.create", &json!({ "anchors": anchors })).unwrap();
+    let id = NodeId(r["id"].as_u64().unwrap());
+    // The tails meet the loop at (180, 180).
+    s.execute("path.deleteVirtualSegment", &json!({"point": [50, 50]})).unwrap();
+    assert!(live(&s, id));
+    let b = outline(&s, id).bounds().unwrap();
+    assert!((b.x0 - 0.0).abs() < 0.5 && (b.y0 - 100.0).abs() < 0.5, "the first tail went: {b:?}");
+    s.execute("path.deleteVirtualSegment", &json!({"point": [50, 266.7]})).unwrap();
+    assert!(live(&s, id), "the loop stays");
+    let p = outline(&s, id);
+    let b = p.bounds().unwrap();
+    assert!((b.x0 - 180.0).abs() < 0.5 && (b.x1 - 400.0).abs() < 0.5 && (b.y0 - 100.0).abs() < 0.5 && (b.y1 - 300.0).abs() < 0.5, "{b:?}");
+}
+
+/// Clicking the fish's loop takes only the loop: both tails stay, one object.
+#[test]
+fn a_self_crossing_paths_loop_goes_alone() {
+    let mut s = session();
+    let pts = [(0, 0), (300, 300), (400, 200), (300, 100), (0, 300)];
+    let anchors: Vec<_> = pts.iter().map(|(x, y)| json!({"x": x, "y": y})).collect();
+    let r = s.execute("path.create", &json!({ "anchors": anchors })).unwrap();
+    let id = NodeId(r["id"].as_u64().unwrap());
+    s.execute("path.deleteVirtualSegment", &json!({"point": [400, 200]})).unwrap();
+    assert_eq!(spans(&s, id), vec![(0, 180, false), (0, 180, false)], "the two tails");
+    // Then each tail on its own.
+    s.execute("path.deleteVirtualSegment", &json!({"point": [50, 50]})).unwrap();
+    assert_eq!(spans(&s, id), vec![(0, 180, false)]);
+    s.execute("path.deleteVirtualSegment", &json!({"point": [50, 266.7]})).unwrap();
+    assert!(!live(&s, id));
+}
+
+/// A closed figure eight: clicking one lobe leaves the other, open where they met.
+#[test]
+fn a_closed_figure_eight_loses_one_lobe() {
+    let mut s = session();
+    let pts = [(0, 0), (200, 200), (200, 0), (0, 200)];
+    let anchors: Vec<_> = pts.iter().map(|(x, y)| json!({"x": x, "y": y})).collect();
+    let r = s.execute("path.create", &json!({ "anchors": anchors, "closed": true })).unwrap();
+    let id = NodeId(r["id"].as_u64().unwrap());
+    // The lobes meet at (100, 100); the right lobe is (100,100)→(200,200)→(200,0)→(100,100).
+    s.execute("path.deleteVirtualSegment", &json!({"point": [200, 100]})).unwrap();
+    let p = outline(&s, id);
+    let b = p.bounds().unwrap();
+    assert!((b.x0 - 0.0).abs() < 0.5 && (b.x1 - 100.0).abs() < 0.5, "the left lobe stays: {b:?}");
+}
+
+/// The same with curves, as the fish is drawn in practice.
+#[test]
+fn a_curved_fish_loses_its_tails_one_by_one() {
+    let mut s = session();
+    let d = "M 0 300 C 150 300 250 100 350 100 C 450 100 450 300 350 300 C 250 300 150 100 0 100";
+    let id = NodeId(s.execute("path.create", &json!({ "d": d })).unwrap()["id"].as_u64().unwrap());
+    s.execute("path.deleteVirtualSegment", &json!({"point": [10, 300]})).unwrap();
+    s.execute("path.deleteVirtualSegment", &json!({"point": [10, 100]})).unwrap();
+    assert!(live(&s, id), "the loop stays");
+    let p = outline(&s, id);
+    assert_eq!(p.subpaths.len(), 1);
+    let b = p.bounds().unwrap();
+    // The curves cross halfway along, at (193.75, 200).
+    assert!((b.x0 - 193.75).abs() < 0.01 && (b.x1 - 425.0).abs() < 0.01, "{b:?}");
+    let sp = &p.subpaths[0];
+    let (first, last) = (sp.anchors.first().unwrap().p, sp.anchors.last().unwrap().p);
+    assert!(first.distance(last) < 1e-6, "its ends meet where the crossing was: {first:?} {last:?}");
+}

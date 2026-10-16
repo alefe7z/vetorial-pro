@@ -58,12 +58,41 @@ pub fn pieces(all: &[(NodeId, PathData)], id: NodeId) -> Vec<SubPath> {
     let mut shapes: Vec<po::Shape> = cutters.iter().enumerate().map(|(i, p)| po::Shape::new((*p).clone(), Default::default(), i as u64)).collect();
     shapes.push(po::Shape::new(target.clone(), Default::default(), key));
     let (_, edges) = po::live_paint(&shapes);
-    let mut out: Vec<SubPath> =
-        edges.into_iter().filter(|e| e.key == key).flat_map(|e| e.path.subpaths).filter(|sp| sp.segment_count() > 0).collect();
+    // The ends of the target's open subpaths end a run too: two subpaths meeting end to end (a path
+    // whose middle was deleted) are two runs, though nothing else crosses there.
+    let snap = 1e-6 * (1.0 + tb.width() + tb.height());
+    let ends: Vec<Point> =
+        target.subpaths.iter().filter(|sp| !sp.closed).flat_map(|sp| [sp.anchors.first(), sp.anchors.last()]).flatten().map(|a| a.p).collect();
+    let mut out: Vec<SubPath> = edges
+        .into_iter()
+        .filter(|e| e.key == key)
+        .flat_map(|e| e.path.subpaths)
+        .flat_map(|sp| split_at(sp, &ends, snap.max(1e-3)))
+        .filter(|sp| sp.segment_count() > 0)
+        .collect();
     if out.is_empty() {
         // No map (degenerate input): each subpath is one virtual segment.
         out = target.subpaths.iter().filter(|sp| sp.segment_count() > 0).cloned().collect();
     }
+    out
+}
+
+/// `sp` (an open run) cut at its inner anchors lying within `tol` of one of `at`.
+fn split_at(sp: SubPath, at: &[Point], tol: f64) -> Vec<SubPath> {
+    if sp.closed || sp.anchors.len() < 3 || at.is_empty() {
+        return vec![sp];
+    }
+    let mut out = vec![];
+    let mut cur: Vec<vectorcraft_geom::Anchor> = vec![];
+    let last = sp.anchors.len() - 1;
+    for (i, a) in sp.anchors.into_iter().enumerate() {
+        cur.push(a);
+        if i > 0 && i < last && at.iter().any(|q| q.distance(a.p) <= tol) {
+            out.push(SubPath { anchors: std::mem::take(&mut cur), closed: false });
+            cur.push(a);
+        }
+    }
+    out.push(SubPath { anchors: cur, closed: false });
     out
 }
 

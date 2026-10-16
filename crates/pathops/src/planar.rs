@@ -378,15 +378,15 @@ pub fn cut_out(path: &PathData, piece: &SubPath, fill_closes: bool, tol: f64) ->
     // A point well inside the piece: the middle of its longest segment.
     let arclen = |k: usize| kurbo::ParamCurveArclen::arclen(&piece.segment(k), 1e-3);
     let mid = (0..n).map(|k| (arclen(k), k)).max_by(|x, y| x.0.total_cmp(&y.0)).map(|(_, k)| piece.segment(k).eval(0.5))?;
-    let (a, b) = (piece.anchors.first()?.p, piece.anchors.last()?.p);
+    // A closed piece (a loop) starts and ends at its first anchor.
+    let a = piece.anchors.first()?.p;
+    let b = if piece.closed { a } else { piece.anchors.last()?.p };
     let mut bp = BezPath::new();
     piece.to_bezpath_into(&mut bp);
     if bp.perimeter(1e-6) <= tol {
         // A speck (where paths touch): there's nothing to cut.
         return None;
     }
-    // A piece that ends where it starts runs all the way round.
-    let whole = piece.closed || a.distance(b) <= tol;
     // Each subpath as the piece may run along it: round its closing edge when it has one.
     let ring = |sp: &SubPath| SubPath { anchors: sp.anchors.clone(), closed: sp.closed || (fill_closes && encloses_area(sp)) };
     let (si, geom, um) = path
@@ -402,35 +402,52 @@ pub fn cut_out(path: &PathData, piece: &SubPath, fill_closes: bool, tol: f64) ->
         .map(|(i, g, u, _)| (i, g, u))?;
     let len = geom.segment_count() as f64;
     let real = path.subpaths.get(si)?.segment_count() as f64;
-    let at = |p: Point| nearest_u(&geom, p).filter(|(_, d)| *d <= tol).map(|(u, _)| u);
+    // Every place the piece's ends lie on the subpath: a path that crosses or touches itself
+    // passes a junction more than once, and the piece runs between the two nearest `mid`, one
+    // on each side.
+    let mut ends = occurrences(&geom, a, tol);
+    ends.extend(occurrences(&geom, b, tol));
+    if ends.is_empty() {
+        return None;
+    }
     // The parameter spans of `geom` that stay (unrolled past the end of a ring).
-    let keep: Vec<(f64, f64)> = if whole {
-        Vec::new()
-    } else if geom.closed {
-        let (ua, ub) = (at(a)?, at(b)?);
+    let keep: Vec<(f64, f64)> = if geom.closed {
         let fwd = |from: f64, to: f64| (to - from).rem_euclid(len);
-        // The piece runs from one end through `mid` to the other; what stays runs on round.
-        let (start, end) = if fwd(ua, um) <= fwd(ua, ub) { (ub, ua) } else { (ua, ub) };
-        let rest = fwd(start, end);
-        if rest <= 1e-9 || len - rest <= 1e-9 {
+        let start = ends.iter().copied().min_by(|x, y| fwd(*x, um).total_cmp(&fwd(*y, um)))?;
+        let end = ends.iter().copied().min_by(|x, y| fwd(um, *x).total_cmp(&fwd(um, *y)))?;
+        let cut = fwd(start, um) + fwd(um, end);
+        let rest = len - cut;
+        if rest <= 1e-9 || cut <= 1e-9 {
+            // It runs all the way round.
             Vec::new()
         } else {
-            // Where the ring closes with an invisible edge (`real..len`), what stays stops at it.
+            // What stays runs on round from the piece's end to its start; where the ring closes
+            // with an invisible edge (`real..len`), it stops at it.
+            let from = end;
             let parts: &[(f64, f64)] = if real >= len { &[(0.0, 2.0 * len)] } else { &[(0.0, real), (len, len + real)] };
-            parts.iter().map(|&(lo, hi)| (start.max(lo), (start + rest).min(hi))).filter(|(x, y)| y - x > 1e-9).collect()
+            parts.iter().map(|&(lo, hi)| (from.max(lo), (from + rest).min(hi))).filter(|(x, y)| y - x > 1e-9).collect()
         }
     } else {
-        let (ua, ub) = (at(a)?, at(b)?);
-        let (lo, hi) = (ua.min(ub), ua.max(ub));
-        if !(lo - 1e-9..=hi + 1e-9).contains(&um) {
-            return None;
-        }
+        let lo = ends.iter().copied().filter(|u| *u <= um + 1e-12).max_by(f64::total_cmp)?;
+        let hi = ends.iter().copied().filter(|u| *u >= um - 1e-12).min_by(f64::total_cmp)?;
         [(0.0, lo), (hi, len)].into_iter().filter(|(x, y)| y - x > 1e-9).collect()
     };
     let mut subpaths: Vec<SubPath> = path.subpaths.iter().take(si).cloned().collect();
     subpaths.extend(keep.into_iter().filter_map(|(u0, u1)| span(&geom, u0, u1)).map(|sp| snap_ends(sp, [a, b], tol)));
     subpaths.extend(path.subpaths.iter().skip(si + 1).cloned());
     Some(PathData::new(subpaths))
+}
+
+/// Every parameter (`segment + t`) where `sp` passes within `tol` of `p`: the nearest point of
+/// each segment that comes that close.
+fn occurrences(sp: &SubPath, p: Point, tol: f64) -> Vec<f64> {
+    use kurbo::ParamCurveNearest;
+    (0..sp.segment_count())
+        .filter_map(|k| {
+            let n = sp.segment(k).nearest(p, 1e-9);
+            (n.distance_sq.sqrt() <= tol).then_some(k as f64 + n.t)
+        })
+        .collect()
 }
 
 /// The point of `sp` nearest `p`, as a parameter `segment + t`, with its distance.

@@ -4357,3 +4357,18 @@ lighting	Light	Світло
 	User Palette 8	Палітра користувача 8
 	User Palette 9	Палітра користувача 9
 	User Palette 10	Палітра користувача 10
+	Page {n}	Сторінка {n}
+	{n} of {m}	{n} з {m}
+	Rename Page…	Перейменувати сторінку…
+	Insert Page After	Вставити сторінку після
+	Insert Page Before	Вставити сторінку перед
+	Duplicate Page	Дублювати сторінку
+	Delete Page	Видалити сторінку
+	Switch Page Orientation	Змінити орієнтацію сторінки
+	Insert page before	Вставити сторінку перед
+	Insert page after	Вставити сторінку після
+	First page	Перша сторінка
+	Last page	Остання сторінка
+	Insert Page	Вставити сторінку
+@msg	no such page	немає такої сторінки
+@msg	a document needs at least one page	у документі має бути хоча б одна сторінка

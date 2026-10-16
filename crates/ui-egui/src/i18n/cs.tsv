@@ -4808,3 +4808,18 @@ mark-style	Japanese	Japonské
 	User Palette 8	Uživatelská paleta 8
 	User Palette 9	Uživatelská paleta 9
 	User Palette 10	Uživatelská paleta 10
+	Page {n}	Stránka {n}
+	{n} of {m}	{n} z {m}
+	Rename Page…	Přejmenovat stránku…
+	Insert Page After	Vložit stránku za
+	Insert Page Before	Vložit stránku před
+	Duplicate Page	Duplikovat stránku
+	Delete Page	Odstranit stránku
+	Switch Page Orientation	Přepnout orientaci stránky
+	Insert page before	Vložit stránku před
+	Insert page after	Vložit stránku za
+	First page	První stránka
+	Last page	Poslední stránka
+	Insert Page	Vložit stránku
+@msg	no such page	taková stránka neexistuje
+@msg	a document needs at least one page	dokument potřebuje alespoň jednu stránku

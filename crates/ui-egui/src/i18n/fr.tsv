@@ -4808,3 +4808,18 @@ theme	Appearance	Apparence
 	User Palette 8	Palette utilisateur 8
 	User Palette 9	Palette utilisateur 9
 	User Palette 10	Palette utilisateur 10
+	Page {n}	Page {n}
+	{n} of {m}	{n} sur {m}
+	Rename Page…	Renommer la page…
+	Insert Page After	Insérer une page après
+	Insert Page Before	Insérer une page avant
+	Duplicate Page	Dupliquer la page
+	Delete Page	Supprimer la page
+	Switch Page Orientation	Changer l’orientation de la page
+	Insert page before	Insérer une page avant
+	Insert page after	Insérer une page après
+	First page	Première page
+	Last page	Dernière page
+	Insert Page	Insérer une page
+@msg	no such page	page inexistante
+@msg	a document needs at least one page	un document doit avoir au moins une page

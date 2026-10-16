@@ -308,6 +308,9 @@ pub struct UiState {
     /// docked at the window's left edge.
     #[serde(default)]
     pub toolbar_pos: Option<[f32; 2]>,
+    /// Vetorial: the page tab being renamed in place in the page bar.
+    #[serde(skip)]
+    pub page_rename: Option<crate::page_bar::Rename>,
     pub status_bar: bool,
     pub dock: bool,
     pub view: ViewFlags,
@@ -629,6 +632,7 @@ impl Default for UiState {
             docking_icons: Default::default(),
             docking_generation: 0,
             toolbar_pos: None,
+            page_rename: None,
             status_bar: true,
             dock: true,
             view: ViewFlags::default(),

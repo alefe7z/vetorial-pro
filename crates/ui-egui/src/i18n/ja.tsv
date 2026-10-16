@@ -4371,3 +4371,18 @@ lighting	Light	ライト
 	User Palette 8	ユーザーパレット 8
 	User Palette 9	ユーザーパレット 9
 	User Palette 10	ユーザーパレット 10
+	Page {n}	ページ {n}
+	{n} of {m}	{n} / {m}
+	Rename Page…	ページ名を変更…
+	Insert Page After	後にページを挿入
+	Insert Page Before	前にページを挿入
+	Duplicate Page	ページを複製
+	Delete Page	ページを削除
+	Switch Page Orientation	ページの向きを切り替え
+	Insert page before	前にページを挿入
+	Insert page after	後にページを挿入
+	First page	最初のページ
+	Last page	最後のページ
+	Insert Page	ページを挿入
+@msg	no such page	そのページはありません
+@msg	a document needs at least one page	ドキュメントには少なくとも 1 ページが必要です

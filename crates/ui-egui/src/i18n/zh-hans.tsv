@@ -3965,3 +3965,18 @@ lighting	Light	光源
 	User Palette 9	用户调色板 9
 	User Palette 10	用户调色板 10
 @msg	Virtual Segment Delete: no virtual segment there	删除虚拟段：此处没有虚拟段
+	Page {n}	第 {n} 页
+	{n} of {m}	{n} / {m}
+	Rename Page…	重命名页面…
+	Insert Page After	在后面插入页面
+	Insert Page Before	在前面插入页面
+	Duplicate Page	复制页面
+	Delete Page	删除页面
+	Switch Page Orientation	切换页面方向
+	Insert page before	在前面插入页面
+	Insert page after	在后面插入页面
+	First page	第一页
+	Last page	最后一页
+	Insert Page	插入页面
+@msg	no such page	没有该页面
+@msg	a document needs at least one page	文档至少需要一个页面

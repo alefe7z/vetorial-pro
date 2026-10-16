@@ -4377,3 +4377,18 @@ lighting	Light	Luce
 	User Palette 8	Tavolozza utente 8
 	User Palette 9	Tavolozza utente 9
 	User Palette 10	Tavolozza utente 10
+	Page {n}	Pagina {n}
+	{n} of {m}	{n} di {m}
+	Rename Page…	Rinomina pagina…
+	Insert Page After	Inserisci pagina dopo
+	Insert Page Before	Inserisci pagina prima
+	Duplicate Page	Duplica pagina
+	Delete Page	Elimina pagina
+	Switch Page Orientation	Cambia orientamento pagina
+	Insert page before	Inserisci pagina prima
+	Insert page after	Inserisci pagina dopo
+	First page	Prima pagina
+	Last page	Ultima pagina
+	Insert Page	Inserisci pagina
+@msg	no such page	pagina inesistente
+@msg	a document needs at least one page	un documento deve avere almeno una pagina

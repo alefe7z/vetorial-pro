@@ -37,6 +37,7 @@ pub mod io;
 pub mod menus;
 pub mod native_menu;
 pub mod opening;
+pub mod page_bar;
 pub mod palette;
 pub mod palette_bars;
 mod panel_docking;
@@ -1259,6 +1260,9 @@ impl VectorcraftApp {
         egui::CentralPanel::default().frame(egui::Frame::NONE.fill(t.pasteboard)).show(ui, |ui| {
             if self.ui.screen_mode < 3 {
                 chrome::doc_tabs(self, ui);
+                if self.ui.home.is_none() {
+                    page_bar::show(self, ui);
+                }
             }
             canvas::show(self, ui);
         });

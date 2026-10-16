@@ -4341,3 +4341,18 @@ lighting	Light	광원
 	User Palette 8	사용자 팔레트 8
 	User Palette 9	사용자 팔레트 9
 	User Palette 10	사용자 팔레트 10
+	Page {n}	페이지 {n}
+	{n} of {m}	{n} / {m}
+	Rename Page…	페이지 이름 바꾸기…
+	Insert Page After	뒤에 페이지 삽입
+	Insert Page Before	앞에 페이지 삽입
+	Duplicate Page	페이지 복제
+	Delete Page	페이지 삭제
+	Switch Page Orientation	페이지 방향 전환
+	Insert page before	앞에 페이지 삽입
+	Insert page after	뒤에 페이지 삽입
+	First page	첫 페이지
+	Last page	마지막 페이지
+	Insert Page	페이지 삽입
+@msg	no such page	해당 페이지가 없습니다
+@msg	a document needs at least one page	문서에는 페이지가 하나 이상 있어야 합니다

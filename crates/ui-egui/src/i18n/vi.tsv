@@ -4359,3 +4359,18 @@ theme	Appearance	Giao diện
 	User Palette 8	Bảng màu người dùng 8
 	User Palette 9	Bảng màu người dùng 9
 	User Palette 10	Bảng màu người dùng 10
+	Page {n}	Trang {n}
+	{n} of {m}	{n} / {m}
+	Rename Page…	Đổi tên trang…
+	Insert Page After	Chèn trang sau
+	Insert Page Before	Chèn trang trước
+	Duplicate Page	Nhân bản trang
+	Delete Page	Xóa trang
+	Switch Page Orientation	Đổi hướng trang
+	Insert page before	Chèn trang trước
+	Insert page after	Chèn trang sau
+	First page	Trang đầu
+	Last page	Trang cuối
+	Insert Page	Chèn trang
+@msg	no such page	không có trang đó
+@msg	a document needs at least one page	tài liệu cần ít nhất một trang

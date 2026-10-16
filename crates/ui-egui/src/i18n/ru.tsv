@@ -4373,3 +4373,18 @@ lighting	Light	Свет
 	User Palette 8	Пользовательская палитра 8
 	User Palette 9	Пользовательская палитра 9
 	User Palette 10	Пользовательская палитра 10
+	Page {n}	Страница {n}
+	{n} of {m}	{n} из {m}
+	Rename Page…	Переименовать страницу…
+	Insert Page After	Вставить страницу после
+	Insert Page Before	Вставить страницу перед
+	Duplicate Page	Дублировать страницу
+	Delete Page	Удалить страницу
+	Switch Page Orientation	Сменить ориентацию страницы
+	Insert page before	Вставить страницу перед
+	Insert page after	Вставить страницу после
+	First page	Первая страница
+	Last page	Последняя страница
+	Insert Page	Вставить страницу
+@msg	no such page	нет такой страницы
+@msg	a document needs at least one page	в документе должна быть хотя бы одна страница

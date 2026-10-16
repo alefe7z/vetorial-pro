@@ -3746,3 +3746,18 @@ lighting	Light	光源
 	User Palette 9	使用者調色盤 9
 	User Palette 10	使用者調色盤 10
 @msg	Virtual Segment Delete: no virtual segment there	刪除虛擬線段：此處沒有虛擬線段
+	Page {n}	第 {n} 頁
+	{n} of {m}	{n} / {m}
+	Rename Page…	重新命名頁面…
+	Insert Page After	在後面插入頁面
+	Insert Page Before	在前面插入頁面
+	Duplicate Page	複製頁面
+	Delete Page	刪除頁面
+	Switch Page Orientation	切換頁面方向
+	Insert page before	在前面插入頁面
+	Insert page after	在後面插入頁面
+	First page	第一頁
+	Last page	最後一頁
+	Insert Page	插入頁面
+@msg	no such page	沒有該頁面
+@msg	a document needs at least one page	文件至少需要一個頁面

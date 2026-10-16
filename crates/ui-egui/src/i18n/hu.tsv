@@ -4775,3 +4775,18 @@ imageTrace	Outline	Körvonal
 	User Palette 8	Felhasználói paletta 8
 	User Palette 9	Felhasználói paletta 9
 	User Palette 10	Felhasználói paletta 10
+	Page {n}	{n}. oldal
+	{n} of {m}	{n} / {m}
+	Rename Page…	Oldal átnevezése…
+	Insert Page After	Oldal beszúrása utána
+	Insert Page Before	Oldal beszúrása elé
+	Duplicate Page	Oldal kettőzése
+	Delete Page	Oldal törlése
+	Switch Page Orientation	Oldal tájolásának váltása
+	Insert page before	Oldal beszúrása elé
+	Insert page after	Oldal beszúrása utána
+	First page	Első oldal
+	Last page	Utolsó oldal
+	Insert Page	Oldal beszúrása
+@msg	no such page	nincs ilyen oldal
+@msg	a document needs at least one page	egy dokumentumnak legalább egy oldal kell

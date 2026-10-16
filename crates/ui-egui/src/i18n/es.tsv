@@ -4749,3 +4749,18 @@ mark-style	Japanese	Japonesas
 	User Palette 8	Paleta de usuario 8
 	User Palette 9	Paleta de usuario 9
 	User Palette 10	Paleta de usuario 10
+	Page {n}	Página {n}
+	{n} of {m}	{n} de {m}
+	Rename Page…	Cambiar nombre de página…
+	Insert Page After	Insertar página después
+	Insert Page Before	Insertar página antes
+	Duplicate Page	Duplicar página
+	Delete Page	Eliminar página
+	Switch Page Orientation	Cambiar orientación de página
+	Insert page before	Insertar página antes
+	Insert page after	Insertar página después
+	First page	Primera página
+	Last page	Última página
+	Insert Page	Insertar página
+@msg	no such page	no existe esa página
+@msg	a document needs at least one page	un documento necesita al menos una página

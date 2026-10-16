@@ -4650,3 +4650,18 @@ mark-style	Japanese	Japońskie
 	User Palette 8	Paleta użytkownika 8
 	User Palette 9	Paleta użytkownika 9
 	User Palette 10	Paleta użytkownika 10
+	Page {n}	Strona {n}
+	{n} of {m}	{n} z {m}
+	Rename Page…	Zmień nazwę strony…
+	Insert Page After	Wstaw stronę po
+	Insert Page Before	Wstaw stronę przed
+	Duplicate Page	Powiel stronę
+	Delete Page	Usuń stronę
+	Switch Page Orientation	Przełącz orientację strony
+	Insert page before	Wstaw stronę przed
+	Insert page after	Wstaw stronę po
+	First page	Pierwsza strona
+	Last page	Ostatnia strona
+	Insert Page	Wstaw stronę
+@msg	no such page	nie ma takiej strony
+@msg	a document needs at least one page	dokument musi mieć co najmniej jedną stronę

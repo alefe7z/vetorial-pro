@@ -46,6 +46,7 @@ mod object;
 mod opacitymask;
 mod overprint;
 mod package;
+pub mod pages;
 mod paint;
 mod panelcmds;
 pub mod params;
@@ -242,6 +243,7 @@ pub fn command_specs() -> &'static [CommandSpec] {
         v.extend(variablecmds::specs());
         v.extend(docinfo::specs());
         v.extend(panelcmds::specs());
+        v.extend(pages::specs());
         v.extend(buildcmds::specs());
         v.extend(shaper::specs());
         v.extend(brushsym::specs());

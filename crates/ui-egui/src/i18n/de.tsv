@@ -4332,3 +4332,18 @@ theme	Appearance	Erscheinungsbild
 	User Palette 8	Benutzerpalette 8
 	User Palette 9	Benutzerpalette 9
 	User Palette 10	Benutzerpalette 10
+	Page {n}	Seite {n}
+	{n} of {m}	{n} von {m}
+	Rename Page…	Seite umbenennen…
+	Insert Page After	Seite danach einfügen
+	Insert Page Before	Seite davor einfügen
+	Duplicate Page	Seite duplizieren
+	Delete Page	Seite löschen
+	Switch Page Orientation	Seitenausrichtung wechseln
+	Insert page before	Seite davor einfügen
+	Insert page after	Seite danach einfügen
+	First page	Erste Seite
+	Last page	Letzte Seite
+	Insert Page	Seite einfügen
+@msg	no such page	diese Seite gibt es nicht
+@msg	a document needs at least one page	ein Dokument braucht mindestens eine Seite

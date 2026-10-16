@@ -55,6 +55,7 @@ pub static ICONS: &[(&str, &[u8])] = &[
     ("dc-3pt-curve", include_bytes!("../../../assets/icons/dc-3pt-curve.svg")),
     ("dc-bezier", include_bytes!("../../../assets/icons/dc-bezier.svg")),
     ("dc-bspline", include_bytes!("../../../assets/icons/dc-bspline.svg")),
+    ("dc-virtual-segment", include_bytes!("../../../assets/icons/dc-virtual-segment.svg")),
     ("dc-polyline", include_bytes!("../../../assets/icons/dc-polyline.svg")),
     ("dc-bloat", include_bytes!("../../../assets/icons/dc-bloat.svg")),
     ("dc-cap-butt", include_bytes!("../../../assets/icons/dc-cap-butt.svg")),

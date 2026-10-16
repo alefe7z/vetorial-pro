@@ -268,6 +268,20 @@ fn shape_builder(p: &mut Ink, o: Pos2, erase: bool) {
     }
 }
 
+/// Virtual Segment Delete: a small knife, lying on its side away from paths and standing on its
+/// point (at the hotspot) over a virtual segment a click deletes.
+fn virtual_segment(p: &mut Ink, o: Pos2, hot: bool) {
+    let blade = if hot {
+        vec![o, o + vec2(3.5, -10.0), o + vec2(3.5, -13.0), o + vec2(0.0, -13.0)]
+    } else {
+        vec![o, o + vec2(10.0, -3.5), o + vec2(13.0, -3.5), o + vec2(13.0, 0.0)]
+    };
+    poly(p, blade, HALO, INK);
+    let (a, b) = if hot { (o + vec2(1.75, -13.0), o + vec2(1.75, -20.0)) } else { (o + vec2(13.0, -1.75), o + vec2(20.0, -1.75)) };
+    p.line_segment([a, b], Stroke::new(5.0, HALO));
+    p.line_segment([a, b], Stroke::new(3.0, INK));
+}
+
 /// The Hand tool and Space: an open hand (palm and four fingers, thumb to the left), or the same
 /// hand closed while it drags the view. Windows has no system hand that isn't a pointing finger
 /// (winit maps egui's Grab and Grabbing to the four-headed move cursor), so it is drawn like the
@@ -357,6 +371,8 @@ fn glyph(c: Cursor, p: Pos2) -> Option<Vec<Shape>> {
         Cursor::TypeWidget => type_widget(ink, p),
         Cursor::ShapeBuilder => shape_builder(ink, p, false),
         Cursor::ShapeBuilderErase => shape_builder(ink, p, true),
+        Cursor::VirtualSegment => virtual_segment(ink, p, false),
+        Cursor::VirtualSegmentHot => virtual_segment(ink, p, true),
         Cursor::Hand => hand(ink, p, false),
         Cursor::HandGrab => hand(ink, p, true),
         Cursor::ZoomIn => magnifier(ink, p, false),
@@ -499,7 +515,7 @@ mod tests {
     use crate::VectorcraftApp;
 
     /// Every cursor with a glyph.
-    const GLYPHS: [Cursor; 38] = [
+    const GLYPHS: [Cursor; 40] = [
         Cursor::Hand,
         Cursor::HandGrab,
         Cursor::ZoomIn,
@@ -538,6 +554,8 @@ mod tests {
         Cursor::TypeWidget,
         Cursor::ShapeBuilder,
         Cursor::ShapeBuilderErase,
+        Cursor::VirtualSegment,
+        Cursor::VirtualSegmentHot,
     ];
 
     /// The straight RGBA of pixel (x, y).

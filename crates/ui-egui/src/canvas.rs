@@ -535,6 +535,7 @@ fn cursor_icon(c: Cursor) -> egui::CursorIcon {
         Cursor::Width | Cursor::WidthAdd => C::Crosshair,
         Cursor::WidthPoint => C::Move,
         Cursor::Blend | Cursor::BlendObject | Cursor::BlendAnchor | Cursor::ShapeBuilder | Cursor::ShapeBuilderErase => C::Crosshair,
+        Cursor::VirtualSegment | Cursor::VirtualSegmentHot => C::Crosshair,
     }
 }
 

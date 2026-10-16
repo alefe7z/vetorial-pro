@@ -1452,6 +1452,8 @@
 	Line Color	Цвет линии
 	Line Cut	Разрезание линий
 	Line Cut Tool	Инструмент «Разрезание линий»
+	Virtual Segment Delete	Удалить виртуальный сегмент
+	Virtual Segment Delete Tool	Инструмент «Удаление виртуального сегмента»
 	Line Endings:	Окончания линий:
 	Line Graph Tool	Инструмент «Линейчатая диаграмма»
 	Line Segment	Отрезок
@@ -3487,6 +3489,7 @@ axis	Both	Оба
 @msg	Opened with {_1} note(s): {_2}	Открыто с примечаниями ({_1}) : {_2}
 @msg	Opened {url}	Открыто {url}
 @msg	Outline Stroke: no stroked paths selected	Обводка контура: не выделены контуры с обводкой
+@msg	Virtual Segment Delete: no virtual segment there	Удалить виртуальный сегмент: здесь нет виртуального сегмента
 @msg	PDF settings are not an object	параметры PDF не являются объектом
 @msg	PDF writer error: {0}	ошибка записи PDF: {0}
 @msg	Packaged {n} file(s) in {folder}{note}	Упаковано файлов: {n} в {folder}{note}

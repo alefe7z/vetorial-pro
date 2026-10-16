@@ -34,6 +34,7 @@ pub fn create(id: &str) -> Option<Box<dyn Tool>> {
         "bspline" => Box::new(BSplineTool::default()),
         "polyline" => Box::new(PolylineTool::default()),
         "threePointCurve" => Box::new(ThreePointCurveTool::default()),
+        "virtualSegmentDelete" => Box::new(crate::vsegment::VirtualSegmentTool::default()),
         _ => return None,
     })
 }

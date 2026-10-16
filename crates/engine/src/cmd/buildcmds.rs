@@ -53,6 +53,15 @@ pub fn specs() -> Vec<CommandSpec> {
             sb_regions
         ),
         cmd!(
+            "path.deleteVirtualSegment",
+            "Virtual Segment Delete",
+            [],
+            None,
+            "{point?: [x,y] (a click: the virtual segment nearest it within tolerance), rect?: [x0,y0,x1,y1] (a marquee: every virtual segment lying wholly inside), tolerance?: pt (3, with point)} delete virtual segments: the runs of visible, unlocked paths between the points where they meet another path or themselves (or an end of an open path); anchors between don't end a run. Nothing needs to be selected. A closed path opens there, an open one splits (its pieces stay one object, a compound path), a path with nothing left goes; one undo step → {deleted: segments deleted, ids: [the objects changed or removed]}",
+            has_doc,
+            vs_delete
+        ),
+        cmd!(
             "livePaint.make",
             "Make",
             ["Object", "Live Paint"],
@@ -336,6 +345,72 @@ fn sb_merge(s: &mut Session, p: &Value) -> Result<Value> {
         "lines": touched.lines.len(),
         "edges": touched.edges.len(),
     }))
+}
+
+fn vs_delete(s: &mut Session, p: &Value) -> Result<Value> {
+    use vectorcraft_tools::vsegment as vs;
+    const C: &str = "path.deleteVirtualSegment";
+    let pair = |k: &str| -> Option<Vec<f64>> { p.get(k)?.as_array()?.iter().map(Value::as_f64).collect::<Option<Vec<f64>>>() };
+    let all = vs::paths(&s.doc()?.doc);
+    let cuts: Vec<(NodeId, Vec<SubPath>)> = match (pair("point"), pair("rect")) {
+        (Some(v), _) => {
+            let [x, y] = v[..] else { return Err(bad(C, "point is [x, y]")) };
+            let at = Point::new(x, y);
+            if !finite(at) {
+                return Err(bad(C, "point must be finite"));
+            }
+            let tol = f64_or(p, "tolerance", 3.0).clamp(0.0, 10_000.0);
+            vs::segment_at(&all, at, tol).map(|(id, sp)| vec![(id, vec![sp])]).unwrap_or_default()
+        }
+        (None, Some(v)) => {
+            let [x0, y0, x1, y1] = v[..] else { return Err(bad(C, "rect is [x0, y0, x1, y1]")) };
+            if ![x0, y0, x1, y1].iter().all(|c| c.is_finite()) {
+                return Err(bad(C, "rect must be finite"));
+            }
+            vs::segments_in(&all, Rect::new(x0.min(x1), y0.min(y1), x0.max(x1), y0.max(y1)))
+        }
+        (None, None) => return Err(bad(C, "give point [x, y] or rect [x0, y0, x1, y1]")),
+    };
+    if cuts.is_empty() {
+        return Err(EngineError::Other("Virtual Segment Delete: no virtual segment there".into()));
+    }
+    let (deleted, ids) = s.edit("Virtual Segment Delete", |d, sel| {
+        let mut deleted = 0usize;
+        let mut ids = vec![];
+        for (id, pieces) in &cuts {
+            let Some(leaf) = d.node(*id).cloned() else { continue };
+            let Some((mut rest, _)) = b::node_outline(&leaf) else { continue };
+            // The pieces come from the planar map within a few hundredths of the outline.
+            let size = rest.bounds().map_or(1.0, |r| r.width().max(r.height()));
+            let tol = (size * 1e-4).clamp(0.01, 1.0);
+            let before = deleted;
+            for piece in pieces {
+                if let Some(r) = po::cut_out(&rest, piece, false, tol) {
+                    rest = r;
+                    deleted += 1;
+                }
+            }
+            if deleted == before {
+                continue;
+            }
+            rest.subpaths.retain(|sp| sp.segment_count() > 0);
+            if rest.subpaths.is_empty() {
+                d.remove(*id).map_err(|e| EngineError::Other(e.to_string()))?;
+                sel.remove(*id);
+            } else {
+                // The same object (id, name, appearance), its outline cut.
+                let kind = shape_node(d, rest, Some(&leaf)).kind;
+                let node = Node { kind, ..leaf };
+                d.insert_beside(vec![(*id, vec![node])], true).map_err(|e| EngineError::Other(e.to_string()))?;
+            }
+            ids.push(id.0);
+        }
+        if deleted == 0 {
+            return Err(EngineError::Other("Virtual Segment Delete: no virtual segment there".into()));
+        }
+        Ok((deleted, ids))
+    })?;
+    Ok(json!({ "deleted": deleted, "ids": ids }))
 }
 
 /// Remove the roots and insert `nodes` where the front-most root was. Returns the new ids.

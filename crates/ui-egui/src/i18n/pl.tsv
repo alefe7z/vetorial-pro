@@ -1073,6 +1073,8 @@ lighting	Light	Światło
 	Join Tool	Narzędzie Łączenie
 	Lasso Tool	Narzędzie Lasso
 	Line Cut Tool	Narzędzie Cięcie linią
+	Virtual Segment Delete	Usuń segment wirtualny
+	Virtual Segment Delete Tool	Narzędzie Usuń segment wirtualny
 	Line Graph Tool	Narzędzie Wykres liniowy
 	Line Segment Tool	Narzędzie Odcinek
 	Live Paint Selection Tool	Narzędzie Zaznaczanie aktywnego malowania
@@ -3655,6 +3657,7 @@ imageTrace	Outline	Kontur
 @msg	Opened with {_1} note(s): {_2}	Otwarto, uwagi ({_1}): {_2}
 @msg	Opened {url}	Otwarto {url}
 @msg	Outline Stroke: no stroked paths selected	Obrys konturu: nie zaznaczono ścieżek z obrysem
+@msg	Virtual Segment Delete: no virtual segment there	Usuń segment wirtualny: brak segmentu wirtualnego w tym miejscu
 @msg	PDF settings are not an object	Ustawienia PDF nie są obiektem
 @msg	PDF writer error: {0}	Błąd zapisu PDF: {0}
 @msg	Packaged {n} file(s) in {folder}{note}	Spakowane pliki: {n} w {folder}{note}

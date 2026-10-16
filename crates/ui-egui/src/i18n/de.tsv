@@ -1436,6 +1436,8 @@
 	Line Color	Linienfarbe
 	Line Cut	Linienschnitt
 	Line Cut Tool	Linienschnitt-Werkzeug
+	Virtual Segment Delete	Virtuelles Segment löschen
+	Virtual Segment Delete Tool	Werkzeug Virtuelles Segment löschen
 	Line Endings:	Zeilenenden:
 	Line Graph Tool	Liniendiagramm-Werkzeug
 	Line Segment	Liniensegment
@@ -3391,6 +3393,7 @@ theme	Appearance	Erscheinungsbild
 @msg	Opened with {_1} note(s): {_2}	Mit {_1} Hinweis(en) geöffnet: {_2}
 @msg	Opened {url}	{url} geöffnet
 @msg	Outline Stroke: no stroked paths selected	Konturlinie: keine Pfade mit Kontur ausgewählt
+@msg	Virtual Segment Delete: no virtual segment there	Virtuelles Segment löschen: dort ist kein virtuelles Segment
 @msg	PDF settings are not an object	die PDF-Einstellungen sind kein Objekt
 @msg	PDF writer error: {0}	Fehler beim Schreiben der PDF-Datei: {0}
 @msg	Packaged {n} file(s) in {folder}{note}	{n} Datei(en) in {folder} verpackt{note}

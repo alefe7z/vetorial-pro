@@ -1872,6 +1872,8 @@
 	Line Color	Vonalszín
 	Line Cut	Vágás vonallal
 	Line Cut Tool	Vágás vonallal
+	Virtual Segment Delete	Virtuális szakasz törlése
+	Virtual Segment Delete Tool	Virtuális szakasz törlése eszköz
 	Line delta	Sorváltozás
 	Line Endings:	Sorvégek:
 	Line Graph Tool	Vonaldiagram
@@ -4391,6 +4393,7 @@ imageTrace	Outline	Körvonal
 @msg	Opened with {_1} note(s): {_2}	Megnyitva; megjegyzések: {_1}: {_2}
 @msg	Opened {url}	Megnyitva: {url}
 @msg	Outline Stroke: no stroked paths selected	Körvonal útvonallá alakítása: nincs kijelölt körvonalas útvonal
+@msg	Virtual Segment Delete: no virtual segment there	Virtuális szakasz törlése: ott nincs virtuális szakasz
 @msg	Packaged {n} file(s) in {folder}{note}	Becsomagolt fájlok: {n}, mappa: {folder}{note}
 @msg	Packaged {n} file(s){note}	Becsomagolt fájlok: {n}{note}
 @msg	page size {w} × {h}	oldalméret: {w} × {h}

@@ -1683,6 +1683,8 @@
 	Line Color	Màu đường
 	Line Cut	Cắt đường
 	Line Cut Tool	Công cụ Cắt đường
+	Virtual Segment Delete	Xóa đoạn ảo
+	Virtual Segment Delete Tool	Công cụ Xóa đoạn ảo
 	Line delta	Delta dòng
 	Line Endings:	Kết thúc dòng:
 	Line Graph Tool	Công cụ Biểu đồ đường
@@ -4020,6 +4022,7 @@ theme	Appearance	Giao diện
 @msg	Opened with {_1} note(s): {_2}	Đã mở với {_1} ghi chú: {_2}
 @msg	Opened {url}	Đã mở {url}
 @msg	Outline Stroke: no stroked paths selected	Đường bao nét: chưa chọn đường dẫn có nét
+@msg	Virtual Segment Delete: no virtual segment there	Xóa đoạn ảo: không có đoạn ảo ở đó
 @msg	Packaged {n} file(s) in {folder}{note}	Đã đóng gói {n} tệp trong {folder}{note}
 @msg	Packaged {n} file(s){note}	Đã đóng gói {n} tệp{note}
 @msg	page size {w} × {h}	kích thước trang {w} × {h}

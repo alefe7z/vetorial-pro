@@ -1454,6 +1454,8 @@
 	Line Color	Color de línea
 	Line Cut	Corte de línea
 	Line Cut Tool	Herramienta Corte de línea
+	Virtual Segment Delete	Eliminar segmento virtual
+	Virtual Segment Delete Tool	Herramienta Eliminar segmento virtual
 	Line Endings:	Finales de línea:
 	Line Graph Tool	Herramienta Gráfico de líneas
 	Line Segment	Segmento de línea
@@ -3491,6 +3493,7 @@ axis	Both	Ambos
 @msg	Opened with {_1} note(s): {_2}	Se abrió con {_1} nota(s): {_2}
 @msg	Opened {url}	Se abrió {url}
 @msg	Outline Stroke: no stroked paths selected	Contornear trazo: no hay trazados con trazo seleccionados
+@msg	Virtual Segment Delete: no virtual segment there	Eliminar segmento virtual: no hay ningún segmento virtual ahí
 @msg	PDF settings are not an object	los ajustes de PDF no son un objeto
 @msg	PDF writer error: {0}	error del escritor de PDF: {0}
 @msg	Packaged {n} file(s) in {folder}{note}	Se empaquetaron {n} archivo(s) en {folder}{note}

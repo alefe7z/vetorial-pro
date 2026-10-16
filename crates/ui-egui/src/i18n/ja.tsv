@@ -1632,6 +1632,8 @@
 	Line Color	線の色
 	Line Cut	直線でカット
 	Line Cut Tool	ラインカットツール
+	Virtual Segment Delete	仮想セグメント削除
+	Virtual Segment Delete Tool	仮想セグメント削除ツール
 	Line Endings:	改行コード:
 	Line Graph Tool	折れ線グラフツール
 	Line Segment	直線ツール
@@ -3646,6 +3648,7 @@ theme	Appearance	外観
 @msg	Offset Path: select paths	パスのオフセット: パスを選択してください
 @msg	Offset Path: the offset leaves nothing of the selected paths (an inset larger than the shapes)	パスのオフセット: オフセットすると選択したパスが何も残りません (内側へのオフセットがシェイプより大きい)
 @msg	Outline Stroke: no stroked paths selected	パスのアウトライン: 線のあるパスが選択されていません
+@msg	Virtual Segment Delete: no virtual segment there	仮想セグメント削除：そこに仮想セグメントがありません
 @msg	Split Into Grid: select paths large enough for the grid	グリッドに分割: グリッドが収まる大きさのパスを選択してください
 @msg	empty cutter	型抜きに使うパスが空です
 @msg	paths contain invalid coordinates	パスに無効な座標が含まれています

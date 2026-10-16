@@ -1113,6 +1113,8 @@ lighting	Light	Světlo
 	Lasso Tool	Nástroj Laso
 	Lasso	Laso
 	Line Cut Tool	Nástroj Řez čarou
+	Virtual Segment Delete	Odstranit virtuální segment
+	Virtual Segment Delete Tool	Nástroj Odstranit virtuální segment
 	Line Graph Tool	Nástroj Spojnicový graf
 	Line Segment Tool	Nástroj Úsečka
 	Live Paint Selection Tool	Nástroj Výběr živé malby
@@ -3789,6 +3791,7 @@ imageTrace	Outline	Obrys
 @msg	Opened with {_1} note(s): {_2}	Otevřeno, poznámky ({_1}): {_2}
 @msg	Opened {url}	Otevřeno {url}
 @msg	Outline Stroke: no stroked paths selected	Převést tah na obrys: nejsou vybrány žádné cesty s tahem
+@msg	Virtual Segment Delete: no virtual segment there	Odstranit virtuální segment: žádný virtuální segment
 @msg	PDF settings are not an object	nastavení PDF nejsou objekt
 @msg	PDF writer error: {0}	chyba zápisu PDF: {0}
 @msg	Packaged {n} file(s) in {folder}{note}	Zabaleno souborů: {n} do {folder}{note}

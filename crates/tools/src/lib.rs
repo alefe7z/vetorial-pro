@@ -34,6 +34,7 @@ pub mod slice;
 pub mod symbolism;
 pub mod text;
 pub mod typewidget;
+pub mod vsegment;
 pub mod xform;
 
 use serde::{Deserialize, Serialize};
@@ -481,6 +482,10 @@ pub enum Cursor {
     ShapeBuilder,
     /// ...or, with Alt held, a minus (erase mode).
     ShapeBuilderErase,
+    /// Virtual Segment Delete away from paths: the knife lying down...
+    VirtualSegment,
+    /// ...and standing up over a virtual segment (a click deletes it).
+    VirtualSegmentHot,
 }
 
 impl Cursor {

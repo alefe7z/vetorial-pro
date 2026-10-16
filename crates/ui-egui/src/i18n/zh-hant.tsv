@@ -1430,6 +1430,8 @@
 	Line Color	線條顏色
 	Line Cut	線條切割
 	Line Cut Tool	線條切割工具
+	Virtual Segment Delete	刪除虛擬線段
+	Virtual Segment Delete Tool	虛擬線段刪除工具
 	Line Endings:	換行字元：
 	Line Graph Tool	折線圖工具
 	Line Segment	線段
@@ -3743,3 +3745,4 @@ lighting	Light	光源
 	User Palette 8	使用者調色盤 8
 	User Palette 9	使用者調色盤 9
 	User Palette 10	使用者調色盤 10
+@msg	Virtual Segment Delete: no virtual segment there	刪除虛擬線段：此處沒有虛擬線段

@@ -1394,6 +1394,8 @@
 	Line Color	线条颜色
 	Line Cut	直线切割
 	Line Cut Tool	直线切割工具
+	Virtual Segment Delete	删除虚拟段
+	Virtual Segment Delete Tool	虚拟段删除工具
 	Line Endings:	换行字符：
 	Line Graph Tool	折线图工具
 	Line Segment	直线段
@@ -3962,3 +3964,4 @@ lighting	Light	光源
 	User Palette 8	用户调色板 8
 	User Palette 9	用户调色板 9
 	User Palette 10	用户调色板 10
+@msg	Virtual Segment Delete: no virtual segment there	删除虚拟段：此处没有虚拟段

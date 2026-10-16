@@ -1453,6 +1453,8 @@
 	Line Color	Couleur de ligne
 	Line Cut	Coupe de ligne
 	Line Cut Tool	Outil Coupe de ligne
+	Virtual Segment Delete	Supprimer le segment virtuel
+	Virtual Segment Delete Tool	Outil Suppression de segment virtuel
 	Line Endings:	Fins de ligne :
 	Line Graph Tool	Outil Graphe linéaire
 	Line Segment	Trait
@@ -3488,6 +3490,7 @@ axis	Both	Les deux
 @msg	Opened with {_1} note(s): {_2}	Ouvert avec {_1} remarque(s) : {_2}
 @msg	Opened {url}	{url} ouvert
 @msg	Outline Stroke: no stroked paths selected	Vectoriser le contour : aucun tracé avec contour sélectionné
+@msg	Virtual Segment Delete: no virtual segment there	Supprimer le segment virtuel : aucun segment virtuel à cet endroit
 @msg	PDF settings are not an object	Les paramètres PDF ne sont pas un objet
 @msg	PDF writer error: {0}	Erreur du générateur PDF : {0}
 @msg	Packaged {n} file(s) in {folder}{note}	{n} fichier(s) assemblé(s) dans {folder}{note}

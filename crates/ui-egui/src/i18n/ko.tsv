@@ -4356,3 +4356,6 @@ lighting	Light	광원
 	Insert Page	페이지 삽입
 @msg	no such page	해당 페이지가 없습니다
 @msg	a document needs at least one page	문서에는 페이지가 하나 이상 있어야 합니다
+	Extensions	확장 기능
+	Modifiers	수정자
+	Nothing here yet	아직 비어 있음

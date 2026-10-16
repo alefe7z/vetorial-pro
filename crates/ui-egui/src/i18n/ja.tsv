@@ -4386,3 +4386,6 @@ lighting	Light	ライト
 	Insert Page	ページを挿入
 @msg	no such page	そのページはありません
 @msg	a document needs at least one page	ドキュメントには少なくとも 1 ページが必要です
+	Extensions	拡張機能
+	Modifiers	モディファイア
+	Nothing here yet	まだ何もありません

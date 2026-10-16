@@ -4347,3 +4347,6 @@ theme	Appearance	Erscheinungsbild
 	Insert Page	Seite einfügen
 @msg	no such page	diese Seite gibt es nicht
 @msg	a document needs at least one page	ein Dokument braucht mindestens eine Seite
+	Extensions	Erweiterungen
+	Modifiers	Modifikatoren
+	Nothing here yet	Noch leer

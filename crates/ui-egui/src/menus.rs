@@ -2746,6 +2746,10 @@ pub fn menu_tree_named(english_names: bool) -> Vec<(&'static str, Vec<Item>)> {
                 c("About VectorCraft", "help.about"),
             ],
         ),
+        // Vetorial: the owner's own menus, filled in later.
+        ("Extensions", vec![Item::Header("Nothing here yet")]),
+        ("Tools", vec![Item::Header("Nothing here yet")]),
+        ("Modifiers", vec![Item::Header("Nothing here yet")]),
     ]
 }
 
@@ -3797,7 +3801,7 @@ mod tests {
         }
         let mut shown = vec![];
         out.shapes.iter().for_each(|c| texts(&c.shape, &mut shown));
-        let titles = ["File", "Edit", "Object", "Type", "Select", "Effect", "View", "Window", "Help"];
+        let titles = ["File", "Edit", "Object", "Type", "Select", "Effect", "View", "Window", "Help", "Extensions", "Tools", "Modifiers"];
         for t in titles {
             assert!(shown.iter().any(|s| s == t), "{t} missing from {shown:?}");
         }

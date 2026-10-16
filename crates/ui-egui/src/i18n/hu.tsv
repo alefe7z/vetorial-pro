@@ -4790,3 +4790,6 @@ imageTrace	Outline	Körvonal
 	Insert Page	Oldal beszúrása
 @msg	no such page	nincs ilyen oldal
 @msg	a document needs at least one page	egy dokumentumnak legalább egy oldal kell
+	Extensions	Bővítmények
+	Modifiers	Módosítók
+	Nothing here yet	Egyelőre üres

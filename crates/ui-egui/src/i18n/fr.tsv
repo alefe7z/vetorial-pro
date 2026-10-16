@@ -4823,3 +4823,6 @@ theme	Appearance	Apparence
 	Insert Page	Insérer une page
 @msg	no such page	page inexistante
 @msg	a document needs at least one page	un document doit avoir au moins une page
+	Extensions	Extensions
+	Modifiers	Modificateurs
+	Nothing here yet	Vide pour l’instant

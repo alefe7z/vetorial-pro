@@ -4388,3 +4388,6 @@ lighting	Light	Свет
 	Insert Page	Вставить страницу
 @msg	no such page	нет такой страницы
 @msg	a document needs at least one page	в документе должна быть хотя бы одна страница
+	Extensions	Расширения
+	Modifiers	Модификаторы
+	Nothing here yet	Пока пусто

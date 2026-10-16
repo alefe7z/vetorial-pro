@@ -4823,3 +4823,6 @@ mark-style	Japanese	Japonské
 	Insert Page	Vložit stránku
 @msg	no such page	taková stránka neexistuje
 @msg	a document needs at least one page	dokument potřebuje alespoň jednu stránku
+	Extensions	Rozšíření
+	Modifiers	Modifikátory
+	Nothing here yet	Zatím prázdné

@@ -4392,3 +4392,6 @@ lighting	Light	Luce
 	Insert Page	Inserisci pagina
 @msg	no such page	pagina inesistente
 @msg	a document needs at least one page	un documento deve avere almeno una pagina
+	Extensions	Estensioni
+	Modifiers	Modificatori
+	Nothing here yet	Vuoto per ora

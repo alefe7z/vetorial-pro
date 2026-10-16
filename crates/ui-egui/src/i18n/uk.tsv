@@ -4372,3 +4372,6 @@ lighting	Light	Світло
 	Insert Page	Вставити сторінку
 @msg	no such page	немає такої сторінки
 @msg	a document needs at least one page	у документі має бути хоча б одна сторінка
+	Extensions	Розширення
+	Modifiers	Модифікатори
+	Nothing here yet	Поки порожньо

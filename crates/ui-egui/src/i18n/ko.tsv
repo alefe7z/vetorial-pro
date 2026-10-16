@@ -4359,3 +4359,18 @@ lighting	Light	광원
 	Extensions	확장 기능
 	Modifiers	수정자
 	Nothing here yet	아직 비어 있음
+	Snap To	스냅 대상
+	Snap To (All)	스냅 대상(모두)
+	Snap To On/Off	스냅 켜기/끄기
+	Document Grid	문서 격자
+	Baseline Grid	기준선 격자
+	Guidelines	안내선
+	Nodes	노드
+	Baseline spacing	기준선 간격
+	Snapping distance	스냅 거리
+	Snap To: on (click to turn all snapping off)	스냅: 켜짐(클릭하면 모두 끔)
+	Snap To: off (click to turn snapping back on)	스냅: 꺼짐(클릭하면 다시 켬)
+@msg	missing target	target이 없습니다
+@msg	on is true or false	on은 true 또는 false입니다
+@msg	step is 0.01 to 10000 pt	step은 0.01~10000 pt입니다
+@msg	target must be one of grid, baseline, guides, objects, page, pixels, nodes, not `{other}`	target은 grid, baseline, guides, objects, page, pixels, nodes 중 하나여야 합니다(`{other}` 아님)

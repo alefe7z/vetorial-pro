@@ -4350,3 +4350,18 @@ theme	Appearance	Erscheinungsbild
 	Extensions	Erweiterungen
 	Modifiers	Modifikatoren
 	Nothing here yet	Noch leer
+	Snap To	Ausrichten an
+	Snap To (All)	Ausrichten an (alle)
+	Snap To On/Off	Ausrichten an ein/aus
+	Document Grid	Dokumentraster
+	Baseline Grid	Grundlinienraster
+	Guidelines	Hilfslinien
+	Nodes	Knoten
+	Baseline spacing	Grundlinienabstand
+	Snapping distance	Fangabstand
+	Snap To: on (click to turn all snapping off)	Ausrichten an: ein (klicken, um alles Fangen auszuschalten)
+	Snap To: off (click to turn snapping back on)	Ausrichten an: aus (klicken, um Fangen wieder einzuschalten)
+@msg	missing target	target fehlt
+@msg	on is true or false	on ist true oder false
+@msg	step is 0.01 to 10000 pt	step liegt zwischen 0,01 und 10000 pt
+@msg	target must be one of grid, baseline, guides, objects, page, pixels, nodes, not `{other}`	target muss grid, baseline, guides, objects, page, pixels oder nodes sein, nicht `{other}`

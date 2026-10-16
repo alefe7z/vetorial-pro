@@ -4767,3 +4767,18 @@ mark-style	Japanese	Japonesas
 	Extensions	Extensiones
 	Modifiers	Modificadores
 	Nothing here yet	Vacío por ahora
+	Snap To	Ajustar a
+	Snap To (All)	Ajustar a (todo)
+	Snap To On/Off	Ajustar a: activar/desactivar
+	Document Grid	Cuadrícula del documento
+	Baseline Grid	Cuadrícula de línea base
+	Guidelines	Líneas guía
+	Nodes	Nodos
+	Baseline spacing	Espaciado de línea base
+	Snapping distance	Distancia de ajuste
+	Snap To: on (click to turn all snapping off)	Ajustar a: activado (clic para desactivar todo ajuste)
+	Snap To: off (click to turn snapping back on)	Ajustar a: desactivado (clic para reactivar el ajuste)
+@msg	missing target	falta target
+@msg	on is true or false	on es true o false
+@msg	step is 0.01 to 10000 pt	step va de 0,01 a 10000 pt
+@msg	target must be one of grid, baseline, guides, objects, page, pixels, nodes, not `{other}`	target debe ser grid, baseline, guides, objects, page, pixels o nodes, no `{other}`

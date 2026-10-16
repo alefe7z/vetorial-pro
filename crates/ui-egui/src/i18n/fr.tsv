@@ -4826,3 +4826,18 @@ theme	Appearance	Apparence
 	Extensions	Extensions
 	Modifiers	Modificateurs
 	Nothing here yet	Vide pour l’instant
+	Snap To	Magnétisme
+	Snap To (All)	Magnétisme (tout)
+	Snap To On/Off	Magnétisme activé/désactivé
+	Document Grid	Grille du document
+	Baseline Grid	Grille de ligne de base
+	Guidelines	Repères
+	Nodes	Nœuds
+	Baseline spacing	Espacement de la ligne de base
+	Snapping distance	Distance de magnétisme
+	Snap To: on (click to turn all snapping off)	Magnétisme activé (cliquer pour tout désactiver)
+	Snap To: off (click to turn snapping back on)	Magnétisme désactivé (cliquer pour le réactiver)
+@msg	missing target	target manquant
+@msg	on is true or false	on vaut true ou false
+@msg	step is 0.01 to 10000 pt	step va de 0,01 à 10000 pt
+@msg	target must be one of grid, baseline, guides, objects, page, pixels, nodes, not `{other}`	target doit être grid, baseline, guides, objects, page, pixels ou nodes, pas `{other}`

@@ -51,6 +51,7 @@ pub mod render_worker;
 mod scrub;
 pub mod shortcut_editor;
 pub mod shortcuts;
+pub mod snap_menu;
 pub mod state;
 pub mod sysclip;
 pub mod theme;
@@ -593,6 +594,14 @@ impl VectorcraftApp {
             snap_to_pixel: self.ui.view.snap_to_pixel,
             show_bbox: self.ui.view.bounding_box,
             snap_to_point: self.ui.view.snap_to_point,
+            snap_kinds: vectorcraft_tools::SnapKinds {
+                objects: self.ui.view.snap_objects,
+                nodes: self.ui.view.snap_nodes,
+                page: self.ui.view.snap_page,
+                guides: self.ui.view.snap_guides,
+                baseline: self.ui.view.snap_baseline,
+                baseline_step: self.ui.view.baseline_step,
+            },
             corner_widgets: self.ui.view.corner_widgets,
             screen: self.screen_frame(),
         }

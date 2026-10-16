@@ -4395,3 +4395,18 @@ lighting	Light	Luce
 	Extensions	Estensioni
 	Modifiers	Modificatori
 	Nothing here yet	Vuoto per ora
+	Snap To	Aggancia a
+	Snap To (All)	Aggancia a (tutto)
+	Snap To On/Off	Aggancia a: attiva/disattiva
+	Document Grid	Griglia documento
+	Baseline Grid	Griglia linea di base
+	Guidelines	Linee guida
+	Nodes	Nodi
+	Baseline spacing	Spaziatura linea di base
+	Snapping distance	Distanza di aggancio
+	Snap To: on (click to turn all snapping off)	Aggancia a: attivo (clic per disattivare ogni aggancio)
+	Snap To: off (click to turn snapping back on)	Aggancia a: disattivo (clic per riattivare l’aggancio)
+@msg	missing target	manca target
+@msg	on is true or false	on è true o false
+@msg	step is 0.01 to 10000 pt	step va da 0,01 a 10000 pt
+@msg	target must be one of grid, baseline, guides, objects, page, pixels, nodes, not `{other}`	target deve essere grid, baseline, guides, objects, page, pixels o nodes, non `{other}`

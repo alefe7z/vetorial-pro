@@ -189,6 +189,27 @@ pub struct ViewFlags {
     pub gradient_annotator: bool,
     /// Type → Show Hidden Characters.
     pub hidden_chars: bool,
+    /// Vetorial: Snap To › Objects, Nodes, Page, Guidelines, Baseline Grid ([`crate::snap_menu`]).
+    #[serde(default = "yes")]
+    pub snap_objects: bool,
+    #[serde(default = "yes")]
+    pub snap_nodes: bool,
+    #[serde(default = "yes")]
+    pub snap_page: bool,
+    #[serde(default = "yes")]
+    pub snap_guides: bool,
+    #[serde(default)]
+    pub snap_baseline: bool,
+    /// The baseline grid's spacing (pt).
+    #[serde(default = "baseline_step")]
+    pub baseline_step: f64,
+    /// What snapped before Snap To went off.
+    #[serde(skip)]
+    pub snap_saved: Option<crate::snap_menu::Saved>,
+}
+
+fn baseline_step() -> f64 {
+    14.0
 }
 
 impl Default for ViewFlags {
@@ -211,6 +232,13 @@ impl Default for ViewFlags {
             text_threads: true,
             gradient_annotator: true,
             hidden_chars: false,
+            snap_objects: true,
+            snap_nodes: true,
+            snap_page: true,
+            snap_guides: true,
+            snap_baseline: false,
+            baseline_step: 14.0,
+            snap_saved: None,
         }
     }
 }

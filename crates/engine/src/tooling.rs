@@ -21,6 +21,8 @@ pub struct ViewInfo {
     pub snap_to_pixel: bool,
     /// View → Snap to Point: picked points (a transform's reference point) land on anchors.
     pub snap_to_point: bool,
+    /// Vetorial: the Snap To menu's targets.
+    pub snap_kinds: vectorcraft_tools::SnapKinds,
     /// View → Show Corner Widget.
     pub corner_widgets: bool,
     /// The document window (none headless): screen-fixed widgets sit in it.
@@ -38,6 +40,7 @@ impl Default for ViewInfo {
             show_bbox: true,
             snap_to_pixel: false,
             snap_to_point: true,
+            snap_kinds: vectorcraft_tools::SnapKinds::default(),
             corner_widgets: true,
             screen: None,
         }
@@ -190,6 +193,7 @@ impl Session {
             show_bbox: view.show_bbox,
             snap_to_pixel: view.snap_to_pixel,
             snap_to_point: view.snap_to_point,
+            snap_kinds: view.snap_kinds,
             corner_widgets: view.corner_widgets,
             fill_active: self.fill_active,
             gradient_stop: self.selected_stop(),

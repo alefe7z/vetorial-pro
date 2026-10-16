@@ -4668,3 +4668,18 @@ mark-style	Japanese	Japońskie
 	Extensions	Rozszerzenia
 	Modifiers	Modyfikatory
 	Nothing here yet	Na razie pusto
+	Snap To	Przyciągaj do
+	Snap To (All)	Przyciągaj do (wszystko)
+	Snap To On/Off	Przyciąganie wł./wył.
+	Document Grid	Siatka dokumentu
+	Baseline Grid	Siatka linii bazowej
+	Guidelines	Prowadnice
+	Nodes	Węzły
+	Baseline spacing	Odstęp linii bazowej
+	Snapping distance	Odległość przyciągania
+	Snap To: on (click to turn all snapping off)	Przyciąganie: wł. (kliknij, aby wyłączyć całe przyciąganie)
+	Snap To: off (click to turn snapping back on)	Przyciąganie: wył. (kliknij, aby je włączyć)
+@msg	missing target	brak target
+@msg	on is true or false	on to true lub false
+@msg	step is 0.01 to 10000 pt	step od 0,01 do 10000 pt
+@msg	target must be one of grid, baseline, guides, objects, page, pixels, nodes, not `{other}`	target musi być grid, baseline, guides, objects, page, pixels lub nodes, nie `{other}`

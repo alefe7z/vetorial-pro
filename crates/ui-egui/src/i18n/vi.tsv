@@ -4377,3 +4377,18 @@ theme	Appearance	Giao diện
 	Extensions	Tiện ích mở rộng
 	Modifiers	Bộ điều chỉnh
 	Nothing here yet	Hiện chưa có gì
+	Snap To	Bắt dính vào
+	Snap To (All)	Bắt dính vào (tất cả)
+	Snap To On/Off	Bật/tắt bắt dính
+	Document Grid	Lưới tài liệu
+	Baseline Grid	Lưới đường cơ sở
+	Guidelines	Đường dẫn
+	Nodes	Nút
+	Baseline spacing	Khoảng cách đường cơ sở
+	Snapping distance	Khoảng bắt dính
+	Snap To: on (click to turn all snapping off)	Bắt dính: bật (bấm để tắt toàn bộ)
+	Snap To: off (click to turn snapping back on)	Bắt dính: tắt (bấm để bật lại)
+@msg	missing target	thiếu target
+@msg	on is true or false	on là true hoặc false
+@msg	step is 0.01 to 10000 pt	step từ 0,01 đến 10000 pt
+@msg	target must be one of grid, baseline, guides, objects, page, pixels, nodes, not `{other}`	target phải là grid, baseline, guides, objects, page, pixels hoặc nodes, không phải `{other}`

@@ -86,6 +86,13 @@ pub fn app_bar(app: &mut VectorcraftApp, ui: &mut Ui) {
                     app.ui.palette_query.clear();
                 }
             }
+            // Vetorial: Snap To (CorelDRAW's Alinhar a), always at hand, while it fits.
+            if ui.available_width() >= crate::snap_menu::WIDTH + 16.0 {
+                ui.add_space(8.0);
+                ui.allocate_ui_with_layout(vec2(crate::snap_menu::WIDTH, WIDGET_H), egui::Layout::left_to_right(egui::Align::Center), |ui| {
+                    crate::snap_menu::button(app, ui)
+                });
+            }
             if app.services.native_menu.is_some() {
                 let title = ui.painter().layout_no_wrap("Vetorial".into(), egui::FontId::proportional(13.5), t.text);
                 let title_rect = egui::Rect::from_center_size(full.center(), title.size());

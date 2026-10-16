@@ -238,6 +238,18 @@ pub const UI_COMMANDS: &[(&str, &str, &str, &str)] = &[
     ("view.grid", "Show Grid", "Cmd+'", "{}"),
     ("view.snapToGrid", "Snap to Grid", "Cmd+Shift+'", "{}"),
     ("view.snapToPoint", "Snap to Point", "Cmd+Alt+'", "{}"),
+    (
+        "view.snapTo",
+        "Snap To",
+        "",
+        "{target: \"grid\"|\"baseline\"|\"guides\"|\"objects\"|\"page\"|\"pixels\"|\"nodes\", on?: bool (default: toggle), step?: pt (the baseline grid's spacing, 0.01–10000)} tick or untick one kind of snap target in the Snap To menu (CorelDRAW's Alinhar a): objects = their edges, corners, centres, outlines and crossings; nodes = anchors; page = the artboards and bleeds; baseline = horizontal lines `step` apart down each page; ticking one turns on Smart Guides (and Show Guides for guides) → {target, on}",
+    ),
+    (
+        "view.snapAll",
+        "Snap To On/Off",
+        "Alt+Z",
+        "{on?: bool (default: toggle)} turn all snapping off, remembering what was on, or back on (what was on before, else objects, nodes, page and guides) → {on}",
+    ),
     ("view.presentation", "Presentation Mode", "Shift+F", "{}"),
     ("view.screenMode", "Screen Mode", "F", "{mode?: 0..2} (no param cycles)"),
     ("view.rotateReset", "Reset Rotate View", "Cmd+Shift+1", "{}"),
@@ -967,6 +979,9 @@ pub fn run_ui_command(app: &mut VectorcraftApp, id: &str, p: &Value) -> Option<R
     if let Some(result) = crate::palette_bars::command(app, id, p) {
         return Some(result);
     }
+    if let Some(result) = crate::snap_menu::command(app, id, p) {
+        return Some(result);
+    }
     if id == "app.language" {
         let lang = p.get("lang").and_then(Value::as_str).unwrap_or("");
         let value = if lang.eq_ignore_ascii_case("auto") {
@@ -1540,6 +1555,9 @@ pub fn checked(app: &VectorcraftApp, id: &str, p: &Value) -> Option<bool> {
         });
     }
     if let Some(on) = crate::palette_bars::checked(app, id, p) {
+        return Some(on);
+    }
+    if let Some(on) = crate::snap_menu::checked(app, id, p) {
         return Some(on);
     }
     let v = &app.ui.view;
@@ -2652,6 +2670,7 @@ pub fn menu_tree_named(english_names: bool) -> Vec<(&'static str, Vec<Item>)> {
                 c("Snap to Pixel", "view.snapToPixel"),
                 c("Snap to Point", "view.snapToPoint"),
                 todo("Snap to Glyph"),
+                sub("Snap To", crate::snap_menu::view_menu()),
                 Sep,
                 c("New View…", "view.saved.new"),
                 c("Edit Views…", "view.saved.edit"),

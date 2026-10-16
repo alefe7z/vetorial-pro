@@ -424,6 +424,29 @@ fn snap_to_point_lands_a_dragged_selection_on_anchors() {
     assert_eq!(drag(&mut s, ViewInfo { snap_to_point: false, ..v }), (276.5, 76.0), "View › Snap to Point off");
 }
 
+/// Vetorial: Snap To › Objects glues a dragged square edge to edge with another, exactly; with
+/// Objects (and Nodes and Page) unticked it stays where it was dropped.
+#[test]
+fn snap_to_objects_glues_squares_edge_to_edge() {
+    use vectorcraft_tools::PointerKind::{Down, Drag, Up};
+    let mut s = new_doc();
+    let a = square(&mut s, 100.0, 100.0);
+    square(&mut s, 300.0, 137.0);
+    let none = vectorcraft_tools::SnapKinds { objects: false, nodes: false, page: false, guides: false, baseline: false, baseline_step: 14.0 };
+    let only_objects = ViewInfo { snap_kinds: vectorcraft_tools::SnapKinds { objects: true, ..none }, ..ViewInfo::default() };
+    s.select_tool("selection", only_objects).unwrap();
+    let drag = |s: &mut Session, v: ViewInfo| {
+        gesture(s, v, &[(Down, 125.0, 125.0), (Drag, 200.0, 150.0), (Drag, 276.3, 190.7), (Up, 276.3, 190.7)]);
+        let at = top_left(s, a);
+        s.execute("edit.undo", &json!({})).unwrap();
+        at
+    };
+    let (x, _) = drag(&mut s, only_objects);
+    assert_eq!(x, 250.0, "its right edge lands exactly on the other's left edge");
+    let (x, y) = drag(&mut s, ViewInfo { snap_kinds: none, ..ViewInfo::default() });
+    assert!((x - 251.3).abs() < 1e-9 && (y - 165.7).abs() < 1e-9, "{x}, {y}");
+}
+
 /// Smart Guides › Spacing Guides (#394): a square dragged 21 pt to the right of a row of two
 /// squares 20 pt apart lands 20 pt from it, with the gaps marked; off, it stays at 21.
 #[test]

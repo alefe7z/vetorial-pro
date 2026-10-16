@@ -4389,3 +4389,18 @@ lighting	Light	ライト
 	Extensions	拡張機能
 	Modifiers	モディファイア
 	Nothing here yet	まだ何もありません
+	Snap To	スナップ先
+	Snap To (All)	スナップ先（すべて）
+	Snap To On/Off	スナップのオン/オフ
+	Document Grid	ドキュメントグリッド
+	Baseline Grid	ベースライングリッド
+	Guidelines	ガイドライン
+	Nodes	ノード
+	Baseline spacing	ベースラインの間隔
+	Snapping distance	スナップ距離
+	Snap To: on (click to turn all snapping off)	スナップ：オン（クリックですべてオフ）
+	Snap To: off (click to turn snapping back on)	スナップ：オフ（クリックで再びオン）
+@msg	missing target	target がありません
+@msg	on is true or false	on は true または false
+@msg	step is 0.01 to 10000 pt	step は 0.01〜10000 pt
+@msg	target must be one of grid, baseline, guides, objects, page, pixels, nodes, not `{other}`	target は grid、baseline、guides、objects、page、pixels、nodes のいずれかです（`{other}` ではありません）

@@ -4793,3 +4793,18 @@ imageTrace	Outline	Körvonal
 	Extensions	Bővítmények
 	Modifiers	Módosítók
 	Nothing here yet	Egyelőre üres
+	Snap To	Illesztés ehhez
+	Snap To (All)	Illesztés (mind)
+	Snap To On/Off	Illesztés be/ki
+	Document Grid	Dokumentumrács
+	Baseline Grid	Alapvonalrács
+	Guidelines	Segédvonalak
+	Nodes	Csomópontok
+	Baseline spacing	Alapvonal-távolság
+	Snapping distance	Illesztési távolság
+	Snap To: on (click to turn all snapping off)	Illesztés: be (kattintson az összes kikapcsolásához)
+	Snap To: off (click to turn snapping back on)	Illesztés: ki (kattintson a visszakapcsoláshoz)
+@msg	missing target	hiányzik a target
+@msg	on is true or false	az on értéke true vagy false
+@msg	step is 0.01 to 10000 pt	a step 0,01 és 10000 pt között
+@msg	target must be one of grid, baseline, guides, objects, page, pixels, nodes, not `{other}`	a target értéke grid, baseline, guides, objects, page, pixels vagy nodes lehet, nem `{other}`

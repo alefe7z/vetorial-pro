@@ -3764,3 +3764,18 @@ lighting	Light	光源
 	Extensions	擴充功能
 	Modifiers	修改器
 	Nothing here yet	暫無內容
+	Snap To	貼齊
+	Snap To (All)	貼齊（全部）
+	Snap To On/Off	貼齊開/關
+	Document Grid	文件格點
+	Baseline Grid	基線格點
+	Guidelines	導線
+	Nodes	節點
+	Baseline spacing	基線間距
+	Snapping distance	貼齊距離
+	Snap To: on (click to turn all snapping off)	貼齊：開（按一下關閉全部貼齊）
+	Snap To: off (click to turn snapping back on)	貼齊：關（按一下重新開啟）
+@msg	missing target	沒有 target
+@msg	on is true or false	on 為 true 或 false
+@msg	step is 0.01 to 10000 pt	step 為 0.01 至 10000 pt
+@msg	target must be one of grid, baseline, guides, objects, page, pixels, nodes, not `{other}`	target 必須是 grid、baseline、guides、objects、page、pixels 或 nodes，而不是 `{other}`

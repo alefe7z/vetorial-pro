@@ -4826,3 +4826,18 @@ mark-style	Japanese	Japonské
 	Extensions	Rozšíření
 	Modifiers	Modifikátory
 	Nothing here yet	Zatím prázdné
+	Snap To	Přichytit k
+	Snap To (All)	Přichytit k (vše)
+	Snap To On/Off	Přichytávání zap./vyp.
+	Document Grid	Mřížka dokumentu
+	Baseline Grid	Mřížka účaří
+	Guidelines	Vodítka
+	Nodes	Uzly
+	Baseline spacing	Rozestup účaří
+	Snapping distance	Vzdálenost přichycení
+	Snap To: on (click to turn all snapping off)	Přichytávání zapnuto (klepnutím vypnete vše)
+	Snap To: off (click to turn snapping back on)	Přichytávání vypnuto (klepnutím znovu zapnete)
+@msg	missing target	chybí target
+@msg	on is true or false	on je true nebo false
+@msg	step is 0.01 to 10000 pt	step je 0,01 až 10000 pt
+@msg	target must be one of grid, baseline, guides, objects, page, pixels, nodes, not `{other}`	target musí být grid, baseline, guides, objects, page, pixels nebo nodes, ne `{other}`

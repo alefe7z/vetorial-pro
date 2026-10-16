@@ -105,7 +105,7 @@ impl MoveSnap {
             points: points(&cx.selection.objects),
             copy_targets: guides.then(|| Targets::for_move(cx, &[])),
             copy_points: points(&[]),
-            rulers: (guides && cx.snap_to_point).then(|| Targets::rulers(cx)),
+            rulers: (guides && (cx.snap_to_point || cx.snap_kinds.baseline)).then(|| Targets::rulers(cx)),
         }
     }
 

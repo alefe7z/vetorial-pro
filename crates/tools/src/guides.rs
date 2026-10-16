@@ -51,19 +51,36 @@ enum Kind {
     Center,
     Edge,
     Artboard,
+    /// A page's (artboard's) centre.
+    PageCenter,
     Bleed,
     Guide,
+    /// A line of the baseline grid.
+    Baseline,
 }
 
 impl Kind {
+    /// Whether the Snap To menu's `k` lets this kind of target pull.
+    fn wanted(self, k: &crate::SnapKinds) -> bool {
+        match self {
+            Kind::Anchor => k.nodes,
+            Kind::Center | Kind::Edge => k.objects,
+            Kind::Artboard | Kind::PageCenter | Kind::Bleed => k.page,
+            Kind::Guide => k.guides,
+            Kind::Baseline => k.baseline,
+        }
+    }
+
     fn label(self) -> &'static str {
         match self {
             Kind::Anchor => "anchor",
             Kind::Center => "center",
             Kind::Edge => "path",
             Kind::Artboard => "artboard",
+            Kind::PageCenter => "center",
             Kind::Bleed => "bleed",
             Kind::Guide => "guide",
+            Kind::Baseline => "baseline",
         }
     }
 }
@@ -90,6 +107,8 @@ pub struct Targets {
 struct Ruler {
     vertical: bool,
     pos: f64,
+    /// A ruler guide, or a line of the baseline grid.
+    kind: Kind,
     /// Where it runs along its line: an artboard guide across its artboard (see
     /// [`vectorcraft_doc::Document::guide_span`]), else (None) the whole canvas.
     span: Option<(f64, f64)>,
@@ -106,7 +125,7 @@ impl Ruler {
             None => 0.0,
         };
         let from = if self.vertical { Point::new(self.pos, start) } else { Point::new(start, self.pos) };
-        Some((self.pos, from, Kind::Guide))
+        Some((self.pos, from, self.kind))
     }
 }
 
@@ -174,6 +193,24 @@ fn object_boxes(doc: &Document, moving: &[NodeId]) -> Vec<Rect> {
     out
 }
 
+/// The lines of the baseline grid: across each page, `step` apart down from its top (Vetorial; at
+/// most [`BUDGET`] in all).
+fn baseline_lines(doc: &Document, step: f64) -> Vec<Ruler> {
+    let mut out = vec![];
+    if !step.is_finite() || step < 0.01 {
+        return out;
+    }
+    for ab in &doc.artboards {
+        let r = ab.rect;
+        let mut k = 1.0;
+        while r.y0 + k * step <= r.y1 + 1e-9 && out.len() < BUDGET {
+            out.push(Ruler { vertical: false, pos: r.y0 + k * step, kind: Kind::Baseline, span: Some((r.x0, r.x1)) });
+            k += 1.0;
+        }
+    }
+    out
+}
+
 impl Targets {
     pub fn collect(doc: &Document, exclude: &[NodeId], visible: Option<Rect>) -> Self {
         Self::collect_inner(doc, exclude, None, visible, Gather::Bounds)
@@ -184,7 +221,7 @@ impl Targets {
     /// Spacing Guides the objects it spaces itself evenly with ([`Self::snap_rect`]).
     pub fn for_move(cx: &ToolContext, exclude: &[NodeId]) -> Self {
         let mut t = Self::collect(cx.doc, exclude, None).styled(cx);
-        if cx.spacing_guides {
+        if cx.spacing_guides && cx.snap_kinds.objects {
             t.boxes = object_boxes(cx.doc, &cx.selection.objects);
         }
         t
@@ -243,6 +280,18 @@ impl Targets {
     /// ([`GuideStyle::of`]).
     pub fn styled(mut self, cx: &ToolContext) -> Self {
         self.style = GuideStyle::of(cx);
+        self.only(&cx.snap_kinds)
+    }
+
+    /// Only the targets the Snap To menu's `k` asks for (Vetorial).
+    fn only(mut self, k: &crate::SnapKinds) -> Self {
+        self.points.retain(|(_, kind)| kind.wanted(k));
+        self.xs.retain(|(_, _, kind)| kind.wanted(k));
+        self.ys.retain(|(_, _, kind)| kind.wanted(k));
+        if !k.objects {
+            self.segments.clear();
+            self.boxes.clear();
+        }
         self
     }
 
@@ -311,9 +360,10 @@ impl Targets {
             }
             // A bleed shares its artboard's centre.
             if kind != Kind::Bleed {
-                t.points.push((c, Kind::Center));
-                t.xs.push((c.x, c, Kind::Center));
-                t.ys.push((c.y, c, Kind::Center));
+                let ck = if kind == Kind::Artboard { Kind::PageCenter } else { Kind::Center };
+                t.points.push((c, ck));
+                t.xs.push((c.x, c, ck));
+                t.ys.push((c.y, c, ck));
             }
         };
         for (_, ab) in doc.artboards.iter().enumerate().filter(|(i, _)| Some(*i) != skip_artboard) {
@@ -366,20 +416,24 @@ impl Targets {
     /// View → Snap to Point: only these targets' anchors pull, and the ruler guides (shown and
     /// unlocked, as the selection tools pick them) pull the pointer into line where they run.
     fn for_snap_to_point(self, cx: &ToolContext) -> Self {
-        self.anchors_only().with_rulers(cx)
+        self.anchors_only().only(&cx.snap_kinds).with_rulers(cx)
     }
 
     /// These targets and the ruler guides, when they are shown (and so unlocked to the selection
     /// tools): they pull a point into line where they run.
     fn with_rulers(mut self, cx: &ToolContext) -> Self {
-        if cx.guides {
+        self.rulers.clear();
+        if cx.guides && cx.snap_kinds.guides {
             self.rulers = cx
                 .doc
                 .guides
                 .iter()
                 .filter(|g| cx.doc.guide_shown(g))
-                .map(|g| Ruler { vertical: g.vertical, pos: g.pos, span: cx.doc.guide_span(g) })
+                .map(|g| Ruler { vertical: g.vertical, pos: g.pos, kind: Kind::Guide, span: cx.doc.guide_span(g) })
                 .collect();
+        }
+        if cx.snap_kinds.baseline {
+            self.rulers.extend(baseline_lines(cx.doc, cx.snap_kinds.baseline_step));
         }
         self
     }
@@ -908,7 +962,7 @@ impl PointSnap {
         } else if cx.smart_guides {
             // Snap to Point keeps pulling points onto the ruler guides with Smart Guides on (#812).
             let t = targets().styled(cx);
-            Some((if cx.snap_to_point { t.with_rulers(cx) } else { t }, cx.snapping_tolerance))
+            Some((if cx.snap_to_point || cx.snap_kinds.baseline { t.with_rulers(cx) } else { t }, cx.snapping_tolerance))
         } else if cx.snap_to_point {
             Some((targets().for_snap_to_point(cx), cx.snap_tolerance))
         } else {
@@ -1172,6 +1226,42 @@ pub fn snap_pick(cx: &ToolContext, p: Point) -> (Point, Vec<Overlay>) {
 mod tests {
     use super::*;
     use crate::testutil::*;
+
+    /// Vetorial: the Snap To menu picks which targets pull, and a snapped point takes the
+    /// target's coordinates exactly.
+    #[test]
+    fn snap_to_kinds_pick_the_targets() {
+        let (d, _) = doc_with_rect();
+        let (s, p) = (Selection::default(), crate::PaintDefaults::default());
+        let only = |k: crate::SnapKinds| ToolContext { snap_kinds: k, ..cx(&d, &s, &p) };
+        let none = crate::SnapKinds { objects: false, nodes: false, page: false, guides: false, baseline: false, baseline_step: 14.0 };
+        let at = |c: &ToolContext, x: f64, y: f64| snap_draw(c, Point::new(x, y), &[]).0;
+        // Objects: the rectangle's right edge and its centre.
+        let all = cx(&d, &s, &p);
+        assert_eq!(at(&all, 201.5, 150.3).x, 200.0);
+        assert_eq!(at(&all, 151.0, 149.0), Point::new(150.0, 150.0));
+        let objects = only(crate::SnapKinds { objects: true, ..none });
+        assert_eq!(at(&objects, 151.0, 149.0), Point::new(150.0, 150.0));
+        // Nodes alone: the corner anchors pull, the centre doesn't.
+        let nodes = only(crate::SnapKinds { nodes: true, ..none });
+        assert_eq!(at(&nodes, 198.6, 101.2), Point::new(200.0, 100.0));
+        assert_eq!(at(&nodes, 151.0, 149.0), Point::new(151.0, 149.0));
+        // The page's edge only with Page on.
+        let page = only(crate::SnapKinds { page: true, ..none });
+        assert_eq!(at(&page, 498.8, 300.4).x, 500.0);
+        assert_eq!(at(&objects, 498.8, 300.4).x, 498.8);
+        // Nothing on: nothing pulls.
+        assert_eq!(at(&only(none), 201.5, 150.3), Point::new(201.5, 150.3));
+        // The baseline grid: lines 14 pt apart down from the page's top.
+        let base = only(crate::SnapKinds { baseline: true, ..none });
+        let top = d.artboards[0].rect.y0;
+        assert_eq!(at(&base, 300.0, top + 27.1).y, top + 28.0);
+        assert_eq!(at(&only(none), 300.0, top + 27.1).y, top + 27.1);
+        // A non-integer step lands exactly on k × step.
+        let fine = only(crate::SnapKinds { baseline: true, baseline_step: 0.1, ..none });
+        let q = at(&fine, 300.0, top + 3.3102);
+        assert!((q.y - (top + 3.3)).abs() < 1e-12, "{q:?}");
+    }
 
     #[test]
     fn artboard_bleed_is_a_target() {

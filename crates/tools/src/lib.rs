@@ -216,6 +216,30 @@ impl ScreenFrame {
     }
 }
 
+/// Vetorial: the targets snapping pulls to, as CorelDRAW's Snap To menu ("Alinhar a") picks them.
+/// Points land on them exactly: the snapped coordinate is the target's own, to the last bit.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct SnapKinds {
+    /// The objects' bounds: their edges, corners and centres, their outlines ("path"), where
+    /// outlines cross, and even spacing between objects.
+    pub objects: bool,
+    /// Anchors ("nodes"): points land on them and line up with them.
+    pub nodes: bool,
+    /// The pages (artboards) and their bleeds: edges, corners and centres.
+    pub page: bool,
+    /// The ruler guides.
+    pub guides: bool,
+    /// The baseline grid: horizontal lines `baseline_step` apart down each page from its top.
+    pub baseline: bool,
+    pub baseline_step: f64,
+}
+
+impl Default for SnapKinds {
+    fn default() -> Self {
+        Self { objects: true, nodes: true, page: true, guides: true, baseline: false, baseline_step: 14.0 }
+    }
+}
+
 /// Read-only context a tool sees.
 pub struct ToolContext<'a> {
     pub doc: &'a Document,
@@ -241,6 +265,8 @@ pub struct ToolContext<'a> {
     /// points (a transform's reference point) land on anchors and ruler guides within
     /// [`Self::snap_tolerance`].
     pub snap_to_point: bool,
+    /// Vetorial: which targets snapping pulls to (the Snap To menu, CorelDRAW's "Alinhar a").
+    pub snap_kinds: SnapKinds,
     /// View → Show Corner Widget: paths show draggable Live Corners widgets in their corners.
     pub corner_widgets: bool,
     /// Which paint proxy is in front (true = Fill): the one the Gradient tool edits.
@@ -702,6 +728,7 @@ pub(crate) mod testutil {
             show_bbox: true,
             snap_to_pixel: false,
             snap_to_point: true,
+            snap_kinds: SnapKinds::default(),
             corner_widgets: true,
             fill_active: true,
             gradient_stop: None,

@@ -4374,3 +4374,9 @@ theme	Appearance	Erscheinungsbild
 	One Page at a Time	Eine Seite auf einmal
 	Show All Pages' Objects	Objekte aller Seiten zeigen
 	Choose Color…	Farbe wählen…
+	Mode	Modus
+	Vector	Vector
+	CAD	CAD
+	PAINT	PAINT
+@msg	missing mode	mode fehlt
+@msg	mode is one of vector, cad, paint, paint2, not `{m}`	mode muss vector, cad, paint oder paint2 sein, nicht `{m}`

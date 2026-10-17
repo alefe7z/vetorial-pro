@@ -3788,3 +3788,9 @@ lighting	Light	光源
 	One Page at a Time	一次一頁
 	Show All Pages' Objects	顯示所有頁面的物件
 	Choose Color…	選擇顏色…
+	Mode	模式
+	Vector	Vector
+	CAD	CAD
+	PAINT	PAINT
+@msg	missing mode	沒有 mode
+@msg	mode is one of vector, cad, paint, paint2, not `{m}`	mode 必須是 vector、cad、paint 或 paint2，而不是 `{m}`

@@ -232,6 +232,12 @@ pub const UI_COMMANDS: &[(&str, &str, &str, &str)] = &[
     ("view.edges", "Hide Edges", "Cmd+H", "{}"),
     ("view.artboards", "Hide Artboards", "Cmd+Shift+H", "{}"),
     (
+        "app.mode",
+        "Mode",
+        "",
+        "{mode: \"vector\"|\"cad\"|\"paint\"|\"paint2\"} switch the program's mode (the menu bar's switcher): each mode has its own tools; only Vector has any yet, the others leave the Tools panel empty → {mode}",
+    ),
+    (
         "view.canvasColor",
         "Canvas Color",
         "",
@@ -1003,6 +1009,9 @@ pub fn run_ui_command(app: &mut VectorcraftApp, id: &str, p: &Value) -> Option<R
     if let Some(result) = crate::canvas_color::command(app, id, p) {
         return Some(result);
     }
+    if let Some(result) = crate::modes::command(app, id, p) {
+        return Some(result);
+    }
     if id == "app.language" {
         let lang = p.get("lang").and_then(Value::as_str).unwrap_or("");
         let value = if lang.eq_ignore_ascii_case("auto") {
@@ -1587,6 +1596,9 @@ pub fn checked(app: &VectorcraftApp, id: &str, p: &Value) -> Option<bool> {
         return Some(on);
     }
     if let Some(on) = crate::canvas_color::checked(app, id, p) {
+        return Some(on);
+    }
+    if let Some(on) = crate::modes::checked(app, id, p) {
         return Some(on);
     }
     let v = &app.ui.view;

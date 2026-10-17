@@ -93,6 +93,13 @@ pub fn app_bar(app: &mut VectorcraftApp, ui: &mut Ui) {
                     crate::snap_menu::button(app, ui)
                 });
             }
+            // Vetorial: the modes (Vector, CAD, PAINT…), left of Snap To, while they fit.
+            if ui.available_width() >= crate::modes::WIDTH + 16.0 {
+                ui.add_space(8.0);
+                ui.allocate_ui_with_layout(vec2(crate::modes::WIDTH, WIDGET_H + 6.0), egui::Layout::left_to_right(egui::Align::Center), |ui| {
+                    crate::modes::bar(app, ui)
+                });
+            }
             if app.services.native_menu.is_some() {
                 let title = ui.painter().layout_no_wrap("Vetorial".into(), egui::FontId::proportional(13.5), t.text);
                 let title_rect = egui::Rect::from_center_size(full.center(), title.size());
@@ -1231,7 +1238,7 @@ mod visual_regressions {
         };
         std::fs::create_dir_all(&directory).unwrap();
         for brightness in theme::Brightness::ALL {
-            for width in [800.0, 1280.0] {
+            for width in [800.0, 1280.0, 1600.0] {
                 for scale in [1.0, 1.5, 2.0] {
                     let mut app = VectorcraftApp::new(vectorcraft_engine::Session::new(), Default::default());
                     app.services.native_menu = Some(crate::native_menu::NativeMenu::new(Box::new(NativeMenus)));
@@ -1310,7 +1317,8 @@ mod visual_regressions {
                         })
                         .collect();
                     let title = texts.iter().find(|text| text.galley.job.text == "Vetorial");
-                    if width >= 1280.0 {
+                    // Vetorial: the mode switcher and Snap To take room in the header too.
+                    if width >= 1600.0 {
                         assert!(title.is_some(), "the title remains visible when the header has room");
                     }
                     if let Some(title) = title {

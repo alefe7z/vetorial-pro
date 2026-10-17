@@ -4692,3 +4692,9 @@ mark-style	Japanese	Japońskie
 	One Page at a Time	Jedna strona naraz
 	Show All Pages' Objects	Pokaż obiekty wszystkich stron
 	Choose Color…	Wybierz kolor…
+	Mode	Tryb
+	Vector	Vector
+	CAD	CAD
+	PAINT	PAINT
+@msg	missing mode	brak mode
+@msg	mode is one of vector, cad, paint, paint2, not `{m}`	mode musi być vector, cad, paint lub paint2, nie `{m}`

@@ -4383,3 +4383,9 @@ lighting	Light	광원
 	One Page at a Time	한 번에 한 페이지
 	Show All Pages' Objects	모든 페이지의 개체 표시
 	Choose Color…	색상 선택…
+	Mode	모드
+	Vector	Vector
+	CAD	CAD
+	PAINT	PAINT
+@msg	missing mode	mode가 없습니다
+@msg	mode is one of vector, cad, paint, paint2, not `{m}`	mode는 vector, cad, paint, paint2 중 하나여야 합니다(`{m}` 아님)

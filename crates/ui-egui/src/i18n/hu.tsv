@@ -4817,3 +4817,9 @@ imageTrace	Outline	Körvonal
 	One Page at a Time	Egyszerre egy oldal
 	Show All Pages' Objects	Minden oldal objektumainak megjelenítése
 	Choose Color…	Szín választása…
+	Mode	Mód
+	Vector	Vector
+	CAD	CAD
+	PAINT	PAINT
+@msg	missing mode	hiányzik a mode
+@msg	mode is one of vector, cad, paint, paint2, not `{m}`	a mode értéke vector, cad, paint vagy paint2, nem `{m}`

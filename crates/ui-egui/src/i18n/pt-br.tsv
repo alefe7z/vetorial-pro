@@ -4845,3 +4845,9 @@ theme	Appearance	Aparência
 	One Page at a Time	Uma página por vez
 	Show All Pages' Objects	Mostrar objetos de todas as páginas
 	Choose Color…	Escolher cor…
+	Mode	Modo
+	Vector	Vector
+	CAD	CAD
+	PAINT	PAINT
+@msg	missing mode	falta mode
+@msg	mode is one of vector, cad, paint, paint2, not `{m}`	mode deve ser vector, cad, paint ou paint2, não `{m}`

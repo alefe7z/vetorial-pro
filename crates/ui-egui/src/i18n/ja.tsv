@@ -4413,3 +4413,9 @@ lighting	Light	ライト
 	One Page at a Time	一度に 1 ページ
 	Show All Pages' Objects	すべてのページのオブジェクトを表示
 	Choose Color…	色を選択…
+	Mode	モード
+	Vector	Vector
+	CAD	CAD
+	PAINT	PAINT
+@msg	missing mode	mode がありません
+@msg	mode is one of vector, cad, paint, paint2, not `{m}`	mode は vector、cad、paint、paint2 のいずれかです（`{m}` ではありません）

@@ -4850,3 +4850,9 @@ mark-style	Japanese	Japonské
 	One Page at a Time	Jedna stránka najednou
 	Show All Pages' Objects	Zobrazit objekty všech stránek
 	Choose Color…	Vybrat barvu…
+	Mode	Režim
+	Vector	Vector
+	CAD	CAD
+	PAINT	PAINT
+@msg	missing mode	chybí mode
+@msg	mode is one of vector, cad, paint, paint2, not `{m}`	mode musí být vector, cad, paint nebo paint2, ne `{m}`

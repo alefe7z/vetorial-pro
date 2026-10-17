@@ -212,6 +212,10 @@ pub struct ViewFlags {
     pub snap_saved: Option<crate::snap_menu::Saved>,
 }
 
+fn main_mode() -> String {
+    crate::modes::MAIN.to_string()
+}
+
 fn baseline_step() -> f64 {
     14.0
 }
@@ -341,6 +345,9 @@ pub struct UiState {
     /// docked at the window's left edge.
     #[serde(default)]
     pub toolbar_pos: Option<[f32; 2]>,
+    /// Vetorial: the program's mode (`vector`, `cad`, `paint`, `paint2`; [`crate::modes`]).
+    #[serde(default = "main_mode")]
+    pub app_mode: String,
     /// Vetorial: View › Canvas Color › Choose Color…'s picker window is open.
     #[serde(skip)]
     pub canvas_color_picker: bool,
@@ -670,6 +677,7 @@ impl Default for UiState {
             toolbar_pos: None,
             page_rename: None,
             canvas_color_picker: false,
+            app_mode: main_mode(),
             status_bar: true,
             dock: true,
             view: ViewFlags::default(),

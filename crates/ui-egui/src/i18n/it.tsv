@@ -4419,3 +4419,9 @@ lighting	Light	Luce
 	One Page at a Time	Una pagina alla volta
 	Show All Pages' Objects	Mostra oggetti di tutte le pagine
 	Choose Color…	Scegli colore…
+	Mode	Modalità
+	Vector	Vector
+	CAD	CAD
+	PAINT	PAINT
+@msg	missing mode	manca mode
+@msg	mode is one of vector, cad, paint, paint2, not `{m}`	mode deve essere vector, cad, paint o paint2, non `{m}`

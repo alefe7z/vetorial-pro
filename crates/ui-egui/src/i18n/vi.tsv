@@ -4401,3 +4401,9 @@ theme	Appearance	Giao diện
 	One Page at a Time	Mỗi lần một trang
 	Show All Pages' Objects	Hiện đối tượng của mọi trang
 	Choose Color…	Chọn màu…
+	Mode	Chế độ
+	Vector	Vector
+	CAD	CAD
+	PAINT	PAINT
+@msg	missing mode	thiếu mode
+@msg	mode is one of vector, cad, paint, paint2, not `{m}`	mode phải là vector, cad, paint hoặc paint2, không phải `{m}`

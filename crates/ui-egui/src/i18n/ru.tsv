@@ -4415,3 +4415,9 @@ lighting	Light	Свет
 	One Page at a Time	Одна страница за раз
 	Show All Pages' Objects	Показывать объекты всех страниц
 	Choose Color…	Выбрать цвет…
+	Mode	Режим
+	Vector	Vector
+	CAD	CAD
+	PAINT	PAINT
+@msg	missing mode	нет mode
+@msg	mode is one of vector, cad, paint, paint2, not `{m}`	mode должен быть vector, cad, paint или paint2, а не `{m}`

@@ -4399,3 +4399,9 @@ lighting	Light	Світло
 	One Page at a Time	Одна сторінка за раз
 	Show All Pages' Objects	Показувати об’єкти всіх сторінок
 	Choose Color…	Вибрати колір…
+	Mode	Режим
+	Vector	Vector
+	CAD	CAD
+	PAINT	PAINT
+@msg	missing mode	немає mode
+@msg	mode is one of vector, cad, paint, paint2, not `{m}`	mode має бути vector, cad, paint або paint2, а не `{m}`

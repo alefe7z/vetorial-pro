@@ -4791,3 +4791,9 @@ mark-style	Japanese	Japonesas
 	One Page at a Time	Una página a la vez
 	Show All Pages' Objects	Mostrar objetos de todas las páginas
 	Choose Color…	Elegir color…
+	Mode	Modo
+	Vector	Vector
+	CAD	CAD
+	PAINT	PAINT
+@msg	missing mode	falta mode
+@msg	mode is one of vector, cad, paint, paint2, not `{m}`	mode debe ser vector, cad, paint o paint2, no `{m}`

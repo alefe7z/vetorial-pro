@@ -137,6 +137,12 @@ pub fn show(app: &mut VectorcraftApp, ui: &mut Ui) {
 /// The Tools panel's contents, docked or floating at `floating`.
 fn body(app: &mut VectorcraftApp, ui: &mut Ui, cols: usize, floating: Option<egui::Pos2>) {
     let t = Tokens::get(ui.ctx());
+    // Vetorial: modes other than Vector have no tools yet.
+    if !crate::modes::vector(app) {
+        ui.add_space(8.0);
+        ui.vertical_centered(|ui| ui.label(egui::RichText::new("—").color(t.text_disabled)));
+        return;
+    }
     let all = slots(app);
     let bounds = ui.max_rect();
     // The drawer opens beside it; a click in it leaves the drawer open.

@@ -36,6 +36,7 @@ pub mod icon_data;
 pub mod icons;
 pub mod io;
 pub mod menus;
+pub mod modes;
 pub mod native_menu;
 pub mod opening;
 pub mod page_bar;

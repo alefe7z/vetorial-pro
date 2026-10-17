@@ -4410,3 +4410,5 @@ lighting	Light	ライト
 	New Document	新規ドキュメント
 	Palette Bar Settings	パレットバーの設定
 @msg	that palette isn't shown	そのパレットは表示されていません
+	One Page at a Time	一度に 1 ページ
+	Show All Pages' Objects	すべてのページのオブジェクトを表示

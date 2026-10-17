@@ -231,6 +231,12 @@ pub const UI_COMMANDS: &[(&str, &str, &str, &str)] = &[
     ),
     ("view.edges", "Hide Edges", "Cmd+H", "{}"),
     ("view.artboards", "Hide Artboards", "Cmd+Shift+H", "{}"),
+    (
+        "view.singlePage",
+        "One Page at a Time",
+        "",
+        "{on?: bool (default: toggle)} with several pages, show the current page alone with the art that belongs to it (each object belongs to the page nearest its centre), as CorelDRAW does; off, every page and all the art show → {on}",
+    ),
     ("view.rulers", "Show Rulers", "Cmd+R", "{}"),
     ("view.boundingBox", "Hide Bounding Box", "Cmd+Shift+B", "{}"),
     ("view.guides", "Hide Guides", "Cmd+;", "{}"),
@@ -1148,6 +1154,11 @@ pub fn run_ui_command(app: &mut VectorcraftApp, id: &str, p: &Value) -> Option<R
         }
         "view.edges" => flag(&mut app.ui.view.edges),
         "view.artboards" => flag(&mut app.ui.view.artboards),
+        "view.singlePage" => {
+            let on = p.get("on").and_then(Value::as_bool).unwrap_or(!app.ui.view.single_page);
+            app.ui.view.single_page = on;
+            Ok(json!({ "on": on }))
+        }
         "view.rulers" => flag(&mut app.ui.view.rulers),
         "view.boundingBox" => flag(&mut app.ui.view.bounding_box),
         "view.guides" => {
@@ -1591,6 +1602,7 @@ pub fn checked(app: &VectorcraftApp, id: &str, p: &Value) -> Option<bool> {
             selected_text(true).is_some_and(|t| p.get("effect").and_then(Value::as_str) == Some(t.path_effect.id()))
         }
         "view.smartGuides" => v.smart_guides,
+        "view.singlePage" => v.single_page,
         "view.grid" => v.grid,
         "view.snapToGrid" => v.snap_to_grid,
         "view.snapToPoint" => v.snap_to_point,
@@ -2632,6 +2644,7 @@ pub fn menu_tree_named(english_names: bool) -> Vec<(&'static str, Vec<Item>)> {
                 Sep,
                 c("Hide Edges", "view.edges"),
                 c("Hide Artboards", "view.artboards"),
+                c("One Page at a Time", "view.singlePage"),
                 c("Show Print Tiling", "view.printTiling"),
                 c("Hide Slices", "view.slices.hide"),
                 c("Lock Slices", "view.slices.lock"),

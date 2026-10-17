@@ -7,7 +7,7 @@ use serde_json::{Value, json};
 use vectorcraft_doc::{Artboard, NodeId, Scaling};
 use vectorcraft_geom::{Affine, Rect, Vec2};
 
-use super::panelcmds::{artboard_art, beside_artboards, copy_artboard};
+use super::panelcmds::{artboard_art, copy_artboard};
 use super::*;
 use crate::EngineError;
 
@@ -52,6 +52,16 @@ pub fn specs() -> Vec<CommandSpec> {
     ]
 }
 
+/// The space between a new page and the pages and art before it.
+const GAP: f64 = 36.0;
+
+/// The right edge of every page and all the art (pages drawn on the desktop of others would mix
+/// their art with them: CorelDRAW keeps each page's surroundings apart).
+fn right_of_all(d: &vectorcraft_doc::Document) -> f64 {
+    let pages = d.artboards.iter().map(|a| a.rect.x1).fold(f64::NEG_INFINITY, f64::max);
+    vectorcraft_render::encode::art_bounds(d).map_or(pages, |b| pages.max(b.x1))
+}
+
 /// The page `p["index"]` names (default 0) in `n` pages.
 fn page(p: &Value, n: usize, cmd: &str) -> Result<usize> {
     let i = match p.get("index") {
@@ -93,8 +103,8 @@ fn insert(s: &mut Session, p: &Value) -> Result<Value> {
     let index = s.edit("Insert Page", |d, _| {
         let size = d.artboards.get(i).map(|a| a.rect).unwrap_or(Rect::new(0.0, 0.0, 612.0, 792.0));
         for k in 0..count as usize {
-            let right = d.artboards.iter().map(|a| a.rect.x1).fold(f64::NEG_INFINITY, f64::max);
-            let x = if right.is_finite() { right + 20.0 } else { 0.0 };
+            let right = right_of_all(d);
+            let x = if right.is_finite() { right + GAP } else { 0.0 };
             let rect = Rect::new(x, size.y0, x + size.width(), size.y1);
             let a = Artboard { id: d.next_artboard_id(), name: default_name(&d.artboards), rect, show_center_mark: false, show_cross_hairs: false };
             d.artboards.insert((at + k).min(d.artboards.len()), a);
@@ -111,7 +121,7 @@ fn duplicate(s: &mut Session, p: &Value) -> Result<Value> {
     let art = artboard_art(s, i, bool_or(p, "content", true))?;
     let sc = Scaling { patterns: super::object::transform_patterns(s, p, &art)?, ..Scaling::default() };
     let ids = s.edit("Duplicate Page", |d, _| {
-        let dv = d.artboards.get(i).map(|a| beside_artboards(d, a.rect)).unwrap_or_default();
+        let dv = d.artboards.get(i).map(|a| Vec2::new(right_of_all(d) + GAP - a.rect.x0, 0.0)).unwrap_or_default();
         let default = d.artboards.get(i).is_some_and(|a| is_default_name(&a.name));
         let (index, ids) = copy_artboard(d, i, dv, &art, sc)?;
         let mut copy = d.artboards.remove(index);
@@ -282,6 +292,18 @@ mod tests {
         assert!(b[1].rect.x0 >= b[0].rect.x1, "{b:?}");
         let x = s.doc().unwrap().doc.node(id).unwrap().visual_bounds().unwrap().x0;
         assert!((x - (b[1].rect.x0 + 10.0)).abs() < 1.0, "the art moved with its page");
+    }
+
+    #[test]
+    fn a_new_page_clears_the_art_around_the_last() {
+        let mut s = session(1);
+        // Art on the desktop, well right of the page.
+        s.execute("shape.rectangle", &json!({"x": 900, "y": 10, "width": 100, "height": 50})).unwrap();
+        s.execute("page.insert", &json!({})).unwrap();
+        assert!(boards(&s)[1].rect.x0 >= 1000.0, "{:?}", boards(&s)[1].rect);
+        let dup = s.execute("page.duplicate", &json!({"index": 0})).unwrap();
+        let i = dup["index"].as_u64().unwrap() as usize;
+        assert!(boards(&s)[i].rect.x0 > boards(&s)[2].rect.x1 || i == 1, "{:?}", boards(&s));
     }
 
     #[test]

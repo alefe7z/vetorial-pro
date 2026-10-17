@@ -80,6 +80,10 @@ fn document(d: &cdr::Drawing) -> Result<Document> {
             let b = bounds.unwrap_or(Rect::new(-306.0, -396.0, 306.0, 396.0));
             (2.0 * b.x0.abs().max(b.x1.abs()).max(1.0), 2.0 * b.y0.abs().max(b.y1.abs()).max(1.0))
         });
+        // The art around the page (CorelDRAW's desktop) keeps clear of the page before: the page
+        // goes far enough right that its art's left edge clears the last page's art (Vetorial).
+        let reach_left = bounds.map_or(0.0, |b| (w / 2.0 + b.x0).min(0.0));
+        x -= reach_left;
         let to_doc = Affine::new([1.0, 0.0, 0.0, -1.0, x + w / 2.0, h / 2.0]);
         let name = if many { format!("Page {}", i + 1) } else { "Page 1".to_string() };
         artboards.push(Artboard { id: i as u32 + 1, name, rect: Rect::new(x, 0.0, x + w, h), show_center_mark: false, show_cross_hairs: false });
@@ -93,7 +97,9 @@ fn document(d: &cdr::Drawing) -> Result<Document> {
             }
             doc.layers.push(Arc::new(l));
         }
-        x += w + GAP;
+        // Past the page and the art to its right.
+        let reach_right = bounds.map_or(w, |b| (w / 2.0 + b.x1).max(w));
+        x += reach_right + GAP;
     }
     if doc.layers.is_empty() {
         return Err(err("the CorelDRAW document has no art"));

@@ -203,6 +203,10 @@ pub struct ViewFlags {
     /// The baseline grid's spacing (pt).
     #[serde(default = "baseline_step")]
     pub baseline_step: f64,
+    /// Vetorial: View › One Page at a Time (CorelDRAW): with several pages the canvas shows the
+    /// current one alone, with its own art around it ([`crate::page_bar::single_page`]).
+    #[serde(default = "yes")]
+    pub single_page: bool,
     /// What snapped before Snap To went off.
     #[serde(skip)]
     pub snap_saved: Option<crate::snap_menu::Saved>,
@@ -239,6 +243,7 @@ impl Default for ViewFlags {
             snap_baseline: false,
             baseline_step: 14.0,
             snap_saved: None,
+            single_page: true,
         }
     }
 }

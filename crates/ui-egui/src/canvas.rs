@@ -192,6 +192,11 @@ pub fn show(app: &mut VectorcraftApp, ui: &mut Ui) {
     let Some(st) = app.session.active() else { return };
     let doc = st.doc.clone();
     let mask_view = st.shown_mask();
+    // One page at a time (CorelDRAW): the other pages and the art that belongs to them stay off
+    // the canvas.
+    let single = crate::page_bar::single_page(app);
+    let page_hidden = single.map(|p| crate::page_bar::off_page(&doc, (st.uid, st.revision), p)).unwrap_or_default();
+    let boards: Vec<(usize, &vectorcraft_doc::Artboard)> = doc.artboards.iter().enumerate().filter(|(i, _)| single.is_none_or(|p| p == *i)).collect();
 
     // Pasteboard, artboard shadows and paper (Document Setup: the transparency grid's look, the
     // simulated paper colour; a white Background Contents hides the grid).
@@ -200,7 +205,7 @@ pub fn show(app: &mut VectorcraftApp, ui: &mut Ui) {
         let setup = &doc.setup;
         let grid = (st.transparency_grid && setup.background == vectorcraft_doc::Background::Transparent).then(|| checker_texture(ui.ctx(), setup));
         let paper = if setup.simulate_paper { crate::panels::c32(&setup.paper()) } else { Color32::WHITE };
-        for ab in &doc.artboards {
+        for (_, ab) in &boards {
             let q = xf.quad(ab.rect);
             // Hard 2 pt drop shadow, right and bottom (measured: #4d4d4d then #565656 on #606060).
             let shift = |d: f32| q.iter().map(|p| *p + vec2(d, d)).collect::<Vec<_>>();
@@ -214,7 +219,7 @@ pub fn show(app: &mut VectorcraftApp, ui: &mut Ui) {
             }
         }
     } else if app.ui.view.outline {
-        for ab in &doc.artboards {
+        for (_, ab) in &boards {
             painter.add(Shape::convex_polygon(xf.quad(ab.rect), Color32::WHITE, Stroke::NONE));
         }
     }
@@ -249,7 +254,7 @@ pub fn show(app: &mut VectorcraftApp, ui: &mut Ui) {
         outline: app.ui.view.outline,
         trim: app.ui.view.trim_view,
         ppp,
-        hidden: vec![],
+        hidden: page_hidden.iter().map(|id| id.0).collect(),
         rot: v.rotation,
         anti_alias: app.session.prefs.anti_aliased_artwork,
         placed: vectorcraft_render::placed_document::generation(),
@@ -317,6 +322,7 @@ pub fn show(app: &mut VectorcraftApp, ui: &mut Ui) {
             // effects from the cached rasters of an earlier frame (#1257).
             interacting: key.interacting,
             rich_black: key.rich_black,
+            hidden: page_hidden.clone(),
             ..opts
         };
         // Light documents render synchronously (no lag vs overlays); heavy ones go to the worker.
@@ -377,7 +383,7 @@ pub fn show(app: &mut VectorcraftApp, ui: &mut Ui) {
     let active_ab = 0;
     let artboard_tool = app.session.tool_id() == "artboard";
     let tool_labelled = artboard_tool.then(|| app.session.tool_options()["active"].as_u64()).flatten();
-    for (i, ab) in doc.artboards.iter().enumerate() {
+    for &(i, ab) in &boards {
         let c = if i == active_ab { Color32::from_gray(0) } else { Color32::from_gray(120) };
         painter.add(Shape::closed_line(xf.quad(ab.rect), Stroke::new(if i == active_ab { 1.0 } else { 0.6 }, c)));
         // The bleed (Document Setup) as a red outline around the artboard.

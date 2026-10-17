@@ -23,6 +23,61 @@ pub struct Rename {
     pub text: String,
 }
 
+/// Vetorial (CorelDRAW): with View › One Page at a Time on and more than one page, the page the
+/// canvas shows alone, with the art around it; `None` shows every page and all the art.
+pub fn single_page(app: &VectorcraftApp) -> Option<usize> {
+    let n = app.session.active()?.doc.artboards.len();
+    (app.ui.view.single_page && n > 1).then(|| app.view().map_or(0, |v| v.artboard).min(n - 1))
+}
+
+/// The page each object belongs to: the one nearest its centre (inside it: that one). Objects are
+/// the layers' contents (a group as a whole), sublayers looked into.
+pub fn owner(doc: &vectorcraft_doc::Document, b: vectorcraft_geom::Rect) -> usize {
+    let c = b.center();
+    let dist = |r: &vectorcraft_geom::Rect| {
+        let dx = (r.x0 - c.x).max(0.0).max(c.x - r.x1);
+        let dy = (r.y0 - c.y).max(0.0).max(c.y - r.y1);
+        dx * dx + dy * dy
+    };
+    doc.artboards.iter().enumerate().min_by(|a, b| dist(&a.1.rect).total_cmp(&dist(&b.1.rect))).map_or(0, |(i, _)| i)
+}
+
+/// The objects that belong to pages other than `page` (the canvas doesn't draw them while it shows
+/// one page at a time), worked out again only when the document or the page changes.
+pub fn off_page(doc: &vectorcraft_doc::Document, revision: (u64, u64), page: usize) -> Vec<vectorcraft_doc::NodeId> {
+    type Cached = Option<((u64, u64, usize), Vec<vectorcraft_doc::NodeId>)>;
+    thread_local!(static CACHE: std::cell::RefCell<Cached> = const { std::cell::RefCell::new(None) });
+    let key = (revision.0, revision.1, page);
+    CACHE.with(|c| {
+        let mut c = c.borrow_mut();
+        if let Some((k, ids)) = c.as_ref()
+            && *k == key
+        {
+            return ids.clone();
+        }
+        fn walk(
+            doc: &vectorcraft_doc::Document,
+            nodes: &[std::sync::Arc<vectorcraft_doc::Node>],
+            page: usize,
+            out: &mut Vec<vectorcraft_doc::NodeId>,
+        ) {
+            for n in nodes {
+                if n.is_layer() {
+                    walk(doc, n.children().map_or(&[], Vec::as_slice), page, out);
+                } else if let Some(b) = n.visual_bounds()
+                    && owner(doc, b) != page
+                {
+                    out.push(n.id);
+                }
+            }
+        }
+        let mut ids = vec![];
+        walk(doc, &doc.layers, page, &mut ids);
+        *c = Some((key, ids.clone()));
+        ids
+    })
+}
+
 /// What the tab's label says: "Page 3", or "3: name".
 pub fn tab_label(index: usize, name: &str) -> String {
     let n = (index + 1).to_string();
@@ -70,6 +125,10 @@ fn menu(app: &mut VectorcraftApp, ui: &mut Ui, i: usize, n: usize) {
         ui.close();
     }
     ui.separator();
+    let mut all = !app.ui.view.single_page;
+    if ui.checkbox(&mut all, tl!("Show All Pages' Objects")).changed() {
+        app.run("view.singlePage", json!({ "on": !all })).ok();
+    }
     if ui.button(tl!("Switch Page Orientation")).clicked() {
         run(app, "page.toggleOrientation", json!({ "index": i }), |_| Some(i));
         ui.close();
@@ -294,6 +353,31 @@ mod tests {
         assert_eq!(app.ui.page_rename, None);
         assert_eq!(app.session.active().unwrap().doc.artboards[2].name, "adizero");
         assert_eq!(tab_label(2, "adizero"), "3: adizero");
+    }
+
+    /// Vetorial: one page at a time, the canvas leaves out the art of the other pages; the option
+    /// off (or a single page), everything shows.
+    #[test]
+    fn one_page_at_a_time_hides_the_other_pages_art() {
+        let mut app = VectorcraftApp::new(vectorcraft_engine::Session::new(), Default::default());
+        app.run("file.new", json!({"width": 200, "height": 100})).unwrap();
+        let near_first = app.run("shape.rectangle", json!({"x": -300, "y": 10, "width": 50, "height": 50})).unwrap()["id"].as_u64().unwrap();
+        assert_eq!(single_page(&app), None, "one page: nothing to hide");
+        app.run("page.insert", json!({})).unwrap();
+        let second = app.session.active().unwrap().doc.artboards[1].rect;
+        let near_second =
+            app.run("shape.rectangle", json!({"x": second.x1 + 400.0, "y": 10, "width": 50, "height": 50})).unwrap()["id"].as_u64().unwrap();
+        let st = app.session.active().unwrap();
+        let (doc, rev) = (st.doc.clone(), (st.uid, st.revision));
+        app.run("view.goToArtboard", json!({"index": 0})).unwrap();
+        assert_eq!(single_page(&app), Some(0));
+        let hidden: Vec<u64> = off_page(&doc, rev, 0).iter().map(|i| i.0).collect();
+        assert_eq!(hidden, vec![near_second], "page 1 shows its own desktop art, not page 2's");
+        let hidden: Vec<u64> = off_page(&doc, rev, 1).iter().map(|i| i.0).collect();
+        assert_eq!(hidden, vec![near_first]);
+        app.run("view.singlePage", json!({"on": false})).unwrap();
+        assert_eq!(single_page(&app), None, "Show All Pages' Objects");
+        assert_eq!(app.run("view.singlePage", json!({})).unwrap(), json!({"on": true}));
     }
 
     #[test]

@@ -10,7 +10,9 @@
 //!   inside the dashed control polygon, from the first point to the last. A click on the first
 //!   point (three or more placed) closes it into a periodic loop; a drag after the press moves the
 //!   point just placed; a double-click, Enter or Esc ends it; Backspace/Delete takes the last point
-//!   back. The finished curve is an ordinary Bézier path (one `path.create`, one undo step).
+//!   back. While drawing, Space places a point at the pointer without a click and V a clamped
+//!   one, which the curve passes through at a corner (V over the point just placed clamps it).
+//!   The finished curve is an ordinary Bézier path (one `path.create`, one undo step).
 //! - **Polyline** (`polyline`): a click adds a straight segment, a drag draws freehand from the
 //!   last point; a click on the first point closes it; a double-click, Enter or Esc ends it.
 //! - **3-Point Curve** (`threePointCurve`): drag from the start to the end point, release, then
@@ -67,6 +69,63 @@ pub fn bspline(ctrl: &[Point], closed: bool) -> SubPath {
         }
         _ => clamped(ctrl),
     }
+}
+
+/// [`bspline`] with some control points clamped (CorelDRAW's V): the curve passes through a
+/// clamped point and turns a corner there, as two splines meeting end to end. `clamped[i]` says
+/// whether `ctrl[i]` is clamped (missing entries are not).
+pub fn bspline_clamped(ctrl: &[Point], clamped: &[bool], closed: bool) -> SubPath {
+    let is = |i: usize| clamped.get(i).copied().unwrap_or(false);
+    let n = ctrl.len();
+    let inner: Vec<usize> = (0..n).filter(|&i| is(i) && (closed || (i > 0 && i + 1 < n))).collect();
+    if inner.is_empty() || n < 3 {
+        return bspline(ctrl, closed);
+    }
+    // The runs between clamped points (and the ends of an open curve), each its own clamped
+    // spline from one end to the other; a closed curve's runs go round from clamped point to
+    // clamped point.
+    let mut runs: Vec<Vec<Point>> = vec![];
+    if closed {
+        for (k, &a) in inner.iter().enumerate() {
+            let b = inner.get(k + 1).or(inner.first()).map_or(a, |&f| if f > a { f } else { f + n });
+            runs.push((a..=b).filter_map(|i| ctrl.get(i % n).copied()).collect());
+        }
+    } else {
+        let mut cuts = vec![0];
+        cuts.extend(&inner);
+        cuts.push(n - 1);
+        for w in cuts.windows(2) {
+            if let [a, b] = *w {
+                runs.push(ctrl.get(a..=b).map(<[Point]>::to_vec).unwrap_or_default());
+            }
+        }
+    }
+    let mut anchors: Vec<Anchor> = vec![];
+    for run in runs {
+        let mut it = bspline(&run, false).anchors.into_iter();
+        let Some(first) = it.next() else { continue };
+        match anchors.last_mut() {
+            // Where two runs meet: one corner anchor, the handle in from the run before, out
+            // along the run after.
+            Some(last) => {
+                last.h_out = first.h_out;
+                last.kind = AnchorKind::Corner;
+            }
+            None => anchors.push(first),
+        }
+        anchors.extend(it);
+    }
+    if closed && anchors.len() >= 2 {
+        // The last anchor is the first clamped point again: fold it into the first.
+        if let Some(last) = anchors.pop()
+            && let Some(first) = anchors.first_mut()
+        {
+            first.h_in = last.h_in;
+            first.kind = AnchorKind::Corner;
+        }
+        return SubPath::new(anchors, true);
+    }
+    SubPath::new(anchors, false)
 }
 
 /// An open cubic B-spline on a clamped uniform knot vector (four or more control points), split
@@ -230,6 +289,8 @@ fn close_tol(cx: &ToolContext) -> f64 {
 pub struct BSplineTool {
     /// The control points placed.
     pts: Vec<Point>,
+    /// Which of them are clamped (V: the curve passes through and turns a corner there).
+    clamped: Vec<bool>,
     /// The last point is being dragged into place.
     dragging: bool,
     hover: Option<Point>,
@@ -254,17 +315,39 @@ impl BSplineTool {
                 pts.push(h);
             }
         }
-        (pts.len() >= 2).then(|| bspline(&pts, closed))
+        let clamped = &self.clamped;
+        (pts.len() >= 2).then(|| bspline_clamped(&pts, clamped, closed))
+    }
+
+    /// Place a control point at the pointer without a click (CorelDRAW: Space a smooth one, V a
+    /// clamped one). V over the point just placed clamps it instead.
+    fn place(&mut self, cx: &ToolContext, clamp: bool) {
+        let Some(h) = self.hover else { return };
+        if self.closes(cx, h) {
+            return;
+        }
+        match self.pts.last() {
+            Some(l) if l.distance(h) <= close_tol(cx) => {
+                if clamp && let Some(c) = self.clamped.last_mut() {
+                    *c = true;
+                }
+            }
+            _ => {
+                self.pts.push(h);
+                self.clamped.push(clamp);
+            }
+        }
     }
 
     fn finish(&mut self, closed: bool) -> Vec<Action> {
         let pts = std::mem::take(&mut self.pts);
+        let clamped = std::mem::take(&mut self.clamped);
         self.dragging = false;
         self.snap.clear();
         if pts.len() < 2 {
             return vec![];
         }
-        vec![create_path(&bspline(&pts, closed && pts.len() >= 3))]
+        vec![create_path(&bspline_clamped(&pts, &clamped, closed && pts.len() >= 3))]
     }
 }
 
@@ -288,6 +371,7 @@ impl Tool for BSplineTool {
                 }
                 let p = self.snap.press(cx, ev.pos, &[], from.as_ref());
                 self.pts.push(p);
+                self.clamped.push(false);
                 self.hover = Some(p);
                 self.dragging = true;
                 vec![]
@@ -314,23 +398,35 @@ impl Tool for BSplineTool {
                     && a.distance(*b) <= close_tol(cx)
                 {
                     self.pts.pop();
+                    self.clamped.pop();
                 }
                 self.finish(false)
             }
         }
     }
-    fn key(&mut self, _cx: &ToolContext, key: ToolKey, _m: Mods) -> Vec<Action> {
+    fn key(&mut self, cx: &ToolContext, key: ToolKey, _m: Mods) -> Vec<Action> {
         match key {
             ToolKey::Enter | ToolKey::Escape => self.finish(false),
             ToolKey::Backspace | ToolKey::Delete => {
                 self.pts.pop();
+                self.clamped.pop();
+                vec![]
+            }
+            ToolKey::Space => {
+                self.place(cx, false);
+                vec![]
+            }
+            ToolKey::Letter('V') => {
+                self.place(cx, true);
                 vec![]
             }
             _ => vec![],
         }
     }
     fn claims_key(&self, _cx: &ToolContext, key: ToolKey) -> bool {
-        !self.pts.is_empty() && matches!(key, ToolKey::Backspace | ToolKey::Delete | ToolKey::Enter | ToolKey::Escape)
+        !self.pts.is_empty()
+            && !self.dragging
+            && matches!(key, ToolKey::Backspace | ToolKey::Delete | ToolKey::Enter | ToolKey::Escape | ToolKey::Space | ToolKey::Letter('V'))
     }
     fn deactivate(&mut self, _cx: &ToolContext) -> Vec<Action> {
         self.finish(false)
@@ -730,6 +826,65 @@ mod tests {
             Action::Exec(c, v) if c == "path.create" => Some(v),
             _ => None,
         })
+    }
+
+    #[test]
+    fn clamped_points_are_corners_the_curve_passes_through() {
+        let ctrl = [pt(0.0, 0.0), pt(50.0, 100.0), pt(100.0, 0.0), pt(150.0, 100.0), pt(200.0, 0.0)];
+        // None clamped: the plain spline.
+        assert_eq!(bspline_clamped(&ctrl, &[false; 5], false), bspline(&ctrl, false));
+        assert_eq!(bspline_clamped(&ctrl, &[], false), bspline(&ctrl, false));
+        // The middle one clamped: two splines meeting there, at a corner.
+        let sp = bspline_clamped(&ctrl, &[false, false, true, false, false], false);
+        let at = sp.anchors.iter().position(|a| a.p == pt(100.0, 0.0)).expect("passes through the clamped point exactly");
+        let a = sp.anchors[at];
+        assert_eq!(a.kind, AnchorKind::Corner);
+        assert_eq!((a.h_in, a.h_out), (pt(100.0, 0.0).lerp(pt(50.0, 100.0), 2.0 / 3.0), pt(100.0, 0.0).lerp(pt(150.0, 100.0), 2.0 / 3.0)));
+        assert_eq!((sp.anchors.first().unwrap().p, sp.anchors.last().unwrap().p), (pt(0.0, 0.0), pt(200.0, 0.0)));
+        // Every point clamped: a polyline.
+        let all = bspline_clamped(&ctrl, &[true; 5], false);
+        assert_eq!(all.anchors.iter().map(|a| a.p).collect::<Vec<_>>(), ctrl.to_vec());
+        // Closed, one clamped: the loop passes through it at a corner and stays closed.
+        let square = [pt(0.0, 0.0), pt(100.0, 0.0), pt(100.0, 100.0), pt(0.0, 100.0)];
+        let ring = bspline_clamped(&square, &[false, false, true, false], true);
+        assert!(ring.closed);
+        assert!(ring.anchors.iter().any(|a| a.p == pt(100.0, 100.0) && a.kind == AnchorKind::Corner), "{ring:?}");
+    }
+
+    #[test]
+    fn bspline_tool_space_and_v_place_points_at_the_pointer() {
+        let (d, _) = doc_with_rect();
+        let (s, p) = (Selection::default(), paint());
+        let c = ToolContext { smart_guides: false, snap_to_point: false, ..cx(&d, &s, &p) };
+        let mut t = create("bspline").unwrap();
+        // Nothing to claim before the first point: Space stays the Hand tool, V the Selection tool.
+        assert!(!t.claims_key(&c, ToolKey::Space) && !t.claims_key(&c, ToolKey::Letter('V')));
+        click(t.as_mut(), &c, 10.0, 400.0);
+        assert!(t.claims_key(&c, ToolKey::Space) && t.claims_key(&c, ToolKey::Letter('V')));
+        t.pointer(&c, &ev(PointerKind::Move, 60.0, 300.0));
+        t.key(&c, ToolKey::Space, Mods::default());
+        t.pointer(&c, &ev(PointerKind::Move, 120.0, 420.0));
+        t.key(&c, ToolKey::Letter('V'), Mods::default());
+        // V again over the same point changes nothing; Space there adds nothing.
+        t.key(&c, ToolKey::Letter('V'), Mods::default());
+        t.key(&c, ToolKey::Space, Mods::default());
+        t.pointer(&c, &ev(PointerKind::Move, 180.0, 300.0));
+        t.key(&c, ToolKey::Space, Mods::default());
+        t.pointer(&c, &ev(PointerKind::Move, 230.0, 420.0));
+        t.key(&c, ToolKey::Space, Mods::default());
+        let done = t.key(&c, ToolKey::Enter, Mods::default());
+        let v = created(&done).expect("the curve is made");
+        let anchors = v["anchors"].as_array().unwrap();
+        // The curve passes through the clamped point (120, 420).
+        assert!(anchors.iter().any(|a| a["x"] == 120.0 && a["y"] == 420.0), "{v}");
+        // V over the point just placed by a click clamps that one.
+        click(t.as_mut(), &c, 10.0, 400.0);
+        click(t.as_mut(), &c, 60.0, 300.0);
+        t.key(&c, ToolKey::Letter('V'), Mods::default());
+        click(t.as_mut(), &c, 120.0, 420.0);
+        let done = t.key(&c, ToolKey::Enter, Mods::default());
+        let v = created(&done).expect("made");
+        assert!(v["anchors"].as_array().unwrap().iter().any(|a| a["x"] == 60.0 && a["y"] == 300.0), "{v}");
     }
 
     #[test]

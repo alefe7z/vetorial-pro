@@ -130,6 +130,12 @@ pub enum ToolKey {
     /// A digit key 0–9 (5 while dragging with the Perspective Selection tool moves perpendicular
     /// to the plane).
     Digit(u8),
+    /// Space, when the tool claims it (it is otherwise the Hand tool while held): the B-Spline
+    /// tool places a point at the pointer.
+    Space,
+    /// A letter key (upper case) the tool claims while drawing: the B-Spline tool's V places a
+    /// clamped point.
+    Letter(char),
 }
 
 /// What a tool asks the engine to do.

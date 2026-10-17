@@ -462,7 +462,8 @@ pub fn show(app: &mut VectorcraftApp, ui: &mut Ui) {
     // Cursor.
     if resp.hovered() {
         let m = ui.input(|i| i.modifiers);
-        let space = ui.input(|i| i.key_down(egui::Key::Space));
+        // Space is the Hand tool while held, unless the tool takes it (the B-Spline tool's points).
+        let space = ui.input(|i| i.key_down(egui::Key::Space)) && !app.session.tool_claims_key(vectorcraft_tools::ToolKey::Space, app.view_info());
         let panning = matches!(ui.data(|d| d.get_temp::<Drag>(drag_id())), Some(Drag::Pan { .. }));
         let zooming = if space { m.command } else { app.session.tool_id() == "zoom" };
         // The hand and the magnifier are drawn like the tool cursors below: Windows has no
@@ -547,6 +548,7 @@ fn handle_input(app: &mut VectorcraftApp, ui: &Ui, resp: &egui::Response, rect: 
     let mut turn = turn_before;
     let (pointer, m, space, (factor, scroll)) =
         ui.input(|i| (i.pointer.clone(), i.modifiers, i.key_down(egui::Key::Space), wheel(i, wheel_zooms, line, rect.height(), &mut turn)));
+    let space = space && !app.session.tool_claims_key(vectorcraft_tools::ToolKey::Space, app.view_info());
     if turn != turn_before {
         ui.data_mut(|d| d.insert_temp(turn_id, turn));
     }

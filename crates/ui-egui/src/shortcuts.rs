@@ -344,6 +344,36 @@ pub fn handle(app: &mut VectorcraftApp, ctx: &egui::Context) {
         app.clipboard_in = text.map(|t| Flavour { mime: TEXT, data: t.into_bytes() });
         crate::menus::invoke(app, id, json!({}));
     }
+    // Space and letters the tool claims while drawing (the B-Spline tool's Space and V place a
+    // point at the pointer): they reach it ahead of the Hand tool and the tool shortcuts.
+    let m = ctx.input(|i| i.modifiers);
+    if !(m.command || m.alt || m.ctrl) {
+        let pressed: Vec<Key> = ctx.input(|i| {
+            i.events
+                .iter()
+                .filter_map(|e| match e {
+                    egui::Event::Key { key, pressed: true, repeat: false, .. } => Some(*key),
+                    _ => None,
+                })
+                .collect()
+        });
+        for k in pressed {
+            let tk = match k {
+                Key::Space => ToolKey::Space,
+                k => match k.name().chars().next() {
+                    Some(c) if k.name().len() == 1 && c.is_ascii_alphabetic() => ToolKey::Letter(c.to_ascii_uppercase()),
+                    _ => continue,
+                },
+            };
+            if app.session.tool_claims_key(tk, view) && ctx.input_mut(|i| i.consume_key(m, k)) {
+                // The text the key typed is the key's too: no tool shortcut sees it.
+                ctx.input_mut(|i| i.events.retain(|e| !matches!(e, egui::Event::Text(_))));
+                let r = app.session.tool_key(tk, crate::canvas::mods(m, false), view);
+                crate::canvas::apply_requests(app, r);
+                return;
+            }
+        }
+    }
     if busy {
         // The arrows while dragging: a polygon's sides, a grid's rows (↑/↓) and columns (←/→)…
         let arrows =
@@ -524,6 +554,44 @@ mod tests {
             frame(&mut app, events);
             assert_eq!(app.session.tool_id(), tool, "{chord}");
         }
+    }
+
+    /// Vetorial: while the B-Spline tool draws, Space and V place points at the pointer (CorelDRAW)
+    /// instead of the Hand tool and the Selection tool.
+    #[test]
+    fn space_and_v_place_b_spline_points() {
+        let mut app = VectorcraftApp::new(vectorcraft_engine::Session::new(), Default::default());
+        app.session.execute("file.new", &json!({"width": 400, "height": 400})).unwrap();
+        app.select_tool("bspline");
+        let view = vectorcraft_engine::ViewInfo { smart_guides: false, snap_to_point: false, ..app.view_info() };
+        let at = |app: &mut VectorcraftApp, kind, x, y| {
+            app.session.pointer(&vectorcraft_tools::PointerEvent::new(kind, x, y), view).unwrap();
+        };
+        use vectorcraft_tools::PointerKind::{Down, Move, Up};
+        at(&mut app, Down, 10.0, 300.0);
+        at(&mut app, Up, 10.0, 300.0);
+        let key = |k: Key, text: &str| {
+            vec![
+                egui::Event::Key { key: k, physical_key: None, pressed: true, repeat: false, modifiers: Modifiers::NONE },
+                egui::Event::Text(text.into()),
+            ]
+        };
+        at(&mut app, Move, 60.0, 200.0);
+        frame(&mut app, key(Key::Space, " "));
+        at(&mut app, Move, 120.0, 320.0);
+        frame(&mut app, key(Key::V, "v"));
+        assert_eq!(app.session.tool_id(), "bspline", "V placed a point, it didn't pick the Selection tool");
+        at(&mut app, Move, 180.0, 200.0);
+        frame(&mut app, key(Key::Space, " "));
+        at(&mut app, Move, 240.0, 320.0);
+        frame(&mut app, key(Key::Space, " "));
+        let before = app.session.active().unwrap().doc.selectable_art().len();
+        frame(&mut app, vec![egui::Event::Key { key: Key::Enter, physical_key: None, pressed: true, repeat: false, modifiers: Modifiers::NONE }]);
+        let doc = &app.session.active().unwrap().doc;
+        assert_eq!(doc.selectable_art().len(), before + 1, "the curve was made");
+        let id = *doc.selectable_art().last().unwrap();
+        let path = doc.node(id).unwrap().path_data().unwrap();
+        assert!(path.subpaths[0].anchors.iter().any(|a| a.p == vectorcraft_geom::Point::new(120.0, 320.0)), "it passes through the V point");
     }
 
     /// Cmd+Shift+B while the Type tool edits text is Type › Bold, not Hide Bounding Box (#724).

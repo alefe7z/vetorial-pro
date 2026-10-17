@@ -94,7 +94,10 @@ pub fn app_bar(app: &mut VectorcraftApp, ui: &mut Ui) {
                 });
             }
             // Vetorial: the modes (Vector, CAD, PAINT…), left of Snap To, while they fit.
-            if ui.available_width() >= crate::modes::WIDTH + 10.0 {
+            let modes_fit = ui.available_width() >= crate::modes::WIDTH + 10.0;
+            // Too narrow: the document tabs' strip shows the modes instead.
+            ui.ctx().data_mut(|d| d.insert_temp(egui::Id::new("modes-in-menu-bar"), modes_fit));
+            if modes_fit {
                 ui.add_space(6.0);
                 ui.allocate_ui_with_layout(vec2(crate::modes::WIDTH, WIDGET_H + 6.0), egui::Layout::left_to_right(egui::Align::Center), |ui| {
                     crate::modes::bar(app, ui)
@@ -452,6 +455,18 @@ pub fn doc_tabs(app: &mut VectorcraftApp, ui: &mut Ui) {
         .collect();
     let widths: Vec<f32> = tabs.iter().map(|(_, _, g)| g.size().x + 44.0 + GAP).collect();
     let left = home.right() + GAP + 2.0;
+    // Vetorial: the mode switcher at the strip's right end when the menu bar has no room for it.
+    let modes_here =
+        !ui.ctx().data(|d| d.get_temp::<bool>(egui::Id::new("modes-in-menu-bar"))).unwrap_or(true) && strip.width() > crate::modes::WIDTH + 300.0;
+    let strip = if modes_here {
+        let r = egui::Rect::from_min_max(egui::pos2(strip.right() - crate::modes::WIDTH - 8.0, strip.top()), strip.max);
+        ui.scope_builder(egui::UiBuilder::new().max_rect(r).layout(egui::Layout::left_to_right(egui::Align::Center)), |ui| {
+            crate::modes::bar(app, ui)
+        });
+        egui::Rect::from_min_max(strip.min, egui::pos2(r.left(), strip.bottom()))
+    } else {
+        strip
+    };
     let plus_w = box_h + GAP;
     let overflow = widths.iter().sum::<f32>() > strip.right() - left - plus_w;
     let room = strip.right() - left - plus_w - if overflow { MORE } else { 0.0 };

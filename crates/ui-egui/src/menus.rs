@@ -490,6 +490,12 @@ pub const UI_COMMANDS: &[(&str, &str, &str, &str)] = &[
     ),
     ("window.colorPalettes.editor", "Palette Editor…", "", "{library?: id or \"document\"} open the Palette Editor"),
     (
+        "ui.paletteBar.set",
+        "Palette Bar Settings",
+        "",
+        "{library: id or \"document\" (a shown bar), gap?: pt (0–20, the space between colours; 0 puts them edge to edge), size?: pt (8–48, a colour cell's size)} → {library, gap, size}",
+    ),
+    (
         "ui.paletteBar.eyedropper",
         "Palette Eyedropper",
         "",

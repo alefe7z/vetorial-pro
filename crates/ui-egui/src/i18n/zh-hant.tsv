@@ -3780,3 +3780,8 @@ lighting	Light	光源
 @msg	step is 0.01 to 10000 pt	step 為 0.01 至 10000 pt
 @msg	target must be one of grid, baseline, guides, objects, page, pixels, nodes, not `{other}`	target 必須是 grid、baseline、guides、objects、page、pixels 或 nodes，而不是 `{other}`
 	Tool or command	工具或指令
+	Color size	色塊大小
+	Open Another Palette	開啟另一個調色盤
+	New Document	新增文件
+	Palette Bar Settings	調色盤列設定
+@msg	that palette isn't shown	該調色盤未顯示

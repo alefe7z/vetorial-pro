@@ -4391,3 +4391,8 @@ lighting	Light	Світло
 @msg	step is 0.01 to 10000 pt	step від 0,01 до 10000 pt
 @msg	target must be one of grid, baseline, guides, objects, page, pixels, nodes, not `{other}`	target має бути grid, baseline, guides, objects, page, pixels або nodes, а не `{other}`
 	Tool or command	Інструмент або команда
+	Color size	Розмір кольорів
+	Open Another Palette	Відкрити ще одну палітру
+	New Document	Новий документ
+	Palette Bar Settings	Параметри панелі палітри
+@msg	that palette isn't shown	ця палітра не показана

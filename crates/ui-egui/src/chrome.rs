@@ -389,58 +389,108 @@ fn first_tab_shown(widths: &[f32], active: Option<usize>, room: f32) -> usize {
 pub fn doc_tabs(app: &mut VectorcraftApp, ui: &mut Ui) {
     /// The width of the » button.
     const MORE: f32 = 30.0;
+    /// Vetorial (CorelDRAW-style tabs): the gap between tabs, and the widest a tab gets.
+    const GAP: f32 = 3.0;
+    const MAX_W: f32 = 210.0;
     let t = Tokens::get(ui.ctx());
-    let (height, title_size) = if app.session.prefs.large_tabs { (44.0, 14.0) } else { (35.0, 12.5) };
+    let (height, title_size) = if app.session.prefs.large_tabs { (40.0, 14.0) } else { (30.0, 12.5) };
     let (strip, _) = ui.allocate_exact_size(vec2(ui.available_width(), height), Sense::hover());
     ui.painter().rect_filled(strip, 0.0, t.tab_strip);
     ui.painter().line_segment([strip.left_bottom(), strip.right_bottom()], Stroke::new(1.0, t.border));
     // On the Home screen no tab is the current one.
     let active = app.session.active_index().filter(|_| app.ui.home.is_none());
-    let tabs: Vec<(String, std::sync::Arc<egui::Galley>)> = app
+    let pad = 4.0;
+    let box_h = strip.height() - 2.0 * pad;
+    // The Home button opens the start screen, as the house in the menu bar does.
+    let home = egui::Rect::from_min_size(egui::pos2(strip.left() + pad, strip.top() + pad), vec2(box_h, box_h));
+    let hresp = ui.interact(home, ui.id().with("tabs-home"), Sense::click());
+    ui.painter().rect_filled(
+        home,
+        3.0,
+        if app.ui.home.is_some() {
+            t.accent
+        } else if hresp.hovered() {
+            t.hover
+        } else {
+            t.panel
+        },
+    );
+    icons::paint(ui, "house", home.shrink(5.0), t.text);
+    if hresp.on_hover_text(tl!("Home")).clicked() {
+        app.run("app.home", json!({})).ok();
+    }
+    // Each tab: the document's name (a * when it has unsaved changes), cut short with … when long;
+    // the whole title (zoom, colour mode) in its tooltip.
+    let tabs: Vec<(String, String, std::sync::Arc<egui::Galley>)> = app
         .session
         .documents()
         .iter()
         .enumerate()
         .map(|(i, d)| {
             let zoom = app.views.get(i).map(|v| v.zoom).unwrap_or(1.0);
-            let title = tab_title(d, zoom, app.ui.view.outline);
-            let color = if Some(i) == active { t.text_strong } else { t.text_dim };
-            (title.clone(), ui.painter().layout_no_wrap(title, theme::semibold(title_size), color))
+            let full = tab_title(d, zoom, app.ui.view.outline);
+            let mut name = format!("{}{}", d.title(), if d.is_dirty() { "*" } else { "" });
+            let color = if Some(i) == active { t.text_strong } else { t.text };
+            let font = theme::semibold(title_size);
+            let mut galley = ui.painter().layout_no_wrap(name.clone(), font.clone(), color);
+            while galley.size().x > MAX_W - 44.0 && name.chars().count() > 4 {
+                let dirty = name.ends_with('*');
+                let mut keep: String = name.trim_end_matches(['*', '…']).chars().collect();
+                keep.pop();
+                name = format!("{keep}…{}", if dirty { "*" } else { "" });
+                galley = ui.painter().layout_no_wrap(name.clone(), font.clone(), color);
+            }
+            (full, name, galley)
         })
         .collect();
-    let widths: Vec<f32> = tabs.iter().map(|(_, g)| g.size().x + 50.0).collect();
-    let overflow = widths.iter().sum::<f32>() > strip.width();
-    let room = strip.width() - if overflow { MORE } else { 0.0 };
+    let widths: Vec<f32> = tabs.iter().map(|(_, _, g)| g.size().x + 44.0 + GAP).collect();
+    let left = home.right() + GAP + 2.0;
+    let plus_w = box_h + GAP;
+    let overflow = widths.iter().sum::<f32>() > strip.right() - left - plus_w;
+    let room = strip.right() - left - plus_w - if overflow { MORE } else { 0.0 };
     let first = if overflow { first_tab_shown(&widths, active, room) } else { 0 };
-    let mut x = strip.left();
+    let mut x = left;
     let mut activate = None;
     let mut close = None;
-    for (i, ((_, galley), w)) in tabs.iter().zip(&widths).enumerate().skip(first) {
-        if x + w > strip.left() + room && Some(i) != active {
+    for (i, ((full, _, galley), w)) in tabs.iter().zip(&widths).enumerate().skip(first) {
+        if x + w > left + room && Some(i) != active {
             break;
         }
         let is_active = Some(i) == active;
-        let r = egui::Rect::from_min_size(egui::pos2(x, strip.top()), vec2(*w, strip.height() - 1.0));
+        let r = egui::Rect::from_min_size(egui::pos2(x, strip.top() + pad), vec2(*w - GAP, box_h));
         let resp = ui.interact(r, ui.id().with(("tab", i)), Sense::click());
-        if is_active {
-            ui.painter().rect_filled(r, 0.0, t.panel);
+        let fill = if is_active {
+            t.accent.gamma_multiply(0.75)
         } else if resp.hovered() {
-            ui.painter().rect_filled(r, 0.0, t.hover.gamma_multiply(0.4));
-        }
-        ui.painter().line_segment([r.right_top(), r.right_bottom()], Stroke::new(1.5, t.border));
+            t.hover
+        } else {
+            t.panel
+        };
+        ui.painter().rect_filled(r, 3.0, fill);
         // The × where each platform puts a tab's: before the title on macOS, after it elsewhere
         // (#673).
-        let (x_center, title_left) = if CLOSE_BEFORE_TITLE { (r.left() + 16.0, r.left() + 32.0) } else { (r.right() - 16.0, r.left() + 14.0) };
-        let xr = egui::Rect::from_center_size(egui::pos2(x_center, r.center().y), vec2(12.0, 12.0));
+        let (x_center, title_left) = if CLOSE_BEFORE_TITLE { (r.left() + 14.0, r.left() + 30.0) } else { (r.right() - 14.0, r.left() + 10.0) };
+        let xr = egui::Rect::from_center_size(egui::pos2(x_center, r.center().y), vec2(11.0, 11.0));
         let xresp = ui.interact(xr.expand(3.0), ui.id().with(("tabx", i)), Sense::click());
-        icons::paint(ui, "x", xr, if xresp.hovered() { t.text_strong } else { t.text });
+        if is_active || resp.hovered() || xresp.hovered() {
+            icons::paint(ui, "x", xr, if xresp.hovered() { t.text_strong } else { t.text });
+        }
         ui.painter().galley(egui::pos2(title_left, r.center().y - galley.size().y / 2.0), galley.clone(), t.text);
+        let resp = resp.on_hover_text(full);
         if xresp.clicked() {
             close = Some(i);
         } else if resp.clicked() {
             activate = Some(i);
         }
         x += w;
+    }
+    // The + after the tabs: a new document (File › New).
+    let plus = egui::Rect::from_min_size(egui::pos2(x, strip.top() + pad), vec2(box_h, box_h));
+    let presp = ui.interact(plus, ui.id().with("tabs-new"), Sense::click());
+    ui.painter().rect_filled(plus, 3.0, if presp.hovered() { t.hover } else { t.panel });
+    icons::paint(ui, "plus", plus.shrink(6.0), t.text);
+    if presp.on_hover_text(tl!("New Document")).clicked() {
+        app.run("file.newDialog", json!({})).ok();
     }
     // The » button: every open document, the active one checked.
     if overflow {
@@ -450,7 +500,7 @@ pub fn doc_tabs(app: &mut VectorcraftApp, ui: &mut Ui) {
         icons::paint(ui, "chevrons-right", egui::Rect::from_center_size(more.center(), vec2(14.0, 14.0)), t.text);
         let resp = resp.on_hover_text(tl!("Show all open documents"));
         egui::Popup::menu(&resp).show(|ui| {
-            for (i, (title, _)) in tabs.iter().enumerate() {
+            for (i, (title, _, _)) in tabs.iter().enumerate() {
                 if widgets::menu_item_name(ui, title, true, Some(i) == active) {
                     activate = Some(i);
                     ui.close();

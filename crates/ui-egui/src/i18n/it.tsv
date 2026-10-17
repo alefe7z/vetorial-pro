@@ -4411,3 +4411,8 @@ lighting	Light	Luce
 @msg	step is 0.01 to 10000 pt	step va da 0,01 a 10000 pt
 @msg	target must be one of grid, baseline, guides, objects, page, pixels, nodes, not `{other}`	target deve essere grid, baseline, guides, objects, page, pixels o nodes, non `{other}`
 	Tool or command	Strumento o comando
+	Color size	Dimensione colori
+	Open Another Palette	Apri un’altra palette
+	New Document	Nuovo documento
+	Palette Bar Settings	Impostazioni barra palette
+@msg	that palette isn't shown	quella palette non è visibile

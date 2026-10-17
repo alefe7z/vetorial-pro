@@ -4405,3 +4405,8 @@ lighting	Light	ライト
 @msg	step is 0.01 to 10000 pt	step は 0.01〜10000 pt
 @msg	target must be one of grid, baseline, guides, objects, page, pixels, nodes, not `{other}`	target は grid、baseline、guides、objects、page、pixels、nodes のいずれかです（`{other}` ではありません）
 	Tool or command	ツールまたはコマンド
+	Color size	色のサイズ
+	Open Another Palette	別のパレットを開く
+	New Document	新規ドキュメント
+	Palette Bar Settings	パレットバーの設定
+@msg	that palette isn't shown	そのパレットは表示されていません

@@ -4684,3 +4684,8 @@ mark-style	Japanese	Japońskie
 @msg	step is 0.01 to 10000 pt	step od 0,01 do 10000 pt
 @msg	target must be one of grid, baseline, guides, objects, page, pixels, nodes, not `{other}`	target musi być grid, baseline, guides, objects, page, pixels lub nodes, nie `{other}`
 	Tool or command	Narzędzie lub polecenie
+	Color size	Rozmiar kolorów
+	Open Another Palette	Otwórz kolejną paletę
+	New Document	Nowy dokument
+	Palette Bar Settings	Ustawienia paska palety
+@msg	that palette isn't shown	ta paleta nie jest widoczna

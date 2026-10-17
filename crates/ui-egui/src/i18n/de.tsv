@@ -4366,3 +4366,8 @@ theme	Appearance	Erscheinungsbild
 @msg	step is 0.01 to 10000 pt	step liegt zwischen 0,01 und 10000 pt
 @msg	target must be one of grid, baseline, guides, objects, page, pixels, nodes, not `{other}`	target muss grid, baseline, guides, objects, page, pixels oder nodes sein, nicht `{other}`
 	Tool or command	Werkzeug oder Befehl
+	Color size	Farbgröße
+	Open Another Palette	Weitere Palette öffnen
+	New Document	Neues Dokument
+	Palette Bar Settings	Einstellungen der Palettenleiste
+@msg	that palette isn't shown	diese Palette wird nicht angezeigt

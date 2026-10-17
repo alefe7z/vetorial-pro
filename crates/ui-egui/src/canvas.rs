@@ -3586,7 +3586,7 @@ mod tests {
         };
         let small = canvas_top(&mut app);
         app.run("prefs.set", json!({"key": "largeTabs", "value": true})).unwrap();
-        assert_eq!(canvas_top(&mut app) - small, 9.0, "44 points instead of 35");
+        assert_eq!(canvas_top(&mut app) - small, 10.0, "40 points instead of 30");
     }
 
     #[test]

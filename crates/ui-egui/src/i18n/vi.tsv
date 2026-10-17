@@ -4393,3 +4393,8 @@ theme	Appearance	Giao diện
 @msg	step is 0.01 to 10000 pt	step từ 0,01 đến 10000 pt
 @msg	target must be one of grid, baseline, guides, objects, page, pixels, nodes, not `{other}`	target phải là grid, baseline, guides, objects, page, pixels hoặc nodes, không phải `{other}`
 	Tool or command	Công cụ hoặc lệnh
+	Color size	Kích thước màu
+	Open Another Palette	Mở thêm bảng màu
+	New Document	Tài liệu mới
+	Palette Bar Settings	Cài đặt thanh bảng màu
+@msg	that palette isn't shown	bảng màu đó không được hiển thị

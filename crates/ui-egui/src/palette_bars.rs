@@ -65,12 +65,32 @@ pub struct PaletteBar {
     /// A swatch library id, or [`DOCUMENT`].
     pub library: String,
     pub side: BarSide,
+    /// Vetorial: the space between colours (points; 0, the default, puts them edge to edge).
+    #[serde(default)]
+    pub gap: f32,
+    /// The size of a colour cell (points).
+    #[serde(default = "default_size")]
+    pub size: f32,
 }
+
+fn default_size() -> f32 {
+    CELL
+}
+
+impl PaletteBar {
+    pub fn new(library: &str, side: BarSide) -> Self {
+        Self { library: library.to_string(), side, gap: 0.0, size: CELL }
+    }
+}
+
+/// The colour cells' sizes and spacings a bar takes.
+pub const SIZES: std::ops::RangeInclusive<f32> = 8.0..=48.0;
+pub const GAPS: std::ops::RangeInclusive<f32> = 0.0..=20.0;
 
 /// The bars of a first launch: the default CMYK palette on the right, the document palette at the
 /// bottom.
 pub fn defaults() -> Vec<PaletteBar> {
-    vec![PaletteBar { library: "default-cmyk".into(), side: BarSide::Right }, PaletteBar { library: DOCUMENT.into(), side: BarSide::Bottom }]
+    vec![PaletteBar::new("default-cmyk", BarSide::Right), PaletteBar::new(DOCUMENT, BarSide::Bottom)]
 }
 
 /// A colour cell: the swatch's name, its colour and, for the document palette, the swatch it applies.
@@ -89,12 +109,33 @@ pub fn cells(app: &VectorcraftApp, key: &str) -> Option<(String, Vec<Cell>)> {
             .swatches_iter()
             .filter(|w| !w.is_reserved())
             .filter_map(|w| Some(Cell { name: w.name.clone(), color: w.paint.color()?, swatch: Some(w.name.clone()) }))
+            .chain(used_colors(app).into_iter().map(|c| Cell { name: values(&c), color: c, swatch: None }))
             .collect();
         return Some((tl!("Document Palette").to_string(), cells));
     }
     let (info, lib) = swatchlib::library(&app.session, key)?;
     let cells = lib.iter().filter_map(|w| Some(Cell { name: w.name.clone(), color: w.paint.color()?, swatch: None })).collect();
     Some((tl!(&info.name).to_string(), cells))
+}
+
+/// The colours the active document's art uses that no swatch holds (the document palette shows them
+/// after its swatches), worked out again only when the document changes.
+fn used_colors(app: &VectorcraftApp) -> Vec<Color> {
+    type Cached = Option<((u64, u64), Vec<Color>)>;
+    thread_local!(static CACHE: std::cell::RefCell<Cached> = const { std::cell::RefCell::new(None) });
+    let Some(st) = app.session.active() else { return vec![] };
+    let key = (st.uid, st.revision);
+    CACHE.with(|c| {
+        let mut c = c.borrow_mut();
+        match c.as_ref() {
+            Some((k, colors)) if *k == key => colors.clone(),
+            _ => {
+                let colors = vectorcraft_engine::cmd::swatch::used_colors(&st.doc, 2000);
+                *c = Some((key, colors.clone()));
+                colors
+            }
+        }
+    })
 }
 
 /// Can palette `key` be changed (the document palette, or a User Defined library that isn't read
@@ -176,7 +217,7 @@ fn set_shown(app: &mut VectorcraftApp, key: &str, on: bool, side: Option<BarSide
             }
         }
         Some(_) => app.ui.palette_bars.retain(|b| b.library != key),
-        None if on => app.ui.palette_bars.push(PaletteBar { library: key.to_string(), side: side.unwrap_or_default() }),
+        None if on => app.ui.palette_bars.push(PaletteBar::new(key, side.unwrap_or_default())),
         None => {}
     }
 }
@@ -244,6 +285,31 @@ pub fn command(app: &mut VectorcraftApp, id: &str, p: &Value) -> Option<Result<V
             crate::dialogs::palette_editor::open(app, key.as_deref());
             Ok(Value::Null)
         }
+        "ui.paletteBar.set" => (|| {
+            let key = library_key(app, p)?;
+            let num = |k: &str, range: &std::ops::RangeInclusive<f32>| -> Result<Option<f32>, String> {
+                match p.get(k) {
+                    None => Ok(None),
+                    Some(v) => v
+                        .as_f64()
+                        .map(|f| f as f32)
+                        .filter(|f| range.contains(f))
+                        .map(Some)
+                        .ok_or_else(|| format!("{k} is {} to {} pt", range.start(), range.end())),
+                }
+            };
+            let (gap, size) = (num("gap", &GAPS)?, num("size", &SIZES)?);
+            let bar = app.ui.palette_bars.iter_mut().find(|b| b.library == key).ok_or("that palette isn't shown")?;
+            if let Some(g) = gap {
+                bar.gap = g;
+            }
+            if let Some(z) = size {
+                bar.size = z;
+            }
+            let (gap, size) = (bar.gap, bar.size);
+            app.ui.palette_bars_set = true;
+            Ok(json!({ "library": key, "gap": gap, "size": size }))
+        })(),
         "ui.paletteBar.eyedropper" => (|| {
             let key = library_key(app, p)?;
             eyedropper(app, &key)
@@ -300,7 +366,6 @@ fn eyedropper(app: &mut VectorcraftApp, key: &str) -> Result<Value, String> {
 /// Cell size along and across a bar.
 const CELL: f32 = 18.0;
 const GAP: f32 = 2.0;
-const BAR: f32 = CELL + 8.0;
 
 /// Draw every docked bar (before the dock and the canvas, so they sit at the window's edges).
 pub fn show(app: &mut VectorcraftApp, ui: &mut Ui) {
@@ -315,7 +380,7 @@ pub fn show(app: &mut VectorcraftApp, ui: &mut Ui) {
             BarSide::Top => egui::Panel::top(id),
             BarSide::Bottom => egui::Panel::bottom(id),
         };
-        panel.exact_size(BAR).resizable(false).frame(frame).show(ui, |ui| strip(app, ui, bar, id));
+        panel.exact_size(bar.size.max(CELL) + 8.0).resizable(false).frame(frame).show(ui, |ui| strip(app, ui, bar, id));
     }
 }
 
@@ -351,7 +416,9 @@ fn strip(app: &mut VectorcraftApp, ui: &mut Ui, bar: &PaletteBar, id: egui::Id) 
     ui.ctx().data_mut(|d| d.insert_temp(id.with("start"), start));
     let end = if vertical { full.bottom() } else { full.right() };
     let span = (end - start).max(0.0);
-    let step = CELL + GAP;
+    // The colours' own size and spacing (the bar's settings); the head keeps its own.
+    let cell = bar.size.clamp(*SIZES.start(), *SIZES.end());
+    let step = cell + bar.gap.clamp(*GAPS.start(), *GAPS.end());
     // One slot each for None and the colours; arrows take a slot at each end when they don't fit.
     let total = cells.len() + 1;
     let fits = (span / step).floor() as usize;
@@ -376,9 +443,9 @@ fn strip(app: &mut VectorcraftApp, ui: &mut Ui, bar: &PaletteBar, id: egui::Id) 
     let slot = |k: usize| {
         let a = start + k as f32 * step;
         if vertical {
-            Rect::from_min_size(pos2(full.center().x - CELL / 2.0, a), vec2(CELL, CELL))
+            Rect::from_min_size(pos2(full.center().x - cell / 2.0, a), vec2(cell, cell))
         } else {
-            Rect::from_min_size(pos2(a, full.center().y - CELL / 2.0), vec2(CELL, CELL))
+            Rect::from_min_size(pos2(a, full.center().y - cell / 2.0), vec2(cell, cell))
         }
     };
     let mut k = 0;
@@ -407,8 +474,14 @@ fn strip(app: &mut VectorcraftApp, ui: &mut Ui, bar: &PaletteBar, id: egui::Id) 
         let Some(c) = cells.get(item - 1) else { continue };
         let resp = ui.allocate_rect(r, Sense::click()).on_hover_text(format!("{}\n{}", c.name, values(&c.color)));
         let [red, green, blue] = c.color.to_rgb().map(|v| (v.clamp(0.0, 1.0) * 255.0).round() as u8);
-        ui.painter().rect_filled(r, 1.0, Color32::from_rgb(red, green, blue));
-        ui.painter().rect_stroke(r, 1.0, Stroke::new(1.0, if resp.hovered() { t.text } else { t.border }), egui::StrokeKind::Inside);
+        // Edge to edge (no gap) the colours touch with no outline, as CorelDRAW's do.
+        let round = if bar.gap > 0.0 { 1.0 } else { 0.0 };
+        ui.painter().rect_filled(r, round, Color32::from_rgb(red, green, blue));
+        if resp.hovered() {
+            ui.painter().rect_stroke(r, round, Stroke::new(1.5, t.text), egui::StrokeKind::Inside);
+        } else if bar.gap > 0.0 {
+            ui.painter().rect_stroke(r, round, Stroke::new(1.0, t.border), egui::StrokeKind::Inside);
+        }
         let params = match &c.swatch {
             Some(s) => json!({ "swatch": s }),
             None => json!({ "color": c.color }),
@@ -460,6 +533,40 @@ fn bar_menu(app: &mut VectorcraftApp, ui: &mut Ui, bar: &PaletteBar, name: &str)
                 set_shown(app, &bar.library, true, Some(side));
             }
         }
+        ui.separator();
+        // Vetorial: the colours' size and spacing.
+        let (mut size, mut gap) = (bar.size, bar.gap);
+        ui.horizontal(|ui| {
+            ui.label(tl!("Color size"));
+            if ui.add(egui::DragValue::new(&mut size).range(SIZES).speed(0.2).suffix(" pt").max_decimals(1)).changed() {
+                app.run("ui.paletteBar.set", json!({ "library": bar.library, "size": size })).ok();
+            }
+        });
+        ui.horizontal(|ui| {
+            ui.label(tl!("Spacing"));
+            if ui.add(egui::DragValue::new(&mut gap).range(GAPS).speed(0.1).suffix(" pt").max_decimals(1)).changed() {
+                app.run("ui.paletteBar.set", json!({ "library": bar.library, "gap": gap })).ok();
+            }
+        });
+        // Another palette beside this one: as many as wanted.
+        ui.menu_button(tl!("Open Another Palette"), |ui| {
+            let mut libs: Vec<(String, String)> = vec![(DOCUMENT.to_string(), tl!("Document Palette").to_string())];
+            libs.extend(
+                swatchlib::libraries(&app.session)
+                    .into_iter()
+                    .filter(|l| l.category != "gradients")
+                    .map(|l| (l.id.clone(), tl!(&l.name).to_string())),
+            );
+            egui::ScrollArea::vertical().max_height(360.0).show(ui, |ui| {
+                for (id, name) in libs {
+                    let on = shown(app, &id);
+                    if widgets::menu_item_name(ui, &name, true, on) {
+                        set_shown(app, &id, !on, Some(bar.side));
+                        ui.close();
+                    }
+                }
+            });
+        });
         ui.separator();
         if widgets::menu_item(ui, tl!("Palette Editor…"), true, false) {
             crate::dialogs::palette_editor::open(app, Some(&bar.library));
@@ -549,7 +656,7 @@ mod tests {
         assert_eq!(crate::menus::checked(&app, "window.colorPalette", &json!({"library": "default-rgb"})), Some(true));
         assert!(app.run("window.colorPalette", json!({"library": "default-rgb", "side": "middle"})).is_err());
         app.run("window.colorPalette", json!({"library": "default-rgb", "show": true, "side": "top"})).unwrap();
-        assert_eq!(app.ui.palette_bars, vec![PaletteBar { library: "default-rgb".into(), side: BarSide::Top }]);
+        assert_eq!(app.ui.palette_bars, vec![PaletteBar::new("default-rgb", BarSide::Top)]);
         app.run("window.colorPalette", json!({"library": "document", "show": true})).unwrap();
         assert!(app.run("window.colorPalette", json!({"library": "nope"})).is_err());
         app.run("window.colorPalettes.closeAll", json!({})).unwrap();
@@ -560,11 +667,11 @@ mod tests {
     #[test]
     fn a_click_paints_the_fill_and_a_right_click_the_stroke() {
         let mut app = app();
-        app.ui.palette_bars = vec![PaletteBar { library: "default-cmyk".into(), side: BarSide::Right }];
+        app.ui.palette_bars = vec![PaletteBar::new("default-cmyk", BarSide::Right)];
         let ctx = egui::Context::default();
         frame(&ctx, &mut app, vec![]);
         // The right bar: eyedropper, menu, then None and the colours, CELL + GAP apart.
-        let x = 800.0 - BAR / 2.0;
+        let x = 800.0 - (CELL + 8.0) / 2.0;
         let id = egui::Id::new(("palette_bar", 0usize, "default-cmyk"));
         let y0: f32 = ctx.data(|d| d.get_temp(id.with("start"))).unwrap();
         let slot = |k: f32| pos2(x, y0 + k * (CELL + GAP) + CELL / 2.0);
@@ -586,7 +693,7 @@ mod tests {
     #[test]
     fn the_eyedropper_samples_into_the_palette_or_an_editable_copy() {
         let mut app = app();
-        app.ui.palette_bars = vec![PaletteBar { library: DOCUMENT.into(), side: BarSide::Bottom }];
+        app.ui.palette_bars = vec![PaletteBar::new(DOCUMENT, BarSide::Bottom)];
         app.run("ui.paletteBar.eyedropper", json!({"library": "document"})).unwrap();
         assert_eq!(app.session.tool_id(), "eyedropper");
         assert_eq!(app.session.tool_options()["palette"], json!({"library": "document", "back": "selection"}));
@@ -595,7 +702,7 @@ mod tests {
         let dir = std::env::temp_dir().join(format!("vc-palette-bars-{}", std::process::id()));
         let _ = std::fs::remove_dir_all(&dir);
         app.session.swatch_libraries.set_user_dir(Some(dir.to_string_lossy().to_string()));
-        app.ui.palette_bars.push(PaletteBar { library: "default-cmyk".into(), side: BarSide::Right });
+        app.ui.palette_bars.push(PaletteBar::new("default-cmyk", BarSide::Right));
         let r = app.run("ui.paletteBar.eyedropper", json!({"library": "default-cmyk"})).unwrap();
         let copy = r["library"].as_str().unwrap().to_string();
         assert!(copy.starts_with("user/"), "{r}");
@@ -603,6 +710,46 @@ mod tests {
         assert_eq!(app.ui.palette_bars[1].library, copy, "the bar shows the copy");
         assert_eq!(cells(&app, &copy).unwrap().1.len(), cells(&app, "default-cmyk").unwrap().1.len());
         std::fs::remove_dir_all(dir).ok();
+    }
+
+    #[test]
+    fn the_document_palette_lists_the_colours_the_art_uses() {
+        let mut app = app();
+        let r = app.run("shape.rectangle", json!({"x": 10, "y": 10, "width": 20, "height": 20})).unwrap();
+        app.run("select.set", json!({"ids": [r["id"]]})).unwrap();
+        app.run("paint.setFill", json!({"color": "#12ab34"})).unwrap();
+        let (_, before) = cells(&app, DOCUMENT).unwrap();
+        let green = Color::from_hex("#12ab34").unwrap();
+        assert!(before.iter().any(|c| c.color == green && c.swatch.is_none()), "the fill colour, no swatch for it");
+        // Made a swatch, it shows once, as the swatch.
+        app.run("swatch.addUsedColors", json!({})).unwrap();
+        let (_, after) = cells(&app, DOCUMENT).unwrap();
+        assert_eq!(after.iter().filter(|c| c.color == green).count(), 1);
+    }
+
+    #[test]
+    fn bars_take_any_spacing_and_size() {
+        let mut app = app();
+        app.ui.palette_bars = vec![PaletteBar::new("default-cmyk", BarSide::Right)];
+        // Edge to edge by default.
+        assert_eq!((app.ui.palette_bars[0].gap, app.ui.palette_bars[0].size), (0.0, CELL));
+        let r = app.run("ui.paletteBar.set", json!({"library": "default-cmyk", "gap": 4, "size": 30})).unwrap();
+        assert_eq!(r, json!({"library": "default-cmyk", "gap": 4.0, "size": 30.0}));
+        assert!(app.run("ui.paletteBar.set", json!({"library": "default-cmyk", "gap": 99})).is_err());
+        assert!(app.run("ui.paletteBar.set", json!({"library": "default-rgb", "gap": 1})).is_err(), "not shown");
+        // Several bars at once, each its own.
+        app.run("window.colorPalette", json!({"library": "default-rgb", "show": true, "side": "bottom"})).unwrap();
+        app.run("window.colorPalette", json!({"library": "document", "show": true, "side": "bottom"})).unwrap();
+        assert_eq!(app.ui.palette_bars.len(), 3);
+        assert_eq!(app.ui.palette_bars[1].gap, 0.0);
+        // Old saved bars (no gap, no size) read edge to edge at the usual size.
+        let old: PaletteBar = serde_json::from_value(json!({"library": "x", "side": "right"})).unwrap();
+        assert_eq!((old.gap, old.size), (0.0, CELL));
+        // The cells sit `size + gap` apart in a frame.
+        let ctx = egui::Context::default();
+        app.ui.palette_bars.truncate(1);
+        frame(&ctx, &mut app, vec![]);
+        frame(&ctx, &mut app, vec![]);
     }
 
     #[test]

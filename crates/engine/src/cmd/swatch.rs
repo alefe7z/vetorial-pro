@@ -253,6 +253,17 @@ fn swatch_delete(s: &mut Session, p: &Value) -> Result<Value> {
 /// colours belong to (added to `swatches` once each) and the other colours (added to `colors` once
 /// each). A tint (a linked colour that differs from its swatch's) brings its swatch, and with
 /// `tints` its own colour too. Links to missing swatches count as unlinked.
+/// Vetorial: the solid colours the document's art uses that no swatch holds (CorelDRAW's document
+/// palette lists them beside the swatches), at most `max`, in the order the art first uses them.
+pub fn used_colors(d: &Document, max: usize) -> Vec<Color> {
+    let ids: Vec<NodeId> = d.layers.iter().map(|l| l.id).collect();
+    let (mut linked, mut colors) = (vec![], vec![]);
+    artwork_colors(d, &ids, false, &mut linked, &mut colors);
+    colors.retain(|c| !d.swatches_iter().any(|w| w.paint.color() == Some(*c)));
+    colors.truncate(max);
+    colors
+}
+
 pub(super) fn artwork_colors(d: &Document, ids: &[NodeId], tints: bool, swatches: &mut Vec<String>, colors: &mut Vec<Color>) {
     for n in ids.iter().filter_map(|id| d.node(*id)) {
         node_colors(n, &mut |c, link| {

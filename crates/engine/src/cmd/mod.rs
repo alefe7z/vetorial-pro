@@ -72,7 +72,7 @@ pub(crate) mod slices;
 mod stroke;
 mod style;
 pub mod stylelib;
-mod swatch;
+pub mod swatch;
 pub mod swatchlib;
 pub(crate) mod tabs;
 mod textedit;

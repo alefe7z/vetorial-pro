@@ -3998,3 +3998,4 @@ lighting	Light	光源
 @msg	on is true or false	on 为 true 或 false
 @msg	step is 0.01 to 10000 pt	step 为 0.01 至 10000 pt
 @msg	target must be one of grid, baseline, guides, objects, page, pixels, nodes, not `{other}`	target 必须是 grid、baseline、guides、objects、page、pixels 或 nodes，而不是 `{other}`
+	Tool or command	工具或命令

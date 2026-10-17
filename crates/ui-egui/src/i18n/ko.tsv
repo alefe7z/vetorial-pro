@@ -4374,3 +4374,4 @@ lighting	Light	광원
 @msg	on is true or false	on은 true 또는 false입니다
 @msg	step is 0.01 to 10000 pt	step은 0.01~10000 pt입니다
 @msg	target must be one of grid, baseline, guides, objects, page, pixels, nodes, not `{other}`	target은 grid, baseline, guides, objects, page, pixels, nodes 중 하나여야 합니다(`{other}` 아님)
+	Tool or command	도구 또는 명령

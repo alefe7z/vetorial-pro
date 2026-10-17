@@ -4406,3 +4406,4 @@ lighting	Light	Свет
 @msg	on is true or false	on — true или false
 @msg	step is 0.01 to 10000 pt	step от 0,01 до 10000 pt
 @msg	target must be one of grid, baseline, guides, objects, page, pixels, nodes, not `{other}`	target должен быть grid, baseline, guides, objects, page, pixels или nodes, а не `{other}`
+	Tool or command	Инструмент или команда

@@ -4841,3 +4841,4 @@ mark-style	Japanese	Japonské
 @msg	on is true or false	on je true nebo false
 @msg	step is 0.01 to 10000 pt	step je 0,01 až 10000 pt
 @msg	target must be one of grid, baseline, guides, objects, page, pixels, nodes, not `{other}`	target musí být grid, baseline, guides, objects, page, pixels nebo nodes, ne `{other}`
+	Tool or command	Nástroj nebo příkaz

@@ -4404,3 +4404,4 @@ lighting	Light	ライト
 @msg	on is true or false	on は true または false
 @msg	step is 0.01 to 10000 pt	step は 0.01〜10000 pt
 @msg	target must be one of grid, baseline, guides, objects, page, pixels, nodes, not `{other}`	target は grid、baseline、guides、objects、page、pixels、nodes のいずれかです（`{other}` ではありません）
+	Tool or command	ツールまたはコマンド

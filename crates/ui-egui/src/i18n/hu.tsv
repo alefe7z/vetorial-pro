@@ -4808,3 +4808,4 @@ imageTrace	Outline	Körvonal
 @msg	on is true or false	az on értéke true vagy false
 @msg	step is 0.01 to 10000 pt	a step 0,01 és 10000 pt között
 @msg	target must be one of grid, baseline, guides, objects, page, pixels, nodes, not `{other}`	a target értéke grid, baseline, guides, objects, page, pixels vagy nodes lehet, nem `{other}`
+	Tool or command	Eszköz vagy parancs

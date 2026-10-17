@@ -340,12 +340,7 @@ pub fn assign(overrides: &mut BTreeMap<String, String>, key: &str, chord: Option
         }
         Some(c) => normalize(c).ok_or_else(|| format!("can't parse shortcut `{c}`"))?,
     };
-    if key.starts_with("tool:") {
-        let sc = crate::shortcuts::parse(&chord).ok_or("bad shortcut")?;
-        if sc.modifiers.command || sc.modifiers.alt || sc.modifiers.ctrl {
-            return Err("tool shortcuts must be a single key (optionally with Shift)".into());
-        }
-    }
+    // Vetorial: any key, with any modifiers, can choose a tool (CorelDRAW's customization).
     let clashes = conflicts_with(overrides, &chord, key);
     if !clashes.is_empty() && !force {
         let names: Vec<String> = clashes.iter().map(|k| entry(k).map(|e| e.label.clone()).unwrap_or(k.clone())).collect();
@@ -402,7 +397,7 @@ pub fn open(app: &mut VectorcraftApp) {
     let ov = serde_json::to_value(&app.ui.shortcut_overrides).unwrap_or(json!({}));
     app.ui.dialog = Some(Dialog::new(
         "shortcuts",
-        json!({"tab": "tools", "query": "", "set": app.ui.shortcut_set, "overrides": ov, "__recording": "", "__selected": "", "__message": "", "__conflict": ""}),
+        json!({"tab": "all", "query": "", "set": app.ui.shortcut_set, "overrides": ov, "__recording": "", "__selected": "", "__message": "", "__conflict": ""}),
     ));
 }
 
@@ -591,7 +586,7 @@ pub fn show(app: &mut VectorcraftApp, ctx: &egui::Context) {
         // Tabs + search.
         ui.horizontal(|ui| {
             let tab = d.str("tab");
-            for (id, label) in [("tools", "Tools"), ("menu", "Menu Commands")] {
+            for (id, label) in [("all", "All"), ("tools", "Tools"), ("menu", "Menu Commands")] {
                 if ui.selectable_label(tab == id, egui::RichText::new(tl!(label)).font(theme::semibold(12.5))).clicked() {
                     d.fields.insert("tab".into(), json!(id));
                 }
@@ -604,7 +599,9 @@ pub fn show(app: &mut VectorcraftApp, ctx: &egui::Context) {
             });
         });
         ui.add_space(6.0);
-        let tools = d.str("tab") != "menu";
+        let tab = d.str("tab");
+        let tools = tab == "tools";
+        let all = tab == "all" || tab.is_empty();
         let q = d.str("query").to_lowercase();
         let selected = d.str("__selected");
         let rec = d.str("__recording");
@@ -613,12 +610,22 @@ pub fn show(app: &mut VectorcraftApp, ctx: &egui::Context) {
             ui.horizontal(|ui| {
                 ui.allocate_ui_with_layout(egui::vec2(360.0, 16.0), egui::Layout::left_to_right(egui::Align::Center), |ui| {
                     ui.set_min_width(360.0);
-                    ui.label(egui::RichText::new(if tools { tl!("Tool") } else { tl!("Command") }).color(t.text_dim).size(11.0));
+                    ui.label(
+                        egui::RichText::new(if all {
+                            tl!("Tool or command")
+                        } else if tools {
+                            tl!("Tool")
+                        } else {
+                            tl!("Command")
+                        })
+                        .color(t.text_dim)
+                        .size(11.0),
+                    );
                 });
                 ui.label(egui::RichText::new(tl!("Shortcut")).color(t.text_dim).size(11.0));
             });
             egui::ScrollArea::vertical().max_height(360.0).auto_shrink([false, false]).show(ui, |ui| {
-                for e in entries().iter().filter(|e| e.is_tool == tools) {
+                for e in entries().iter().filter(|e| all || e.is_tool == tools) {
                     let sc = effective_in(&ov, &e.key);
                     let matches = e.label.to_lowercase().contains(&q)
                         || tl!(&e.label).to_lowercase().contains(&q)
@@ -629,7 +636,9 @@ pub fn show(app: &mut VectorcraftApp, ctx: &egui::Context) {
                         continue;
                     }
                     let row = ui.horizontal(|ui| {
-                        let name = if e.is_tool || e.group.is_empty() {
+                        let name = if e.is_tool && all {
+                            format!("{} › {}", tl!("Tools"), tl!(&e.label))
+                        } else if e.is_tool || e.group.is_empty() {
                             tl!(&e.label).to_string()
                         } else {
                             format!("{} › {}", tl!(&e.group), tl!(&e.label))
@@ -679,8 +688,7 @@ pub fn show(app: &mut VectorcraftApp, ctx: &egui::Context) {
             });
             let conflict = d.str("__conflict");
             if !conflict.is_empty() && ui.button(tl!("Go to Conflict")).clicked() {
-                let tab = if conflict.starts_with("tool:") { "tools" } else { "menu" };
-                d.fields.insert("tab".into(), json!(tab));
+                d.fields.insert("tab".into(), json!("all"));
                 d.fields.insert("query".into(), json!(""));
                 d.fields.insert("__selected".into(), json!(conflict));
                 d.fields.insert("__scrollTo".into(), json!(conflict));
@@ -938,9 +946,12 @@ mod tests {
     }
 
     #[test]
-    fn tool_shortcuts_must_be_single_keys() {
+    fn tools_take_any_key() {
         let mut ov = BTreeMap::new();
-        assert!(assign(&mut ov, "tool:pen", Some("Cmd+Alt+Shift+F9"), true).is_err());
+        for chord in ["Cmd+Alt+Shift+F9", "F5", "Ctrl+K", "Alt+7", "Home", "Insert", "PageDown", "Space", "Shift+;"] {
+            assert!(assign(&mut ov, "tool:pen", Some(chord), true).is_ok(), "{chord}");
+            assert_eq!(effective_in(&ov, "tool:pen").and_then(|s| normalize(&s)), normalize(chord), "{chord}");
+        }
         assert!(assign(&mut ov, "tool:bogus", Some("Q"), true).is_err());
     }
 

@@ -1191,7 +1191,7 @@
 	Keyboard Increment	Incremento do Teclado
 	Keyboard Shortcut Conflicts	Conflitos de Atalhos de Teclado
 	Keyboard Shortcut Set	Conjunto de Atalhos de Teclado
-	Keyboard Shortcuts…	Atalhos de Teclado…
+	Keyboard Shortcuts…	Teclas de atalho…
 	Keywords:	Palavras-chave:
 	Knife	Faca
 	Knockout Group	Grupo de Isolamento
@@ -4482,7 +4482,7 @@ effect	Soft	Suave
 	Joins:	Junções:
 	Justify	Justificar
 	Keeps the document editable: VectorCraft reopens the PDF with nothing lost. For files you'll edit again.	Mantém o documento editável: o Vetorial reabre o PDF sem perder nada. Para arquivos que você vai editar de novo.
-	Keyboard Shortcuts	Atalhos de teclado
+	Keyboard Shortcuts	Teclas de atalho
 	Kite	Pipa
 	LF (macOS, Linux)	LF (macOS, Linux)
 	Lab Spot Colors	Cores especiais Lab
@@ -4836,3 +4836,4 @@ theme	Appearance	Aparência
 @msg	on is true or false	on é true ou false
 @msg	step is 0.01 to 10000 pt	step vai de 0,01 a 10000 pt
 @msg	target must be one of grid, baseline, guides, objects, page, pixels, nodes, not `{other}`	target deve ser grid, baseline, guides, objects, page, pixels ou nodes, não `{other}`
+	Tool or command	Ferramenta ou comando

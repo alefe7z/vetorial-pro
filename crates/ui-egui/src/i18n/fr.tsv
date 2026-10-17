@@ -4841,3 +4841,4 @@ theme	Appearance	Apparence
 @msg	on is true or false	on vaut true ou false
 @msg	step is 0.01 to 10000 pt	step va de 0,01 à 10000 pt
 @msg	target must be one of grid, baseline, guides, objects, page, pixels, nodes, not `{other}`	target doit être grid, baseline, guides, objects, page, pixels ou nodes, pas `{other}`
+	Tool or command	Outil ou commande

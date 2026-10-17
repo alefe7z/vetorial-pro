@@ -73,12 +73,28 @@ pub(crate) fn all_shortcuts() -> Vec<(KeyboardShortcut, &'static str, serde_json
             v.push((sc, "window.panel", json!({ "panel": panel })));
         }
     }
+    // Vetorial: tool shortcuts no typed character carries (with Cmd, Ctrl or Alt, or a key such
+    // as F5, Home or Insert); the others arrive as text, below in `handle`.
+    for t in vectorcraft_tools::catalog::all_tools() {
+        if let Some(sc) = crate::shortcut_editor::tool_shortcut(t.id).and_then(parse)
+            && !typed(&sc)
+        {
+            v.push((sc, "tool.select", json!({ "tool": t.id })));
+        }
+    }
     settings_chord(&mut v, cfg!(target_os = "macos"));
     // Most specific (most modifiers) first so Cmd+Shift+Z isn't eaten by Cmd+Z.
     v.sort_by_key(|(sc, ..)| {
         std::cmp::Reverse(sc.modifiers.shift as u8 + sc.modifiers.alt as u8 + sc.modifiers.command as u8 + sc.modifiers.ctrl as u8)
     });
     v
+}
+
+/// Does `sc` arrive as typed text (a letter, digit or punctuation key with no Cmd, Ctrl or Alt)?
+/// Those shortcuts are read from the text, so they follow the keyboard layout.
+fn typed(sc: &KeyboardShortcut) -> bool {
+    let plain = !(sc.modifiers.command || sc.modifiers.alt || sc.modifiers.ctrl);
+    plain && (sc.logical_key.name().len() == 1 || matches!(sc.logical_key, Key::Slash | Key::Comma | Key::Period))
 }
 
 /// On a Mac, Cmd+, opens Settings as in every Mac app (#663), beside Preferences' own shortcut,
@@ -396,8 +412,7 @@ pub fn handle(app: &mut VectorcraftApp, ctx: &egui::Context) {
     for (sc, id, p) in all_shortcuts() {
         // Letter / punctuation keys without Cmd/Alt/Ctrl are handled below as text (tool shortcuts,
         // X, D, /, `,` and `.`).
-        let plain = !(sc.modifiers.command || sc.modifiers.alt || sc.modifiers.ctrl);
-        if plain && (sc.logical_key.name().len() == 1 || matches!(sc.logical_key, Key::Slash | Key::Comma | Key::Period)) {
+        if typed(&sc) {
             continue;
         }
         if ctx.input_mut(|i| consume(i, &sc)) {
@@ -488,6 +503,27 @@ mod tests {
         });
         out.textures_delta.clear();
         out
+    }
+
+    /// Vetorial: a tool answers any key the user gives it, with Alt, Ctrl or Cmd, or a key that
+    /// types nothing (F5, Home…), as well as a plain letter or digit.
+    #[test]
+    fn tools_answer_any_key() {
+        let mut app = VectorcraftApp::new(vectorcraft_engine::Session::new(), Default::default());
+        app.session.execute("file.new", &json!({"width": 200, "height": 200})).unwrap();
+        let key = |k: Key, modifiers: Modifiers| egui::Event::Key { key: k, physical_key: None, pressed: true, repeat: false, modifiers };
+        for (tool, chord, events) in [
+            ("pen", "Alt+K", vec![key(Key::K, Modifiers::ALT)]),
+            ("ellipse", "F5", vec![key(Key::F5, Modifiers::NONE)]),
+            ("rectangle", "Home", vec![key(Key::Home, Modifiers::NONE)]),
+            ("star", "Cmd+Shift+9", vec![key(Key::Num9, Modifiers::COMMAND | Modifiers::SHIFT)]),
+            ("knife", "7", vec![key(Key::Num7, Modifiers::NONE), egui::Event::Text("7".into())]),
+        ] {
+            app.select_tool("selection");
+            app.run("shortcuts.set", json!({"id": format!("tool:{tool}"), "shortcut": chord, "force": true})).unwrap();
+            frame(&mut app, events);
+            assert_eq!(app.session.tool_id(), tool, "{chord}");
+        }
     }
 
     /// Cmd+Shift+B while the Type tool edits text is Type › Bold, not Hide Bounding Box (#724).

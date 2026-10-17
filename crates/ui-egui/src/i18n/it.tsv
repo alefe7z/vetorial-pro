@@ -4410,3 +4410,4 @@ lighting	Light	Luce
 @msg	on is true or false	on è true o false
 @msg	step is 0.01 to 10000 pt	step va da 0,01 a 10000 pt
 @msg	target must be one of grid, baseline, guides, objects, page, pixels, nodes, not `{other}`	target deve essere grid, baseline, guides, objects, page, pixels o nodes, non `{other}`
+	Tool or command	Strumento o comando

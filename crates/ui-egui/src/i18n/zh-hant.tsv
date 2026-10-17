@@ -3793,4 +3793,5 @@ lighting	Light	光源
 	CAD	CAD
 	PAINT	PAINT
 @msg	missing mode	沒有 mode
-@msg	mode is one of vector, cad, paint, paint2, not `{m}`	mode 必須是 vector、cad、paint 或 paint2，而不是 `{m}`
+@msg	mode is one of vector, cad, paint, photo, not `{m}`	mode 必須是 vector、cad、paint 或 photo，而不是 `{m}`
+	FOTO	FOTO

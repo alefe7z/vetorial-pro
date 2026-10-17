@@ -345,7 +345,7 @@ pub struct UiState {
     /// docked at the window's left edge.
     #[serde(default)]
     pub toolbar_pos: Option<[f32; 2]>,
-    /// Vetorial: the program's mode (`vector`, `cad`, `paint`, `paint2`; [`crate::modes`]).
+    /// Vetorial: the program's mode (`vector`, `cad`, `paint`, `photo`; [`crate::modes`]).
     #[serde(default = "main_mode")]
     pub app_mode: String,
     /// Vetorial: View › Canvas Color › Choose Color…'s picker window is open.

@@ -4420,4 +4420,5 @@ lighting	Light	Свет
 	CAD	CAD
 	PAINT	PAINT
 @msg	missing mode	нет mode
-@msg	mode is one of vector, cad, paint, paint2, not `{m}`	mode должен быть vector, cad, paint или paint2, а не `{m}`
+@msg	mode is one of vector, cad, paint, photo, not `{m}`	mode должен быть vector, cad, paint или photo, а не `{m}`
+	FOTO	FOTO

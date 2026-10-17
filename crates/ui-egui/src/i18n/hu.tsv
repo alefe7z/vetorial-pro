@@ -4822,4 +4822,5 @@ imageTrace	Outline	Körvonal
 	CAD	CAD
 	PAINT	PAINT
 @msg	missing mode	hiányzik a mode
-@msg	mode is one of vector, cad, paint, paint2, not `{m}`	a mode értéke vector, cad, paint vagy paint2, nem `{m}`
+@msg	mode is one of vector, cad, paint, photo, not `{m}`	a mode értéke vector, cad, paint vagy photo, nem `{m}`
+	FOTO	FOTO

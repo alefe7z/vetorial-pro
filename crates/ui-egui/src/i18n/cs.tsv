@@ -4855,4 +4855,5 @@ mark-style	Japanese	Japonské
 	CAD	CAD
 	PAINT	PAINT
 @msg	missing mode	chybí mode
-@msg	mode is one of vector, cad, paint, paint2, not `{m}`	mode musí být vector, cad, paint nebo paint2, ne `{m}`
+@msg	mode is one of vector, cad, paint, photo, not `{m}`	mode musí být vector, cad, paint nebo photo, ne `{m}`
+	FOTO	FOTO

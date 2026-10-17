@@ -4379,4 +4379,5 @@ theme	Appearance	Erscheinungsbild
 	CAD	CAD
 	PAINT	PAINT
 @msg	missing mode	mode fehlt
-@msg	mode is one of vector, cad, paint, paint2, not `{m}`	mode muss vector, cad, paint oder paint2 sein, nicht `{m}`
+@msg	mode is one of vector, cad, paint, photo, not `{m}`	mode muss vector, cad, paint oder photo sein, nicht `{m}`
+	FOTO	FOTO

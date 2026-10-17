@@ -4850,4 +4850,5 @@ theme	Appearance	Aparência
 	CAD	CAD
 	PAINT	PAINT
 @msg	missing mode	falta mode
-@msg	mode is one of vector, cad, paint, paint2, not `{m}`	mode deve ser vector, cad, paint ou paint2, não `{m}`
+@msg	mode is one of vector, cad, paint, photo, not `{m}`	mode deve ser vector, cad, paint ou photo, não `{m}`
+	FOTO	FOTO

@@ -4424,4 +4424,5 @@ lighting	Light	Luce
 	CAD	CAD
 	PAINT	PAINT
 @msg	missing mode	manca mode
-@msg	mode is one of vector, cad, paint, paint2, not `{m}`	mode deve essere vector, cad, paint o paint2, non `{m}`
+@msg	mode is one of vector, cad, paint, photo, not `{m}`	mode deve essere vector, cad, paint o photo, non `{m}`
+	FOTO	FOTO

@@ -1,4 +1,4 @@
-//! Vetorial: the program's modes, switched from the menu bar (Vector, CAD, PAINT…). Each mode
+//! Vetorial: the program's modes, switched from the menu bar (Vector, CAD, PAINT, FOTO). Each mode
 //! will bring its own tools; for now only Vector has any, the others show an empty Tools panel.
 //! Command: `app.mode {mode}`.
 
@@ -9,7 +9,7 @@ use crate::VectorcraftApp;
 use crate::theme::Tokens;
 
 /// The modes, left to right: id and label.
-pub const MODES: &[(&str, &str)] = &[("vector", "Vector"), ("cad", "CAD"), ("paint", "PAINT"), ("paint2", "PAINT")];
+pub const MODES: &[(&str, &str)] = &[("vector", "Vector"), ("cad", "CAD"), ("paint", "PAINT"), ("photo", "FOTO")];
 
 /// The mode the program starts in, the main one.
 pub const MAIN: &str = "vector";
@@ -33,7 +33,7 @@ pub fn command(app: &mut VectorcraftApp, id: &str, p: &Value) -> Option<Result<V
             app.ui.app_mode = m.to_string();
             Ok(json!({ "mode": m }))
         }
-        Some(m) => Err(format!("mode is one of vector, cad, paint, paint2, not `{m}`")),
+        Some(m) => Err(format!("mode is one of vector, cad, paint, photo, not `{m}`")),
         None => Err("missing mode".into()),
     })
 }
@@ -86,7 +86,8 @@ mod tests {
         assert_eq!(app.run("app.mode", json!({"mode": "cad"})).unwrap(), json!({"mode": "cad"}));
         assert!(!vector(&app));
         assert_eq!(checked(&app, "app.mode", &json!({"mode": "cad"})), Some(true));
-        assert!(app.run("app.mode", json!({"mode": "photo"})).is_err());
+        assert!(app.run("app.mode", json!({"mode": "sculpt"})).is_err());
+        assert_eq!(app.run("app.mode", json!({"mode": "photo"})).unwrap(), json!({"mode": "photo"}));
         app.run("app.mode", json!({"mode": "vector"})).unwrap();
         assert!(vector(&app));
         let ctx = egui::Context::default();

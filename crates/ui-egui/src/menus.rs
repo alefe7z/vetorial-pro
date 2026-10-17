@@ -235,7 +235,7 @@ pub const UI_COMMANDS: &[(&str, &str, &str, &str)] = &[
         "app.mode",
         "Mode",
         "",
-        "{mode: \"vector\"|\"cad\"|\"paint\"|\"paint2\"} switch the program's mode (the menu bar's switcher): each mode has its own tools; only Vector has any yet, the others leave the Tools panel empty → {mode}",
+        "{mode: \"vector\"|\"cad\"|\"paint\"|\"photo\"} switch the program's mode (the menu bar's switcher): each mode has its own tools; only Vector has any yet, the others leave the Tools panel empty → {mode}",
     ),
     (
         "view.canvasColor",

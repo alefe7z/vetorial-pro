@@ -4406,4 +4406,5 @@ theme	Appearance	Giao diện
 	CAD	CAD
 	PAINT	PAINT
 @msg	missing mode	thiếu mode
-@msg	mode is one of vector, cad, paint, paint2, not `{m}`	mode phải là vector, cad, paint hoặc paint2, không phải `{m}`
+@msg	mode is one of vector, cad, paint, photo, not `{m}`	mode phải là vector, cad, paint hoặc photo, không phải `{m}`
+	FOTO	FOTO

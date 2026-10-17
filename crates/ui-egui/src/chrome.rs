@@ -94,8 +94,8 @@ pub fn app_bar(app: &mut VectorcraftApp, ui: &mut Ui) {
                 });
             }
             // Vetorial: the modes (Vector, CAD, PAINT…), left of Snap To, while they fit.
-            if ui.available_width() >= crate::modes::WIDTH + 16.0 {
-                ui.add_space(8.0);
+            if ui.available_width() >= crate::modes::WIDTH + 10.0 {
+                ui.add_space(6.0);
                 ui.allocate_ui_with_layout(vec2(crate::modes::WIDTH, WIDGET_H + 6.0), egui::Layout::left_to_right(egui::Align::Center), |ui| {
                     crate::modes::bar(app, ui)
                 });

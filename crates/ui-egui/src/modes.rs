@@ -15,7 +15,9 @@ pub const MODES: &[(&str, &str)] = &[("vector", "Vector"), ("cad", "CAD"), ("pai
 pub const MAIN: &str = "vector";
 
 /// How wide the mode switcher is in the menu bar.
-pub const WIDTH: f32 = 4.0 * 76.0 + 14.0;
+pub const WIDTH: f32 = 4.0 * STEP + 8.0;
+/// One mode button and the gap after it.
+const STEP: f32 = 64.0;
 
 /// Does the current mode have the vector tools?
 pub fn vector(app: &VectorcraftApp) -> bool {
@@ -44,13 +46,13 @@ pub fn checked(app: &VectorcraftApp, id: &str, p: &Value) -> Option<bool> {
 /// others.
 pub fn bar(app: &mut VectorcraftApp, ui: &mut Ui) {
     let t = Tokens::get(ui.ctx());
-    let h = 26.0;
+    let h = 24.0;
     let (frame, _) = ui.allocate_exact_size(vec2(WIDTH, h + 6.0), Sense::hover());
     ui.painter().rect_filled(frame, 6.0, t.tab_strip);
     ui.painter().rect_stroke(frame, 6.0, Stroke::new(1.0, t.border), egui::StrokeKind::Inside);
-    let mut x = frame.left() + 6.0;
+    let mut x = frame.left() + 4.0;
     for (id, label) in MODES {
-        let r = egui::Rect::from_min_size(egui::pos2(x, frame.top() + 3.0), vec2(72.0, h));
+        let r = egui::Rect::from_min_size(egui::pos2(x, frame.top() + 3.0), vec2(STEP - 4.0, h));
         let resp = ui.interact(r, ui.id().with(("mode", id)), Sense::click());
         let on = app.ui.app_mode == *id || (app.ui.app_mode.is_empty() && *id == MAIN);
         let fill = if on {
@@ -64,12 +66,12 @@ pub fn bar(app: &mut VectorcraftApp, ui: &mut Ui) {
         ui.painter().rect_stroke(r, 5.0, Stroke::new(1.0, t.border), egui::StrokeKind::Inside);
         let light = if on { Color32::from_rgb(0x9b, 0xe6, 0x2e) } else { Color32::from_rgb(0xe0, 0x1b, 0x1b) };
         ui.painter().circle_filled(r.left_top() + vec2(8.0, 7.0), 3.0, light);
-        let font = if on { crate::theme::semibold(13.5) } else { egui::FontId::proportional(13.0) };
+        let font = if on { crate::theme::semibold(12.5) } else { egui::FontId::proportional(12.0) };
         ui.painter().text(r.center() + vec2(3.0, 0.0), egui::Align2::CENTER_CENTER, tl!(*label), font, if on { t.text_strong } else { t.text_dim });
         if resp.clicked() {
             app.run("app.mode", json!({ "mode": id })).ok();
         }
-        x += 76.0;
+        x += STEP;
     }
 }
 

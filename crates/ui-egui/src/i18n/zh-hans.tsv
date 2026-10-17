@@ -4014,3 +4014,5 @@ lighting	Light	光源
 @msg	missing mode	缺少 mode
 @msg	mode is one of vector, cad, paint, photo, not `{m}`	mode 必须是 vector、cad、paint 或 photo，而不是 `{m}`
 	FOTO	FOTO
+	Mirror Horizontally	水平镜像
+	Mirror Vertically	垂直镜像

@@ -4406,3 +4406,5 @@ lighting	Light	Світло
 @msg	missing mode	немає mode
 @msg	mode is one of vector, cad, paint, photo, not `{m}`	mode має бути vector, cad, paint або photo, а не `{m}`
 	FOTO	FOTO
+	Mirror Horizontally	Віддзеркалити по горизонталі
+	Mirror Vertically	Віддзеркалити по вертикалі

@@ -4798,3 +4798,5 @@ mark-style	Japanese	Japonesas
 @msg	missing mode	falta mode
 @msg	mode is one of vector, cad, paint, photo, not `{m}`	mode debe ser vector, cad, paint o photo, no `{m}`
 	FOTO	FOTO
+	Mirror Horizontally	Reflejar horizontalmente
+	Mirror Vertically	Reflejar verticalmente

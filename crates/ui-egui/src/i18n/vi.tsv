@@ -4408,3 +4408,5 @@ theme	Appearance	Giao diện
 @msg	missing mode	thiếu mode
 @msg	mode is one of vector, cad, paint, photo, not `{m}`	mode phải là vector, cad, paint hoặc photo, không phải `{m}`
 	FOTO	FOTO
+	Mirror Horizontally	Lật ngang
+	Mirror Vertically	Lật dọc

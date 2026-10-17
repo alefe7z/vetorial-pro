@@ -4852,3 +4852,5 @@ theme	Appearance	Aparência
 @msg	missing mode	falta mode
 @msg	mode is one of vector, cad, paint, photo, not `{m}`	mode deve ser vector, cad, paint ou photo, não `{m}`
 	FOTO	FOTO
+	Mirror Horizontally	Espelhar horizontalmente
+	Mirror Vertically	Espelhar verticalmente

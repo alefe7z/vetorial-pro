@@ -4857,3 +4857,5 @@ mark-style	Japanese	Japonské
 @msg	missing mode	chybí mode
 @msg	mode is one of vector, cad, paint, photo, not `{m}`	mode musí být vector, cad, paint nebo photo, ne `{m}`
 	FOTO	FOTO
+	Mirror Horizontally	Zrcadlit vodorovně
+	Mirror Vertically	Zrcadlit svisle

@@ -4381,3 +4381,5 @@ theme	Appearance	Erscheinungsbild
 @msg	missing mode	mode fehlt
 @msg	mode is one of vector, cad, paint, photo, not `{m}`	mode muss vector, cad, paint oder photo sein, nicht `{m}`
 	FOTO	FOTO
+	Mirror Horizontally	Horizontal spiegeln
+	Mirror Vertically	Vertikal spiegeln

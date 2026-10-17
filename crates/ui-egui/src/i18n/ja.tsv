@@ -4420,3 +4420,5 @@ lighting	Light	ライト
 @msg	missing mode	mode がありません
 @msg	mode is one of vector, cad, paint, photo, not `{m}`	mode は vector、cad、paint、photo のいずれかです（`{m}` ではありません）
 	FOTO	FOTO
+	Mirror Horizontally	水平方向に反転
+	Mirror Vertically	垂直方向に反転

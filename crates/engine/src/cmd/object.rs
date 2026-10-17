@@ -55,6 +55,24 @@ pub fn specs() -> Vec<CommandSpec> {
             scale
         ),
         cmd!(
+            "object.mirrorHorizontal",
+            "Mirror Horizontally",
+            ["Object", "Transform"],
+            None,
+            "{} flip the selection left to right about its centre, in place (CorelDRAW's Mirror Horizontally: object.reflect {axis: \"vertical\"}); one undo step",
+            has_selection,
+            |s, _| reflect(s, &json!({ "axis": "vertical" }))
+        ),
+        cmd!(
+            "object.mirrorVertical",
+            "Mirror Vertically",
+            ["Object", "Transform"],
+            None,
+            "{} flip the selection top to bottom about its centre, in place (CorelDRAW's Mirror Vertically: object.reflect {axis: \"horizontal\"}); one undo step",
+            has_selection,
+            |s, _| reflect(s, &json!({ "axis": "horizontal" }))
+        ),
+        cmd!(
             "object.reflect",
             "Reflect…",
             ["Object", "Transform"],

@@ -336,6 +336,16 @@ pub fn control_bar(app: &mut VectorcraftApp, ui: &mut Ui) {
                 }
                 crate::panels::align::align_buttons(app, ui, 24.0);
                 ui.separator();
+                // Vetorial: CorelDRAW's Mirror Horizontally / Vertically, one click each.
+                for (icon, tip, cmd) in [
+                    ("dc-mirror-h", tl!("Mirror Horizontally"), "object.mirrorHorizontal"),
+                    ("dc-mirror-v", tl!("Mirror Vertically"), "object.mirrorVertical"),
+                ] {
+                    if widgets::icon_button(ui, icon, tip, false, 24.0).clicked() {
+                        app.run(cmd, json!({})).ok();
+                    }
+                }
+                ui.separator();
                 // The Transform link opens the whole Transform panel (reference point, rotate,
                 // shear, options) in a popover; X/Y/W/H follow inline while the bar has room.
                 crate::panels::transform::link(app, ui);

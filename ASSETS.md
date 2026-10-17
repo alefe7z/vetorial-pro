@@ -124,6 +124,8 @@ Generated-in-code art is original and has no file to list. This covers the defau
 | `assets/icons/dc-bezier.svg` | Vetorial contributors | Original work, drawn for Vetorial | MIT OR Apache-2.0 | Bézier tool (Corel-style) |
 | `assets/icons/dc-bspline.svg` | Vetorial contributors | Original work, drawn for Vetorial | MIT OR Apache-2.0 | B-Spline tool |
 | `assets/icons/dc-virtual-segment.svg` | Vetorial contributors | Original work, drawn for Vetorial | MIT OR Apache-2.0 | Virtual Segment Delete tool |
+| `assets/icons/dc-mirror-h.svg` | Vetorial contributors | Original work, drawn for Vetorial | MIT OR Apache-2.0 | Mirror Horizontally button |
+| `assets/icons/dc-mirror-v.svg` | Vetorial contributors | Original work, drawn for Vetorial | MIT OR Apache-2.0 | Mirror Vertically button |
 | `assets/icons/dc-polyline.svg` | Vetorial contributors | Original work, drawn for Vetorial | MIT OR Apache-2.0 | Polyline tool |
 | `assets/icons/dc-dist-bottom.svg` | VectorCraft contributors | Original work, drawn for VectorCraft | MIT OR Apache-2.0 |  |
 | `assets/icons/dc-dist-hcenter.svg` | VectorCraft contributors | Original work, drawn for VectorCraft | MIT OR Apache-2.0 |  |

@@ -4824,3 +4824,5 @@ imageTrace	Outline	Körvonal
 @msg	missing mode	hiányzik a mode
 @msg	mode is one of vector, cad, paint, photo, not `{m}`	a mode értéke vector, cad, paint vagy photo, nem `{m}`
 	FOTO	FOTO
+	Mirror Horizontally	Tükrözés vízszintesen
+	Mirror Vertically	Tükrözés függőlegesen

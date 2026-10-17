@@ -3795,3 +3795,5 @@ lighting	Light	光源
 @msg	missing mode	沒有 mode
 @msg	mode is one of vector, cad, paint, photo, not `{m}`	mode 必須是 vector、cad、paint 或 photo，而不是 `{m}`
 	FOTO	FOTO
+	Mirror Horizontally	水平鏡像
+	Mirror Vertically	垂直鏡像

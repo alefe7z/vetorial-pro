@@ -4426,3 +4426,5 @@ lighting	Light	Luce
 @msg	missing mode	manca mode
 @msg	mode is one of vector, cad, paint, photo, not `{m}`	mode deve essere vector, cad, paint o photo, non `{m}`
 	FOTO	FOTO
+	Mirror Horizontally	Rifletti orizzontalmente
+	Mirror Vertically	Rifletti verticalmente

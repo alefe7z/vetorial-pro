@@ -4390,3 +4390,5 @@ lighting	Light	광원
 @msg	missing mode	mode가 없습니다
 @msg	mode is one of vector, cad, paint, photo, not `{m}`	mode는 vector, cad, paint, photo 중 하나여야 합니다(`{m}` 아님)
 	FOTO	FOTO
+	Mirror Horizontally	가로로 대칭
+	Mirror Vertically	세로로 대칭

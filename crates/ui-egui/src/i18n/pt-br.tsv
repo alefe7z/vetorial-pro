@@ -323,7 +323,7 @@
 	Can't print these settings: see the Summary	Não é possível imprimir estas configurações: veja o Resumo
 	Cancel	Cancelar
 	Cancel Key Object	Cancelar Objeto-Chave
-	Canvas Color	Cor da Tela
+	Canvas Color	Cor do fundo
 	Cap:	Extremidade:
 	Cascade	Em Cascata
 	Center Artwork	Centralizar Arte
@@ -4844,3 +4844,4 @@ theme	Appearance	Aparência
 @msg	that palette isn't shown	essa paleta não está à mostra
 	One Page at a Time	Uma página por vez
 	Show All Pages' Objects	Mostrar objetos de todas as páginas
+	Choose Color…	Escolher cor…

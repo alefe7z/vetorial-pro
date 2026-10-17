@@ -232,6 +232,12 @@ pub const UI_COMMANDS: &[(&str, &str, &str, &str)] = &[
     ("view.edges", "Hide Edges", "Cmd+H", "{}"),
     ("view.artboards", "Hide Artboards", "Cmd+Shift+H", "{}"),
     (
+        "view.canvasColor",
+        "Canvas Color",
+        "",
+        "{color?: \"white\"|\"lightGray\"|\"mediumGray\"|\"darkGray\"|\"matchUi\"|\"#rrggbb\"} the colour around the pages (User Interface › Canvas Color; CorelDRAW's is white); without a colour it opens the picker window → {color}",
+    ),
+    (
         "view.singlePage",
         "One Page at a Time",
         "",
@@ -994,6 +1000,9 @@ pub fn run_ui_command(app: &mut VectorcraftApp, id: &str, p: &Value) -> Option<R
     if let Some(result) = crate::snap_menu::command(app, id, p) {
         return Some(result);
     }
+    if let Some(result) = crate::canvas_color::command(app, id, p) {
+        return Some(result);
+    }
     if id == "app.language" {
         let lang = p.get("lang").and_then(Value::as_str).unwrap_or("");
         let value = if lang.eq_ignore_ascii_case("auto") {
@@ -1575,6 +1584,9 @@ pub fn checked(app: &VectorcraftApp, id: &str, p: &Value) -> Option<bool> {
         return Some(on);
     }
     if let Some(on) = crate::snap_menu::checked(app, id, p) {
+        return Some(on);
+    }
+    if let Some(on) = crate::canvas_color::checked(app, id, p) {
         return Some(on);
     }
     let v = &app.ui.view;
@@ -2645,6 +2657,7 @@ pub fn menu_tree_named(english_names: bool) -> Vec<(&'static str, Vec<Item>)> {
                 c("Hide Edges", "view.edges"),
                 c("Hide Artboards", "view.artboards"),
                 c("One Page at a Time", "view.singlePage"),
+                sub("Canvas Color", crate::canvas_color::view_menu()),
                 c("Show Print Tiling", "view.printTiling"),
                 c("Hide Slices", "view.slices.hide"),
                 c("Lock Slices", "view.slices.lock"),

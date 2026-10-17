@@ -341,6 +341,9 @@ pub struct UiState {
     /// docked at the window's left edge.
     #[serde(default)]
     pub toolbar_pos: Option<[f32; 2]>,
+    /// Vetorial: View › Canvas Color › Choose Color…'s picker window is open.
+    #[serde(skip)]
+    pub canvas_color_picker: bool,
     /// Vetorial: the page tab being renamed in place in the page bar.
     #[serde(skip)]
     pub page_rename: Option<crate::page_bar::Rename>,
@@ -666,6 +669,7 @@ impl Default for UiState {
             docking_generation: 0,
             toolbar_pos: None,
             page_rename: None,
+            canvas_color_picker: false,
             status_bar: true,
             dock: true,
             view: ViewFlags::default(),

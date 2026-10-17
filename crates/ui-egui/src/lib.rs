@@ -16,6 +16,7 @@ macro_rules! tl {
 pub mod background;
 mod brand;
 pub mod canvas;
+pub mod canvas_color;
 pub mod chrome;
 mod clipboard_probe;
 pub mod community;
@@ -1280,6 +1281,7 @@ impl VectorcraftApp {
         panels::library_panel::show_window(self, &ctx);
         dialogs::show(self, &ctx);
         palette::show(self, &ctx);
+        canvas_color::show(self, &ctx);
         if self.custom_titlebar {
             titlebar::resize_zones(ui);
         }

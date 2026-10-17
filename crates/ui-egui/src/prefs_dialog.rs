@@ -90,13 +90,19 @@ struct Applied {
 
 /// User Interface › Canvas Color: the canvas around the artboards, or `None` to match the
 /// interface brightness. The greys keep the white page's edge in view (#663).
-fn canvas_color(key: &str) -> Option<egui::Color32> {
+pub(crate) fn canvas_color(key: &str) -> Option<egui::Color32> {
     match key {
         "white" => Some(egui::Color32::WHITE),
         "lightGray" => Some(egui::Color32::from_gray(0xc8)),
         "mediumGray" => Some(egui::Color32::from_gray(0x96)),
         "darkGray" => Some(egui::Color32::from_gray(0x5a)),
-        _ => None,
+        // Vetorial: any colour, as #rrggbb.
+        hex => {
+            let h = hex.strip_prefix('#')?;
+            let byte = |i: usize| h.get(i..i + 2).and_then(|x| u8::from_str_radix(x, 16).ok());
+            (h.len() == 6).then_some(())?;
+            Some(egui::Color32::from_rgb(byte(0)?, byte(2)?, byte(4)?))
+        }
     }
 }
 
@@ -431,6 +437,10 @@ mod tests {
             assert_eq!(Tokens::get(&ctx).pasteboard, want, "{key}");
         }
         assert!(app.run("prefs.set", serde_json::json!({"key": "canvasColor", "value": "pink"})).is_err());
+        // Any colour too (Vetorial).
+        app.run("prefs.set", serde_json::json!({"key": "canvasColor", "value": "#FF8800"})).unwrap();
+        apply_runtime(&mut app, &ctx);
+        assert_eq!(Tokens::get(&ctx).pasteboard, egui::Color32::from_rgb(0xff, 0x88, 0x00));
     }
 
     fn app() -> VectorcraftApp {

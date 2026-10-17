@@ -405,6 +405,11 @@ pub fn validate(key: &str, v: &Value) -> std::result::Result<Value, String> {
         },
         PrefKind::Choice(opts) => {
             let s = v.as_str().ok_or_else(|| format!("`{key}` must be a string"))?;
+            // Vetorial: the canvas takes any colour too (#rrggbb), beside its named ones.
+            let hex = s.trim().trim_start_matches('#');
+            if key == "canvasColor" && hex.len() == 6 && hex.chars().all(|c| c.is_ascii_hexdigit()) {
+                return Ok(json!(format!("#{}", hex.to_ascii_lowercase())));
+            }
             opts.iter()
                 .find(|(val, label)| val.eq_ignore_ascii_case(s) || label.eq_ignore_ascii_case(s))
                 .map(|(val, _)| json!(val))

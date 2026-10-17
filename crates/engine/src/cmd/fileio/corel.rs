@@ -72,6 +72,7 @@ fn document(d: &cdr::Drawing) -> Result<Document> {
     doc.layers.clear();
     let mut artboards = Vec::new();
     let mut x = 0.0;
+    let mut reach_right: f64 = 0.0;
     let many = d.pages.len() > 1;
     for (i, page) in d.pages.iter().enumerate() {
         // The page's size, else its art's bounds (CorelDRAW's origin is the page's centre, y up).
@@ -80,10 +81,13 @@ fn document(d: &cdr::Drawing) -> Result<Document> {
             let b = bounds.unwrap_or(Rect::new(-306.0, -396.0, 306.0, 396.0));
             (2.0 * b.x0.abs().max(b.x1.abs()).max(1.0), 2.0 * b.y0.abs().max(b.y1.abs()).max(1.0))
         });
-        // The art around the page (CorelDRAW's desktop) keeps clear of the page before: the page
-        // goes far enough right that its art's left edge clears the last page's art (Vetorial).
-        let reach_left = bounds.map_or(0.0, |b| (w / 2.0 + b.x0).min(0.0));
-        x -= reach_left;
+        // The art around each page (CorelDRAW's desktop) stays nearer its own page than the next
+        // (Vetorial shows one page at a time, each object with the page nearest it): the gap
+        // between two pages is twice the farthest either's art reaches into it.
+        let reach_left = bounds.map_or(0.0, |b| -(w / 2.0 + b.x0).min(0.0));
+        if i > 0 {
+            x += 2.0 * reach_left.max(reach_right);
+        }
         let to_doc = Affine::new([1.0, 0.0, 0.0, -1.0, x + w / 2.0, h / 2.0]);
         let name = if many { format!("Page {}", i + 1) } else { "Page 1".to_string() };
         artboards.push(Artboard { id: i as u32 + 1, name, rect: Rect::new(x, 0.0, x + w, h), show_center_mark: false, show_cross_hairs: false });
@@ -97,9 +101,9 @@ fn document(d: &cdr::Drawing) -> Result<Document> {
             }
             doc.layers.push(Arc::new(l));
         }
-        // Past the page and the art to its right.
-        let reach_right = bounds.map_or(w, |b| (w / 2.0 + b.x1).max(w));
-        x += reach_right + GAP;
+        // How far its art reaches past its right edge.
+        reach_right = bounds.map_or(0.0, |b| (w / 2.0 + b.x1 - w).max(0.0));
+        x += w + GAP;
     }
     if doc.layers.is_empty() {
         return Err(err("the CorelDRAW document has no art"));

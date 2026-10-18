@@ -48,7 +48,7 @@ pub fn read(text: &str, fallback: &str) -> Result<SwatchLibrary, String> {
             .filter(|n| n.has_tag_name("color"))
             .filter_map(|c| {
                 let model = c.attribute("cs")?.to_ascii_uppercase();
-                let color = model_color(&model, &tints(c.attribute("tints")?))?;
+                let color = model_color(&model, &tints(c.attribute("tints")?)?)?;
                 let rank = match model.as_str() {
                     "RGB" => 0,
                     "CMYK" | "CMYK255" => 1,
@@ -72,7 +72,7 @@ pub fn read(text: &str, fallback: &str) -> Result<SwatchLibrary, String> {
                 break;
             }
             let Some(model) = c.attribute("cs") else { continue };
-            let values = tints(c.attribute("tints").unwrap_or(""));
+            let Some(values) = tints(c.attribute("tints").unwrap_or("")) else { continue };
             let (color, spot) = match inks.get(model) {
                 Some(ink) => (tinted(*ink, values.first().copied().unwrap_or(1.0)), true),
                 None => match model_color(&model.to_ascii_uppercase(), &values) {
@@ -97,9 +97,13 @@ pub fn read(text: &str, fallback: &str) -> Result<SwatchLibrary, String> {
     Ok(lib)
 }
 
-/// The comma-separated tints of a colour, finite values only.
-fn tints(s: &str) -> Vec<f32> {
-    s.split(',').filter_map(|v| v.trim().parse::<f32>().ok()).filter(|v| v.is_finite()).collect()
+/// Vetorial: read every component in place; an invalid component rejects the colour.
+fn tints(s: &str) -> Option<Vec<f32>> {
+    // A missing tint retains the default full-strength spot ink.
+    if s.trim().is_empty() {
+        return Some(Vec::new());
+    }
+    s.split(',').map(|v| v.trim().parse::<f32>().ok().filter(|v| v.is_finite())).collect()
 }
 
 fn clean_name(s: &str) -> String {
@@ -252,6 +256,46 @@ mod tests {
         assert!(r < 0.01 && g < 0.01 && b > 0.99, "{r} {g} {b}");
     }
 
+    /// Vetorial: invalid components must not shift the remaining colour channels.
+    #[test]
+    fn invalid_tints_do_not_change_colour_channels() {
+        for invalid in ["NaN", "inf", "-inf", "1e40", "oops", ""] {
+            let xml = format!(
+                r#"<palette><colors><page>
+                <color cs="RGB" tints="{invalid},1,0,0" name="Invalid RGB"/>
+                <color cs="CMYK" tints="0,{invalid},1,0,0" name="Invalid CMYK"/>
+                <color cs="RGB" tints="0,1,0" name="Valid green"/>
+                </page></colors></palette>"#
+            );
+            let lib = read(&xml, "test").unwrap();
+            assert_eq!(lib.swatches.len(), 1, "{invalid}");
+            assert_eq!(lib.swatches[0].name, "Valid green");
+            assert_eq!(lib.swatches[0].paint.color(), Some(Color::rgb(0.0, 1.0, 0.0)));
+        }
+    }
+
+    /// Vetorial: a malformed spot tint is not the same as an omitted tint.
+    #[test]
+    fn invalid_spot_tints_are_skipped_but_missing_tints_default() {
+        let xml = r#"<palette>
+            <colorspaces><cs name="Ink">
+                <color cs="RGB" tints="NaN,1,0,0"/>
+                <color cs="CMYK" tints="0,1,0,0"/>
+            </cs></colorspaces>
+            <colors><page>
+                <color cs="Ink" tints="NaN" name="Invalid"/>
+                <color cs="Ink" name="Full"/>
+                <color cs="Ink" tints="0.5" name="Half"/>
+            </page></colors>
+        </palette>"#;
+        let lib = read(xml, "test").unwrap();
+        assert_eq!(lib.swatches.len(), 2);
+        assert_eq!(lib.swatches[0].name, "Full");
+        assert_eq!(lib.swatches[0].paint.color(), Some(Color::cmyk(0.0, 1.0, 0.0, 0.0)));
+        assert_eq!(lib.swatches[1].paint.color(), Some(Color::cmyk(0.0, 0.5, 0.0, 0.0)));
+        assert!(lib.swatches.iter().all(|s| s.spot && s.global));
+    }
+
     #[test]
     fn rejects_other_files() {
         assert!(!sniff("GIMP Palette\n"));
@@ -271,3 +315,4 @@ mod tests {
         }
     }
 }
+

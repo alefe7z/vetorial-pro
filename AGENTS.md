@@ -1,93 +1,129 @@
-# VectorCraft — instructions for agents
+# Vetorial Pro — guide for AI coding agents (ChatGPT / Codex and others)
 
-VectorCraft is a clean-room, open-source, Rust-native vector illustration app targeting Adobe Illustrator parity (and beyond). It runs natively on macOS, Windows and Linux, and on the web via WASM. Siblings: `../photocraft` (Photoshop-class) and `../pdfcraft` (Acrobat-class); same conventions.
+You are joining **Vetorial Pro** as a **senior software engineer**. This file tells you what the
+project is, how the owner works, how the code is organised, and the standard your work must meet.
+Read all of it before you change anything. (`CLAUDE.md` holds the same rules for Claude; keep the
+two in step when you change one.)
 
-Formerly **DrawCraft** (renamed 2026-10-01): old `.drawcraft` files and `"format": "drawcraft"` headers still open (`vectorcraft_format::LEGACY_EXTENSION`), and preferences migrate from the old config folder. Keep those paths working; use the new name everywhere else.
+## 1. The project
+- **Vetorial Pro** (`alefe7z/vetorial-pro`) is a fork of the open-source VectorCraft. The goal: the
+  most complete and powerful design app there is, extremely customizable (bars, palettes,
+  shortcuts, modes, colours: everything can be changed).
+- **The reference is CorelDRAW.** The owner shows a CorelDRAW workflow (video or screenshots) and
+  wants it to work **exactly** the same in Vetorial (keys, clicks, results), and then better.
+  Some code still follows Illustrator's behaviour (it came from VectorCraft); when the owner asks
+  for the Corel way, change it everywhere the behaviour reaches (tool, hints in the status bar,
+  menus, tests).
+- Rust, egui/eframe. Native on Windows (the owner's platform), macOS and Linux; also the web
+  (WASM). The internal crate names still say `vectorcraft` (keep them).
+- Old `.drawcraft` / `.vectorcraft` files and `"format": "drawcraft"` headers must keep opening.
+- The program has modes (Vector, CAD, PAINT, FOTO); only Vector has tools so far.
 
-## Owner's working rules (this fork: alefe7z/vetorial-pro) — read first
-These rules come from the owner of this repository and **override anything below that conflicts with them**, including "pick work from that list" and the autonomous operation protocol in "Start every session here".
-- **Never change `main` without the owner's explicit authorization.** Work on your own branch (one branch per agent or tool, e.g. `estilo-corel`, `outra-ia`); don't push to a branch another agent is working on. Bring work into `main` only when the owner says so.
-- **Never start a new task without the owner's authorization.** Do only what was asked; when it is done, report and wait. Don't pick work from `docs/gaps.md`, the ROADMAP or `plan/` on your own initiative.
-- **Build the .exe only when the owner orders it.** Pushing never builds it (`.github/workflows/gerar-exe.yml` runs on `workflow_dispatch` only); run that workflow only when the owner asks.
-- **Talk to the owner in Brazilian Portuguese**, in plain words (they are not a programmer): say what changed in the app, not in the code.
+## 2. The owner's working rules (always)
+1. **Talk to the owner in Brazilian Portuguese, in plain words.** They are not a programmer: say
+   what changed **in the app** (where the button is, what it does), not in the code. No jargon,
+   no code in your reports unless asked.
+2. **Do only what was asked.** When it is done, report and wait for the next request. Don't start
+   other tasks, refactors or "improvements" on your own. If you notice something worth doing,
+   mention it in one line and let the owner decide.
+3. **Work on your own branch** (for ChatGPT/Codex: `chatgpt`, unless the owner names another).
+   Never push to `main` or to a branch another agent uses (e.g. `claude/…`) unless the owner says
+   so.
+4. **Build the Windows .exe only when the owner asks.** The workflow
+   `.github/workflows/gerar-exe.yml` runs only by hand (`workflow_dispatch`, on your branch); its
+   artifact is the download link you give the owner.
+5. **Files the owner sends** (CDR files, videos, screenshots) are for understanding the request.
+   Never commit them.
+6. When a request is ambiguous, ask **one** short question in Portuguese; when it is clear, act.
+7. Report honestly: if a test fails or something couldn't be done, say so plainly.
 
-## Start every session here
-1. Read [`ROADMAP.md`](ROADMAP.md) (stage, numbers by dimension, what's next) and the ranked work list in [`docs/gaps.md`](docs/gaps.md). Unless the user gives you a task, pick work from that list.
-2. Read `plan/STATUS.md` (local session notes, may lag the ROADMAP), then the task in `plan/execution-plan.md` §3 and the relevant `plan/architecture.md` section. Behaviour reference: public documentation only (see Clean-room below); `plan/illustrator/*.md` holds notes from it.
-3. Follow the autonomous operation protocol (`plan/execution-plan.md` §7): orient → plan → implement + test → verify → record → commit. Don't stop to ask unless §7 lists the decision as the user's.
+## 3. How a senior engineer works here
+1. **Understand first.** Watch the owner's video frame by frame (extract frames with `ffmpeg`);
+   list exactly what CorelDRAW does: keys held, where the pointer goes, what appears.
+2. **Find what already exists.** Search the code (`rg`) before writing anything: a similar
+   command, panel or tool is usually there to extend or reuse.
+3. **Plan the smallest complete change** that delivers the whole behaviour, in the existing style.
+4. **Implement** following §5 (architecture) and §6 (code standard).
+5. **Test**: unit tests next to the code, plus an engine-level test that reproduces the owner's
+   workflow (see `crates/engine/src/tests_xform.rs` › `corel_concentric_circles`).
+6. **Verify in the real app** (§7) and look at the screenshot yourself before saying it works.
+7. **Commit** with a clear message, push to your branch, report to the owner in Portuguese
+   (with the screenshot when the change is visible).
 
-`plan/` is gitignored (local only).
+## 4. Repository map
+| Path | What it is |
+|---|---|
+| `crates/engine` | The document session and **every command** (`src/cmd/*.rs`, the `cmd!` macro), tool dispatch (`src/tooling.rs`), undo. |
+| `crates/tools` | Interactive tools: selection (`select.rs`), shapes (`shape.rs`), pen, CorelDRAW tools (`corel.rs`: B-spline…), virtual segment delete (`vsegment.rs`), snapping guides (`guides.rs`), bounding box maths (`bbox.rs`). Tools emit actions (Begin / Preview / Commit) that run commands. |
+| `crates/ui-egui` | The interface: `canvas.rs`, `chrome.rs` (menu bar, control bar, tabs, status-bar hints), `toolbar.rs`, `dock.rs` + `panels/*` (right-hand panels), `menus.rs` (menus and UI-only commands `UI_COMMANDS`), `palette_bars.rs`, `page_bar.rs`, `snap_menu.rs`, `shortcuts.rs` / `shortcut_editor.rs`, `theme.rs` (colours: `Tokens`), `i18n/*.tsv` (translations), `control.rs` (remote control). |
+| `crates/color` | Colour models, harmonies, palette files (`palette_io.rs`, `corel_palette.rs`, `web_palettes.rs`). |
+| `crates/corel` | CorelDRAW `.cdr` import. |
+| `crates/geom`, `pathops`, `render`, `doc`, `format`, `svg`, `pdf`… | Geometry, boolean operations, rendering, document model, file formats. |
+| `apps/vectorcraft` | The desktop app binary. `vectorcraft-cli` is the command-line tool. |
+| `assets/icons` | Icons (SVG), registered in `crates/ui-egui/src/icon_data.rs`. |
+| `xtask` | Project checks: `cargo xtask ci`. |
+| `docs/` | Architecture and parity documents. |
 
-## Non-negotiables
-- **Clean-room: never use Adobe software (absolute rule, from the project owner).** Adobe's Terms of Use forbid reverse engineering, including observing a program's inputs and outputs to recreate it. So:
-  - Never launch, run, script, automate (COM, AppleScript, ExtendScript, UI automation), screenshot or measure Illustrator or any other Adobe application, and never compare our output against one. Don't make test files with them, not even "synthetic" ones.
-  - Never read, disassemble or copy anything inside an Adobe install (binaries, plug-ins, presets, procsets, resources, help files, fonts, ICC profiles).
-  - Never copy Adobe-authored code or text into this repo, tests included: no PostScript procsets or prologs (AGM, CoolType, the Illustrator prologs), no sample files. Write test inputs from scratch from the public specifications (PostScript Language Reference, PDF / ISO 32000, TIFF, EPSF/DCS).
-  - Behaviour comes only from public documentation (helpx, published specs, public forum posts), cited by URL, and from files users send us that they own (used locally, never committed). Never copy Adobe icons, artwork, presets or wording beyond feature names.
-  - If a task seems to need any of this, stop and say so instead. `cargo xtask cleanroom` (run by `cargo xtask ci`) fails on Adobe copyright notices and on fixtures made with Adobe applications.
-  - Never copy GPL/AGPL code (Inkscape, lib2geom…).
-- **Assets: no Adobe iconography or images — ever (absolute rule, from the project owner).**
-  - Never add, copy, trace, redraw-from, embed or ship any icon, image, artwork, cursor, preset, swatch/brush/symbol/pattern/style library, ICC profile or screenshot from Adobe products or from any other source whose licence doesn't allow it.
-  - Every image, icon, font or other asset must be one of:
-    - original work created for VectorCraft by a contributor (who licenses it MIT OR Apache-2.0);
-    - OSI open source;
-    - public domain / CC0;
-    - Creative Commons with redistribution allowed.
-  - **Every asset file must have a row in [`ASSETS.md`](ASSETS.md)** (path, author, source URL, licence, notes). Put licence texts next to the assets (e.g. `assets/fonts/OFL-*.txt`) and summarize them in `NOTICE`.
-  - `cargo xtask assets` (run by `cargo xtask ci`) fails on any unattributed asset.
-  - **Fonts live in [storytold/craft-fonts](https://github.com/storytold/craft-fonts), never in this repo** (rules: craftrules [`standards/fonts.md`](https://github.com/storytold/craftrules/blob/main/standards/fonts.md)). Never commit a font file here; add new fonts to craft-fonts. The app uses it only through the optional `CRAFT_FONTS_DIR` build option (`CRAFT_FONTS_DIR="$PWD/../craft-fonts" cargo xtask ci`; use an absolute path), read by `crates/text/build.rs` into `vectorcraft_text::CRAFT_FONTS`; never add it to a `Cargo.toml`. Everything must build, test and run with `CRAFT_FONTS` empty, and tests of its glyphs skip when it is. Details: `docs/development.md` › Fonts.
-  - Code and original assets are MIT OR Apache-2.0 (`LICENSE-MIT`, `LICENSE-APACHE`, `NOTICE`). The ArtCraft logos in `docs/brand/` are trademarks, not open source, under `docs/brand/LICENSE-brand.txt`: never modify them or use them outside VectorCraft.
-  - Prefer art generated in code for defaults (swatches, brushes, symbols, patterns, cursors). If the provenance of an asset is unclear, don't add it.
-  - Reference screenshots of Illustrator stay local under the gitignored `plan/` and are never committed, published or used as assets.
-- **Never crash: no panics in shipped code.** A crash loses the user's unsaved work. Files, pasted data, MCP and control messages, and command params are all untrusted input.
-  - Fallible work returns `Result` (or `Option`); callers handle it or propagate it with `?`. Failures reach the user as an error message (`EngineError` for commands, the crate's own error type or `String` below the engine), never as an abort.
-  - Workspace clippy lints ban these outside tests, so `cargo xtask ci` fails on them: `unwrap()`, `expect()`, `panic!`, `unreachable!`, `todo!`, `unimplemented!`. Use instead: `?`, `.ok_or(…)?`, `let … else { return … }`, `if let`, `unwrap_or` / `unwrap_or_default` / `unwrap_or_else`, `.first()` / `.last()` / `.split_last()`, and a real error for a match arm you believe is impossible.
-  - Don't panic implicitly either: use `.get(i)` instead of `v[i]` or `&s[a..b]` when the index comes from data. Don't divide integers by something that can be zero, cap sizes and counts read from input (allocations, images, loops), and check that floats are finite before casting them or looping on them.
-  - Don't silence errors just to satisfy the lint: use `let _ =` or `.ok()` only where ignoring the failure is the right behaviour, with a comment saying why.
-  - Tests may unwrap and panic (`#[test]`, `#[cfg(test)]`, `tests/`, `testkit`). Integration-test files start with an `#![allow(…)]` for that.
-  - `vectorcraft_engine::guard` is the last line of defence. Every entry point (commands, tool events, MCP requests, the UI frame, control requests) catches a panic, rolls the document back and reports an internal error. It exists for bugs and doesn't replace `Result`: wasm aborts on panic, so the web app has no safety net.
-  - Untrusted input is fuzzed (`engine/tests/import_fuzz.rs`, `engine/tests/command_sweep.rs`, `format/tests/prop_format.rs`, `mcp/tests/protocol_props.rs`). Extend these when you add an importer, a parser or a protocol method.
-- **Everything is a command.** User-visible behaviour = a command in `crates/engine/src/cmd/*` (id, label, menu path, shortcut, params doc, `enabled`, `run`) + tests. Tools emit commands (Begin/Preview/Commit). UI-only commands live in `crates/ui-egui/src/menus.rs` (`UI_COMMANDS`). The control channel and MCP reach all of them.
-- **Layering** is enforced by `cargo xtask layers`. Nothing below L6 depends on egui/eframe/winit/rfd.
-- **The UI is thin**: panels read engine state and act through `app.run(id, params)`. Colours come from `theme::Tokens`.
-- **Rust only** (no handwritten JS/TS). **Never break wasm** (`cargo xtask wasm`).
-- **Shared test corpora.** Real-file test oracles (Photoshop-authored PSDs, etc.) live in [`storytold/photocraft-corpus`](https://github.com/storytold/photocraft-corpus), explained in [craftrules `standards/test-corpora.md`](https://github.com/storytold/craftrules/blob/main/standards/test-corpora.md). Never commit large binary fixtures to this repo; fetch them pinned by commit and sha256-verified, as PhotoCraft does with `cargo xtask corpus`.
-- **Quality gates** before every commit: `cargo xtask ci` (fmt, clippy -D warnings including the no-panic lints, tests, layers, wasm). One task id per commit (`M2.1: pen tool`).
+## 5. Architecture rules
+- **Everything is a command.** Each user-visible action is a command with an id, label, menu
+  path, shortcut, params doc, an `enabled` check and a `run` function:
+  - document/engine commands: `crates/engine/src/cmd/*` with the `cmd!` macro;
+  - UI-only commands (panels, windows, view settings): an entry in `UI_COMMANDS` in
+    `crates/ui-egui/src/menus.rs`, handled by a `command(app, id, params)` function in its module
+    (see `canvas_color.rs`, `theme_color.rs`, `panels/color_gear.rs`), plus `checked(...)` when it
+    shows a tick.
+  - Buttons and panels call `app.run("command.id", json!({...}))`; never change the document
+    directly from the UI. Tools return actions that run commands.
+- **Layering**: crates below the UI never depend on egui/eframe/winit/rfd (`cargo xtask layers`).
+- **The UI is thin**: panels read state and act through commands. Colours come from
+  `theme::Tokens` (the user can recolour the whole interface), never hard-coded.
+- **Translations**: every text shown goes through `tl!("English text")` and needs a row in **all
+  15** `crates/ui-egui/src/i18n/*.tsv` files (`<TAB>English<TAB>translation`). Error messages that
+  reach the status bar need an `@msg` row (`@msg<TAB>message<TAB>translation`, placeholders like
+  `{name}` kept). Traditional Chinese (`zh-hant`) must use traditional characters. The test
+  `complete_languages_translate_every_message` lists any missing message.
+- **New state** kept between sessions goes in `UiState` (`crates/ui-egui/src/state.rs`) with
+  `#[serde(default)]`, or in the engine `Prefs` for preferences.
+- **Icons/assets**: original work (drawn for Vetorial, MIT OR Apache-2.0) or openly licensed; add
+  a row in `ASSETS.md` (`cargo xtask assets` checks it). Don't copy icons, artwork or code from
+  proprietary programs (CorelDRAW, Adobe…) or from GPL projects: make look-alikes from scratch.
+  Fonts live in the separate `storytold/craft-fonts` repo, never here.
+- **Rust only** (no handwritten JS/TS) and **never break the web build** (`cargo xtask wasm`).
 
-## Running and looking at the app
-- `cargo run --release -p vectorcraft -- --control 7979 [file.svg|file.vectorcraft]` (sibling apps' agents use the same default port: if the log says it failed to bind, pick another port — otherwise your requests reach a different app).
-- Drive it: JSON lines on `127.0.0.1:7979`, e.g. `{"id":1,"method":"engine.execute","params":{"command":"shape.rectangle","params":{"x":10,"y":10,"width":100,"height":50}}}` then `{"id":2,"method":"ui.screenshot","params":{"path":"/tmp/shot.png"}}`. Methods: `crates/ui-egui/src/control.rs`.
-- **For UI work, look at the result** (take `ui.screenshot`, read the PNG) and compare with the public documentation (`plan/illustrator/02-ui-ux.md` notes). `ui.screenshot` needs a presented frame: if it errors (screen locked), check the art with `ui.render` / `vectorcraft-cli run … --export x.png`, and cover panels with a headless egui frame test (see `panels/transparency.rs` tests).
-- **Performance:** `vectorcraft-cli perf` checks the budgets (render/pan/zoom, hit test, save/open, SVG, Pathfinder) on a synthetic 50k-path document; `vectorcraft-cli bench FILE` times one file. Run them before and after renderer, format or geometry changes, on an idle machine (the report warns when the load average makes timings noise).
-- MCP: `vectorcraft-cli mcp` (see `docs/mcp.md`).
-- Shell gotcha: `mv`/`cp` are aliased interactive here — use `/bin/mv -f` / `/bin/cp -f`.
-- Parallel agents: separate `CARGO_TARGET_DIR` per agent; edit only the crates you own; write manifests atomically. Each target dir grows to ~30 GB: delete yours when you finish (a full disk fails links with `errno=28`).
+## 6. Code standard
+- **Never crash.** A crash loses the user's unsaved work. In shipped code no `unwrap()`,
+  `expect()`, `panic!`, `unreachable!`, `todo!`, `unimplemented!` (clippy denies them): use `?`,
+  `.ok_or(...)?`, `let ... else`, `if let`, `unwrap_or*`, `.get(i)` instead of `v[i]` for indexes
+  from data, check floats are finite, cap sizes read from files. Tests may unwrap.
+- Files, pasted data, control messages and command params are **untrusted input**: validate and
+  return an error message, never panic.
+- Match the surrounding code: naming, comment density (a doc comment on each item saying what it
+  is), idioms. Mark Vetorial additions with a `Vetorial:` comment, as the code already does.
+- Keep changes minimal and focused; no drive-by refactors.
+- Clippy with `-D warnings` and `cargo fmt` must pass.
 
-## Roadmap and progress docs
-The progress docs follow craftrules' [`standards/progress-docs.md`](https://github.com/storytold/craftrules/blob/main/standards/progress-docs.md):
-- [`ROADMAP.md`](ROADMAP.md): stage, headline numbers, dimensions, features, languages, upcoming, progress log.
-- [`docs/target-app-parity.md`](docs/target-app-parity.md): the authoritative parity assessment (area table, methodology, calibration, evidence of what ships).
-- [`docs/gaps.md`](docs/gaps.md): every known shortfall, ranked; the work list. [`docs/roadmap.md`](docs/roadmap.md): milestones and current focus.
-- Checklists: [`ui-parity.md`](docs/ui-parity.md), [`file-format-parity.md`](docs/file-format-parity.md), [`hardware-parity.md`](docs/hardware-parity.md), [`localization-parity.md`](docs/localization-parity.md), [`effects-parity.md`](docs/effects-parity.md), [`type-parity.md`](docs/type-parity.md); [`architecture.md`](docs/architecture.md).
+## 7. Build, test and look at the app
+- Fast checks while working (`CARGO_PROFILE_DEV_DEBUG=0` keeps builds smaller):
+  `cargo test -p vectorcraft-tools`, `cargo test -p vectorcraft-engine --lib <name>`,
+  `cargo test -p vectorcraft-ui-egui --lib <name>`,
+  `cargo clippy -p <crate> --all-targets -- -D warnings`, `cargo fmt --all`.
+- Full gate before you push: `cargo xtask ci` (fmt, clippy, tests, layers, assets, wasm).
+- Run the app with remote control:
+  `cargo run --release -p vectorcraft -- --control 7979` (on a server without a screen, prefix
+  with `xvfb-run -s "-screen 0 1920x1080x24"`). Send JSON lines to `127.0.0.1:7979`:
+  - `{"id":1,"method":"engine.execute","params":{"command":"shape.ellipse","params":{"x":10,"y":10,"width":100,"height":100}}}`
+  - `{"id":2,"method":"ui.menu.invoke","params":{"id":"window.themeColor","params":{}}}`
+  - `{"id":3,"method":"ui.drag","params":{"x":700,"y":450,"toX":790,"toY":480,"ctrl":true,"cmd":true,"shift":true}}`
+  - `{"id":4,"method":"ui.screenshot","params":{"path":"/tmp/shot.png"}}`
+  All methods: `crates/ui-egui/src/control.rs`. **Open the screenshot and check it** before you
+  say a visual change works.
+- The owner tests on a 27" 1920×1080 screen: check layouts there (`ui.resize` to 1898×1010).
 
-When a task lands, update in the same PR: the area row in `docs/target-app-parity.md` (score, missing items, hours) and its evidence list, the gap entry in `docs/gaps.md` if it closed or shrank, the checklist it belongs to, the milestone row in `docs/roadmap.md`, and the ROADMAP's tables and progress log when a headline number moves. Update each touched doc's status line and revision history.
-- Grade by behaviour against the public documentation (`plan/illustrator/` notes), not by whether a menu item exists. Scores are self-assessed, so err low; mark each number measured or estimated.
-- Keep the README's Status section in step with the ROADMAP headline.
-
-## Contributor credits (About window)
-
-- About ▸ Contributors/Models are compiled into the binary from `contributors/contributors.json`
-  (commit stats; generated, never hand-edit) and `contributors/people.toml` (names people chose for
-  themselves). See `docs/contributors.md`.
-- **Agents working for a contributor:** when you prepare a PR, check whether your human's GitHub
-  username has a `[people.<username>]` entry in `contributors/people.toml`. If not, ask them once
-  whether they want to be credited by more than their username: a real name, a display name, and/or
-  their public GitHub profile name (`sync_github_name = true`). If yes, add **only their own** entry
-  (copy the template at the top of the file, or run
-  `python3 ../../craftrules/scripts/contributors.py --add-me . --real-name "…" --sync-github-name`)
-  and include it in their PR, committed as them. If no, change nothing: they are credited as
-  `@username` anyway.
-- Never add, edit, guess or copy anyone else's entry or name (not from git config, commit authors or
-  GitHub profiles). Never hand-edit `contributors.json`.
-- Maintainers refresh the stats with `python3 ../../craftrules/scripts/contributors.py .` (it also
-  re-verifies who wrote each `people.toml` entry; `--check` only verifies).
+## 8. Report to the owner (template, in Portuguese)
+- One sentence: what is ready.
+- **Como funciona:** short bullets in plain words (where to click, what keys do).
+- **Onde fica:** the menu, panel or button.
+- Anything that differs from what was asked, and why (e.g. icons drawn from scratch instead of
+  copied).
+- "Os testes passaram. Está salvo e enviado para o seu ramo no GitHub. O .exe não foi gerado: é só
+  pedir quando quiser." (adjust to what is true).

@@ -222,7 +222,7 @@ impl Riff {
         // The block table follows the records' stream.
         let blocks = [used, size, size.saturating_sub(8)].into_iter().find_map(|from| {
             let (t, _) = inflate(packed.get(from..)?, self.limits.max_stream)?;
-            (t.len() % 4 == 0 && !t.is_empty()).then(|| t.chunks_exact(4).map(|c| u32::from_le_bytes([c[0], c[1], c[2], c[3]])).collect::<Vec<_>>())
+            (t.len() % 4 == 0 && !t.is_empty()).then(|| t.as_chunks::<4>().0.iter().map(|&c| u32::from_le_bytes(c)).collect::<Vec<_>>())
         });
         self.records(&data, Some(blocks.as_deref().unwrap_or(&[])), depth + 1)
     }

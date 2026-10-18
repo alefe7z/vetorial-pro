@@ -20,7 +20,7 @@ env:
 
 jobs:
   palettes:
-    name: Paletas - testes e clippy
+    name: Paletas e CDR - testes e clippy
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -31,10 +31,10 @@ jobs:
       - uses: Swatinem/rust-cache@v2
         with:
           key: chatgpt-color
-      - name: Testes de cores e paletas
-        run: cargo test --locked -p vectorcraft-color
-      - name: Clippy de cores e paletas
-        run: cargo clippy --locked -p vectorcraft-color --all-targets -- -D warnings
+      - name: Testes de cores, paletas e CDR
+        run: cargo test --locked -p vectorcraft-color -p vectorcraft-corel
+      - name: Clippy de cores, paletas e CDR
+        run: cargo clippy --locked -p vectorcraft-color -p vectorcraft-corel --all-targets -- -D warnings
 
   project:
     name: Verificacoes completas
@@ -53,5 +53,6 @@ jobs:
       - uses: Swatinem/rust-cache@v2
         with:
           key: chatgpt-ci
+          cache-on-failure: true
       - name: Checagens do projeto
         run: cargo xtask ci

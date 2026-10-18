@@ -475,7 +475,7 @@ impl Reader<'_> {
         let at = u32_at(data, args + 4 * i)? as usize;
         let bytes = data.get(at..)?;
         let name: String = if self.version >= 1000 {
-            let units: Vec<u16> = bytes.chunks_exact(2).map(|c| u16::from_le_bytes([c[0], c[1]])).take_while(|&u| u != 0).take(256).collect();
+            let units: Vec<u16> = bytes.as_chunks::<2>().0.iter().map(|&c| u16::from_le_bytes(c)).take_while(|&u| u != 0).take(256).collect();
             String::from_utf16_lossy(&units)
         } else {
             bytes.iter().take_while(|&&b| b != 0).take(256).map(|&b| char::from(b)).collect()

@@ -4407,3 +4407,41 @@ lighting	Light	광원
 	Sand	샌드
 	Sky	스카이
 @msg	`{key}` must be a #rrggbb colour or empty	`{key}`은(는) #rrggbb 색상이거나 비어 있어야 합니다
+# Vetorial: Color Gear
+	Color Gear	Color Gear
+	Color Gear: Take Current Color	Color Gear: 현재 색상 가져오기
+	Color Gear: Apply Color	Color Gear: 색상 적용
+	Color Gear: Save Palette	Color Gear: 팔레트 저장
+	Color Gear: Colors from Picture	Color Gear: 이미지에서 색상
+	Palettes	팔레트
+	No saved palettes yet	저장된 팔레트가 아직 없습니다
+	Click to choose a picture	클릭하여 이미지 선택
+	Saved palette	팔레트 저장됨:
+	Mirror the harmony	조화 뒤집기
+	Take the current colour	현재 색상 가져오기
+	Click: fill · Right click: stroke	클릭: 칠 · 오른쪽 클릭: 획
+	Choose a picture first	먼저 이미지를 선택하세요
+	The picture's colours can't be edited; choose RGB or RYB	이미지 색상은 편집할 수 없습니다. RGB 또는 RYB를 선택하세요
+	Complementary	보색
+	Analogous (2)	유사색 (2)
+	Analogous (3)	유사색 (3)
+	Analogous (4)	유사색 (4)
+	Split Complementary	분할 보색
+	Split Complementary and Complement	분할 보색과 보색
+	Triad	삼원색 조화
+	Kite	연
+	Tilted Rectangle	기울어진 직사각형
+	Hexagon	육각형
+	Shades	명암
+@msg	color is #rrggbb	color는 #rrggbb여야 합니다
+@msg	dataBase64 isn't base64	dataBase64가 base64가 아닙니다
+@msg	harmony is a harmony id	harmony는 조화 ID입니다
+@msg	mirror is true or false	mirror는 true 또는 false입니다
+@msg	no colour {i}	색상 {i}이(가) 없습니다
+@msg	no colours to save	저장할 색상이 없습니다
+@msg	no harmony `{h}`	`{h}` 조화가 없습니다
+@msg	the current colour isn't a solid colour	현재 색상이 단색이 아닙니다
+@msg	the picture has no visible colours	이미지에 보이는 색상이 없습니다
+@msg	wheel is rgb, ryb or image	wheel은 rgb, ryb 또는 image입니다
+@msg	wheel is rgb, ryb or image, not `{w}`	wheel은 `{w}`이(가) 아니라 rgb, ryb 또는 image입니다
+@msg	{key} is a number from {lo} to {hi}	{key}은(는) {lo}에서 {hi} 사이의 숫자입니다

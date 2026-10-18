@@ -4031,3 +4031,37 @@ lighting	Light	光源
 	Sand	沙色
 	Sky	天空蓝
 @msg	`{key}` must be a #rrggbb colour or empty	`{key}` 必须是 #rrggbb 颜色或留空
+# Vetorial: Color Gear
+	Color Gear	Color Gear
+	Color Gear: Take Current Color	Color Gear：取当前颜色
+	Color Gear: Apply Color	Color Gear：应用颜色
+	Color Gear: Save Palette	Color Gear：保存调色板
+	Color Gear: Colors from Picture	Color Gear：从图片取色
+	Palettes	调色板
+	No saved palettes yet	尚无已保存的调色板
+	Click to choose a picture	点击选择图片
+	Saved palette	已保存调色板：
+	Mirror the harmony	镜像和谐色
+	Take the current colour	取当前颜色
+	Click: fill · Right click: stroke	点击：填色 · 右键：描边
+	Choose a picture first	请先选择图片
+	The picture's colours can't be edited; choose RGB or RYB	图片颜色无法编辑；请选择 RGB 或 RYB
+	Analogous (2)	类似色 (2)
+	Analogous (3)	类似色 (3)
+	Analogous (4)	类似色 (4)
+	Split Complementary and Complement	分裂互补加互补
+	Kite	风筝形
+	Tilted Rectangle	倾斜矩形
+	Hexagon	六边形
+@msg	color is #rrggbb	color 必须是 #rrggbb
+@msg	dataBase64 isn't base64	dataBase64 不是 base64
+@msg	harmony is a harmony id	harmony 是和谐色 id
+@msg	mirror is true or false	mirror 为 true 或 false
+@msg	no colour {i}	没有颜色 {i}
+@msg	no colours to save	没有可保存的颜色
+@msg	no harmony `{h}`	没有和谐色 `{h}`
+@msg	the current colour isn't a solid colour	当前颜色不是纯色
+@msg	the picture has no visible colours	图片没有可见颜色
+@msg	wheel is rgb, ryb or image	wheel 为 rgb、ryb 或 image
+@msg	wheel is rgb, ryb or image, not `{w}`	wheel 为 rgb、ryb 或 image，而不是 `{w}`
+@msg	{key} is a number from {lo} to {hi}	{key} 是 {lo} 到 {hi} 之间的数字

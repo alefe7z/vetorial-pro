@@ -4398,3 +4398,41 @@ theme	Appearance	Erscheinungsbild
 	Sand	Sand
 	Sky	Himmelblau
 @msg	`{key}` must be a #rrggbb colour or empty	`{key}` muss eine Farbe #rrggbb oder leer sein
+# Vetorial: Color Gear
+	Color Gear	Color Gear
+	Color Gear: Take Current Color	Color Gear: Aktuelle Farbe übernehmen
+	Color Gear: Apply Color	Color Gear: Farbe anwenden
+	Color Gear: Save Palette	Color Gear: Palette speichern
+	Color Gear: Colors from Picture	Color Gear: Farben aus Bild
+	Palettes	Paletten
+	No saved palettes yet	Noch keine gespeicherten Paletten
+	Click to choose a picture	Klicken, um ein Bild zu wählen
+	Saved palette	Palette gespeichert:
+	Mirror the harmony	Harmonie spiegeln
+	Take the current colour	Aktuelle Farbe übernehmen
+	Click: fill · Right click: stroke	Klick: Fläche · Rechtsklick: Kontur
+	Choose a picture first	Wählen Sie zuerst ein Bild
+	The picture's colours can't be edited; choose RGB or RYB	Die Bildfarben lassen sich nicht bearbeiten; wählen Sie RGB oder RYB
+	Complementary	Komplementär
+	Analogous (2)	Analog (2)
+	Analogous (3)	Analog (3)
+	Analogous (4)	Analog (4)
+	Split Complementary	Geteilt komplementär
+	Split Complementary and Complement	Geteilt komplementär mit Komplement
+	Triad	Triade
+	Kite	Drachen
+	Tilted Rectangle	Gedrehtes Rechteck
+	Hexagon	Sechseck
+	Shades	Abstufungen
+@msg	color is #rrggbb	color muss #rrggbb sein
+@msg	dataBase64 isn't base64	dataBase64 ist kein Base64
+@msg	harmony is a harmony id	harmony ist eine Harmonie-ID
+@msg	mirror is true or false	mirror ist true oder false
+@msg	no colour {i}	keine Farbe {i}
+@msg	no colours to save	keine Farben zum Speichern
+@msg	no harmony `{h}`	keine Harmonie `{h}`
+@msg	the current colour isn't a solid colour	die aktuelle Farbe ist keine Vollfarbe
+@msg	the picture has no visible colours	das Bild hat keine sichtbaren Farben
+@msg	wheel is rgb, ryb or image	wheel ist rgb, ryb oder image
+@msg	wheel is rgb, ryb or image, not `{w}`	wheel ist rgb, ryb oder image, nicht `{w}`
+@msg	{key} is a number from {lo} to {hi}	{key} ist eine Zahl von {lo} bis {hi}

@@ -4439,3 +4439,41 @@ lighting	Light	Свет
 	Sand	Песочный
 	Sky	Небесный
 @msg	`{key}` must be a #rrggbb colour or empty	`{key}` должен быть цветом #rrggbb или пустым
+# Vetorial: Color Gear
+	Color Gear	Color Gear
+	Color Gear: Take Current Color	Color Gear: взять текущий цвет
+	Color Gear: Apply Color	Color Gear: применить цвет
+	Color Gear: Save Palette	Color Gear: сохранить палитру
+	Color Gear: Colors from Picture	Color Gear: цвета из изображения
+	Palettes	Палитры
+	No saved palettes yet	Сохранённых палитр пока нет
+	Click to choose a picture	Щёлкните, чтобы выбрать изображение
+	Saved palette	Палитра сохранена:
+	Mirror the harmony	Отразить гармонию
+	Take the current colour	Взять текущий цвет
+	Click: fill · Right click: stroke	Щелчок: заливка · Правый щелчок: обводка
+	Choose a picture first	Сначала выберите изображение
+	The picture's colours can't be edited; choose RGB or RYB	Цвета изображения нельзя изменить; выберите RGB или RYB
+	Complementary	Дополнительная
+	Analogous (2)	Аналоговая (2)
+	Analogous (3)	Аналоговая (3)
+	Analogous (4)	Аналоговая (4)
+	Split Complementary	Расщеплённая дополнительная
+	Split Complementary and Complement	Расщеплённая дополнительная и дополнение
+	Triad	Триада
+	Kite	Воздушный змей
+	Tilted Rectangle	Наклонный прямоугольник
+	Hexagon	Шестиугольник
+	Shades	Оттенки
+@msg	color is #rrggbb	color должен быть #rrggbb
+@msg	dataBase64 isn't base64	dataBase64 не в формате base64
+@msg	harmony is a harmony id	harmony — это id гармонии
+@msg	mirror is true or false	mirror — true или false
+@msg	no colour {i}	нет цвета {i}
+@msg	no colours to save	нет цветов для сохранения
+@msg	no harmony `{h}`	нет гармонии `{h}`
+@msg	the current colour isn't a solid colour	текущий цвет не сплошной
+@msg	the picture has no visible colours	на изображении нет видимых цветов
+@msg	wheel is rgb, ryb or image	wheel — rgb, ryb или image
+@msg	wheel is rgb, ryb or image, not `{w}`	wheel — rgb, ryb или image, а не `{w}`
+@msg	{key} is a number from {lo} to {hi}	{key} — число от {lo} до {hi}

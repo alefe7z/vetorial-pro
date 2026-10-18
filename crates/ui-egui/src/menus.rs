@@ -238,6 +238,31 @@ pub const UI_COMMANDS: &[(&str, &str, &str, &str)] = &[
         "{mode: \"vector\"|\"cad\"|\"paint\"|\"photo\"} switch the program's mode (the menu bar's switcher): each mode has its own tools; only Vector has any yet, the others leave the Tools panel empty → {mode}",
     ),
     (
+        "colorGear.set",
+        "Color Gear",
+        "",
+        "{wheel?: \"rgb\"|\"ryb\"|\"image\", harmony?: \"complementary\"|\"analogous2\"|\"analogous3\"|\"analogous4\"|\"split\"|\"splitComplement\"|\"triad\"|\"kite\"|\"square\"|\"rectangle\"|\"rectangleTilted\"|\"hexagon\"|\"shades\", color?: \"#rrggbb\" (the base), hue?: degrees, saturation?: 0..1, brightness?: 0..1 (RGB), light?: -1..1 (RYB: shade to tint), mirror?: bool} the Color Gear tab's harmony wheel → {wheel, harmony, hue, saturation, brightness, light, mirror, colors: [\"#RRGGBB\"]}",
+    ),
+    ("colorGear.pick", "Color Gear: Take Current Color", "", "{} the current fill (or stroke) becomes Color Gear's base colour → the wheel's state"),
+    (
+        "colorGear.apply",
+        "Color Gear: Apply Color",
+        "",
+        "{index: the colour's place, stroke?: false} paint the selection's fill (or stroke) with one of Color Gear's colours → {color}",
+    ),
+    (
+        "colorGear.save",
+        "Color Gear: Save Palette",
+        "",
+        "{name?: \"Color Gear\"} keep Color Gear's colours as a palette (User Defined; Window › Color Palettes) → swatch.library.new's result",
+    ),
+    (
+        "colorGear.image",
+        "Color Gear: Colors from Picture",
+        "",
+        "{path? | dataBase64?} the main colours (up to 6) of a picture; without either it asks for a file → the wheel's state (wheel \"image\")",
+    ),
+    (
         "window.themeColor",
         "Theme Color…",
         "",
@@ -1016,6 +1041,9 @@ pub fn run_ui_command(app: &mut VectorcraftApp, id: &str, p: &Value) -> Option<R
         return Some(result);
     }
     if let Some(result) = crate::theme_color::command(app, id, p) {
+        return Some(result);
+    }
+    if let Some(result) = crate::panels::color_gear::command(app, id, p) {
         return Some(result);
     }
     if let Some(result) = crate::modes::command(app, id, p) {
@@ -2765,6 +2793,7 @@ pub fn menu_tree_named(english_names: bool) -> Vec<(&'static str, Vec<Item>)> {
                 panel("Attributes", "attributes"),
                 panel("Brushes", "brushes"),
                 panel("Color", "color"),
+                panel("Color Gear", "colorGear"),
                 panel("Color Guide", "colorGuide"),
                 panel("Color Themes", "colorThemes"),
                 panel("CSS Properties", crate::panels::css_properties::ID),

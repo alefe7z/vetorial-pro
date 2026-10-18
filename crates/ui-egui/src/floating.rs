@@ -1240,28 +1240,29 @@ mod tests {
     fn a_dock_tab_dragged_out_floats_and_dropped_on_the_dock_docks_again() {
         let mut h = Harness::new();
         let tabs = h.dock_tabs();
-        assert_eq!(tabs.len(), 3);
+        assert_eq!(tabs.len(), 4);
         let to = pos2(600.0, 400.0);
         h.drag(tabs[1].center(), to);
         assert_eq!(h.groups(), [["layers"]]);
         assert!(h.group("layers").contains(to));
-        assert_eq!(h.dock_tabs().len(), 2);
+        assert_eq!(h.dock_tabs().len(), 3);
         assert_eq!(h.app.ui.dock_tab, DockTab::Properties);
         h.click(h.title("layers"));
         assert_eq!(h.groups(), [["layers"]], "a click only activates the floating tab");
         let over = h.shared_tab("properties").center();
         h.drag(h.title("layers"), over);
         assert!(h.groups().is_empty());
-        assert_eq!((h.dock_tabs().len(), h.app.ui.dock_tab), (3, DockTab::Layers));
+        assert_eq!((h.dock_tabs().len(), h.app.ui.dock_tab), (4, DockTab::Layers));
     }
 
     #[test]
     fn the_strip_right_of_the_tabs_floats_the_whole_group_and_its_close_box_docks_it() {
         let mut h = Harness::new();
         let tabs = h.dock_tabs();
-        let rest = tabs[2].right_center() + vec2(30.0, 0.0);
+        // The strip is narrow with four tabs: just right of the last one.
+        let rest = tabs[3].right_center() + vec2(5.0, 0.0);
         h.drag(rest, pos2(500.0, 300.0));
-        assert_eq!(h.groups(), [["properties", "layers", "libraries"]]);
+        assert_eq!(h.groups(), [["properties", "layers", "libraries", "colorGear"]]);
         assert!(h.dock_tabs().is_empty(), "the tabbed group left the dock");
         let column = h.temp_rect(dock_rect_id());
         assert!(column.width() < 40.0, "only the icon column is left: {column:?}");
@@ -1271,7 +1272,7 @@ mod tests {
             if h.app.ui.docking.is_some() { pos2(g.right() - 36.0, g.top() + 16.0) } else { pos2(g.right() - 11.0, g.top() + 1.0 + TITLE / 2.0) };
         h.click(close);
         assert!(h.groups().is_empty());
-        assert_eq!(h.dock_tabs().len(), 3);
+        assert_eq!(h.dock_tabs().len(), 4);
     }
 
     #[test]
@@ -1318,7 +1319,7 @@ mod tests {
         assert!(h.groups().is_empty());
         assert!(h.app.ui.docking.as_ref().unwrap().contains(&"color".into()));
         assert!(h.app.ui.open_panel.is_none(), "the actual shared group owns Color");
-        assert_eq!(h.dock_tabs().len(), 4);
+        assert_eq!(h.dock_tabs().len(), 5);
     }
 
     #[test]
@@ -1467,7 +1468,7 @@ mod tests {
         let g = h.group("layers");
         let screen = Rect::from_min_size(Pos2::ZERO, SCREEN);
         assert!(screen.contains_rect(g), "clamped into the window: {g:?}");
-        assert!(h.dock_tabs().len() == 2 && h.app.ui.dock_tab == DockTab::Properties);
+        assert!(h.dock_tabs().len() == 3 && h.app.ui.dock_tab == DockTab::Properties);
     }
 
     #[test]
@@ -1481,7 +1482,7 @@ mod tests {
         assert!(app.ui.floating_panels.is_empty());
         // The tabbed group's tabs float together.
         let r = app.run("window.panel.float", json!({"panel": "layers", "group": true})).unwrap();
-        assert_eq!(r["group"], json!(["properties", "layers", "libraries"]));
+        assert_eq!(r["group"], json!(["properties", "layers", "libraries", "colorGear"]));
         assert_eq!(app.ui.floating_panels[0].active, 1);
         assert!(app.run("window.panel.float", json!({"panel": "layers", "onto": "properties"})).is_err(), "not onto its own group");
         // Floated out of its group; a lone panel moves.

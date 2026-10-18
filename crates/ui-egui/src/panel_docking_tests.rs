@@ -120,9 +120,9 @@ fn saved_workspace_restores_the_custom_tree_and_hidden_panel_placement() {
 fn legacy_float_group_aliases_use_atomic_shared_groups_and_preserve_tools() {
     let mut app = app();
     app.run("window.panel.float", json!({"panel":"layers","group":true,"x":30,"y":50})).unwrap();
-    assert_eq!(app.ui.docking.as_ref().unwrap().floating[0].panels.len(), 3);
-    app.run("window.panel.float", json!({"panel":"swatches","onto":"layers"})).unwrap();
     assert_eq!(app.ui.docking.as_ref().unwrap().floating[0].panels.len(), 4);
+    app.run("window.panel.float", json!({"panel":"swatches","onto":"layers"})).unwrap();
+    assert_eq!(app.ui.docking.as_ref().unwrap().floating[0].panels.len(), 5);
     let before = app.ui.docking.clone();
     assert!(app.run("window.panel.float", json!({"panel":"properties","onto":"missing","group":true})).is_err());
     assert_eq!(app.ui.docking, before);
@@ -349,14 +349,14 @@ fn floating_icon_groups_redock_to_the_rail_and_keep_saved_origins() {
 fn all_dock_group_origins_survive_float_and_return() {
     let mut app = app();
     app.run("window.panel.float", json!({"panel":"layers", "group":true})).unwrap();
-    assert_eq!(app.ui.floating_panels[0].panels.len(), 3);
+    assert_eq!(app.ui.floating_panels[0].panels.len(), 4);
     assert!(app.ui.docking_hidden.contains_key("properties"));
     assert!(app.ui.docking_hidden.contains_key("layers"));
     assert!(app.ui.docking_hidden.contains_key("libraries"));
     app.run("window.panel.dock", json!({"panel":"layers", "group":true})).unwrap();
     let layout = app.ui.docking.as_ref().unwrap();
     assert!(layout.floating.is_empty());
-    assert_eq!(layout.panels().into_iter().map(String::as_str).collect::<Vec<_>>(), ["properties", "layers", "libraries"]);
+    assert_eq!(layout.panels().into_iter().map(String::as_str).collect::<Vec<_>>(), ["properties", "layers", "libraries", "colorGear"]);
     assert_eq!(app.ui.dock_tab, crate::state::DockTab::Layers);
     assert!(valid(layout));
 }

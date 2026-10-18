@@ -4874,3 +4874,35 @@ theme	Appearance	Apparence
 	Sand	Sable
 	Sky	Ciel
 @msg	`{key}` must be a #rrggbb colour or empty	`{key}` doit être une couleur #rrggbb ou vide
+# Vetorial: Color Gear
+	Color Gear	Color Gear
+	Color Gear: Take Current Color	Color Gear : prendre la couleur actuelle
+	Color Gear: Apply Color	Color Gear : appliquer la couleur
+	Color Gear: Save Palette	Color Gear : enregistrer la palette
+	Color Gear: Colors from Picture	Color Gear : couleurs d’une image
+	Palettes	Palettes
+	No saved palettes yet	Aucune palette enregistrée
+	Click to choose a picture	Cliquez pour choisir une image
+	Saved palette	Palette enregistrée :
+	Mirror the harmony	Inverser l’harmonie
+	Take the current colour	Prendre la couleur actuelle
+	Click: fill · Right click: stroke	Clic : fond · Clic droit : contour
+	Choose a picture first	Choisissez d’abord une image
+	The picture's colours can't be edited; choose RGB or RYB	Les couleurs de l’image ne se modifient pas ; choisissez RGB ou RYB
+	Analogous (2)	Analogue (2)
+	Analogous (3)	Analogue (3)
+	Analogous (4)	Analogue (4)
+	Split Complementary and Complement	Complémentaire divisée et complément
+	Tilted Rectangle	Rectangle incliné
+@msg	color is #rrggbb	color doit être #rrggbb
+@msg	dataBase64 isn't base64	dataBase64 n’est pas du base64
+@msg	harmony is a harmony id	harmony est un identifiant d’harmonie
+@msg	mirror is true or false	mirror vaut true ou false
+@msg	no colour {i}	pas de couleur {i}
+@msg	no colours to save	aucune couleur à enregistrer
+@msg	no harmony `{h}`	pas d’harmonie `{h}`
+@msg	the current colour isn't a solid colour	la couleur actuelle n’est pas une couleur unie
+@msg	the picture has no visible colours	l’image n’a aucune couleur visible
+@msg	wheel is rgb, ryb or image	wheel vaut rgb, ryb ou image
+@msg	wheel is rgb, ryb or image, not `{w}`	wheel vaut rgb, ryb ou image, pas `{w}`
+@msg	{key} is a number from {lo} to {hi}	{key} est un nombre de {lo} à {hi}

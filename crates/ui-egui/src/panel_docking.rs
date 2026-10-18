@@ -989,3 +989,20 @@ pub(crate) fn finish_native_drop(app: &mut VectorcraftApp, ctx: &egui::Context) 
         app.ui.status = error;
     }
 }
+
+/// Vetorial: add `panel` to the tab group holding `beside` (nothing when no group holds it).
+pub(crate) fn add_beside(layout: &mut Layout<String>, beside: &str, panel: &str) {
+    fn walk(node: &mut Node<String>, beside: &str, panel: &str) -> bool {
+        match node {
+            Node::Tabs { panels, .. } if panels.iter().any(|p| p == beside) => {
+                panels.push(panel.to_string());
+                true
+            }
+            Node::Split { first, second, .. } => walk(first, beside, panel) || walk(second, beside, panel),
+            _ => false,
+        }
+    }
+    if let Some(root) = &mut layout.root {
+        walk(root, beside, panel);
+    }
+}

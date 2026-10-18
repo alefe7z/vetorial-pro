@@ -4423,3 +4423,41 @@ lighting	Light	Світло
 	Sand	Пісочний
 	Sky	Небесний
 @msg	`{key}` must be a #rrggbb colour or empty	`{key}` має бути кольором #rrggbb або порожнім
+# Vetorial: Color Gear
+	Color Gear	Color Gear
+	Color Gear: Take Current Color	Color Gear: взяти поточний колір
+	Color Gear: Apply Color	Color Gear: застосувати колір
+	Color Gear: Save Palette	Color Gear: зберегти палітру
+	Color Gear: Colors from Picture	Color Gear: кольори із зображення
+	Palettes	Палітри
+	No saved palettes yet	Збережених палітр поки немає
+	Click to choose a picture	Клацніть, щоб вибрати зображення
+	Saved palette	Палітру збережено:
+	Mirror the harmony	Віддзеркалити гармонію
+	Take the current colour	Взяти поточний колір
+	Click: fill · Right click: stroke	Клацання: заливка · Правий клік: обведення
+	Choose a picture first	Спочатку виберіть зображення
+	The picture's colours can't be edited; choose RGB or RYB	Кольори зображення не можна змінити; виберіть RGB або RYB
+	Complementary	Додаткова
+	Analogous (2)	Аналогова (2)
+	Analogous (3)	Аналогова (3)
+	Analogous (4)	Аналогова (4)
+	Split Complementary	Розщеплена додаткова
+	Split Complementary and Complement	Розщеплена додаткова і доповнення
+	Triad	Тріада
+	Kite	Повітряний змій
+	Tilted Rectangle	Нахилений прямокутник
+	Hexagon	Шестикутник
+	Shades	Відтінки
+@msg	color is #rrggbb	color має бути #rrggbb
+@msg	dataBase64 isn't base64	dataBase64 не у форматі base64
+@msg	harmony is a harmony id	harmony — це id гармонії
+@msg	mirror is true or false	mirror — true або false
+@msg	no colour {i}	немає кольору {i}
+@msg	no colours to save	немає кольорів для збереження
+@msg	no harmony `{h}`	немає гармонії `{h}`
+@msg	the current colour isn't a solid colour	поточний колір не суцільний
+@msg	the picture has no visible colours	на зображенні немає видимих кольорів
+@msg	wheel is rgb, ryb or image	wheel — rgb, ryb або image
+@msg	wheel is rgb, ryb or image, not `{w}`	wheel — rgb, ryb або image, а не `{w}`
+@msg	{key} is a number from {lo} to {hi}	{key} — число від {lo} до {hi}

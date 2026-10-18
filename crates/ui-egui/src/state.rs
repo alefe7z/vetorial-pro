@@ -80,6 +80,8 @@ pub enum DockTab {
     Properties,
     Layers,
     Libraries,
+    /// Vetorial: the colour-harmony wheel ([`crate::panels::color_gear`]).
+    ColorGear,
 }
 
 impl DockTab {
@@ -89,10 +91,11 @@ impl DockTab {
             DockTab::Properties => ("properties", "Properties", "dc-options"),
             DockTab::Layers => ("layers", "Layers", "layers"),
             DockTab::Libraries => ("libraries", "Libraries", "library"),
+            DockTab::ColorGear => (crate::panels::color_gear::ID, "Color Gear", "dc-color-gear"),
         }
     }
 
-    pub const ALL: [DockTab; 3] = [DockTab::Properties, DockTab::Layers, DockTab::Libraries];
+    pub const ALL: [DockTab; 4] = [DockTab::Properties, DockTab::Layers, DockTab::Libraries, DockTab::ColorGear];
 
     /// The tab whose panel id is `id`.
     pub fn from_id(id: &str) -> Option<DockTab> {
@@ -419,6 +422,9 @@ pub struct UiState {
     /// swatches) or "" (none) (`ui.colorGuideLimit`).
     #[serde(default)]
     pub color_guide_limit: String,
+    /// Vetorial: the Color Gear tab's wheel, harmony and colours.
+    #[serde(default)]
+    pub color_gear: crate::panels::color_gear::Gear,
     /// Align panel: the Align To choice, Selection or Artboard, which Object → Align and the align
     /// buttons follow ([`crate::panels::align::with_align_to`]).
     #[serde(default, deserialize_with = "crate::panels::align::deserialize_align_to")]
@@ -644,6 +650,13 @@ impl UiState {
         FloatingPanels::sanitize(&mut self.floating_panels, &mut self.toolbar_pos);
         crate::edit_toolbar::sanitize(&mut self.toolbar_edits);
         self.docking = self.docking.filter(crate::panel_docking::valid);
+        // Vetorial: a layout saved before the Color Gear tab gets it beside Properties.
+        if let Some(layout) = &mut self.docking
+            && !layout.contains(&crate::panels::color_gear::ID.to_string())
+            && !self.docking_hidden.contains_key(crate::panels::color_gear::ID)
+        {
+            crate::panel_docking::add_beside(layout, "properties", crate::panels::color_gear::ID);
+        }
         self.docking_icons.retain(|id| ICON_PANELS.iter().any(|entry| entry.0 == id));
         // Overrides that can't fire (modifier-only chords recorded by older versions, #487) give
         // the default back.
@@ -705,6 +718,7 @@ impl Default for UiState {
             favorite_fonts: vec![],
             engine_prefs: Value::Null,
             color_guide: Default::default(),
+            color_gear: Default::default(),
             library_panel: None,
             flattener_preview: Default::default(),
             color_guide_limit: String::new(),

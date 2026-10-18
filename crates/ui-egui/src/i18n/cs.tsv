@@ -4874,3 +4874,35 @@ mark-style	Japanese	Japonské
 	Sand	Písková
 	Sky	Nebeská
 @msg	`{key}` must be a #rrggbb colour or empty	`{key}` musí být barva #rrggbb nebo prázdné
+# Vetorial: Color Gear
+	Color Gear	Color Gear
+	Color Gear: Take Current Color	Color Gear: vzít aktuální barvu
+	Color Gear: Apply Color	Color Gear: použít barvu
+	Color Gear: Save Palette	Color Gear: uložit paletu
+	Color Gear: Colors from Picture	Color Gear: barvy z obrázku
+	Palettes	Palety
+	No saved palettes yet	Zatím žádné uložené palety
+	Click to choose a picture	Klepnutím vyberte obrázek
+	Saved palette	Uložena paleta
+	Mirror the harmony	Zrcadlit harmonii
+	Take the current colour	Vzít aktuální barvu
+	Click: fill · Right click: stroke	Klepnutí: výplň · pravé klepnutí: tah
+	Choose a picture first	Nejprve vyberte obrázek
+	The picture's colours can't be edited; choose RGB or RYB	Barvy obrázku nelze upravit; zvolte RGB nebo RYB
+	Analogous (2)	Analogická (2)
+	Analogous (3)	Analogická (3)
+	Analogous (4)	Analogická (4)
+	Split Complementary and Complement	Rozdělená doplňková s doplňkem
+	Tilted Rectangle	Natočený obdélník
+@msg	color is #rrggbb	color musí být #rrggbb
+@msg	dataBase64 isn't base64	dataBase64 není base64
+@msg	harmony is a harmony id	harmony je id harmonie
+@msg	mirror is true or false	mirror je true nebo false
+@msg	no colour {i}	žádná barva {i}
+@msg	no colours to save	žádné barvy k uložení
+@msg	no harmony `{h}`	žádná harmonie `{h}`
+@msg	the current colour isn't a solid colour	aktuální barva není plná barva
+@msg	the picture has no visible colours	obrázek nemá žádné viditelné barvy
+@msg	wheel is rgb, ryb or image	wheel je rgb, ryb nebo image
+@msg	wheel is rgb, ryb or image, not `{w}`	wheel je rgb, ryb nebo image, ne `{w}`
+@msg	{key} is a number from {lo} to {hi}	{key} je číslo od {lo} do {hi}

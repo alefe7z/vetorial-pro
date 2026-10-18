@@ -4425,3 +4425,41 @@ theme	Appearance	Giao diện
 	Sand	Màu cát
 	Sky	Xanh da trời
 @msg	`{key}` must be a #rrggbb colour or empty	`{key}` phải là màu #rrggbb hoặc để trống
+# Vetorial: Color Gear
+	Color Gear	Color Gear
+	Color Gear: Take Current Color	Color Gear: lấy màu hiện tại
+	Color Gear: Apply Color	Color Gear: áp dụng màu
+	Color Gear: Save Palette	Color Gear: lưu bảng màu
+	Color Gear: Colors from Picture	Color Gear: màu từ ảnh
+	Palettes	Bảng màu
+	No saved palettes yet	Chưa có bảng màu đã lưu
+	Click to choose a picture	Nhấp để chọn ảnh
+	Saved palette	Đã lưu bảng màu:
+	Mirror the harmony	Lật bố cục màu
+	Take the current colour	Lấy màu hiện tại
+	Click: fill · Right click: stroke	Nhấp: tô · Nhấp phải: nét
+	Choose a picture first	Hãy chọn ảnh trước
+	The picture's colours can't be edited; choose RGB or RYB	Không sửa được màu của ảnh; hãy chọn RGB hoặc RYB
+	Complementary	Bổ túc
+	Analogous (2)	Tương đồng (2)
+	Analogous (3)	Tương đồng (3)
+	Analogous (4)	Tương đồng (4)
+	Split Complementary	Bổ túc chia tách
+	Split Complementary and Complement	Bổ túc chia tách và bổ túc
+	Triad	Bộ ba
+	Kite	Cánh diều
+	Tilted Rectangle	Hình chữ nhật nghiêng
+	Hexagon	Lục giác
+	Shades	Sắc độ
+@msg	color is #rrggbb	color phải là #rrggbb
+@msg	dataBase64 isn't base64	dataBase64 không phải base64
+@msg	harmony is a harmony id	harmony là mã bố cục màu
+@msg	mirror is true or false	mirror là true hoặc false
+@msg	no colour {i}	không có màu {i}
+@msg	no colours to save	không có màu để lưu
+@msg	no harmony `{h}`	không có bố cục màu `{h}`
+@msg	the current colour isn't a solid colour	màu hiện tại không phải màu đặc
+@msg	the picture has no visible colours	ảnh không có màu nhìn thấy được
+@msg	wheel is rgb, ryb or image	wheel là rgb, ryb hoặc image
+@msg	wheel is rgb, ryb or image, not `{w}`	wheel là rgb, ryb hoặc image, không phải `{w}`
+@msg	{key} is a number from {lo} to {hi}	{key} là số từ {lo} đến {hi}

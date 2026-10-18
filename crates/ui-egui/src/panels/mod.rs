@@ -12,6 +12,7 @@ pub mod attributes;
 pub mod brushes;
 pub mod character;
 pub mod color;
+pub mod color_gear;
 pub mod color_guide;
 pub mod color_themes;
 pub mod css_properties;

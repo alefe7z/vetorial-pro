@@ -15,7 +15,7 @@ const ICON_COL: f32 = 38.0;
 /// Height of the strip along the top of a dock column that carries its double arrow.
 const HEADER: f32 = 14.0;
 /// The tabbed group's width until the dock has been laid out (its default size).
-const DOCK_WIDTH: f32 = 300.0;
+const DOCK_WIDTH: f32 = 330.0;
 /// Top of a popped-out panel.
 const FLYOUT_TOP: f32 = 110.0;
 
@@ -105,6 +105,12 @@ pub fn show(app: &mut VectorcraftApp, ui: &mut Ui) {
                     }
                     DockTab::Layers => panels::layers::show(app, ui),
                     DockTab::Libraries => panels::libraries(app, ui),
+                    DockTab::ColorGear => {
+                        egui::ScrollArea::vertical()
+                            .id_salt("color-gear")
+                            .auto_shrink([false, false])
+                            .show(ui, |ui| panels::color_gear::show(app, ui));
+                    }
                 });
             })
             .response
@@ -412,6 +418,13 @@ pub(crate) fn panel_body(app: &mut VectorcraftApp, ui: &mut Ui, id: &str, width:
                 panels::layers::show(app, ui);
             }
             Some(DockTab::Libraries) => panels::libraries(app, ui),
+            Some(DockTab::ColorGear) => {
+                egui::ScrollArea::vertical()
+                    .id_salt("color-gear-flyout")
+                    .max_height(tall)
+                    .auto_shrink([false, true])
+                    .show(ui, |ui| panels::color_gear::show(app, ui));
+            }
             None => panels::show_icon_panel(app, ui, id),
         }
     });
@@ -648,7 +661,7 @@ mod tests {
         assert!(h.app.ui.dock_collapsed, "the » collapses the dock");
         assert!(h.column_left() > SCREEN.x - ICON_COL - 2.0, "collapsed: only the icon column is left: {}", h.column_left());
         let icons = h.icons();
-        assert_eq!(icons.len(), icon_panel_count() + 3, "Properties, Layers and Libraries became icons");
+        assert_eq!(icons.len(), icon_panel_count() + 4, "Properties, Layers, Libraries and Color Gear became icons");
         assert!(icons[0].top() > HEADER, "the icons sit under the « strip");
         h.click(h.arrow());
         assert!(!h.app.ui.dock_collapsed, "the « expands the dock again");

@@ -4841,3 +4841,35 @@ imageTrace	Outline	Körvonal
 	Sand	Homok
 	Sky	Égkék
 @msg	`{key}` must be a #rrggbb colour or empty	A(z) `{key}` értéke #rrggbb szín vagy üres legyen
+# Vetorial: Color Gear
+	Color Gear	Color Gear
+	Color Gear: Take Current Color	Color Gear: aktuális szín átvétele
+	Color Gear: Apply Color	Color Gear: szín alkalmazása
+	Color Gear: Save Palette	Color Gear: paletta mentése
+	Color Gear: Colors from Picture	Color Gear: színek képből
+	Palettes	Paletták
+	No saved palettes yet	Még nincs mentett paletta
+	Click to choose a picture	Kattintson egy kép kiválasztásához
+	Saved palette	Mentett paletta:
+	Mirror the harmony	Harmónia tükrözése
+	Take the current colour	Aktuális szín átvétele
+	Click: fill · Right click: stroke	Kattintás: kitöltés · Jobb kattintás: körvonal
+	Choose a picture first	Először válasszon képet
+	The picture's colours can't be edited; choose RGB or RYB	A kép színei nem szerkeszthetők; válassza az RGB-t vagy az RYB-t
+	Analogous (2)	Analóg (2)
+	Analogous (3)	Analóg (3)
+	Analogous (4)	Analóg (4)
+	Split Complementary and Complement	Osztott komplementer és komplementer
+	Tilted Rectangle	Elforgatott téglalap
+@msg	color is #rrggbb	a color értéke #rrggbb legyen
+@msg	dataBase64 isn't base64	a dataBase64 nem base64
+@msg	harmony is a harmony id	a harmony egy harmónia azonosítója
+@msg	mirror is true or false	a mirror értéke true vagy false
+@msg	no colour {i}	nincs {i}. szín
+@msg	no colours to save	nincs menthető szín
+@msg	no harmony `{h}`	nincs `{h}` harmónia
+@msg	the current colour isn't a solid colour	az aktuális szín nem egyszínű
+@msg	the picture has no visible colours	a képnek nincsenek látható színei
+@msg	wheel is rgb, ryb or image	a wheel értéke rgb, ryb vagy image
+@msg	wheel is rgb, ryb or image, not `{w}`	a wheel értéke rgb, ryb vagy image, nem `{w}`
+@msg	{key} is a number from {lo} to {hi}	a(z) {key} egy szám {lo} és {hi} között

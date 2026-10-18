@@ -1,7 +1,8 @@
 //! Shape tools: Rectangle, Rounded Rectangle, Ellipse, Polygon, Star, Line Segment.
 //!
-//! Drag draws (Shift constrains to square/circle/45°, Alt draws from the centre, Space held moves
-//! the shape being drawn); a click without a drag asks the UI for the size dialog (like
+//! Drag draws, with CorelDRAW's keys (Vetorial): Ctrl makes a square or circle (a polygon or star
+//! upright), Shift (or Alt) draws from the centre, both together a circle from its centre; a line
+//! keeps Shift's 45° steps. Space held moves the shape being drawn; a click without a drag asks the UI for the size dialog (like
 //! Illustrator). ↑/↓ during a polygon/star drag change the side/point count; during a star drag,
 //! Ctrl/Cmd keeps the inner radius where it is while the outer one follows the pointer, and Alt
 //! keeps the star's shoulders straight (#812). The start point and
@@ -36,6 +37,10 @@ fn straight_ratio(points: u32) -> Option<f64> {
     let n = f64::from(points);
     (points >= 5).then(|| (2.0 * std::f64::consts::PI / n).cos() / (std::f64::consts::PI / n).cos())
 }
+
+/// Vetorial: the shape tools that take CorelDRAW's keys: Ctrl makes a circle or square (a polygon
+/// or star upright), Shift draws from the centre (as Alt still does).
+pub const COREL_KEYS: &[&str] = &["rectangle", "roundedRectangle", "ellipse", "polygon", "star"];
 
 impl ShapeTool {
     pub fn new(id: &str) -> Self {
@@ -91,12 +96,12 @@ impl ShapeTool {
     }
 
     /// How the dragged point keeps to the start: a polygon's or star's radius goes anywhere, a
-    /// line is a segment (Shift: 45° steps), the rest are boxes (Shift: a square).
+    /// line is a segment (Shift: 45° steps), the rest are boxes (Ctrl: a square).
     fn leave(&self, cx: &ToolContext, start: Point, m: Mods) -> Option<Leave> {
         match self.id {
             "polygon" | "star" => None,
             "lineSegment" => Some(Leave::segment(cx, start, m.shift)),
-            _ => Some(Leave::diagonal(start, m.shift)),
+            _ => Some(Leave::diagonal(start, m.cmd)),
         }
     }
 
@@ -107,7 +112,7 @@ impl ShapeTool {
             "polygon" | "star" => {
                 let v = p - start;
                 let r = v.hypot().max(0.01);
-                let rot = if m.shift { 0.0 } else { (v.atan2().to_degrees() + 90.0) % 360.0 };
+                let rot = if m.shift || m.cmd { 0.0 } else { (v.atan2().to_degrees() + 90.0) % 360.0 };
                 if self.id == "polygon" {
                     ("shape.polygon".into(), json!({ "cx": start.x, "cy": start.y, "radius": r, "sides": self.sides, "rotation": rot }))
                 } else {
@@ -123,7 +128,7 @@ impl ShapeTool {
                 ("shape.line".into(), json!({ "x1": a.x, "y1": a.y, "x2": b.x, "y2": b.y }))
             }
             _ => {
-                let r = drag_rect(start, p, m);
+                let r = corel_rect(start, p, m);
                 let cmd = if self.id == "ellipse" { "shape.ellipse" } else { "shape.rectangle" };
                 let mut v = json!({ "x": r.x0, "y": r.y0, "width": r.width(), "height": r.height() });
                 if self.id == "roundedRectangle" {
@@ -149,6 +154,14 @@ pub(crate) fn space_moves(start: &mut Point, last: &mut Point, ev: &PointerEvent
 pub(crate) fn drag_rect(start: Point, p: Point, m: Mods) -> Rect {
     let d = if m.shift { square(p - start) } else { p - start };
     if m.alt { Rect::from_points(start - d, start + d) } else { Rect::from_points(start, start + d) }
+}
+
+/// Vetorial: the rectangle a shape tool's drag draws, with CorelDRAW's keys: Ctrl makes it a square
+/// (an ellipse a circle), Shift (or Alt) draws it from its centre; both together, a square from its
+/// centre.
+pub(crate) fn corel_rect(start: Point, p: Point, m: Mods) -> Rect {
+    let d = if m.cmd { square(p - start) } else { p - start };
+    if m.shift || m.alt { Rect::from_points(start - d, start + d) } else { Rect::from_points(start, start + d) }
 }
 
 impl Tool for ShapeTool {
@@ -251,11 +264,11 @@ impl Tool for ShapeTool {
     fn overlays(&self, cx: &ToolContext) -> Vec<Overlay> {
         let mut o = self.snap.guides().to_vec();
         if let Some(s) = self.start.filter(|_| self.began && cx.measurement_labels) {
-            // A box's size as drawn (from its centre with Alt, square with Shift).
+            // A box's size as drawn (from its centre with Shift or Alt, square with Ctrl).
             let (w, h) = match self.id {
                 "polygon" | "star" | "lineSegment" => ((self.last - s).x.abs(), (self.last - s).y.abs()),
                 _ => {
-                    let r = drag_rect(s, self.last, self.mods);
+                    let r = corel_rect(s, self.last, self.mods);
                     (r.width(), r.height())
                 }
             };
@@ -357,12 +370,18 @@ mod tests {
         assert_eq!(t.pointer(&cx, &PointerEvent::new(PointerKind::Up, 150.0, 50.0)), vec![Action::Commit]);
     }
 
+    /// Vetorial: CorelDRAW's keys: Ctrl a circle, Shift from the centre, both a circle from its
+    /// centre (Alt still draws from the centre too).
     #[test]
-    fn shift_square_alt_center() {
+    fn ctrl_circle_shift_center() {
         let t = ShapeTool::new("ellipse");
-        let (c, v) = t.command(Point::new(0.0, 0.0), Point::new(10.0, 4.0), Mods { shift: true, alt: true, ..Default::default() });
+        let at = |m: Mods| t.command(Point::new(0.0, 0.0), Point::new(10.0, 4.0), m);
+        let (c, v) = at(Mods { cmd: true, shift: true, ..Default::default() });
         assert_eq!(c, "shape.ellipse");
         assert_eq!(v, json!({"x": -10.0, "y": -10.0, "width": 20.0, "height": 20.0}));
+        assert_eq!(at(Mods { cmd: true, ..Default::default() }).1, json!({"x": 0.0, "y": 0.0, "width": 10.0, "height": 10.0}));
+        assert_eq!(at(Mods { shift: true, ..Default::default() }).1, json!({"x": -10.0, "y": -4.0, "width": 20.0, "height": 8.0}));
+        assert_eq!(at(Mods { alt: true, ..Default::default() }).1, json!({"x": -10.0, "y": -4.0, "width": 20.0, "height": 8.0}));
     }
 
     #[test]

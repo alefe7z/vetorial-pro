@@ -107,6 +107,11 @@ impl Session {
         if is_selection_tool(id) || matches!(id, "hand" | "zoom" | "rotateView") {
             return None;
         }
+        // Vetorial: as in CorelDRAW, Ctrl with a shape tool makes a circle or square (Shift draws
+        // from the centre): it doesn't lend the selection tool.
+        if vectorcraft_tools::shape::COREL_KEYS.contains(&id) {
+            return None;
+        }
         Some(self.last_selection_tool.unwrap_or(if edits_anchors(id) { "directSelection" } else { "selection" }))
     }
 

@@ -1,7 +1,7 @@
 //! The Selection tool (V): click/shift-click, marquee (Shift-drag toggles the objects it reaches:
 //! the selected ones are deselected, the others selected), move (Alt copies, Shift constrains; Smart
 //! Guides, or with them off View › Snap to Point, snap it),
-//! bounding-box scale (Shift proportional, Alt from centre) and rotate (outside corners, Shift 45°),
+//! bounding-box scale (Vetorial, as in CorelDRAW: corners keep the proportions, Alt frees them, Shift scales from the centre) and rotate (outside corners, Shift 45°),
 //! drag a live rectangle's or polygon's corner widget to round its corners (Alt-click cycles their kind,
 //! double-click opens the Corners dialog), double-click a group or an object to enter isolation
 //! mode (Double Click To Isolate), Cmd/Ctrl-click to select the object behind (Command Click to Select Objects Behind),
@@ -391,10 +391,13 @@ impl Tool for SelectionTool {
             }
             (PointerKind::Drag, State::Scaling { handle, bx, areas }) => {
                 // Scale in the box's own frame: along the objects' axes when it is rotated.
-                let mut a = scale_for_drag(bx.rect, handle, bx.to_local(p), m.shift, m.alt);
+                // Vetorial: CorelDRAW's keys: a corner keeps the proportions (Alt frees them; a type
+                // area's frame resizes freely), Shift scales from the centre.
+                let (proportional, centre) = (handle.is_corner() && !m.alt && !areas, m.shift);
+                let mut a = scale_for_drag(bx.rect, handle, bx.to_local(p), proportional, centre);
                 self.guides.clear();
                 if let Some(t) = &self.targets {
-                    (a, self.guides) = t.snap_scale(&bx, handle, a, m.shift, m.alt, cx.snap_tol());
+                    (a, self.guides) = t.snap_scale(&bx, handle, a, proportional, centre, cx.snap_tol());
                 }
                 let nr = a.transform_rect_bbox(bx.rect);
                 self.measure = cx.transform_tools_guides.then(|| (p, cx.size_label(nr.width(), nr.height())));

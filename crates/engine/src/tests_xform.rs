@@ -868,3 +868,33 @@ fn several_artboards_move_and_delete_together() {
     let d = &s.doc().unwrap().doc;
     assert_eq!(d.artboards.iter().map(|a| a.rect).collect::<Vec<_>>(), [before[1]]);
 }
+
+/// Vetorial: the CorelDRAW way of drawing concentric circles: the Ellipse tool with Ctrl+Shift
+/// draws a circle from its centre (Ctrl doesn't lend the selection tool), Duplicate copies it in
+/// place, and dragging the copy's corner with Shift scales it from its centre, keeping it round.
+#[test]
+fn corel_concentric_circles() {
+    let mut s = session();
+    let both = Mods { cmd: true, shift: true, ..Mods::default() };
+    gesture(&mut s, "ellipse", &[(300.0, 300.0), (330.0, 310.0), (350.0, 320.0), (350.0, 320.0)], both);
+    let st = s.active().unwrap();
+    let id = *st.selection.objects.first().expect("the circle is drawn and selected");
+    assert!(close(bounds(&s, id), Rect::new(250.0, 250.0, 350.0, 350.0)), "a circle from its centre: {:?}", bounds(&s, id));
+    s.execute("edit.duplicate", &json!({})).unwrap();
+    let copy = *s.active().unwrap().selection.objects.first().unwrap();
+    assert_ne!(copy, id);
+    assert!(close(bounds(&s, copy), bounds(&s, id)), "the copy sits on the original");
+    // Shift on the corner: from the centre, still round, even dragged unevenly.
+    let shift = Mods { shift: true, ..Mods::default() };
+    gesture(&mut s, "selection", &[(350.0, 350.0), (360.0, 365.0), (370.0, 380.0), (370.0, 380.0)], shift);
+    let b = bounds(&s, copy);
+    assert!((b.center().x - 300.0).abs() < 1e-6 && (b.center().y - 300.0).abs() < 1e-6, "scaled from the centre: {b:?}");
+    assert!((b.width() - b.height()).abs() < 1e-6 && b.width() > 100.0, "still a circle, bigger: {b:?}");
+    assert!(close(bounds(&s, id), Rect::new(250.0, 250.0, 350.0, 350.0)), "the original stays");
+    // A plain corner drag keeps the proportions too, from the opposite corner; Alt frees them.
+    let r = rect(&mut s, 500.0, 100.0, 100.0, 50.0);
+    s.execute("select.set", &json!({"ids": [r.0]})).unwrap();
+    gesture(&mut s, "selection", &[(600.0, 150.0), (640.0, 155.0), (700.0, 160.0), (700.0, 160.0)], Mods::default());
+    let b = bounds(&s, r);
+    assert!((b.width() / b.height() - 2.0).abs() < 1e-6 && (b.x0 - 500.0).abs() < 1e-6, "proportional: {b:?}");
+}

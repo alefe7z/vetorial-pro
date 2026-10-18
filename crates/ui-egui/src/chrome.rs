@@ -797,9 +797,9 @@ fn hint_for(tool: &str) -> Option<&'static [(&'static str, bool)]> {
         "rectangle" | "roundedRectangle" | "ellipse" | "polygon" | "star" => &[
             ("Drag", true),
             (" to draw  |  ", false),
-            ("Shift+Drag", true),
+            ("Ctrl+Drag", true),
             (" to constrain proportions  |  ", false),
-            ("Alt+Drag", true),
+            ("Shift+Drag", true),
             (" from center  |  ", false),
             ("Click", true),
             (" for exact size", false),
@@ -1013,7 +1013,7 @@ mod tests {
         }
         let pretty = crate::menus::pretty_shortcut;
         assert!(text("selection").contains(&pretty("Alt+Drag")));
-        assert!(text("rectangle").contains(&pretty("Alt+Drag")));
+        assert!(text("rectangle").contains(&pretty("Ctrl+Drag")) && text("rectangle").contains(&pretty("Shift+Drag")));
         assert!(text("zoom").contains(&pretty("Alt+Click")));
         assert!(text("rotate").contains(&pretty("Alt+Click")));
         assert!(text("eyedropper").contains(&pretty("Alt+Click")));

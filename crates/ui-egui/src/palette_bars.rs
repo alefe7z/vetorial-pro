@@ -255,14 +255,19 @@ pub fn command(app: &mut VectorcraftApp, id: &str, p: &Value) -> Option<Result<V
             let path = match p.get("path").and_then(Value::as_str) {
                 Some(path) => path.to_string(),
                 None => {
-                    let pick = crate::FilePick { filters: vec![("Color palettes", swatchlib::LIBRARY_EXTS)], ..Default::default() };
+                    let pick = crate::FilePick { filters: vec![("Color palettes", swatchlib::PALETTE_EXTS)], ..Default::default() };
                     match crate::picks::open(app, &pick) {
                         Some(path) => path,
                         None => return Ok(Value::Null),
                     }
                 }
             };
-            let r = app.run("swatch.library.load", json!({ "path": path }))?;
+            let mut r = app.run("swatch.library.load", json!({ "path": path }))?;
+            // Vetorial: kept in the user library folder so it's still there next time; where there
+            // is no such folder (the web app) it stays loaded until the app quits, which is fine.
+            if let Ok(user) = app.run("swatch.library.copyToUser", json!({ "library": r["library"] })) {
+                r = user;
+            }
             let key = r["library"].as_str().unwrap_or_default().to_string();
             set_shown(app, &key, true, None);
             Ok(r)

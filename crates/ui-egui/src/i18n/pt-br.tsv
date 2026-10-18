@@ -4854,3 +4854,18 @@ theme	Appearance	Aparência
 	FOTO	FOTO
 	Mirror Horizontally	Espelhar horizontalmente
 	Mirror Vertically	Espelhar verticalmente
+# Vetorial: Window › Theme Color
+	Theme Color…	Cor do tema…
+	Theme Color	Cor do tema
+	Accent Color	Cor de destaque
+	Standard (UI Brightness)	Padrão (brilho da interface)
+	Standard Blue	Azul padrão
+	Navy	Azul-marinho
+	Forest	Floresta
+	Wine	Vinho
+	Violet	Violeta
+	Slate	Ardósia
+	Coffee	Café
+	Sand	Areia
+	Sky	Céu
+@msg	`{key}` must be a #rrggbb colour or empty	`{key}` deve ser uma cor #rrggbb ou vazio

@@ -4859,3 +4859,18 @@ mark-style	Japanese	Japonské
 	FOTO	FOTO
 	Mirror Horizontally	Zrcadlit vodorovně
 	Mirror Vertically	Zrcadlit svisle
+# Vetorial: Window › Theme Color
+	Theme Color…	Barva motivu…
+	Theme Color	Barva motivu
+	Accent Color	Barva zvýraznění
+	Standard (UI Brightness)	Standardní (jas rozhraní)
+	Standard Blue	Standardní modrá
+	Navy	Námořnická modř
+	Forest	Lesní zelená
+	Wine	Vínová
+	Violet	Fialová
+	Slate	Břidlicová
+	Coffee	Kávová
+	Sand	Písková
+	Sky	Nebeská
+@msg	`{key}` must be a #rrggbb colour or empty	`{key}` musí být barva #rrggbb nebo prázdné

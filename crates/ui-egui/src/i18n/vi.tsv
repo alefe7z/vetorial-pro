@@ -4410,3 +4410,18 @@ theme	Appearance	Giao diện
 	FOTO	FOTO
 	Mirror Horizontally	Lật ngang
 	Mirror Vertically	Lật dọc
+# Vetorial: Window › Theme Color
+	Theme Color…	Màu giao diện…
+	Theme Color	Màu giao diện
+	Accent Color	Màu nhấn
+	Standard (UI Brightness)	Mặc định (độ sáng giao diện)
+	Standard Blue	Xanh mặc định
+	Navy	Xanh hải quân
+	Forest	Rừng xanh
+	Wine	Đỏ rượu vang
+	Violet	Tím
+	Slate	Xám đá
+	Coffee	Nâu cà phê
+	Sand	Màu cát
+	Sky	Xanh da trời
+@msg	`{key}` must be a #rrggbb colour or empty	`{key}` phải là màu #rrggbb hoặc để trống

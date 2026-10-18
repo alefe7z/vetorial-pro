@@ -4800,3 +4800,18 @@ mark-style	Japanese	Japonesas
 	FOTO	FOTO
 	Mirror Horizontally	Reflejar horizontalmente
 	Mirror Vertically	Reflejar verticalmente
+# Vetorial: Window › Theme Color
+	Theme Color…	Color del tema…
+	Theme Color	Color del tema
+	Accent Color	Color de énfasis
+	Standard (UI Brightness)	Estándar (brillo de la interfaz)
+	Standard Blue	Azul estándar
+	Navy	Azul marino
+	Forest	Bosque
+	Wine	Vino
+	Violet	Violeta
+	Slate	Pizarra
+	Coffee	Café
+	Sand	Arena
+	Sky	Cielo
+@msg	`{key}` must be a #rrggbb colour or empty	`{key}` debe ser un color #rrggbb o estar vacío

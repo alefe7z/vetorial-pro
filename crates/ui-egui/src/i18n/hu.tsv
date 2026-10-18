@@ -4826,3 +4826,18 @@ imageTrace	Outline	Körvonal
 	FOTO	FOTO
 	Mirror Horizontally	Tükrözés vízszintesen
 	Mirror Vertically	Tükrözés függőlegesen
+# Vetorial: Window › Theme Color
+	Theme Color…	Témaszín…
+	Theme Color	Témaszín
+	Accent Color	Kiemelőszín
+	Standard (UI Brightness)	Normál (felület fényereje)
+	Standard Blue	Normál kék
+	Navy	Tengerészkék
+	Forest	Erdőzöld
+	Wine	Bordó
+	Violet	Ibolya
+	Slate	Palaszürke
+	Coffee	Kávébarna
+	Sand	Homok
+	Sky	Égkék
+@msg	`{key}` must be a #rrggbb colour or empty	A(z) `{key}` értéke #rrggbb szín vagy üres legyen

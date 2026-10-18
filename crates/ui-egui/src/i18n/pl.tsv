@@ -4701,3 +4701,18 @@ mark-style	Japanese	Japońskie
 	FOTO	FOTO
 	Mirror Horizontally	Odbij w poziomie
 	Mirror Vertically	Odbij w pionie
+# Vetorial: Window › Theme Color
+	Theme Color…	Kolor motywu…
+	Theme Color	Kolor motywu
+	Accent Color	Kolor akcentu
+	Standard (UI Brightness)	Standardowy (jasność interfejsu)
+	Standard Blue	Standardowy niebieski
+	Navy	Granatowy
+	Forest	Leśny
+	Wine	Winny
+	Violet	Fioletowy
+	Slate	Łupkowy
+	Coffee	Kawowy
+	Sand	Piaskowy
+	Sky	Jasnoniebieski
+@msg	`{key}` must be a #rrggbb colour or empty	`{key}` musi być kolorem #rrggbb lub pusty

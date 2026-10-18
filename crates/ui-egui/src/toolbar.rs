@@ -173,6 +173,9 @@ fn body(app: &mut VectorcraftApp, ui: &mut Ui, cols: usize, floating: Option<egu
     }
     let grip_tip = if floating.is_some() { tl!("Drag to the window's left edge to dock") } else { tl!("Drag to float the toolbar") };
     gresp.on_hover_cursor(egui::CursorIcon::Grab).on_hover_text(grip_tip);
+    // Vetorial: the buttons shrink (down to `MIN_PITCH`) so every tool and the controls under them
+    // fit the window, whatever the screen; only when even that isn't enough do they scroll.
+    let pitch = fit_pitch(ui, &all, cols, app.session.prefs.tool_group_labels);
     // The tools and the controls under them scroll in a window too short for them.
     widgets::strip_scroll(ui, "toolbar", |ui| {
         let active = app.session.tool_id();
@@ -193,15 +196,21 @@ fn body(app: &mut VectorcraftApp, ui: &mut Ui, cols: usize, floating: Option<egu
         while i < all.len() {
             if all[i].0.is_some() && !app.session.prefs.tool_group_labels {
                 // User Interface › Show Tool Group Labels off: a faint dash between the groups.
-                let (r, _) = ui.allocate_exact_size(vec2(ui.available_width(), 9.0), Sense::hover());
+                let (r, _) = ui.allocate_exact_size(vec2(ui.available_width(), DASH), Sense::hover());
                 ui.painter().line_segment([r.center() - vec2(6.0, 0.0), r.center() + vec2(6.0, 0.0)], egui::Stroke::new(1.0, t.divider));
             } else if let Some(cat) = all[i].0 {
-                let (r, _) = ui.allocate_exact_size(vec2(ui.available_width(), 18.0), Sense::hover());
-                // A long name is cut to its first four characters in the single column.
+                let (r, _) = ui.allocate_exact_size(vec2(ui.available_width(), LABEL), Sense::hover());
+                // Vetorial: the whole name, never cut: a long one gets a smaller type to fit the
+                // column; one too long even so becomes the faint dash.
                 let cat = tl!(cat);
-                let label =
-                    if cols == 1 && cat.chars().count() > 6 { format!("{}...", cat.chars().take(4).collect::<String>()) } else { cat.to_string() };
-                ui.painter().text(r.center() + vec2(0.0, 2.0), egui::Align2::CENTER_CENTER, label, egui::FontId::proportional(11.0), t.text);
+                let room = r.width() - 4.0;
+                let wide = ui.painter().layout_no_wrap(cat.to_string(), egui::FontId::proportional(11.0), t.text).size().x;
+                let size = if wide > room { (11.0 * room / wide).floor() } else { 11.0 };
+                if size >= 8.0 {
+                    ui.painter().text(r.center() + vec2(0.0, 2.0), egui::Align2::CENTER_CENTER, cat, egui::FontId::proportional(size), t.text);
+                } else {
+                    ui.painter().line_segment([r.center() - vec2(6.0, 0.0), r.center() + vec2(6.0, 0.0)], egui::Stroke::new(1.0, t.divider));
+                }
             }
             // One row = `cols` slots (a category label always starts a new row).
             let mut row = vec![i];
@@ -223,8 +232,8 @@ fn body(app: &mut VectorcraftApp, ui: &mut Ui, cols: usize, floating: Option<egu
                     };
                     let Some(shown) = tool_info(&shown_id).or_else(|| tool_info(slot[0])) else { continue };
                     let is_active = slot.contains(&active);
-                    let (rect, resp) = ui.allocate_exact_size(vec2(36.0, PITCH - 1.0), Sense::click_and_drag());
-                    let well = egui::Rect::from_center_size(rect.center(), vec2(35.5, 27.5));
+                    let (rect, resp) = ui.allocate_exact_size(vec2(36.0, pitch - 1.0), Sense::click_and_drag());
+                    let well = egui::Rect::from_center_size(rect.center(), vec2(35.5, pitch - 2.5));
                     if is_active {
                         ui.painter().rect_filled(well, CornerRadius::same(1), t.tool_active);
                     } else if resp.hovered() {
@@ -233,7 +242,7 @@ fn body(app: &mut VectorcraftApp, ui: &mut Ui, cols: usize, floating: Option<egu
                     let ir = egui::Rect::from_center_size(rect.center(), vec2(18.0, 18.0));
                     icons::paint(ui, icons::tool_icon(shown.icon), ir, if is_active { t.text_strong } else { t.icon });
                     if slot.len() > 1 {
-                        let c = rect.center() + vec2(12.5, 10.0);
+                        let c = rect.center() + vec2(12.5, pitch / 2.0 - 5.0);
                         ui.painter().add(egui::Shape::convex_polygon(vec![c, c + vec2(-3.5, 0.0), c + vec2(0.0, -3.5)], t.icon, Stroke::NONE));
                     }
                     if editing {
@@ -281,8 +290,50 @@ fn body(app: &mut VectorcraftApp, ui: &mut Ui, cols: usize, floating: Option<egu
             });
         }
         ui.add_space(8.0);
+        let top = ui.cursor().top();
         bottom_controls(app, ui, &t, cols);
+        // How tall the controls under the tools are, for the next frame's `fit_pitch`.
+        let h = ui.cursor().top() - top;
+        ui.data_mut(|d| d.insert_temp(bottom_id(cols), h));
     });
+}
+
+/// Height of a tool group's name.
+const LABEL: f32 = 18.0;
+/// Height of the dash that stands for a hidden group name.
+const DASH: f32 = 9.0;
+/// The smallest pitch the tool buttons shrink to so the toolbar fits the window.
+const MIN_PITCH: f32 = 24.0;
+
+fn bottom_id(cols: usize) -> egui::Id {
+    egui::Id::new(("toolbar-bottom", cols))
+}
+
+/// The tool buttons' pitch: [`PITCH`], or less (down to [`MIN_PITCH`]) when the tools, their group
+/// names and the controls under them wouldn't fit the height left in `ui`.
+fn fit_pitch(ui: &Ui, all: &[(Option<&'static str>, Vec<&'static str>)], cols: usize, labels: bool) -> f32 {
+    let mut rows = 0usize;
+    let mut names = 0usize;
+    let mut i = 0;
+    while i < all.len() {
+        if all.get(i).is_some_and(|s| s.0.is_some()) {
+            names += 1;
+        }
+        let mut n = 1;
+        while n < cols && all.get(i + n).is_some_and(|s| s.0.is_none()) {
+            n += 1;
+        }
+        rows += 1;
+        i += n;
+    }
+    if rows == 0 {
+        return PITCH;
+    }
+    // Before the controls were first drawn: about their usual height.
+    let bottom: f32 = ui.data(|d| d.get_temp(bottom_id(cols))).unwrap_or(if cols == 2 { 165.0 } else { 150.0 });
+    let fixed = names as f32 * if labels { LABEL } else { DASH } + 8.0 + bottom + 2.0;
+    let pitch = (ui.available_height() - fixed) / rows as f32;
+    if pitch.is_finite() { pitch.clamp(MIN_PITCH, PITCH).floor() } else { PITCH }
 }
 
 /// How a press on a tool group's button opens its flyout.
@@ -851,7 +902,22 @@ pub(crate) mod tests {
         };
         let mut out = ctx.run_ui(input, |ui| show(app, ui));
         out.textures_delta.clear();
-        widget_rects(ctx, vec2(36.0, PITCH - 1.0))
+        tool_rects(ctx)
+    }
+
+    /// The last frame's tool buttons (36 pt wide, as tall as their pitch left them), top to bottom.
+    fn tool_rects(ctx: &egui::Context) -> Vec<egui::Rect> {
+        let mut r: Vec<egui::Rect> = ctx.viewport(|vp| {
+            vp.prev_pass
+                .widgets
+                .layers()
+                .flat_map(|(_, w)| w.iter())
+                .filter(|w| w.rect.width() == 36.0 && (MIN_PITCH - 1.0..=PITCH - 1.0).contains(&w.rect.height()))
+                .map(|w| w.rect)
+                .collect()
+        });
+        r.sort_by(|a, b| a.top().total_cmp(&b.top()));
+        r
     }
 
     /// The rects of the last frame's widgets of `size`, top to bottom.
@@ -888,6 +954,25 @@ pub(crate) mod tests {
             frame_in(&mut app, &ctx, f64::from(k) * 0.1, vec![], 500.0);
         }
         assert_eq!(frame_in(&mut app, &ctx, 8.0, vec![], 500.0)[0], tools[0]);
+    }
+
+    /// Vetorial: on a screen a little short for the single column (a 27" 1080p one), the buttons
+    /// close up so every tool and the controls under them fit, with nothing cut off.
+    #[test]
+    fn the_single_column_closes_up_to_fit_a_shorter_screen() {
+        let mut app = VectorcraftApp::new(Session::new(), Default::default());
+        app.run("file.new", json!({"width": 300, "height": 300})).unwrap();
+        let ctx = egui::Context::default();
+        let edit_toolbar = |ctx: &egui::Context| widget_rects(ctx, vec2(26.0, 26.0)).last().copied().unwrap();
+        frame_in(&mut app, &ctx, 0.0, vec![], 1200.0);
+        let tall = frame_in(&mut app, &ctx, 0.1, vec![], 1200.0);
+        assert_eq!(tall[0].height(), PITCH - 1.0, "room to spare: the full pitch");
+        frame_in(&mut app, &ctx, 0.2, vec![], 900.0);
+        let short = frame_in(&mut app, &ctx, 0.3, vec![], 900.0);
+        assert_eq!(columns(&short), 1);
+        assert_eq!(short.len(), tall.len(), "every tool still there");
+        assert!(short[0].height() < PITCH - 1.0, "{:?}", short[0]);
+        assert!(edit_toolbar(&ctx).bottom() <= 900.0, "nothing cut off: {:?}", edit_toolbar(&ctx));
     }
 
     /// The tool buttons sit in the middle of the panel, between its border and the separator

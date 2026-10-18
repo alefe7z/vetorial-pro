@@ -57,6 +57,7 @@ pub mod snap_menu;
 pub mod state;
 pub mod sysclip;
 pub mod theme;
+pub mod theme_color;
 pub mod thumb_worker;
 pub mod titlebar;
 pub mod toolbar;
@@ -1283,6 +1284,7 @@ impl VectorcraftApp {
         dialogs::show(self, &ctx);
         palette::show(self, &ctx);
         canvas_color::show(self, &ctx);
+        theme_color::show(self, &ctx);
         if self.custom_titlebar {
             titlebar::resize_zones(ui);
         }

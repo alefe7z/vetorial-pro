@@ -4016,3 +4016,18 @@ lighting	Light	光源
 	FOTO	FOTO
 	Mirror Horizontally	水平镜像
 	Mirror Vertically	垂直镜像
+# Vetorial: Window › Theme Color
+	Theme Color…	主题颜色…
+	Theme Color	主题颜色
+	Accent Color	强调色
+	Standard (UI Brightness)	标准（界面亮度）
+	Standard Blue	标准蓝
+	Navy	海军蓝
+	Forest	森林绿
+	Wine	酒红
+	Violet	紫罗兰
+	Slate	石板灰
+	Coffee	咖啡色
+	Sand	沙色
+	Sky	天空蓝
+@msg	`{key}` must be a #rrggbb colour or empty	`{key}` 必须是 #rrggbb 颜色或留空

@@ -238,6 +238,12 @@ pub const UI_COMMANDS: &[(&str, &str, &str, &str)] = &[
         "{mode: \"vector\"|\"cad\"|\"paint\"|\"photo\"} switch the program's mode (the menu bar's switcher): each mode has its own tools; only Vector has any yet, the others leave the Tools panel empty → {mode}",
     ),
     (
+        "window.themeColor",
+        "Theme Color…",
+        "",
+        "{theme?: \"#rrggbb\"|\"\", accent?: \"#rrggbb\"|\"\"} the interface's own colour (panels and bars toned from `theme`, selections and active tabs in `accent`; empty for the standard look); with neither it opens the picker window → {theme, accent}",
+    ),
+    (
         "view.canvasColor",
         "Canvas Color",
         "",
@@ -1009,6 +1015,9 @@ pub fn run_ui_command(app: &mut VectorcraftApp, id: &str, p: &Value) -> Option<R
     if let Some(result) = crate::canvas_color::command(app, id, p) {
         return Some(result);
     }
+    if let Some(result) = crate::theme_color::command(app, id, p) {
+        return Some(result);
+    }
     if let Some(result) = crate::modes::command(app, id, p) {
         return Some(result);
     }
@@ -1596,6 +1605,9 @@ pub fn checked(app: &VectorcraftApp, id: &str, p: &Value) -> Option<bool> {
         return Some(on);
     }
     if let Some(on) = crate::canvas_color::checked(app, id, p) {
+        return Some(on);
+    }
+    if let Some(on) = crate::theme_color::checked(app, id, p) {
         return Some(on);
     }
     if let Some(on) = crate::modes::checked(app, id, p) {
@@ -2737,6 +2749,7 @@ pub fn menu_tree_named(english_names: bool) -> Vec<(&'static str, Vec<Item>)> {
                 c("New Window", "window.newWindow"),
                 sub("Arrange", vec![todo("Cascade"), todo("Tile"), todo("Float in Window"), todo("Consolidate All Windows")]),
                 sub("Workspace", crate::workspaces::menu_items()),
+                c("Theme Color…", "window.themeColor"),
                 Sep,
                 c("Control", "window.control"),
                 c("Contextual Task Bar", "window.taskBar"),

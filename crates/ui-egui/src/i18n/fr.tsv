@@ -4859,3 +4859,18 @@ theme	Appearance	Apparence
 	FOTO	FOTO
 	Mirror Horizontally	Miroir horizontal
 	Mirror Vertically	Miroir vertical
+# Vetorial: Window › Theme Color
+	Theme Color…	Couleur du thème…
+	Theme Color	Couleur du thème
+	Accent Color	Couleur d’accentuation
+	Standard (UI Brightness)	Standard (luminosité de l’interface)
+	Standard Blue	Bleu standard
+	Navy	Bleu marine
+	Forest	Forêt
+	Wine	Bordeaux
+	Violet	Violet
+	Slate	Ardoise
+	Coffee	Café
+	Sand	Sable
+	Sky	Ciel
+@msg	`{key}` must be a #rrggbb colour or empty	`{key}` doit être une couleur #rrggbb ou vide

@@ -4383,3 +4383,18 @@ theme	Appearance	Erscheinungsbild
 	FOTO	FOTO
 	Mirror Horizontally	Horizontal spiegeln
 	Mirror Vertically	Vertikal spiegeln
+# Vetorial: Window › Theme Color
+	Theme Color…	Designfarbe…
+	Theme Color	Designfarbe
+	Accent Color	Akzentfarbe
+	Standard (UI Brightness)	Standard (UI-Helligkeit)
+	Standard Blue	Standardblau
+	Navy	Marineblau
+	Forest	Waldgrün
+	Wine	Weinrot
+	Violet	Violett
+	Slate	Schiefer
+	Coffee	Kaffee
+	Sand	Sand
+	Sky	Himmelblau
+@msg	`{key}` must be a #rrggbb colour or empty	`{key}` muss eine Farbe #rrggbb oder leer sein

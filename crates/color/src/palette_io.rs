@@ -320,7 +320,7 @@ pub fn read(text: &str, name: &str) -> Result<SwatchLibrary, String> {
     if crate::corel_palette::sniff(text) {
         return crate::corel_palette::read(text, name);
     }
-    if text.starts_with('{') {
+    if text.starts_with('{') && text.contains(NATIVE_FORMAT) {
         let f: NativeFile = serde_json::from_str(text).map_err(|e| format!("not a swatch library: {e}"))?;
         if f.format != NATIVE_FORMAT {
             return Err(format!("not a swatch library (format `{}`)", f.format));
@@ -331,13 +331,20 @@ pub fn read(text: &str, name: &str) -> Result<SwatchLibrary, String> {
         }
         return Ok(lib);
     }
-    Err("not a swatch library (.vcswatches, .gpl or a CorelDRAW .xml palette)".into())
+    // Vetorial: JASC and LibreOffice palettes, hex lists and any text with #rrggbb colours.
+    if let Some(r) = crate::web_palettes::read_text(text, name) {
+        return r;
+    }
+    Err("not a swatch library (no colours found)".into())
 }
 
 /// Is `text` a library [`read`] understands?
 pub fn sniff(text: &str) -> bool {
     let t = text.trim_start_matches('\u{feff}').trim_start();
-    t.starts_with(GPL_HEADER) || (t.starts_with('{') && t.contains(NATIVE_FORMAT)) || crate::corel_palette::sniff(t)
+    t.starts_with(GPL_HEADER)
+        || (t.starts_with('{') && t.contains(NATIVE_FORMAT))
+        || crate::corel_palette::sniff(t)
+        || crate::web_palettes::sniff_text(t)
 }
 
 /// Read the bytes of a library file: a swatch exchange `.ase` file, else a `.vcswatches` or
@@ -349,6 +356,10 @@ pub fn read_bytes(bytes: &[u8], name: &str) -> Result<SwatchLibrary, String> {
     if bytes.starts_with(ACB_SIGNATURE) {
         return read_acb(bytes, name).map_err(|e| if e == ASE_CUT_SHORT { ACB_CUT_SHORT.into() } else { e });
     }
+    // Vetorial: .aco, RIFF .pal and .act palettes.
+    if let Some(r) = crate::web_palettes::read_binary(bytes, name) {
+        return r;
+    }
     read(&String::from_utf8_lossy(bytes), name)
 }
 
@@ -357,6 +368,7 @@ pub fn read_bytes(bytes: &[u8], name: &str) -> Result<SwatchLibrary, String> {
 pub fn sniff_bytes(bytes: &[u8]) -> bool {
     bytes.starts_with(ASE_SIGNATURE)
         || bytes.starts_with(ACB_SIGNATURE)
+        || crate::web_palettes::sniff_binary(bytes)
         || std::str::from_utf8(bytes).is_ok_and(sniff)
         || sniff(&String::from_utf8_lossy(bytes.get(..1024).unwrap_or(bytes)))
 }
@@ -806,7 +818,8 @@ mod tests {
         };
         let text = written(&lib, PaletteFormat::Css);
         assert!(text.contains("--red: #000000;") && text.contains("--red-2: #000000;"));
-        assert!(read(&text, "x").is_err(), "CSS is written only");
+        // Vetorial: CSS reads back as its colours.
+        assert_eq!(read(&text, "x").unwrap().swatches.len(), 2);
     }
 
     #[test]

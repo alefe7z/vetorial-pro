@@ -4408,3 +4408,18 @@ lighting	Light	Світло
 	FOTO	FOTO
 	Mirror Horizontally	Віддзеркалити по горизонталі
 	Mirror Vertically	Віддзеркалити по вертикалі
+# Vetorial: Window › Theme Color
+	Theme Color…	Колір теми…
+	Theme Color	Колір теми
+	Accent Color	Колір акценту
+	Standard (UI Brightness)	Стандартний (яскравість інтерфейсу)
+	Standard Blue	Стандартний синій
+	Navy	Темно-синій
+	Forest	Лісовий
+	Wine	Винний
+	Violet	Фіолетовий
+	Slate	Сланцевий
+	Coffee	Кавовий
+	Sand	Пісочний
+	Sky	Небесний
+@msg	`{key}` must be a #rrggbb colour or empty	`{key}` має бути кольором #rrggbb або порожнім

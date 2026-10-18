@@ -710,6 +710,12 @@ pub struct Prefs {
     // User Interface
     pub ui_brightness: String,
     pub canvas_color: String,
+    /// Vetorial: the interface's own colour (#rrggbb) the panels and bars are toned from; empty for
+    /// the UI Brightness greys.
+    pub theme_color: String,
+    /// Vetorial: the highlight colour (#rrggbb) of selected items, focused fields and active tabs;
+    /// empty for the standard blue.
+    pub accent_color: String,
     pub auto_collapse_icon_panels: bool,
     /// User Interface › Show Tool Group Labels: the toolbar's group names (Select, Shapes, Draw…);
     /// off, a faint dash separates the groups instead (#663).
@@ -935,6 +941,8 @@ impl Default for Prefs {
             scratch_secondary: s("None"),
             ui_brightness: s("mediumDark"),
             canvas_color: s("matchUi"),
+            theme_color: String::new(),
+            accent_color: String::new(),
             auto_collapse_icon_panels: false,
             tool_group_labels: true,
             open_documents_as_tabs: true,

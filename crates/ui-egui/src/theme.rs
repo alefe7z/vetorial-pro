@@ -221,6 +221,65 @@ impl Tokens {
         }
     }
 
+    /// Vetorial: these tokens toned from the user's own `theme` colour (panels, bars, fields and
+    /// borders take shades of it; the text turns dark on a light one) and `accent` colour.
+    pub fn custom(self, theme: Option<Color32>, accent: Option<Color32>) -> Tokens {
+        let mut t = self;
+        if let Some(c) = theme {
+            let lum = (0.2126 * f32::from(c.r()) + 0.7152 * f32::from(c.g()) + 0.0722 * f32::from(c.b())) / 255.0;
+            let dark = lum < 0.55;
+            let base = Tokens::for_brightness(if dark { Brightness::MediumDark } else { Brightness::Light });
+            let black = |k: f32| mix(c, Color32::BLACK, k);
+            let white = |k: f32| mix(c, Color32::WHITE, k);
+            t = if dark {
+                Tokens {
+                    app_bar: c,
+                    panel: c,
+                    panel_darker: black(0.2),
+                    tab_strip: black(0.2),
+                    input: black(0.18),
+                    input_border: white(0.12),
+                    border: black(0.35),
+                    divider: black(0.1),
+                    hover: white(0.12),
+                    tool_active: black(0.4),
+                    button: c,
+                    button_border: white(0.22),
+                    ruler: black(0.38),
+                    pasteboard: white(0.1),
+                    row_selected: mix(c, base.accent, 0.35),
+                    ..base
+                }
+            } else {
+                Tokens {
+                    app_bar: c,
+                    panel: c,
+                    panel_darker: black(0.07),
+                    tab_strip: black(0.07),
+                    input: white(0.6),
+                    input_border: black(0.25),
+                    border: black(0.18),
+                    divider: black(0.1),
+                    hover: white(0.35),
+                    tool_active: black(0.18),
+                    button: white(0.2),
+                    button_border: black(0.3),
+                    ruler: white(0.3),
+                    pasteboard: black(0.1),
+                    row_selected: mix(c, base.accent, 0.3),
+                    ..base
+                }
+            };
+        }
+        if let Some(a) = accent {
+            t.accent = a;
+            t.accent_strong = mix(a, Color32::BLACK, 0.2);
+            t.flyout_active = mix(a, Color32::WHITE, 0.25);
+            t.row_selected = mix(t.panel, a, 0.35);
+        }
+        t
+    }
+
     pub fn get(ctx: &egui::Context) -> Tokens {
         ctx.data(|d| d.get_temp::<Tokens>(egui::Id::NULL)).unwrap_or_else(|| Tokens::for_brightness(Brightness::MediumDark))
     }
@@ -291,9 +350,25 @@ fn add_craft_fonts(fonts: &mut FontDefinitions) {
     }
 }
 
+/// `a` moved `k` (0 to 1) of the way to `b`.
+fn mix(a: Color32, b: Color32, k: f32) -> Color32 {
+    let m = |x: u8, y: u8| (f32::from(x) + (f32::from(y) - f32::from(x)) * k).round().clamp(0.0, 255.0) as u8;
+    Color32::from_rgb(m(a.r(), b.r()), m(a.g(), b.g()), m(a.b(), b.b()))
+}
+
+fn custom_id() -> egui::Id {
+    egui::Id::new("vetorial-theme-custom")
+}
+
+/// Vetorial: the user's theme and accent colours, which every [`apply`] tones the tokens with.
+pub fn set_custom(ctx: &egui::Context, theme: Option<Color32>, accent: Option<Color32>) {
+    ctx.data_mut(|d| d.insert_temp(custom_id(), (theme, accent)));
+}
+
 /// Apply tokens to egui's global style.
 pub fn apply(ctx: &egui::Context, b: Brightness) {
-    let t = Tokens::for_brightness(b);
+    let (theme, accent): (Option<Color32>, Option<Color32>) = ctx.data(|d| d.get_temp(custom_id())).unwrap_or_default();
+    let t = Tokens::for_brightness(b).custom(theme, accent);
     ctx.data_mut(|d| d.insert_temp(egui::Id::NULL, t));
     let mut v = if t.dark { Visuals::dark() } else { Visuals::light() };
     v.panel_fill = t.panel;

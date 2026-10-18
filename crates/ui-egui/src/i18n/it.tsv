@@ -4428,3 +4428,18 @@ lighting	Light	Luce
 	FOTO	FOTO
 	Mirror Horizontally	Rifletti orizzontalmente
 	Mirror Vertically	Rifletti verticalmente
+# Vetorial: Window › Theme Color
+	Theme Color…	Colore del tema…
+	Theme Color	Colore del tema
+	Accent Color	Colore di evidenziazione
+	Standard (UI Brightness)	Standard (luminosità interfaccia)
+	Standard Blue	Blu standard
+	Navy	Blu navy
+	Forest	Foresta
+	Wine	Vinaccia
+	Violet	Viola
+	Slate	Ardesia
+	Coffee	Caffè
+	Sand	Sabbia
+	Sky	Cielo
+@msg	`{key}` must be a #rrggbb colour or empty	`{key}` deve essere un colore #rrggbb o vuoto

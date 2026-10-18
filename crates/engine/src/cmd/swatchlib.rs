@@ -72,7 +72,7 @@ pub fn specs() -> Vec<CommandSpec> {
             "Other Library…",
             ["Window", "Swatch Libraries"],
             None,
-            "{path? | data?: file text | dataBase64?, name?: file name (default: the path's)} load a .vcswatches, .gpl, .ase (swatch exchange), .acb (color book, read only) or CorelDRAW .xml palette (read only) library, or the swatches of any document VectorCraft opens (see document.formats), for the library panel (Window → Swatch Libraries lists it until the app quits; a file of the user library folder, or a file with the same extension and bytes as one there, opens as that User Defined library) → {library: id, name, count}",
+            "{path? | data?: file text | dataBase64?, name?: file name (default: the path's)} load a .vcswatches, .gpl, .ase (swatch exchange), .acb (color book, read only) , CorelDRAW .xml palette (read only), .aco, .act, RIFF or JASC .pal, .hex, LibreOffice .soc palette or any text with #rrggbb colours (CSS, SCSS, JSON, paint.net .txt) library, or the swatches of any document VectorCraft opens (see document.formats), for the library panel (Window → Swatch Libraries lists it until the app quits; a file of the user library folder, or a file with the same extension and bytes as one there, opens as that User Defined library) → {library: id, name, count}",
             always,
             load
         ),
@@ -157,7 +157,11 @@ impl LibraryFile for SwatchLibrary {
 }
 
 /// The extensions of library files [`palette_io::read_bytes`] reads.
-pub const LIBRARY_EXTS: &[&str] = &["vcswatches", "gpl", "ase", "acb", "xml"];
+pub const LIBRARY_EXTS: &[&str] = &["vcswatches", "gpl", "ase", "acb", "xml", "aco", "act", "pal", "hex", "soc"];
+
+/// Vetorial: what Open Palette… offers: the library files and the text files palette sites give
+/// (paint.net `.txt`, CSS, SCSS, JSON), read for their `#rrggbb` colours.
+pub const PALETTE_EXTS: &[&str] = &["vcswatches", "gpl", "ase", "acb", "xml", "aco", "act", "pal", "hex", "soc", "txt", "css", "scss", "json"];
 
 /// A library file the save commands write ([`Libraries::write`]).
 pub(crate) enum FileData {
@@ -663,6 +667,9 @@ fn load(s: &mut Session, p: &Value) -> Result<Value> {
         // A library file, or a document whose swatches become the library.
         if palette_io::sniff_bytes(bytes) {
             palette_io::read_bytes(bytes, stem(file)).map_err(|e| bad(C, e))
+        } else if let Some(lib) = PALETTE_EXTS.contains(&extension(file).as_str()).then(|| palette_io::read_bytes(bytes, stem(file)).ok()).flatten() {
+            // Vetorial: palettes whose content doesn't say what they are (.act, .hex, CSS…).
+            Ok(lib)
         } else {
             let loaded = super::fileio::load(file, bytes).map_err(|e| bad(C, e.to_string()))?;
             if loaded.preview_only {

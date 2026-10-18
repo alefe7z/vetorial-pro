@@ -278,6 +278,8 @@ pub const PREF_SPECS: &[PrefSpec] = &[
             ("darkGray", "Dark Gray")
         ])
     ),
+    p!("themeColor", "User Interface", "", "Theme Color", text),
+    p!("accentColor", "User Interface", "", "Accent Color", text),
     p!("autoCollapseIconPanels", "User Interface", "", "Auto-Collapse Iconic Panels", bool),
     p!("toolGroupLabels", "User Interface", "", "Show Tool Group Labels", bool),
     p!("openDocumentsAsTabs", "User Interface", "", "Open Documents As Tabs", bool),
@@ -428,6 +430,18 @@ pub fn validate(key: &str, v: &Value) -> std::result::Result<Value, String> {
             let s = v.as_str().map(str::trim).unwrap_or("");
             let ok = !s.is_empty() && s.len() <= 16 && s.chars().all(|c| c.is_ascii_alphanumeric() || c == '-');
             if ok { Ok(json!(s.to_ascii_lowercase())) } else { Err(format!("`{key}` must be `auto` or a language code such as `en` or `zh-hant`")) }
+        }
+        // Vetorial: a #rrggbb colour, or empty for the standard look.
+        PrefKind::Text if key == "themeColor" || key == "accentColor" => {
+            let s = v.as_str().map(str::trim).ok_or_else(|| format!("`{key}` must be a #rrggbb colour or empty"))?;
+            let hex = s.trim_start_matches('#');
+            if s.is_empty() {
+                Ok(json!(""))
+            } else if hex.len() == 6 && hex.chars().all(|c| c.is_ascii_hexdigit()) {
+                Ok(json!(format!("#{}", hex.to_ascii_lowercase())))
+            } else {
+                Err(format!("`{key}` must be a #rrggbb colour or empty"))
+            }
         }
         PrefKind::Text => match v {
             Value::String(s) => Ok(json!(s)),

@@ -4422,3 +4422,18 @@ lighting	Light	ライト
 	FOTO	FOTO
 	Mirror Horizontally	水平方向に反転
 	Mirror Vertically	垂直方向に反転
+# Vetorial: Window › Theme Color
+	Theme Color…	テーマの色…
+	Theme Color	テーマの色
+	Accent Color	アクセントカラー
+	Standard (UI Brightness)	標準 (UI の明るさ)
+	Standard Blue	標準の青
+	Navy	ネイビー
+	Forest	フォレスト
+	Wine	ワイン
+	Violet	バイオレット
+	Slate	スレート
+	Coffee	コーヒー
+	Sand	サンド
+	Sky	スカイ
+@msg	`{key}` must be a #rrggbb colour or empty	`{key}` は #rrggbb の色か空にしてください

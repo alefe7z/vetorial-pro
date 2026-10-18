@@ -351,6 +351,9 @@ pub struct UiState {
     /// Vetorial: View › Canvas Color › Choose Color…'s picker window is open.
     #[serde(skip)]
     pub canvas_color_picker: bool,
+    /// Vetorial: Window › Theme Color's picker window is open.
+    #[serde(skip)]
+    pub theme_color_picker: bool,
     /// Vetorial: the page tab being renamed in place in the page bar.
     #[serde(skip)]
     pub page_rename: Option<crate::page_bar::Rename>,
@@ -677,6 +680,7 @@ impl Default for UiState {
             toolbar_pos: None,
             page_rename: None,
             canvas_color_picker: false,
+            theme_color_picker: false,
             app_mode: main_mode(),
             status_bar: true,
             dock: true,

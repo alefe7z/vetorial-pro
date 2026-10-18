@@ -201,6 +201,22 @@ fn another_documents_swatches_load_as_a_library() {
     assert!(s.execute("swatch.library.load", &json!({"data": "hello", "name": "x.txt"})).is_err());
 }
 
+/// Vetorial: palettes from palette sites and other apps load: CSS, a .hex list and an .act table.
+#[test]
+fn downloaded_palettes_load() {
+    let mut s = session();
+    let r = run(&mut s, "swatch.library.load", json!({"data": ":root { --sol: #ffcc00; --mar: #0055aa; }\n", "name": "site.css"}));
+    assert_eq!(r["count"], 2, "one line, two colours named by value: {r}");
+    let r = run(&mut s, "swatch.library.load", json!({"data": "--sol: #ffcc00;\n--mar: #0055aa;\n", "name": "site2.css"}));
+    assert_eq!((r["count"].as_u64(), r["name"].as_str()), (Some(2), Some("site2")));
+    let r = run(&mut s, "swatch.library.load", json!({"data": "ff0000\n00ff00\n0000ff\n", "name": "lospec.hex"}));
+    assert_eq!(r["count"], 3);
+    let mut act = vec![0u8; 768];
+    act[..3].copy_from_slice(&[255, 0, 0]);
+    let r = run(&mut s, "swatch.library.load", json!({"dataBase64": vectorcraft_format::base64_encode(&act), "name": "table.act"}));
+    assert_eq!(r["count"], 256);
+}
+
 #[test]
 fn swatch_exchange_files_load_add_and_list_as_user_libraries() {
     let bytes = vectorcraft_testkit::ase::sample();

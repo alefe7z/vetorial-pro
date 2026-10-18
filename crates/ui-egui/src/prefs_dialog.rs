@@ -80,6 +80,9 @@ pub fn restore(app: &mut VectorcraftApp) {
 #[derive(Clone, Copy, PartialEq)]
 struct Applied {
     brightness: Brightness,
+    /// Vetorial: the user's theme and accent colours.
+    theme: Option<egui::Color32>,
+    accent: Option<egui::Color32>,
     /// User Interface › Canvas Color, unless it matches the interface brightness.
     canvas: Option<egui::Color32>,
     threads: i32,
@@ -97,13 +100,16 @@ pub(crate) fn canvas_color(key: &str) -> Option<egui::Color32> {
         "mediumGray" => Some(egui::Color32::from_gray(0x96)),
         "darkGray" => Some(egui::Color32::from_gray(0x5a)),
         // Vetorial: any colour, as #rrggbb.
-        hex => {
-            let h = hex.strip_prefix('#')?;
-            let byte = |i: usize| h.get(i..i + 2).and_then(|x| u8::from_str_radix(x, 16).ok());
-            (h.len() == 6).then_some(())?;
-            Some(egui::Color32::from_rgb(byte(0)?, byte(2)?, byte(4)?))
-        }
+        hex => hex_color(hex),
     }
+}
+
+/// Vetorial: a `#rrggbb` colour (`None` for anything else, the empty string included).
+pub(crate) fn hex_color(s: &str) -> Option<egui::Color32> {
+    let h = s.strip_prefix('#')?;
+    let byte = |i: usize| h.get(i..i + 2).and_then(|x| u8::from_str_radix(x, 16).ok());
+    (h.len() == 6).then_some(())?;
+    Some(egui::Color32::from_rgb(byte(0)?, byte(2)?, byte(4)?))
 }
 
 /// Per frame: push UI-side preferences into egui / the renderer when they change.
@@ -116,6 +122,8 @@ pub fn apply_runtime(app: &mut VectorcraftApp, ctx: &egui::Context) {
     }
     let want = Applied {
         brightness: app.ui.brightness,
+        theme: hex_color(&p.theme_color),
+        accent: hex_color(&p.accent_color),
         canvas: canvas_color(&p.canvas_color),
         threads: p.render_threads,
         tool_tips: p.show_tool_tips,
@@ -125,6 +133,7 @@ pub fn apply_runtime(app: &mut VectorcraftApp, ctx: &egui::Context) {
     let id = egui::Id::new("dc-applied-prefs");
     let prev: Option<Applied> = ctx.data(|d| d.get_temp::<Option<Applied>>(id)).flatten();
     if prev != Some(want) {
+        theme::set_custom(ctx, want.theme, want.accent);
         theme::apply(ctx, want.brightness);
         // General › Show Tool Tips: off, no button or field shows its tool tip (they never come
         // due), whichever widget asks for one.

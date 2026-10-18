@@ -171,7 +171,9 @@ fn super_name(c: Color) -> String {
 fn read_act(bytes: &[u8], name: &str) -> SwatchLibrary {
     let count = if bytes.len() == 772 { be16(bytes, 768).map_or(256, usize::from).min(256) } else { 256 };
     let colors = bytes
-        .chunks_exact(3)
+        .as_chunks::<3>()
+        .0
+        .iter()
         .take(count)
         .map(|c| {
             let (r, g, b) = (c[0], c[1], c[2]);

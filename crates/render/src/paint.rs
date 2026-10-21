@@ -10,6 +10,22 @@ use crate::Frame;
 /// Set the context paint (colours as frame `f` paints them). Returns false if nothing should be
 /// drawn.
 pub(crate) fn set_paint(ctx: &mut RenderContext, p: &Paint, bounds: Rect, f: &Frame) -> bool {
+    // Vetorial: View Mode › Draft: a gradient paints as its middle colour, a pattern as grey.
+    if f.opts.draft {
+        match p {
+            Paint::Gradient(g) => {
+                let stops = g.gradient.expanded_stops();
+                let Some((_, c, a)) = stops.get(stops.len() / 2) else { return false };
+                ctx.set_paint(f.ink.color(c, *a));
+                return true;
+            }
+            Paint::Pattern { .. } => {
+                ctx.set_paint(peniko::Color::from_rgba8(160, 160, 160, 255));
+                return true;
+            }
+            _ => {}
+        }
+    }
     match p {
         Paint::None => false,
         Paint::Solid { color: c, .. } => {

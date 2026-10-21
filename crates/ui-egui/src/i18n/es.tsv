@@ -4848,3 +4848,11 @@ mark-style	Japanese	Japonesas
 @msg	wheel is rgb, ryb or image, not `{w}`	wheel es rgb, ryb o image, no `{w}`
 @msg	{key} is a number from {lo} to {hi}	{key} es un número de {lo} a {hi}
 colorGear	Save	Guardar
+# Vetorial: View Mode
+	View Mode	Modo de vista
+	Simple Wireframe	Estructura alámbrica simple
+	Wireframe	Estructura alámbrica
+	Enhanced	Mejorado
+	Simulate Overprint	Simular sobreimpresión
+	Toggle View Mode	Alternar modo de vista
+@msg	mode must be one of {_1}, not `{id}`	mode debe ser uno de {_1}, no `{id}`

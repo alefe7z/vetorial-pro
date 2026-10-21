@@ -64,6 +64,7 @@ pub mod toolbar;
 mod touch;
 mod ui_fonts;
 pub mod unsaved;
+pub mod view_modes;
 pub mod widgets;
 pub mod workspaces;
 
@@ -317,6 +318,9 @@ pub struct CacheKey {
     pub rot: f64,
     /// General › Anti-aliased Artwork.
     pub anti_alias: bool,
+    /// Vetorial: View Mode › Draft and Simple Wireframe.
+    pub draft: bool,
+    pub simple_wire: bool,
     /// [`vectorcraft_render::placed_document::generation`]: placed documents' bitmaps made since.
     pub placed: u64,
     /// View › Pixel Preview: the document pixels rendered (x0, y0, x1, y1), one per point, shown

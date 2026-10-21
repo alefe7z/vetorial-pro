@@ -256,7 +256,9 @@ pub fn show(app: &mut VectorcraftApp, ui: &mut Ui) {
         ppp,
         hidden: page_hidden.iter().map(|id| id.0).collect(),
         rot: v.rotation,
-        anti_alias: app.session.prefs.anti_aliased_artwork,
+        anti_alias: app.session.prefs.anti_aliased_artwork && !app.ui.view.hard_edges,
+        draft: app.ui.view.draft,
+        simple_wire: app.ui.view.simple_wire,
         placed: vectorcraft_render::placed_document::generation(),
         pixel,
         smooth_images,
@@ -310,7 +312,9 @@ pub fn show(app: &mut VectorcraftApp, ui: &mut Ui) {
             highlight_substitutions: true,
             // General › Anti-aliased Artwork: off, edges are hard on screen (raster effects and
             // pattern tiles stay smooth), as in Illustrator.
-            anti_alias: if app.session.prefs.anti_aliased_artwork { vectorcraft_render::AntiAlias::Art } else { vectorcraft_render::AntiAlias::None },
+            anti_alias: if key.anti_alias { vectorcraft_render::AntiAlias::Art } else { vectorcraft_render::AntiAlias::None },
+            draft: key.draft,
+            simple_wireframe: key.simple_wire,
             progressive_placed: true,
             trace_views: true,
             smooth_images,

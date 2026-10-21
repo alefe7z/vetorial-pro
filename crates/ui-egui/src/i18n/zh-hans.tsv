@@ -4065,3 +4065,11 @@ lighting	Light	光源
 @msg	wheel is rgb, ryb or image	wheel 为 rgb、ryb 或 image
 @msg	wheel is rgb, ryb or image, not `{w}`	wheel 为 rgb、ryb 或 image，而不是 `{w}`
 @msg	{key} is a number from {lo} to {hi}	{key} 是 {lo} 到 {hi} 之间的数字
+# Vetorial: View Mode
+	View Mode	视图模式
+	Simple Wireframe	简单线框
+	Wireframe	线框
+	Enhanced	增强
+	Simulate Overprint	模拟叠印
+	Toggle View Mode	切换视图模式
+@msg	mode must be one of {_1}, not `{id}`	mode 必须是 {_1} 之一，而不是 `{id}`

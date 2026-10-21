@@ -4481,3 +4481,11 @@ lighting	Light	Luce
 @msg	wheel is rgb, ryb or image	wheel è rgb, ryb o image
 @msg	wheel is rgb, ryb or image, not `{w}`	wheel è rgb, ryb o image, non `{w}`
 @msg	{key} is a number from {lo} to {hi}	{key} è un numero da {lo} a {hi}
+# Vetorial: View Mode
+	View Mode	Modalità vista
+	Simple Wireframe	Wireframe semplice
+	Wireframe	Wireframe
+	Enhanced	Avanzato
+	Simulate Overprint	Simula sovrastampa
+	Toggle View Mode	Alterna modalità vista
+@msg	mode must be one of {_1}, not `{id}`	mode deve essere uno tra {_1}, non `{id}`

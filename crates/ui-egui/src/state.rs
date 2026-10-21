@@ -213,6 +213,18 @@ pub struct ViewFlags {
     /// What snapped before Snap To went off.
     #[serde(skip)]
     pub snap_saved: Option<crate::snap_menu::Saved>,
+    /// Vetorial: View Mode ([`crate::view_modes`]): Draft paints gradients and patterns as one
+    /// colour, Simple Wireframe leaves effects out of the outline, and hard edges (Draft, Normal)
+    /// turn edge smoothing off.
+    #[serde(default)]
+    pub draft: bool,
+    #[serde(default)]
+    pub simple_wire: bool,
+    #[serde(default)]
+    pub hard_edges: bool,
+    /// The view mode before the last change, for Toggle View Mode (Shift+F9).
+    #[serde(default)]
+    pub prev_mode: Option<String>,
 }
 
 fn main_mode() -> String {
@@ -251,6 +263,10 @@ impl Default for ViewFlags {
             baseline_step: 14.0,
             snap_saved: None,
             single_page: true,
+            draft: false,
+            simple_wire: false,
+            hard_edges: false,
+            prev_mode: None,
         }
     }
 }

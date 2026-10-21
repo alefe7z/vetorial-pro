@@ -4906,3 +4906,11 @@ theme	Appearance	Apparence
 @msg	wheel is rgb, ryb or image	wheel vaut rgb, ryb ou image
 @msg	wheel is rgb, ryb or image, not `{w}`	wheel vaut rgb, ryb ou image, pas `{w}`
 @msg	{key} is a number from {lo} to {hi}	{key} est un nombre de {lo} à {hi}
+# Vetorial: View Mode
+	View Mode	Mode d’affichage
+	Simple Wireframe	Fil de fer simple
+	Wireframe	Fil de fer
+	Enhanced	Amélioré
+	Simulate Overprint	Simuler la surimpression
+	Toggle View Mode	Basculer le mode d’affichage
+@msg	mode must be one of {_1}, not `{id}`	mode doit être l’un de {_1}, pas `{id}`

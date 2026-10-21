@@ -4463,3 +4463,11 @@ theme	Appearance	Giao diện
 @msg	wheel is rgb, ryb or image	wheel là rgb, ryb hoặc image
 @msg	wheel is rgb, ryb or image, not `{w}`	wheel là rgb, ryb hoặc image, không phải `{w}`
 @msg	{key} is a number from {lo} to {hi}	{key} là số từ {lo} đến {hi}
+# Vetorial: View Mode
+	View Mode	Chế độ xem
+	Simple Wireframe	Khung dây đơn giản
+	Wireframe	Khung dây
+	Enhanced	Nâng cao
+	Simulate Overprint	Mô phỏng in chồng
+	Toggle View Mode	Chuyển chế độ xem
+@msg	mode must be one of {_1}, not `{id}`	mode phải là một trong {_1}, không phải `{id}`

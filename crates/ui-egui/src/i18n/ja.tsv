@@ -4475,3 +4475,11 @@ lighting	Light	ライト
 @msg	wheel is rgb, ryb or image	wheel は rgb、ryb、image のいずれかです
 @msg	wheel is rgb, ryb or image, not `{w}`	wheel は rgb、ryb、image のいずれかです（`{w}` ではありません）
 @msg	{key} is a number from {lo} to {hi}	{key} は {lo} から {hi} の数値です
+# Vetorial: View Mode
+	View Mode	表示モード
+	Simple Wireframe	シンプルワイヤーフレーム
+	Wireframe	ワイヤーフレーム
+	Enhanced	拡張
+	Simulate Overprint	オーバープリントをシミュレート
+	Toggle View Mode	表示モードを切り替え
+@msg	mode must be one of {_1}, not `{id}`	mode は {_1} のいずれかにしてください（`{id}` ではありません）

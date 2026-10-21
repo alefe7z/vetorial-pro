@@ -4873,3 +4873,11 @@ imageTrace	Outline	Körvonal
 @msg	wheel is rgb, ryb or image	a wheel értéke rgb, ryb vagy image
 @msg	wheel is rgb, ryb or image, not `{w}`	a wheel értéke rgb, ryb vagy image, nem `{w}`
 @msg	{key} is a number from {lo} to {hi}	a(z) {key} egy szám {lo} és {hi} között
+# Vetorial: View Mode
+	View Mode	Nézet módja
+	Simple Wireframe	Egyszerű drótváz
+	Wireframe	Drótváz
+	Enhanced	Továbbfejlesztett
+	Simulate Overprint	Felülnyomás szimulálása
+	Toggle View Mode	Nézet módjának váltása
+@msg	mode must be one of {_1}, not `{id}`	a mode értéke ezek egyike legyen: {_1}, nem `{id}`

@@ -4748,3 +4748,11 @@ mark-style	Japanese	Japońskie
 @msg	wheel is rgb, ryb or image	wheel to rgb, ryb lub image
 @msg	wheel is rgb, ryb or image, not `{w}`	wheel to rgb, ryb lub image, nie `{w}`
 @msg	{key} is a number from {lo} to {hi}	{key} to liczba od {lo} do {hi}
+# Vetorial: View Mode
+	View Mode	Tryb widoku
+	Simple Wireframe	Prosty szkielet
+	Wireframe	Szkielet
+	Enhanced	Rozszerzony
+	Simulate Overprint	Symuluj nadruk
+	Toggle View Mode	Przełącz tryb widoku
+@msg	mode must be one of {_1}, not `{id}`	mode musi być jednym z {_1}, nie `{id}`

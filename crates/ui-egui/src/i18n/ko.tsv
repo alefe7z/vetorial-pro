@@ -4445,3 +4445,11 @@ lighting	Light	광원
 @msg	wheel is rgb, ryb or image	wheel은 rgb, ryb 또는 image입니다
 @msg	wheel is rgb, ryb or image, not `{w}`	wheel은 `{w}`이(가) 아니라 rgb, ryb 또는 image입니다
 @msg	{key} is a number from {lo} to {hi}	{key}은(는) {lo}에서 {hi} 사이의 숫자입니다
+# Vetorial: View Mode
+	View Mode	보기 모드
+	Simple Wireframe	단순 와이어프레임
+	Wireframe	와이어프레임
+	Enhanced	향상
+	Simulate Overprint	중복 인쇄 시뮬레이션
+	Toggle View Mode	보기 모드 전환
+@msg	mode must be one of {_1}, not `{id}`	mode는 `{id}`이(가) 아니라 {_1} 중 하나여야 합니다

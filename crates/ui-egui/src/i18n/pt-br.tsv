@@ -4902,3 +4902,11 @@ theme	Appearance	Aparência
 @msg	wheel is rgb, ryb or image, not `{w}`	wheel é rgb, ryb ou image, não `{w}`
 @msg	{key} is a number from {lo} to {hi}	{key} é um número de {lo} a {hi}
 colorGear	Save	Guardar
+# Vetorial: View Mode
+	View Mode	Modo de visualização
+	Simple Wireframe	Aramado simples
+	Wireframe	Aramado
+	Enhanced	Aperfeiçoado
+	Simulate Overprint	Simular superimposição
+	Toggle View Mode	Alternar modo de visualização
+@msg	mode must be one of {_1}, not `{id}`	mode deve ser um de {_1}, não `{id}`

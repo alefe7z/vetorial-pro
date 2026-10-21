@@ -4906,3 +4906,11 @@ mark-style	Japanese	Japonské
 @msg	wheel is rgb, ryb or image	wheel je rgb, ryb nebo image
 @msg	wheel is rgb, ryb or image, not `{w}`	wheel je rgb, ryb nebo image, ne `{w}`
 @msg	{key} is a number from {lo} to {hi}	{key} je číslo od {lo} do {hi}
+# Vetorial: View Mode
+	View Mode	Režim zobrazení
+	Simple Wireframe	Jednoduchý drátový model
+	Wireframe	Drátový model
+	Enhanced	Vylepšený
+	Simulate Overprint	Simulovat přetisk
+	Toggle View Mode	Přepnout režim zobrazení
+@msg	mode must be one of {_1}, not `{id}`	mode musí být jedno z {_1}, ne `{id}`

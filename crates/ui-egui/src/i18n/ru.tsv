@@ -4477,3 +4477,11 @@ lighting	Light	Свет
 @msg	wheel is rgb, ryb or image	wheel — rgb, ryb или image
 @msg	wheel is rgb, ryb or image, not `{w}`	wheel — rgb, ryb или image, а не `{w}`
 @msg	{key} is a number from {lo} to {hi}	{key} — число от {lo} до {hi}
+# Vetorial: View Mode
+	View Mode	Режим просмотра
+	Simple Wireframe	Простой каркас
+	Wireframe	Каркас
+	Enhanced	Улучшенный
+	Simulate Overprint	Имитировать наложение
+	Toggle View Mode	Переключить режим просмотра
+@msg	mode must be one of {_1}, not `{id}`	mode должен быть одним из {_1}, а не `{id}`

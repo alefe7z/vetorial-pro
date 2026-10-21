@@ -263,6 +263,13 @@ pub const UI_COMMANDS: &[(&str, &str, &str, &str)] = &[
         "{path? | dataBase64?} the main colours (up to 6) of a picture; without either it asks for a file → the wheel's state (wheel \"image\")",
     ),
     (
+        "view.mode",
+        "View Mode",
+        "",
+        "{mode: \"simpleWireframe\"|\"wireframe\"|\"draft\"|\"normal\"|\"enhanced\"|\"pixels\"|\"simulateOverprint\"} how the drawing shows (CorelDRAW's View modes): outlines alone (Simple Wireframe leaves effects out), Draft (gradients and patterns as one colour, hard edges), Normal (hard edges), Enhanced (smooth, the default), Pixels (Pixel Preview), Simulate Overprint (Overprint Preview) → {mode}",
+    ),
+    ("view.modeToggle", "Toggle View Mode", "Shift+F9", "{} back to the view mode before (the first time, Enhanced ↔ Wireframe) → {mode}"),
+    (
         "window.themeColor",
         "Theme Color…",
         "",
@@ -1043,6 +1050,9 @@ pub fn run_ui_command(app: &mut VectorcraftApp, id: &str, p: &Value) -> Option<R
     if let Some(result) = crate::theme_color::command(app, id, p) {
         return Some(result);
     }
+    if let Some(result) = crate::view_modes::command(app, id, p) {
+        return Some(result);
+    }
     if let Some(result) = crate::panels::color_gear::command(app, id, p) {
         return Some(result);
     }
@@ -1636,6 +1646,9 @@ pub fn checked(app: &VectorcraftApp, id: &str, p: &Value) -> Option<bool> {
         return Some(on);
     }
     if let Some(on) = crate::theme_color::checked(app, id, p) {
+        return Some(on);
+    }
+    if let Some(on) = crate::view_modes::checked(app, id, p) {
         return Some(on);
     }
     if let Some(on) = crate::modes::checked(app, id, p) {
@@ -2670,6 +2683,7 @@ pub fn menu_tree_named(english_names: bool) -> Vec<(&'static str, Vec<Item>)> {
         (
             "View",
             vec![
+                sub("View Mode", crate::view_modes::view_menu()),
                 c("Outline", "view.outline"),
                 c("Overprint Preview", "view.overprintPreview"),
                 c("Pixel Preview", "view.pixelPreview"),

@@ -4436,3 +4436,11 @@ theme	Appearance	Erscheinungsbild
 @msg	wheel is rgb, ryb or image	wheel ist rgb, ryb oder image
 @msg	wheel is rgb, ryb or image, not `{w}`	wheel ist rgb, ryb oder image, nicht `{w}`
 @msg	{key} is a number from {lo} to {hi}	{key} ist eine Zahl von {lo} bis {hi}
+# Vetorial: View Mode
+	View Mode	Ansichtsmodus
+	Simple Wireframe	Einfaches Drahtmodell
+	Wireframe	Drahtmodell
+	Enhanced	Erweitert
+	Simulate Overprint	Überdrucken simulieren
+	Toggle View Mode	Ansichtsmodus umschalten
+@msg	mode must be one of {_1}, not `{id}`	mode muss eines von {_1} sein, nicht `{id}`

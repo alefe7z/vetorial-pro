@@ -106,6 +106,11 @@ pub struct RenderOptions {
     pub highlight_substitutions: bool,
     /// Edge smoothing (raster export option).
     pub anti_alias: AntiAlias,
+    /// Vetorial: View Mode › Draft (CorelDRAW): gradients and patterns paint as one solid colour.
+    pub draft: bool,
+    /// Vetorial: View Mode › Simple Wireframe: in outline, effects (shadows, offsets, live effects)
+    /// are left out; each object shows its own path only.
+    pub simple_wireframe: bool,
     /// Screen view: placed documents draw from cached bitmaps made in the background (see
     /// [`placed_document`]); off, they draw exactly, read when needed.
     pub progressive_placed: bool,
@@ -208,6 +213,8 @@ impl Default for RenderOptions {
             mask_view: None,
             highlight_substitutions: false,
             anti_alias: AntiAlias::Art,
+            draft: false,
+            simple_wireframe: false,
             progressive_placed: false,
             trace_views: false,
             smooth_images: true,
@@ -1294,6 +1301,11 @@ impl Renderer {
 
     fn draw_shape(&mut self, ctx: &mut RenderContext, f: &Frame, n: &Node, bp: &BezPath, rule: FillRule) {
         if !drawable(bp, f.view, n) {
+            return;
+        }
+        // Vetorial: Simple Wireframe: the object's own path, without its effects.
+        if f.opts.outline && f.opts.simple_wireframe {
+            self.hairline(ctx, f, bp, [0, 0, 0, 255]);
             return;
         }
         if fx::has_fx(n) {

@@ -412,6 +412,7 @@ pub fn command(app: &mut VectorcraftApp, id: &str, p: &Value) -> Option<Result<V
             let c = usize::try_from(i).ok().and_then(|i| colors.get(i)).copied().ok_or(format!("no colour {i}"))?;
             let stroke = p.get("stroke").and_then(Value::as_bool).unwrap_or(false);
             app.run(if stroke { "paint.setStroke" } else { "paint.setFill" }, json!({ "color": hex(c) }))?;
+            super::color_gear_more::remember(&mut app.ui.color_gear_more, c.map(|v| (v.clamp(0.0, 1.0) * 255.0).round() as u8));
             Ok(json!({ "color": hex(c) }))
         })(),
         "colorGear.save" => (|| {
@@ -650,6 +651,8 @@ pub fn show(app: &mut VectorcraftApp, ui: &mut Ui) {
             }
         }
     });
+    // Vetorial: scroll down for the colour picker, history, palette from image and palettes.
+    super::color_gear_more::show(app, ui, width);
 }
 
 /// The wheel with its points, ⇄ and the eyedropper, and its slider.

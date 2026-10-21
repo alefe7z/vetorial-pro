@@ -4914,3 +4914,31 @@ theme	Appearance	Apparence
 	Simulate Overprint	Simuler la surimpression
 	Toggle View Mode	Basculer le mode d’affichage
 @msg	mode must be one of {_1}, not `{id}`	mode doit être l’un de {_1}, pas `{id}`
+# Vetorial: Color Gear (picker, history, palettes)
+	Color Gear: Picked Color	Color Gear : couleur choisie
+	Color Gear: Use Color	Color Gear : utiliser la couleur
+	Color Gear: History	Color Gear : historique
+	Color Gear: View	Color Gear : affichage
+	Disc	Disque
+	Values	Valeurs
+	Use in the Harmony	Utiliser dans l’harmonie
+	The colours you paint with appear here	Les couleurs utilisées apparaissent ici
+	Palette from Image	Palette d’une image
+	Choose a picture to take its colours	Choisissez une image pour prendre ses couleurs
+	Hexadecimal	Hexadécimal
+	Compact	Compact
+	Cards	Cartes
+	Save a harmony with + or Save to make your first palette	Enregistrez une harmonie avec + ou Enregistrer pour créer votre première palette
+	Show as a Palette Bar	Afficher en barre de palette
+	Show as Cards	Afficher en cartes
+	Dark {color}	{color} foncé
+	Light {color}	{color} clair
+	Lime	Citron vert
+	Teal	Sarcelle
+	Cyan Blue	Bleu cyan
+	Indigo	Indigo
+@msg	{key} is 0 to {hi}	{key} va de 0 à {hi}
+@msg	picker is disc, classic or values	picker vaut disc, classic ou values
+@msg	picker is disc, classic or values, not `{v}`	picker vaut disc, classic ou values, pas `{v}`
+@msg	cards is true or false	cards vaut true ou false
+@msg	palette is a library id	palette est un identifiant de bibliothèque

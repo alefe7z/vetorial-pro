@@ -4453,3 +4453,35 @@ lighting	Light	광원
 	Simulate Overprint	중복 인쇄 시뮬레이션
 	Toggle View Mode	보기 모드 전환
 @msg	mode must be one of {_1}, not `{id}`	mode는 `{id}`이(가) 아니라 {_1} 중 하나여야 합니다
+# Vetorial: Color Gear (picker, history, palettes)
+	Color Gear: Picked Color	Color Gear: 선택한 색상
+	Color Gear: Use Color	Color Gear: 색상 사용
+	Color Gear: History	Color Gear: 기록
+	Color Gear: View	Color Gear: 보기
+	Disc	디스크
+	Values	값
+	Use in the Harmony	조화에 사용
+	The colours you paint with appear here	사용한 색상이 여기에 표시됩니다
+	Palette from Image	이미지 팔레트
+	Choose a picture to take its colours	이미지를 선택하면 색상을 가져옵니다
+	Hexadecimal	16진수
+	Compact	간단히
+	Cards	카드
+	Save a harmony with + or Save to make your first palette	+ 또는 저장으로 조화를 저장해 첫 팔레트를 만드세요
+	Show as a Palette Bar	팔레트 막대로 표시
+	Show as Cards	카드로 표시
+	Dark {color}	어두운 {color}
+	Light {color}	밝은 {color}
+	Gray	회색
+	Orange	주황
+	Lime	라임
+	Teal	청록
+	Cyan Blue	시안 블루
+	Indigo	남색
+	Purple	보라
+	Pink	분홍
+@msg	{key} is 0 to {hi}	{key}은(는) 0에서 {hi} 사이입니다
+@msg	picker is disc, classic or values	picker는 disc, classic 또는 values입니다
+@msg	picker is disc, classic or values, not `{v}`	picker는 `{v}`이(가) 아니라 disc, classic 또는 values입니다
+@msg	cards is true or false	cards는 true 또는 false입니다
+@msg	palette is a library id	palette는 라이브러리 ID입니다

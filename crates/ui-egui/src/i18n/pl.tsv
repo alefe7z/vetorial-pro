@@ -4756,3 +4756,35 @@ mark-style	Japanese	Japońskie
 	Simulate Overprint	Symuluj nadruk
 	Toggle View Mode	Przełącz tryb widoku
 @msg	mode must be one of {_1}, not `{id}`	mode musi być jednym z {_1}, nie `{id}`
+# Vetorial: Color Gear (picker, history, palettes)
+	Color Gear: Picked Color	Color Gear: wybrany kolor
+	Color Gear: Use Color	Color Gear: użyj koloru
+	Color Gear: History	Color Gear: historia
+	Color Gear: View	Color Gear: widok
+	Disc	Dysk
+	Values	Wartości
+	Use in the Harmony	Użyj w harmonii
+	The colours you paint with appear here	Tu pojawią się kolory, których używasz
+	Palette from Image	Paleta z obrazu
+	Choose a picture to take its colours	Wybierz obraz, aby pobrać jego kolory
+	Hexadecimal	Szesnastkowo
+	Compact	Kompaktowy
+	Cards	Karty
+	Save a harmony with + or Save to make your first palette	Zapisz harmonię przyciskiem + lub Zapisz, aby utworzyć pierwszą paletę
+	Show as a Palette Bar	Pokaż jako pasek palety
+	Show as Cards	Pokaż jako karty
+	Dark {color}	Ciemny {color}
+	Light {color}	Jasny {color}
+	Gray	Szary
+	Orange	Pomarańczowy
+	Lime	Limonkowy
+	Teal	Morski
+	Cyan Blue	Cyjanowy niebieski
+	Indigo	Indygo
+	Purple	Fioletowy
+	Pink	Różowy
+@msg	{key} is 0 to {hi}	{key} to 0 do {hi}
+@msg	picker is disc, classic or values	picker to disc, classic lub values
+@msg	picker is disc, classic or values, not `{v}`	picker to disc, classic lub values, nie `{v}`
+@msg	cards is true or false	cards to true lub false
+@msg	palette is a library id	palette to identyfikator biblioteki

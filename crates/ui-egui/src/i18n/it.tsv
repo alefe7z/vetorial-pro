@@ -4489,3 +4489,35 @@ lighting	Light	Luce
 	Simulate Overprint	Simula sovrastampa
 	Toggle View Mode	Alterna modalità vista
 @msg	mode must be one of {_1}, not `{id}`	mode deve essere uno tra {_1}, non `{id}`
+# Vetorial: Color Gear (picker, history, palettes)
+	Color Gear: Picked Color	Color Gear: colore scelto
+	Color Gear: Use Color	Color Gear: usa colore
+	Color Gear: History	Color Gear: cronologia
+	Color Gear: View	Color Gear: vista
+	Disc	Disco
+	Values	Valori
+	Use in the Harmony	Usa nell’armonia
+	The colours you paint with appear here	Qui compaiono i colori che usi
+	Palette from Image	Tavolozza da immagine
+	Choose a picture to take its colours	Scegli un’immagine per prenderne i colori
+	Hexadecimal	Esadecimale
+	Compact	Compatto
+	Cards	Schede
+	Save a harmony with + or Save to make your first palette	Salva un’armonia con + o Salva per creare la prima tavolozza
+	Show as a Palette Bar	Mostra come barra tavolozza
+	Show as Cards	Mostra come schede
+	Dark {color}	{color} scuro
+	Light {color}	{color} chiaro
+	Gray	Grigio
+	Orange	Arancione
+	Lime	Lime
+	Teal	Verde acqua
+	Cyan Blue	Blu ciano
+	Indigo	Indaco
+	Purple	Viola
+	Pink	Rosa
+@msg	{key} is 0 to {hi}	{key} va da 0 a {hi}
+@msg	picker is disc, classic or values	picker è disc, classic o values
+@msg	picker is disc, classic or values, not `{v}`	picker è disc, classic o values, non `{v}`
+@msg	cards is true or false	cards è true o false
+@msg	palette is a library id	palette è un id di libreria

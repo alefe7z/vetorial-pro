@@ -243,6 +243,25 @@ pub const UI_COMMANDS: &[(&str, &str, &str, &str)] = &[
         "",
         "{wheel?: \"rgb\"|\"ryb\"|\"image\", harmony?: \"complementary\"|\"analogous2\"|\"analogous3\"|\"analogous4\"|\"split\"|\"splitComplement\"|\"triad\"|\"kite\"|\"square\"|\"rectangle\"|\"rectangleTilted\"|\"hexagon\"|\"shades\", color?: \"#rrggbb\" (the base), hue?: degrees, saturation?: 0..1, brightness?: 0..1 (RGB), light?: -1..1 (RYB: shade to tint), mirror?: bool} the Color Gear tab's harmony wheel → {wheel, harmony, hue, saturation, brightness, light, mirror, colors: [\"#RRGGBB\"]}",
     ),
+    (
+        "colorGear.current",
+        "Color Gear: Picked Color",
+        "",
+        "{color?: \"#rrggbb\", hue?: 0..360, saturation?: 0..1, brightness?: 0..1} the colour Color Gear's picker (Disc, Classic, Values) shows → {color, hsb}",
+    ),
+    (
+        "colorGear.use",
+        "Color Gear: Use Color",
+        "",
+        "{color?: \"#rrggbb\" (default: the picked colour), stroke?: false, base?: false (make it the harmony's base instead)} paint the selection's fill or stroke with it; it joins the history → {color}",
+    ),
+    ("colorGear.history", "Color Gear: History", "", "{clear?: false} the colours Color Gear painted with, newest first (up to 16) → {history}"),
+    (
+        "colorGear.view",
+        "Color Gear: View",
+        "",
+        "{picker?: \"disc\"|\"classic\"|\"values\", cards?: bool (Palettes as cards, else compact), palette?: library id (the palette the cards show)} → {picker, cards, palette}",
+    ),
     ("colorGear.pick", "Color Gear: Take Current Color", "", "{} the current fill (or stroke) becomes Color Gear's base colour → the wheel's state"),
     (
         "colorGear.apply",
@@ -1054,6 +1073,9 @@ pub fn run_ui_command(app: &mut VectorcraftApp, id: &str, p: &Value) -> Option<R
         return Some(result);
     }
     if let Some(result) = crate::panels::color_gear::command(app, id, p) {
+        return Some(result);
+    }
+    if let Some(result) = crate::panels::color_gear_more::command(app, id, p) {
         return Some(result);
     }
     if let Some(result) = crate::modes::command(app, id, p) {

@@ -4881,3 +4881,31 @@ imageTrace	Outline	Körvonal
 	Simulate Overprint	Felülnyomás szimulálása
 	Toggle View Mode	Nézet módjának váltása
 @msg	mode must be one of {_1}, not `{id}`	a mode értéke ezek egyike legyen: {_1}, nem `{id}`
+# Vetorial: Color Gear (picker, history, palettes)
+	Color Gear: Picked Color	Color Gear: kiválasztott szín
+	Color Gear: Use Color	Color Gear: szín használata
+	Color Gear: History	Color Gear: előzmények
+	Color Gear: View	Color Gear: nézet
+	Disc	Korong
+	Values	Értékek
+	Use in the Harmony	Használat a harmóniában
+	The colours you paint with appear here	Itt jelennek meg a használt színek
+	Palette from Image	Paletta képből
+	Choose a picture to take its colours	Válasszon képet a színeihez
+	Hexadecimal	Hexadecimális
+	Compact	Kompakt
+	Cards	Kártyák
+	Save a harmony with + or Save to make your first palette	Mentsen egy harmóniát a + vagy a Mentés gombbal az első palettához
+	Show as a Palette Bar	Megjelenítés palettasávként
+	Show as Cards	Megjelenítés kártyákként
+	Dark {color}	Sötét {color}
+	Light {color}	Világos {color}
+	Lime	Lime
+	Teal	Kékeszöld
+	Cyan Blue	Ciánkék
+	Indigo	Indigó
+@msg	{key} is 0 to {hi}	a(z) {key} értéke 0 és {hi} között
+@msg	picker is disc, classic or values	a picker értéke disc, classic vagy values
+@msg	picker is disc, classic or values, not `{v}`	a picker értéke disc, classic vagy values, nem `{v}`
+@msg	cards is true or false	a cards értéke true vagy false
+@msg	palette is a library id	a palette egy könyvtárazonosító

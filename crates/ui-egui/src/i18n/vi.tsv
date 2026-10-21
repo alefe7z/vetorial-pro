@@ -4471,3 +4471,35 @@ theme	Appearance	Giao diện
 	Simulate Overprint	Mô phỏng in chồng
 	Toggle View Mode	Chuyển chế độ xem
 @msg	mode must be one of {_1}, not `{id}`	mode phải là một trong {_1}, không phải `{id}`
+# Vetorial: Color Gear (picker, history, palettes)
+	Color Gear: Picked Color	Color Gear: màu đã chọn
+	Color Gear: Use Color	Color Gear: dùng màu
+	Color Gear: History	Color Gear: lịch sử
+	Color Gear: View	Color Gear: chế độ xem
+	Disc	Đĩa
+	Values	Giá trị
+	Use in the Harmony	Dùng cho bố cục màu
+	The colours you paint with appear here	Các màu bạn đã dùng sẽ hiện ở đây
+	Palette from Image	Bảng màu từ ảnh
+	Choose a picture to take its colours	Chọn ảnh để lấy màu của nó
+	Hexadecimal	Thập lục phân
+	Compact	Gọn
+	Cards	Thẻ
+	Save a harmony with + or Save to make your first palette	Lưu một bố cục màu bằng + hoặc Lưu để tạo bảng màu đầu tiên
+	Show as a Palette Bar	Hiện dạng thanh bảng màu
+	Show as Cards	Hiện dạng thẻ
+	Dark {color}	{color} đậm
+	Light {color}	{color} nhạt
+	Gray	Xám
+	Orange	Cam
+	Lime	Xanh chanh
+	Teal	Xanh mòng két
+	Cyan Blue	Xanh lam lục
+	Indigo	Chàm
+	Purple	Tím
+	Pink	Hồng
+@msg	{key} is 0 to {hi}	{key} từ 0 đến {hi}
+@msg	picker is disc, classic or values	picker là disc, classic hoặc values
+@msg	picker is disc, classic or values, not `{v}`	picker là disc, classic hoặc values, không phải `{v}`
+@msg	cards is true or false	cards là true hoặc false
+@msg	palette is a library id	palette là mã thư viện

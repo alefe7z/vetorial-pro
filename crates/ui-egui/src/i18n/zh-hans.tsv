@@ -4073,3 +4073,31 @@ lighting	Light	光源
 	Simulate Overprint	模拟叠印
 	Toggle View Mode	切换视图模式
 @msg	mode must be one of {_1}, not `{id}`	mode 必须是 {_1} 之一，而不是 `{id}`
+# Vetorial: Color Gear (picker, history, palettes)
+	Color Gear: Picked Color	Color Gear：所选颜色
+	Color Gear: Use Color	Color Gear：使用颜色
+	Color Gear: History	Color Gear：历史
+	Color Gear: View	Color Gear：视图
+	Disc	圆盘
+	Values	数值
+	Use in the Harmony	用于和谐色
+	The colours you paint with appear here	你使用过的颜色会显示在这里
+	Palette from Image	来自图片的调色板
+	Choose a picture to take its colours	选择图片以提取其颜色
+	Hexadecimal	十六进制
+	Compact	紧凑
+	Cards	卡片
+	Save a harmony with + or Save to make your first palette	用 + 或保存来保存和谐色，创建你的第一个调色板
+	Show as a Palette Bar	显示为调色板条
+	Show as Cards	显示为卡片
+	Dark {color}	深{color}
+	Light {color}	浅{color}
+	Lime	青柠色
+	Teal	蓝绿色
+	Cyan Blue	青蓝色
+	Indigo	靛蓝
+@msg	{key} is 0 to {hi}	{key} 为 0 到 {hi}
+@msg	picker is disc, classic or values	picker 为 disc、classic 或 values
+@msg	picker is disc, classic or values, not `{v}`	picker 为 disc、classic 或 values，而不是 `{v}`
+@msg	cards is true or false	cards 为 true 或 false
+@msg	palette is a library id	palette 是资料库 id

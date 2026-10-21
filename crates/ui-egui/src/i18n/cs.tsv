@@ -4914,3 +4914,31 @@ mark-style	Japanese	Japonské
 	Simulate Overprint	Simulovat přetisk
 	Toggle View Mode	Přepnout režim zobrazení
 @msg	mode must be one of {_1}, not `{id}`	mode musí být jedno z {_1}, ne `{id}`
+# Vetorial: Color Gear (picker, history, palettes)
+	Color Gear: Picked Color	Color Gear: vybraná barva
+	Color Gear: Use Color	Color Gear: použít barvu
+	Color Gear: History	Color Gear: historie
+	Color Gear: View	Color Gear: zobrazení
+	Disc	Disk
+	Values	Hodnoty
+	Use in the Harmony	Použít v harmonii
+	The colours you paint with appear here	Zde se objeví barvy, kterými malujete
+	Palette from Image	Paleta z obrázku
+	Choose a picture to take its colours	Vyberte obrázek a vezměte jeho barvy
+	Hexadecimal	Šestnáctkově
+	Compact	Kompaktní
+	Cards	Karty
+	Save a harmony with + or Save to make your first palette	Uložte harmonii pomocí + nebo Uložit a vytvořte první paletu
+	Show as a Palette Bar	Zobrazit jako pruh palety
+	Show as Cards	Zobrazit jako karty
+	Dark {color}	Tmavá {color}
+	Light {color}	Světlá {color}
+	Lime	Limetková
+	Teal	Modrozelená
+	Cyan Blue	Azurově modrá
+	Indigo	Indigo
+@msg	{key} is 0 to {hi}	{key} je 0 až {hi}
+@msg	picker is disc, classic or values	picker je disc, classic nebo values
+@msg	picker is disc, classic or values, not `{v}`	picker je disc, classic nebo values, ne `{v}`
+@msg	cards is true or false	cards je true nebo false
+@msg	palette is a library id	palette je id knihovny

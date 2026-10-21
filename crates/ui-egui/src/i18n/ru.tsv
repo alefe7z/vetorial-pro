@@ -4485,3 +4485,35 @@ lighting	Light	Свет
 	Simulate Overprint	Имитировать наложение
 	Toggle View Mode	Переключить режим просмотра
 @msg	mode must be one of {_1}, not `{id}`	mode должен быть одним из {_1}, а не `{id}`
+# Vetorial: Color Gear (picker, history, palettes)
+	Color Gear: Picked Color	Color Gear: выбранный цвет
+	Color Gear: Use Color	Color Gear: использовать цвет
+	Color Gear: History	Color Gear: история
+	Color Gear: View	Color Gear: вид
+	Disc	Диск
+	Values	Значения
+	Use in the Harmony	Использовать в гармонии
+	The colours you paint with appear here	Здесь появятся цвета, которыми вы рисуете
+	Palette from Image	Палитра из изображения
+	Choose a picture to take its colours	Выберите изображение, чтобы взять его цвета
+	Hexadecimal	Шестнадцатеричный
+	Compact	Компактно
+	Cards	Карточки
+	Save a harmony with + or Save to make your first palette	Сохраните гармонию кнопкой + или «Сохранить», чтобы создать первую палитру
+	Show as a Palette Bar	Показать как панель палитры
+	Show as Cards	Показать карточками
+	Dark {color}	Тёмный {color}
+	Light {color}	Светлый {color}
+	Gray	Серый
+	Orange	Оранжевый
+	Lime	Лаймовый
+	Teal	Сине-зелёный
+	Cyan Blue	Голубовато-синий
+	Indigo	Индиго
+	Purple	Фиолетовый
+	Pink	Розовый
+@msg	{key} is 0 to {hi}	{key} — от 0 до {hi}
+@msg	picker is disc, classic or values	picker — disc, classic или values
+@msg	picker is disc, classic or values, not `{v}`	picker — disc, classic или values, а не `{v}`
+@msg	cards is true or false	cards — true или false
+@msg	palette is a library id	palette — это id библиотеки

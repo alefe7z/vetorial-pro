@@ -4483,3 +4483,35 @@ lighting	Light	ライト
 	Simulate Overprint	オーバープリントをシミュレート
 	Toggle View Mode	表示モードを切り替え
 @msg	mode must be one of {_1}, not `{id}`	mode は {_1} のいずれかにしてください（`{id}` ではありません）
+# Vetorial: Color Gear (picker, history, palettes)
+	Color Gear: Picked Color	Color Gear: 選んだ色
+	Color Gear: Use Color	Color Gear: 色を使う
+	Color Gear: History	Color Gear: 履歴
+	Color Gear: View	Color Gear: 表示
+	Disc	ディスク
+	Values	数値
+	Use in the Harmony	ハーモニーに使う
+	The colours you paint with appear here	使った色がここに表示されます
+	Palette from Image	画像からのパレット
+	Choose a picture to take its colours	画像を選ぶとその色を取り出します
+	Hexadecimal	16進数
+	Compact	コンパクト
+	Cards	カード
+	Save a harmony with + or Save to make your first palette	+ か保存でハーモニーを保存すると最初のパレットができます
+	Show as a Palette Bar	パレットバーとして表示
+	Show as Cards	カードとして表示
+	Dark {color}	濃い{color}
+	Light {color}	淡い{color}
+	Gray	グレー
+	Orange	オレンジ
+	Lime	ライム
+	Teal	ティール
+	Cyan Blue	シアンブルー
+	Indigo	インディゴ
+	Purple	紫
+	Pink	ピンク
+@msg	{key} is 0 to {hi}	{key} は 0 から {hi} です
+@msg	picker is disc, classic or values	picker は disc、classic、values のいずれかです
+@msg	picker is disc, classic or values, not `{v}`	picker は disc、classic、values のいずれかです（`{v}` ではありません）
+@msg	cards is true or false	cards は true か false です
+@msg	palette is a library id	palette はライブラリ ID です

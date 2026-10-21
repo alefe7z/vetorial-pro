@@ -441,6 +441,9 @@ pub struct UiState {
     /// Vetorial: the Color Gear tab's wheel, harmony and colours.
     #[serde(default)]
     pub color_gear: crate::panels::color_gear::Gear,
+    /// Vetorial: the Color Gear tab's picker, history and palettes.
+    #[serde(default)]
+    pub color_gear_more: crate::panels::color_gear_more::More,
     /// Align panel: the Align To choice, Selection or Artboard, which Object → Align and the align
     /// buttons follow ([`crate::panels::align::with_align_to`]).
     #[serde(default, deserialize_with = "crate::panels::align::deserialize_align_to")]
@@ -735,6 +738,7 @@ impl Default for UiState {
             engine_prefs: Value::Null,
             color_guide: Default::default(),
             color_gear: Default::default(),
+            color_gear_more: Default::default(),
             library_panel: None,
             flattener_preview: Default::default(),
             color_guide_limit: String::new(),

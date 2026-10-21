@@ -372,6 +372,13 @@ impl Session {
         self.tool.transforming()
     }
 
+    /// Vetorial: the active tool's rotate-and-skew handles for the selection, if it shows them
+    /// (see `Tool::rotate_handles`): the centre of rotation as fractions of the box.
+    pub fn tool_rotate_handles(&self) -> Option<(f64, f64)> {
+        let st = self.active()?;
+        self.tool.rotate_handles(&st.selection.objects)
+    }
+
     /// Does the active tool take `key` ahead of the shortcuts bound to it (see `Tool::claims_key`)?
     pub fn tool_claims_key(&mut self, key: ToolKey, view: ViewInfo) -> bool {
         self.plane_key(key).is_some() || self.with_tool_cx(view, |t, cx| t.claims_key(cx, key))

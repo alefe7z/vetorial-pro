@@ -11,13 +11,18 @@
 //! The bounding box stands at the selection's own angle after a rotation, so its handles scale
 //! along the objects' axes. A handle drag resizes area type's frame (the type area) instead of
 //! scaling its type: the text reflows at its size.
+//!
+//! Vetorial: as in CorelDRAW, a click on the selected object again turns its handles into rotate
+//! and skew arrows: the corners rotate (Ctrl: 15° steps) about the centre of rotation, which can
+//! be dragged anywhere; the sides skew (Shift: about the centre; Ctrl: 15° steps). Another click
+//! turns them back into the scale handles.
 
 use serde_json::{Value, json};
 use vectorcraft_doc::hit::{hit_test, marquee, objects_at};
 use vectorcraft_doc::{NodeId, OrientedBox};
 use vectorcraft_geom::{Affine, Point, Rect, Vec2};
 
-use crate::bbox::{Handle, hit_handle, in_rotate_zone, move_delta, rotate_for_drag, scale_for_drag};
+use crate::bbox::{Handle, arrow_pos, hit_handle, in_rotate_zone, move_delta, rotate_for_drag, rotate_in_steps, scale_for_drag, skew_for_drag};
 use crate::corners::{self, CornerDrag, over_widget};
 use crate::guides::Targets;
 use crate::pathtype::{self, BracketDrag, over_bracket};
@@ -40,6 +45,9 @@ enum State {
         /// drag, it becomes the key object that Align aligns to if `can_be_key` allows it (the key
         /// again: no key).
         key: Option<NodeId>,
+        /// Vetorial: pressed (no modifier) on an object already selected: released without a
+        /// drag, the handles switch between scale and rotate-and-skew (CorelDRAW's second click).
+        toggle: bool,
     },
     Scaling {
         handle: Handle,
@@ -50,7 +58,14 @@ enum State {
     Rotating {
         center: Point,
         start: Point,
+        /// Vetorial: by a rotate arrow (CorelDRAW's keys: Ctrl, 15° steps), not the zone outside
+        /// a scale handle (Shift, 45°).
+        corel: bool,
     },
+    /// Vetorial: dragging a skew arrow (a side, in rotate-and-skew mode).
+    Skewing { handle: Handle, bx: OrientedBox, start: Point },
+    /// Vetorial: dragging the centre of rotation.
+    Pivot { bx: OrientedBox },
     Marquee {
         start: Point,
         cur: Point,
@@ -74,6 +89,51 @@ pub struct SelectionTool {
     guide: GuideEdit,
     /// Smart Guides: the centre or anchor under the pointer, and its label ([`Self::hover_point`]).
     hover: Option<(Point, &'static str)>,
+    /// Vetorial: the rotate-and-skew handles, for the objects selected when they were turned on.
+    rotate: Option<RotateMode>,
+    /// Vetorial: the last click switched the handles: the double-click it ends doesn't isolate a
+    /// single object (CorelDRAW's two clicks).
+    toggled: bool,
+}
+
+/// Vetorial: CorelDRAW's rotate-and-skew mode of the bounding box.
+#[derive(Clone, Debug, PartialEq)]
+struct RotateMode {
+    /// The selection it was turned on for: selecting anything else turns it off.
+    ids: Vec<NodeId>,
+    /// The centre of rotation, as fractions of the box's width and height (it turns and scales
+    /// with the box).
+    pivot: (f64, f64),
+}
+
+/// Vetorial: how far (screen points) outside the box CorelDRAW draws the rotate and skew arrows.
+pub const ARROW_OFFSET: f64 = 9.0;
+
+/// Vetorial: what of the rotate-and-skew box is under the pointer.
+enum RotateHit {
+    Pivot,
+    /// A corner's rotate arrow.
+    Rotate,
+    /// A side's skew arrow.
+    Skew(Handle),
+}
+
+/// Vetorial: the box's point at fractions `f` of its width and height, on the page.
+fn pivot_point(b: &OrientedBox, f: (f64, f64)) -> Point {
+    let r = b.rect;
+    b.to_doc() * Point::new(r.x0 + f.0 * r.width(), r.y0 + f.1 * r.height())
+}
+
+/// Vetorial: the rotate arrow, skew arrow or centre of rotation (at fractions `pivot`) under `p`.
+fn rotate_hit(cx: &ToolContext, b: &OrientedBox, pivot: (f64, f64), p: Point) -> Option<RotateHit> {
+    if p.distance(pivot_point(b, pivot)) <= cx.tol(6.0) {
+        return Some(RotateHit::Pivot);
+    }
+    let (lp, off, reach) = (b.to_local(p), cx.tol(ARROW_OFFSET), cx.tol(8.0));
+    Handle::ALL
+        .into_iter()
+        .find(|h| lp.distance(arrow_pos(b.rect, *h, off)) <= reach || lp.distance(h.pos(b.rect)) <= cx.tol(5.0))
+        .map(|h| if h.is_corner() { RotateHit::Rotate } else { RotateHit::Skew(h) })
 }
 
 /// Snapping for the selection moved as a whole, its targets gathered when the move begins: View →
@@ -206,6 +266,11 @@ impl SelectionTool {
         cx.tol(3.0)
     }
 
+    /// Vetorial: the centre of rotation when the rotate-and-skew handles show for the selection.
+    fn rotating_pivot(&self, cx: &ToolContext) -> Option<(f64, f64)> {
+        self.rotate.as_ref().filter(|r| r.ids == cx.selection.objects).map(|r| r.pivot)
+    }
+
     /// The anchor of an object near `p` (the one under the pointer, else a selected one when a
     /// press would keep the selection), or with Smart Guides on its centre, and its label,
     /// "anchor" or "center", as Illustrator shows them while hovering with Smart Guides (#812). A
@@ -245,9 +310,13 @@ impl Tool for SelectionTool {
         !matches!(self.state, State::Idle) || self.guide.busy()
     }
 
+    fn rotate_handles(&self, selection: &[NodeId]) -> Option<(f64, f64)> {
+        self.rotate.as_ref().filter(|r| r.ids == selection && !selection.is_empty()).map(|r| r.pivot)
+    }
+
     fn transforming(&self) -> bool {
         match &self.state {
-            State::Moving { began: true, .. } | State::Scaling { .. } | State::Rotating { .. } => true,
+            State::Moving { began: true, .. } | State::Scaling { .. } | State::Rotating { .. } | State::Skewing { .. } => true,
             State::Corner(c) => c.adjusting(),
             _ => false,
         }
@@ -286,7 +355,8 @@ impl Tool for SelectionTool {
                     let isolates = cx.doc.node(top).is_some_and(|n| {
                         matches!(n.kind, K::Group { .. } | K::Compound { .. } | K::Path { .. } | K::Image(_) | K::Mesh(_) | K::PlacedDocument(_))
                     });
-                    if cx.double_click_isolate && isolates && cx.isolation != Some(top) {
+                    let corel_clicks = self.toggled && cx.doc.node(top).is_some_and(|n| !matches!(n.kind, K::Group { .. } | K::Compound { .. }));
+                    if cx.double_click_isolate && isolates && cx.isolation != Some(top) && !corel_clicks {
                         return vec![Action::Exec("object.isolate".into(), json!({ "id": top.0 }))];
                     }
                 } else if cx.isolation.is_some() {
@@ -295,6 +365,7 @@ impl Tool for SelectionTool {
                 vec![]
             }
             (PointerKind::Down, _) => {
+                self.toggled = false;
                 // 1. Live Corners widgets and type on a path's brackets, then the bounding-box
                 // handles of the current selection.
                 if let Some(c) = CornerDrag::hit(cx, ev, false) {
@@ -312,6 +383,25 @@ impl Tool for SelectionTool {
                 }
                 if cx.show_bbox
                     && let Some(bx) = selection_box(cx)
+                    && let Some(pivot) = self.rotating_pivot(cx)
+                {
+                    match rotate_hit(cx, &bx, pivot, p) {
+                        Some(RotateHit::Pivot) => {
+                            self.state = State::Pivot { bx };
+                            return vec![];
+                        }
+                        Some(RotateHit::Rotate) => {
+                            self.state = State::Rotating { center: pivot_point(&bx, pivot), start: p, corel: true };
+                            return vec![Action::Begin("Rotate".into())];
+                        }
+                        Some(RotateHit::Skew(handle)) => {
+                            self.state = State::Skewing { handle, bx, start: p };
+                            return vec![Action::Begin("Skew".into())];
+                        }
+                        None => {}
+                    }
+                } else if cx.show_bbox
+                    && let Some(bx) = selection_box(cx)
                 {
                     match box_hit(cx, &bx, p) {
                         Some(BoxHit::Handle(handle)) => {
@@ -325,7 +415,7 @@ impl Tool for SelectionTool {
                             return vec![Action::Begin(label.into())];
                         }
                         Some(BoxHit::Rotate) => {
-                            self.state = State::Rotating { center: bx.center(), start: p };
+                            self.state = State::Rotating { center: bx.center(), start: p, corel: false };
                             return vec![Action::Begin("Rotate".into())];
                         }
                         None => {}
@@ -341,7 +431,7 @@ impl Tool for SelectionTool {
                     && cx.select_behind
                     && let Some(behind) = object_behind(cx, p)
                 {
-                    self.state = State::Moving { start: p, began: false, deselect: None, key: None };
+                    self.state = State::Moving { start: p, began: false, deselect: None, key: None, toggle: false };
                     return vec![Action::Exec("select.set".into(), json!({ "ids": [behind.0] }))];
                 }
                 match hit_test(cx.doc, p, cx.hit_options()) {
@@ -349,6 +439,7 @@ impl Tool for SelectionTool {
                         let top = h.top_object(cx.isolation);
                         let mut out = vec![];
                         let (mut deselect, mut key) = (None, None);
+                        let toggle = !m.shift && !m.cmd && !m.alt && cx.selection.contains(top);
                         if m.shift {
                             // A Shift-click takes a selected object out of the selection when it
                             // is released; a Shift-drag moves the selection, constrained.
@@ -362,7 +453,7 @@ impl Tool for SelectionTool {
                         } else if cx.selection.objects.len() > 1 && !m.cmd && !m.alt {
                             key = Some(top);
                         }
-                        self.state = State::Moving { start: grab, began: false, deselect, key };
+                        self.state = State::Moving { start: grab, began: false, deselect, key, toggle };
                         out
                     }
                     None => {
@@ -384,7 +475,7 @@ impl Tool for SelectionTool {
                 if let Some(snap) = &self.moving {
                     (d, self.guides) = snap.snap(cx, start, d, m.alt);
                 }
-                self.state = State::Moving { start, began: true, deselect: None, key: None };
+                self.state = State::Moving { start, began: true, deselect: None, key: None, toggle: false };
                 self.measure = cx.measurement_labels.then(|| (p, cx.offset_label(d.x, d.y)));
                 out.push(Action::Preview("object.transform".into(), json!({ "matrix": matrix_json(Affine::translate(d)), "copy": m.alt })));
                 out
@@ -407,10 +498,29 @@ impl Tool for SelectionTool {
                 }
                 vec![Action::Preview("object.transform".into(), params)]
             }
-            (PointerKind::Drag, State::Rotating { center, start, .. }) => {
-                let (a, deg) = rotate_for_drag(center, start, p, m.shift);
+            (PointerKind::Drag, State::Rotating { center, start, corel }) => {
+                let (a, deg) =
+                    if corel { rotate_in_steps(center, start, p, m.cmd.then_some(15.0)) } else { rotate_for_drag(center, start, p, m.shift) };
                 self.measure = cx.transform_tools_guides.then(|| (p, format!("{:.1}°", -deg)));
                 vec![Action::Preview("object.transform".into(), json!({ "matrix": matrix_json(a), "copy": false }))]
+            }
+            (PointerKind::Drag, State::Skewing { handle, bx, start }) => {
+                let (a, deg) = skew_for_drag(bx.rect, handle, bx.to_local(start), bx.to_local(p), m.shift, m.cmd.then_some(15.0));
+                self.measure = cx.transform_tools_guides.then(|| (p, format!("{deg:.1}°")));
+                vec![Action::Preview("object.transform".into(), json!({ "matrix": matrix_json(bx.conjugate(a)), "copy": false }))]
+            }
+            (PointerKind::Drag, State::Pivot { bx }) => {
+                let (r, lp) = (bx.rect, bx.to_local(p));
+                let frac = |v: f64, lo: f64, len: f64| if len.abs() > 1e-9 { (v - lo) / len } else { 0.5 };
+                let f = (frac(lp.x, r.x0, r.width()), frac(lp.y, r.y0, r.height()));
+                if let Some(rm) = self.rotate.as_mut().filter(|_| f.0.is_finite() && f.1.is_finite()) {
+                    rm.pivot = f;
+                }
+                vec![]
+            }
+            (PointerKind::Up, State::Pivot { .. }) => {
+                self.state = State::Idle;
+                vec![]
             }
             (PointerKind::Drag, State::Marquee { start, toggle, .. }) => {
                 self.state = State::Marquee { start, cur: p, toggle };
@@ -434,11 +544,19 @@ impl Tool for SelectionTool {
                 self.state = State::Idle;
                 b.finish()
             }
-            (PointerKind::Up, State::Moving { began, deselect, key, .. }) => {
+            (PointerKind::Up, State::Moving { began, deselect, key, toggle, .. }) => {
                 self.state = State::Idle;
                 self.measure = None;
                 self.guides.clear();
                 self.moving = None;
+                // Vetorial: CorelDRAW's second click switches scale ↔ rotate-and-skew handles.
+                if !began && toggle {
+                    self.toggled = true;
+                    self.rotate = match self.rotating_pivot(cx) {
+                        Some(_) => None,
+                        None => Some(RotateMode { ids: cx.selection.objects.clone(), pivot: (0.5, 0.5) }),
+                    };
+                }
                 match (began, deselect, key) {
                     (true, ..) => vec![Action::Commit],
                     (false, Some(id), _) => vec![Action::Exec("select.toggle".into(), json!({ "id": id.0 }))],
@@ -448,7 +566,7 @@ impl Tool for SelectionTool {
                     (false, None, _) => vec![],
                 }
             }
-            (PointerKind::Up, State::Scaling { .. } | State::Rotating { .. }) => {
+            (PointerKind::Up, State::Scaling { .. } | State::Rotating { .. } | State::Skewing { .. }) => {
                 self.state = State::Idle;
                 self.measure = None;
                 self.guides.clear();
@@ -499,6 +617,8 @@ impl Tool for SelectionTool {
     fn cursor(&self, cx: &ToolContext, p: Point, m: Mods) -> Cursor {
         match self.state {
             State::Rotating { center, .. } => return Cursor::rotate_about(center, p),
+            State::Skewing { handle, bx, .. } => return skew_cursor(handle, bx.angle),
+            State::Pivot { .. } => return Cursor::Crosshair,
             State::Scaling { handle, bx, .. } => return handle_cursor(handle, bx.angle),
             State::Moving { began: true, .. } => return Cursor::Arrow,
             State::Corner(_) => return Cursor::CornerRadius,
@@ -518,6 +638,16 @@ impl Tool for SelectionTool {
             return Cursor::TypeWidget;
         }
         if cx.show_bbox
+            && let Some(bx) = selection_box(cx)
+            && let Some(pivot) = self.rotating_pivot(cx)
+        {
+            match rotate_hit(cx, &bx, pivot, p) {
+                Some(RotateHit::Pivot) => return Cursor::Crosshair,
+                Some(RotateHit::Rotate) => return Cursor::rotate_about(pivot_point(&bx, pivot), p),
+                Some(RotateHit::Skew(h)) => return skew_cursor(h, bx.angle),
+                None => {}
+            }
+        } else if cx.show_bbox
             && let Some(bx) = selection_box(cx)
         {
             match box_hit(cx, &bx, p) {
@@ -581,6 +711,12 @@ fn handle_cursor(h: Handle, angle: f64) -> Cursor {
         Handle::TopLeft | Handle::BottomRight => Cursor::ResizeNwSe,
         Handle::TopRight | Handle::BottomLeft => Cursor::ResizeNeSw,
     }
+}
+
+/// Vetorial: the cursor over side `h`'s skew arrow: a double arrow along that side.
+fn skew_cursor(h: Handle, angle: f64) -> Cursor {
+    let along = if matches!(h, Handle::Top | Handle::Bottom) { Handle::Right } else { Handle::Top };
+    handle_cursor(along, angle)
 }
 
 #[cfg(test)]
@@ -1185,6 +1321,68 @@ mod tests {
         let left = Point::new(150.0 - k, 150.0 + k);
         assert!((m * left).distance(left) < 1e-9);
         assert!((m * right).distance(Point::new(right.x + k, right.y - k)) < 1e-9);
+    }
+
+    /// Vetorial: CorelDRAW's second click on the selected object turns the handles into rotate and
+    /// skew arrows; a corner arrow rotates about the centre of rotation, which drags anywhere; a
+    /// side arrow skews; another click brings the scale handles back.
+    #[test]
+    fn a_second_click_switches_to_rotate_and_skew_handles() {
+        let (d, id) = doc_with_rect();
+        let mut s = Selection::default();
+        s.add(id);
+        let p = paint();
+        let cx = cx(&d, &s, &p);
+        let mut t = SelectionTool::default();
+        let click = |t: &mut SelectionTool, x: f64, y: f64| {
+            t.pointer(&cx, &ev(PointerKind::Down, x, y));
+            t.pointer(&cx, &ev(PointerKind::Up, x, y))
+        };
+        assert_eq!(t.rotate_handles(&s.objects), None);
+        click(&mut t, 150.0, 150.0);
+        assert_eq!(t.rotate_handles(&s.objects), Some((0.5, 0.5)));
+        assert_eq!(t.rotate_handles(&[]), None, "another selection: scale handles");
+        // The corner rotates about the centre.
+        assert_eq!(t.cursor(&cx, Point::new(94.0, 94.0), Mods::default()), Cursor::rotate_about(Point::new(150.0, 150.0), Point::new(94.0, 94.0)));
+        assert_eq!(t.pointer(&cx, &ev(PointerKind::Down, 200.0, 200.0)), vec![Action::Begin("Rotate".into())]);
+        let a = t.pointer(&cx, &ev(PointerKind::Drag, 100.0, 200.0));
+        let Some(Action::Preview(_, v)) = a.first() else { panic!("{a:?}") };
+        let m: Vec<f64> = v["matrix"].as_array().unwrap().iter().map(|x| x.as_f64().unwrap()).collect();
+        let m = Affine::new([m[0], m[1], m[2], m[3], m[4], m[5]]);
+        assert!((m * Point::new(150.0, 150.0)).distance(Point::new(150.0, 150.0)) < 1e-9);
+        assert_eq!(t.pointer(&cx, &ev(PointerKind::Up, 100.0, 200.0)), vec![Action::Commit]);
+        // The centre of rotation drags to the top-left corner; the rotation turns about it.
+        t.pointer(&cx, &ev(PointerKind::Down, 150.0, 150.0));
+        assert!(t.pointer(&cx, &ev(PointerKind::Drag, 100.0, 100.0)).is_empty());
+        t.pointer(&cx, &ev(PointerKind::Up, 100.0, 100.0));
+        assert_eq!(t.rotate_handles(&s.objects), Some((0.0, 0.0)));
+        t.pointer(&cx, &ev(PointerKind::Down, 200.0, 200.0));
+        let a = t.pointer(&cx, &ev(PointerKind::Drag, 0.0, 200.0));
+        let Some(Action::Preview(_, v)) = a.first() else { panic!("{a:?}") };
+        let m: Vec<f64> = v["matrix"].as_array().unwrap().iter().map(|x| x.as_f64().unwrap()).collect();
+        let m = Affine::new([m[0], m[1], m[2], m[3], m[4], m[5]]);
+        assert!((m * Point::new(100.0, 100.0)).distance(Point::new(100.0, 100.0)) < 1e-9);
+        t.pointer(&cx, &ev(PointerKind::Up, 0.0, 200.0));
+        // The top side's arrow skews, the bottom staying.
+        assert_eq!(t.pointer(&cx, &ev(PointerKind::Down, 150.0, 92.0)), vec![Action::Begin("Skew".into())]);
+        let a = t.pointer(&cx, &ev(PointerKind::Drag, 170.0, 92.0));
+        let Some(Action::Preview(_, v)) = a.first() else { panic!("{a:?}") };
+        let m: Vec<f64> = v["matrix"].as_array().unwrap().iter().map(|x| x.as_f64().unwrap()).collect();
+        let m = Affine::new([m[0], m[1], m[2], m[3], m[4], m[5]]);
+        assert!((m * Point::new(100.0, 200.0)).distance(Point::new(100.0, 200.0)) < 1e-9);
+        assert!((m * Point::new(100.0, 100.0)).distance(Point::new(120.0, 100.0)) < 1e-9);
+        t.pointer(&cx, &ev(PointerKind::Up, 170.0, 92.0));
+        // Another click: the scale handles again; a drag doesn't switch.
+        click(&mut t, 140.0, 160.0);
+        assert_eq!(t.rotate_handles(&s.objects), None);
+        t.pointer(&cx, &ev(PointerKind::Down, 140.0, 160.0));
+        t.pointer(&cx, &ev(PointerKind::Drag, 180.0, 160.0));
+        t.pointer(&cx, &ev(PointerKind::Up, 180.0, 160.0));
+        assert_eq!(t.rotate_handles(&s.objects), None);
+        // The two clicks of a double-click switch it, not isolate it.
+        click(&mut t, 140.0, 160.0);
+        assert!(t.pointer(&cx, &ev(PointerKind::DoubleClick, 140.0, 160.0)).is_empty());
+        assert!(t.rotate_handles(&s.objects).is_some());
     }
 
     #[test]

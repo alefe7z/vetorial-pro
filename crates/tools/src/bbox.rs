@@ -93,14 +93,60 @@ pub fn scale_for_drag(r: Rect, handle: Handle, p: Point, proportional: bool, fro
 
 /// Rotation about `center` taking `from` to `to`; `snap` constrains to 45° steps.
 pub fn rotate_for_drag(center: Point, from: Point, to: Point, snap: bool) -> (Affine, f64) {
+    rotate_in_steps(center, from, to, snap.then_some(45.0))
+}
+
+/// Rotation about `center` taking `from` to `to`, in `step` degree steps when given (Vetorial:
+/// CorelDRAW's Ctrl constrains the rotate handles to 15°).
+pub fn rotate_in_steps(center: Point, from: Point, to: Point, step: Option<f64>) -> (Affine, f64) {
     let a0 = (from - center).atan2();
     let a1 = (to - center).atan2();
     let mut a = a1 - a0;
-    if snap {
-        let step = std::f64::consts::FRAC_PI_4;
+    if let Some(step) = step.map(f64::to_radians).filter(|s| *s > 0.0) {
         a = (a / step).round() * step;
     }
     (Affine::translate(center.to_vec2()) * Affine::rotate(a) * Affine::translate(-center.to_vec2()), -a.to_degrees())
+}
+
+/// Vetorial: where CorelDRAW draws a rotate (corner) or skew (side) arrow of box `r`: `off`
+/// outside handle `h`, away from the centre.
+pub fn arrow_pos(r: Rect, h: Handle, off: f64) -> Point {
+    let (q, c) = (h.pos(r), r.center());
+    let dir = |a: f64, b: f64| if (a - b).abs() < 1e-12 { 0.0 } else { (a - b).signum() };
+    q + Vec2::new(dir(q.x, c.x), dir(q.y, c.y)) * off
+}
+
+/// Vetorial: the skew for dragging side handle `h` of `r` from `from` to `to` (CorelDRAW's skew
+/// arrows): the top and bottom slant it sideways, the left and right up and down, about the
+/// opposite side (`from_center`: about the centre); `step` constrains the angle (degrees). Returns
+/// the transform and the skew angle in degrees.
+pub fn skew_for_drag(r: Rect, h: Handle, from: Point, to: Point, from_center: bool, step: Option<f64>) -> (Affine, f64) {
+    let c = r.center();
+    let horizontal = matches!(h, Handle::Top | Handle::Bottom);
+    let (along, across) = if horizontal { (to.x - from.x, h.pos(r).y) } else { (to.y - from.y, h.pos(r).x) };
+    let pivot = if from_center {
+        if horizontal { c.y } else { c.x }
+    } else if horizontal {
+        h.opposite().pos(r).y
+    } else {
+        h.opposite().pos(r).x
+    };
+    let arm = across - pivot;
+    let mut k = if arm.abs() > 1e-9 { along / arm } else { 0.0 };
+    let mut deg = k.atan().to_degrees();
+    if let Some(step) = step.filter(|s| *s > 0.0) {
+        deg = ((deg / step).round() * step).clamp(-89.0, 89.0);
+        k = deg.to_radians().tan();
+    }
+    if !k.is_finite() {
+        return (Affine::IDENTITY, 0.0);
+    }
+    let a = if horizontal {
+        Affine::translate((0.0, pivot)) * Affine::new([1.0, 0.0, k, 1.0, 0.0, 0.0]) * Affine::translate((0.0, -pivot))
+    } else {
+        Affine::translate((pivot, 0.0)) * Affine::new([1.0, k, 0.0, 1.0, 0.0, 0.0]) * Affine::translate((-pivot, 0.0))
+    };
+    (a, deg)
 }
 
 /// Move constrained to 45° multiples when `shift`.
@@ -146,5 +192,24 @@ mod tests {
         assert!((deg + 45.0).abs() < 1e-9);
         assert!(in_rotate_zone(R, Point::new(-8.0, -8.0), 4.0, 20.0).is_some());
         assert!(in_rotate_zone(R, Point::new(5.0, 5.0), 4.0, 20.0).is_none());
+        let (_, deg) = rotate_in_steps(Point::ZERO, Point::new(10.0, 0.0), Point::new(10.0, 2.0), Some(15.0));
+        assert!((deg + 15.0).abs() < 1e-9);
+    }
+
+    #[test]
+    fn skew_keeps_the_opposite_side() {
+        // The top dragged 20 right: the bottom stays, the top slides.
+        let (a, deg) = skew_for_drag(R, Handle::Top, Point::new(50.0, 0.0), Point::new(70.0, 0.0), false, None);
+        assert!((a * Point::new(0.0, 50.0)).distance(Point::new(0.0, 50.0)) < 1e-9);
+        assert!((a * Point::new(0.0, 0.0)).distance(Point::new(20.0, 0.0)) < 1e-9);
+        assert!((deg.abs() - (20.0f64 / 50.0).atan().to_degrees()).abs() < 1e-9);
+        // The right side dragged down, about the centre: the centre stays.
+        let (a, _) = skew_for_drag(R, Handle::Right, Point::new(100.0, 25.0), Point::new(100.0, 35.0), true, None);
+        assert!((a * R.center()).distance(R.center()) < 1e-9);
+        assert!((a * Point::new(100.0, 25.0)).distance(Point::new(100.0, 35.0)) < 1e-9);
+        let (_, deg) = skew_for_drag(R, Handle::Top, Point::new(50.0, 0.0), Point::new(62.0, 0.0), false, Some(15.0));
+        assert!((deg.abs() - 15.0).abs() < 1e-9);
+        assert_eq!(arrow_pos(R, Handle::TopLeft, 5.0), Point::new(-5.0, -5.0));
+        assert_eq!(arrow_pos(R, Handle::Right, 5.0), Point::new(105.0, 25.0));
     }
 }

@@ -1678,6 +1678,8 @@ fn selection_overlay(app: &mut VectorcraftApp, p: &egui::Painter, xf: &Xf, curve
         && app.ui.view.bounding_box
         && app.session.active().is_some_and(|st| !st.selection.is_empty() && st.selection.anchors.is_empty());
     let bbox = if show_box { app.selection_box() } else { None };
+    // Vetorial: the selected object clicked again: CorelDRAW's rotate and skew arrows.
+    let rotate_handles = app.session.tool_rotate_handles();
     let st = app.session.active();
     let big = st.is_some_and(|st| too_many_anchors(st.selection.objects.iter().filter_map(|id| st.doc.node(*id))));
     let big_bounds = if big { app.selection_bounds() } else { None };
@@ -1834,12 +1836,23 @@ fn selection_overlay(app: &mut VectorcraftApp, p: &egui::Painter, xf: &Xf, curve
     // Bounding box with handles (Selection tool).
     if let Some(b) = bbox {
         let color = c32(st.doc.layer_color(st.selection.objects[0]));
-        p.add(Shape::closed_line(b.corners().iter().map(|q| xf.to_screen(*q)).collect(), Stroke::new(1.0, color)));
-        for h in vectorcraft_tools::bbox::Handle::ALL {
-            let c = xf.to_screen(b.to_doc() * h.pos(b.rect));
-            let hr = egui::Rect::from_center_size(c, vec2(6.0 + grow, 6.0 + grow));
-            p.rect_filled(hr, 0.0, Color32::WHITE);
-            p.rect_stroke(hr, 0.0, Stroke::new(1.0, color), StrokeKind::Inside);
+        if let Some(pivot) = rotate_handles {
+            rotate_skew_handles(p, &b, pivot, xf, grow);
+        } else {
+            p.add(Shape::closed_line(b.corners().iter().map(|q| xf.to_screen(*q)).collect(), Stroke::new(1.0, color)));
+            // Vetorial: CorelDRAW's handles: solid squares, and a cross at the centre.
+            for h in vectorcraft_tools::bbox::Handle::ALL {
+                let c = xf.to_screen(b.to_doc() * h.pos(b.rect));
+                let hr = egui::Rect::from_center_size(c, vec2(6.0 + grow, 6.0 + grow));
+                p.rect_filled(hr, 0.0, HANDLE_INK);
+                p.rect_stroke(hr, 0.0, Stroke::new(1.0, Color32::WHITE), StrokeKind::Outside);
+            }
+            let (c, k) = (xf.to_screen(b.center()), 3.0 + grow * 0.5);
+            for (d, w, col) in [(1.0, 3.0, Color32::WHITE), (0.0, 1.2, HANDLE_INK)] {
+                let k = k + d;
+                p.line_segment([c + vec2(-k, -k), c + vec2(k, k)], Stroke::new(w, col));
+                p.line_segment([c + vec2(-k, k), c + vec2(k, -k)], Stroke::new(w, col));
+            }
         }
         // The type widget beside it: hollow on point type, filled on area type.
         if let Some(w) = vectorcraft_tools::typewidget::TypeWidget::of(&st.doc, &st.selection, &b, xf.zoom) {
@@ -1847,6 +1860,65 @@ fn selection_overlay(app: &mut VectorcraftApp, p: &egui::Painter, xf: &Xf, curve
             p.circle_filled(c, r, if w.area { color } else { Color32::WHITE });
             p.circle_stroke(c, r, Stroke::new(1.0, color));
         }
+    }
+}
+
+/// Vetorial: the ink of the bounding box's handles (CorelDRAW's black), on a white rim so they
+/// read on dark art.
+const HANDLE_INK: Color32 = Color32::from_gray(16);
+
+/// Vetorial: CorelDRAW's rotate-and-skew handles on box `b`: a curved double arrow outside each
+/// corner (rotate), a straight double arrow outside each side (skew), and the centre of rotation
+/// (a ring with a dot) at fractions `pivot` of the box.
+fn rotate_skew_handles(p: &egui::Painter, b: &vectorcraft_doc::OrientedBox, pivot: (f64, f64), xf: &Xf, grow: f32) {
+    use vectorcraft_tools::bbox::{Handle, arrow_pos};
+    let off = vectorcraft_tools::select::ARROW_OFFSET / xf.zoom.max(1e-9);
+    let at = |q: Point| xf.to_screen(b.to_doc() * q);
+    let size = 5.0 + grow * 0.5;
+    // Each glyph twice: a white rim, then the ink.
+    for (rim, col) in [(2.0, Color32::WHITE), (0.0, HANDLE_INK)] {
+        let stroke = Stroke::new(1.2 + rim, col);
+        let head = |tip: Pos2, dir: Vec2, filled: &mut Vec<Shape>| {
+            let (d, n) = (dir.normalized(), vec2(-dir.normalized().y, dir.normalized().x));
+            let (l, w) = (3.5 + rim * 0.5, 2.5 + rim * 0.5);
+            filled.push(Shape::convex_polygon(vec![tip + d * rim * 0.5, tip - d * l + n * w, tip - d * l - n * w], col, Stroke::NONE));
+        };
+        let mut heads = vec![];
+        for h in Handle::ALL {
+            let (corner, arrow) = (at(h.pos(b.rect)), at(arrow_pos(b.rect, h, off)));
+            let out = arrow - corner;
+            if out.length() < 1e-3 {
+                continue;
+            }
+            let out = out.normalized();
+            if h.is_corner() {
+                // An arc about the corner across its outer quarter, an arrowhead at each end.
+                let (r, mid) = (vectorcraft_tools::select::ARROW_OFFSET as f32, out.angle());
+                let pts: Vec<Pos2> = (0..=8)
+                    .map(|i| {
+                        let a = mid - std::f32::consts::FRAC_PI_4 + std::f32::consts::FRAC_PI_2 * i as f32 / 8.0;
+                        corner + Vec2::angled(a) * r
+                    })
+                    .collect();
+                p.add(Shape::line(pts.clone(), stroke));
+                for (end, before) in [(pts[0], pts[1]), (pts[8], pts[7])] {
+                    head(end, end - before, &mut heads);
+                }
+            } else {
+                // A double arrow along the side.
+                let along = vec2(-out.y, out.x) * size;
+                p.line_segment([arrow - along, arrow + along], stroke);
+                head(arrow + along, along, &mut heads);
+                head(arrow - along, -along, &mut heads);
+            }
+        }
+        for s in heads {
+            p.add(s);
+        }
+        let r = b.rect;
+        let c = at(Point::new(r.x0 + pivot.0 * r.width(), r.y0 + pivot.1 * r.height()));
+        p.circle_stroke(c, 4.0 + grow * 0.5, stroke);
+        p.circle_filled(c, 1.2 + rim * 0.5, col);
     }
 }
 

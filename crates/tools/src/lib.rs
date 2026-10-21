@@ -583,6 +583,12 @@ pub trait Tool: Send {
     fn transforming(&self) -> bool {
         false
     }
+    /// Vetorial: is the bounding box of `selection` showing CorelDRAW's rotate-and-skew handles
+    /// (the selected object clicked again)? Then where its centre of rotation is, as fractions of
+    /// the box's width and height.
+    fn rotate_handles(&self, _selection: &[vectorcraft_doc::NodeId]) -> Option<(f64, f64)> {
+        None
+    }
     /// Does the tool take `key` now, ahead of the command shortcuts bound to it (the Gradient tool
     /// with a stop selected takes Delete and the arrows)?
     fn claims_key(&self, _cx: &ToolContext, _key: ToolKey) -> bool {

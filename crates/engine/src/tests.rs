@@ -533,7 +533,8 @@ fn a_click_sets_the_key_object_that_align_and_spacing_keep_still() {
     s.select_tool("selection", v).unwrap();
     let click = |s: &mut Session| {
         for kind in [PointerKind::Down, PointerKind::Up] {
-            s.pointer(&PointerEvent::new(kind, 110.0, 40.0), v).unwrap();
+            // Away from the centre of rotation the second click shows (Vetorial, CorelDRAW).
+            s.pointer(&PointerEvent::new(kind, 116.0, 46.0), v).unwrap();
         }
     };
     click(&mut s);

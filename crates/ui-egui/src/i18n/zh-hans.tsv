@@ -4101,3 +4101,24 @@ lighting	Light	光源
 @msg	picker is disc, classic or values, not `{v}`	picker 为 disc、classic 或 values，而不是 `{v}`
 @msg	cards is true or false	cards 为 true 或 false
 @msg	palette is a library id	palette 是资料库 id
+# Vetorial: Tiling
+	Tiling…	平铺…
+	Tiling	平铺
+	Mirror Mode	镜像模式
+	Rows	行
+	Columns	列
+	Gap X	间距 X
+	Gap Y	间距 Y
+	Offset %	偏移 %
+	Every other row	隔行
+	Every other column	隔列
+	Scale %	缩放 %
+	Rotate °	旋转 °
+	Same for every tile	全部相同
+	Along the rows	沿行
+	Down the columns	沿列
+	Both ways	双向
+	Mirror Transforms	镜像变换
+	Minimize Gaps	最小化间隙
+	Randomize	随机化
+	A new random draw for the Random steps	为随机步骤重新抽取

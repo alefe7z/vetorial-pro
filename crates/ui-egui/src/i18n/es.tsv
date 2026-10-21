@@ -4884,3 +4884,24 @@ colorGear	Save	Guardar
 @msg	picker is disc, classic or values, not `{v}`	picker es disc, classic o values, no `{v}`
 @msg	cards is true or false	cards es true o false
 @msg	palette is a library id	palette es un id de biblioteca
+# Vetorial: Tiling
+	Tiling…	Mosaico…
+	Tiling	Mosaico
+	Mirror Mode	Modo de reflejo
+	Rows	Filas
+	Columns	Columnas
+	Gap X	Espacio X
+	Gap Y	Espacio Y
+	Offset %	Desplazamiento %
+	Every other row	Una fila sí y otra no
+	Every other column	Una columna sí y otra no
+	Scale %	Escala %
+	Rotate °	Rotar °
+	Same for every tile	Igual en todas
+	Along the rows	A lo largo de las filas
+	Down the columns	Bajando por las columnas
+	Both ways	En ambos sentidos
+	Mirror Transforms	Reflejar transformaciones
+	Minimize Gaps	Minimizar espacios
+	Randomize	Aleatorizar
+	A new random draw for the Random steps	Un nuevo sorteo para los pasos aleatorios

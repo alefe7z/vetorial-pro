@@ -438,3 +438,37 @@ fn bench_catalog_lookup() {
     }
     eprintln!("10k lookups: {:?} ({n})", t.elapsed());
 }
+
+/// Vetorial: Tiling repeats the object in a grid from where it is, with gaps, offsets, growth,
+/// turns and mirrors.
+#[test]
+fn tiling_makes_a_grid() {
+    let out = run("distort.tiling", json!({"rows": 2, "columns": 3}), &square());
+    assert_eq!(out.subpaths.len(), 6);
+    assert_eq!(out.bounds().unwrap(), Rect::new(0.0, 0.0, 300.0, 200.0), "edge to edge, the first tile where the object is");
+    let b = run("distort.tiling", json!({"rows": 2, "columns": 3, "gapX": 10, "gapY": 20}), &square()).bounds().unwrap();
+    assert_eq!(b, Rect::new(0.0, 0.0, 320.0, 220.0));
+    // Every other row slides half a tile.
+    let b = run("distort.tiling", json!({"rows": 2, "columns": 2, "offset": 50}), &square()).bounds().unwrap();
+    assert_eq!(b, Rect::new(0.0, 0.0, 250.0, 200.0));
+    // Growing along the row: the cells are as large as the largest tile, unless gaps are minimised.
+    let grow = run("distort.tiling", json!({"rows": 1, "columns": 3, "scale": 50, "scaleMode": "columns"}), &square());
+    let last = PathData::new(vec![grow.subpaths.last().unwrap().clone()]).bounds().unwrap();
+    assert!(close(last.width(), 200.0, 1e-6), "{last:?}");
+    let wide = grow.bounds().unwrap().width();
+    let tight = run("distort.tiling", json!({"rows": 1, "columns": 3, "scale": 50, "scaleMode": "columns", "minimizeGaps": true}), &square());
+    assert!(tight.bounds().unwrap().width() < wide, "minimised gaps pack the tiles closer");
+    assert!(close(tight.bounds().unwrap().width(), 450.0, 1e-6));
+    // Mirror 1: every other column flips left to right (a right triangle shows it).
+    let tri = PathData::new(vec![SubPath::polyline(&[Point::new(0.0, 0.0), Point::new(100.0, 0.0), Point::new(0.0, 100.0)], true)]);
+    let m = apply_geometry(&[fx("distort.tiling", json!({"rows": 1, "columns": 2, "mirror": 1}))], &tri, tri.bounds().unwrap());
+    let second = &m.subpaths[1];
+    assert!(second.anchors.iter().any(|a| close(a.p.x, 200.0, 1e-6) && close(a.p.y, 100.0, 1e-6)), "flipped: {second:?}");
+    // Turning, and a seeded random draw that stays the same.
+    let r1 = run("distort.tiling", json!({"rows": 3, "columns": 3, "rotate": 45, "rotateMode": "random", "seed": 4}), &square());
+    let r2 = run("distort.tiling", json!({"rows": 3, "columns": 3, "rotate": 45, "rotateMode": "random", "seed": 4}), &square());
+    assert_eq!(r1, r2);
+    // Too many tiles: left as it is; bad numbers clamp.
+    assert_eq!(run("distort.tiling", json!({"rows": 1000, "columns": 1000}), &square()).subpaths.len(), 200 * 200);
+    assert_eq!(run("distort.tiling", json!({"rows": -5, "columns": "x"}), &square()).subpaths.len(), 3);
+}

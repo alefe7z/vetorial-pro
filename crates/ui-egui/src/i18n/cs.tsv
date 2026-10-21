@@ -4942,3 +4942,24 @@ mark-style	Japanese	Japonské
 @msg	picker is disc, classic or values, not `{v}`	picker je disc, classic nebo values, ne `{v}`
 @msg	cards is true or false	cards je true nebo false
 @msg	palette is a library id	palette je id knihovny
+# Vetorial: Tiling
+	Tiling…	Dlaždice…
+	Tiling	Dlaždice
+	Mirror Mode	Režim zrcadlení
+	Rows	Řádky
+	Columns	Sloupce
+	Gap X	Mezera X
+	Gap Y	Mezera Y
+	Offset %	Posun %
+	Every other row	Každý druhý řádek
+	Every other column	Každý druhý sloupec
+	Scale %	Měřítko %
+	Rotate °	Otočit °
+	Same for every tile	Stejné pro všechny
+	Along the rows	Podél řádků
+	Down the columns	Dolů po sloupcích
+	Both ways	Oběma směry
+	Mirror Transforms	Zrcadlit transformace
+	Minimize Gaps	Minimalizovat mezery
+	Randomize	Náhodně
+	A new random draw for the Random steps	Nové náhodné rozložení pro náhodné kroky

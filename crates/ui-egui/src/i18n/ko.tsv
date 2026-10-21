@@ -4485,3 +4485,24 @@ lighting	Light	광원
 @msg	picker is disc, classic or values, not `{v}`	picker는 `{v}`이(가) 아니라 disc, classic 또는 values입니다
 @msg	cards is true or false	cards는 true 또는 false입니다
 @msg	palette is a library id	palette는 라이브러리 ID입니다
+# Vetorial: Tiling
+	Tiling…	타일…
+	Tiling	타일
+	Mirror Mode	미러 모드
+	Rows	행
+	Columns	열
+	Gap X	간격 X
+	Gap Y	간격 Y
+	Offset %	오프셋 %
+	Every other row	한 행 걸러
+	Every other column	한 열 걸러
+	Scale %	비율 %
+	Rotate °	회전 °
+	Same for every tile	모두 같게
+	Along the rows	행을 따라
+	Down the columns	열을 따라
+	Both ways	양방향
+	Mirror Transforms	변형 반전
+	Minimize Gaps	간격 최소화
+	Randomize	무작위화
+	A new random draw for the Random steps	무작위 단계를 다시 뽑습니다

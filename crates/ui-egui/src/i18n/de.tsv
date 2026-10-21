@@ -4476,3 +4476,24 @@ theme	Appearance	Erscheinungsbild
 @msg	picker is disc, classic or values, not `{v}`	picker ist disc, classic oder values, nicht `{v}`
 @msg	cards is true or false	cards ist true oder false
 @msg	palette is a library id	palette ist eine Bibliotheks-ID
+# Vetorial: Tiling
+	Tiling…	Kacheln…
+	Tiling	Kacheln
+	Mirror Mode	Spiegelmodus
+	Rows	Zeilen
+	Columns	Spalten
+	Gap X	Abstand X
+	Gap Y	Abstand Y
+	Offset %	Versatz %
+	Every other row	Jede zweite Zeile
+	Every other column	Jede zweite Spalte
+	Scale %	Skalierung %
+	Rotate °	Drehen °
+	Same for every tile	Für alle gleich
+	Along the rows	Entlang der Zeilen
+	Down the columns	Die Spalten hinab
+	Both ways	In beide Richtungen
+	Mirror Transforms	Transformationen spiegeln
+	Minimize Gaps	Lücken minimieren
+	Randomize	Zufallsmix
+	A new random draw for the Random steps	Eine neue Zufallsverteilung für die zufälligen Schritte

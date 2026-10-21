@@ -4521,3 +4521,24 @@ lighting	Light	Luce
 @msg	picker is disc, classic or values, not `{v}`	picker è disc, classic o values, non `{v}`
 @msg	cards is true or false	cards è true o false
 @msg	palette is a library id	palette è un id di libreria
+# Vetorial: Tiling
+	Tiling…	Piastrellatura…
+	Tiling	Piastrellatura
+	Mirror Mode	Modalità specchio
+	Rows	Righe
+	Columns	Colonne
+	Gap X	Spazio X
+	Gap Y	Spazio Y
+	Offset %	Sfalsamento %
+	Every other row	Una riga sì e una no
+	Every other column	Una colonna sì e una no
+	Scale %	Scala %
+	Rotate °	Ruota °
+	Same for every tile	Uguale per tutte
+	Along the rows	Lungo le righe
+	Down the columns	Lungo le colonne
+	Both ways	In entrambe le direzioni
+	Mirror Transforms	Rifletti trasformazioni
+	Minimize Gaps	Riduci spazi
+	Randomize	Casualizza
+	A new random draw for the Random steps	Una nuova estrazione per i passi casuali

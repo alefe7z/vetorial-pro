@@ -3890,3 +3890,24 @@ lighting	Light	光源
 @msg	picker is disc, classic or values, not `{v}`	picker 為 disc、classic 或 values，而非 `{v}`
 @msg	cards is true or false	cards 為 true 或 false
 @msg	palette is a library id	palette 是資料庫 id
+# Vetorial: Tiling
+	Tiling…	平鋪…
+	Tiling	平鋪
+	Mirror Mode	鏡像模式
+	Rows	列
+	Columns	欄
+	Gap X	間距 X
+	Gap Y	間距 Y
+	Offset %	偏移 %
+	Every other row	隔列
+	Every other column	隔欄
+	Scale %	縮放 %
+	Rotate °	旋轉 °
+	Same for every tile	全部相同
+	Along the rows	沿列
+	Down the columns	沿欄
+	Both ways	雙向
+	Mirror Transforms	鏡像變換
+	Minimize Gaps	最小化間隙
+	Randomize	隨機化
+	A new random draw for the Random steps	為隨機步驟重新抽取

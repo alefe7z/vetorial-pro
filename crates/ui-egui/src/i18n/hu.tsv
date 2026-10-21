@@ -4909,3 +4909,24 @@ imageTrace	Outline	Körvonal
 @msg	picker is disc, classic or values, not `{v}`	a picker értéke disc, classic vagy values, nem `{v}`
 @msg	cards is true or false	a cards értéke true vagy false
 @msg	palette is a library id	a palette egy könyvtárazonosító
+# Vetorial: Tiling
+	Tiling…	Csempézés…
+	Tiling	Csempézés
+	Mirror Mode	Tükrözési mód
+	Rows	Sorok
+	Columns	Oszlopok
+	Gap X	X hézag
+	Gap Y	Y hézag
+	Offset %	Eltolás %
+	Every other row	Minden második sor
+	Every other column	Minden második oszlop
+	Scale %	Méretarány %
+	Rotate °	Forgatás °
+	Same for every tile	Mindegyiknél azonos
+	Along the rows	A sorok mentén
+	Down the columns	Lefelé az oszlopokban
+	Both ways	Mindkét irányban
+	Mirror Transforms	Átalakítások tükrözése
+	Minimize Gaps	Hézagok minimalizálása
+	Randomize	Véletlenszerű
+	A new random draw for the Random steps	Új véletlen húzás a véletlen lépésekhez

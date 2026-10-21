@@ -4503,3 +4503,24 @@ theme	Appearance	Giao diện
 @msg	picker is disc, classic or values, not `{v}`	picker là disc, classic hoặc values, không phải `{v}`
 @msg	cards is true or false	cards là true hoặc false
 @msg	palette is a library id	palette là mã thư viện
+# Vetorial: Tiling
+	Tiling…	Lát gạch…
+	Tiling	Lát gạch
+	Mirror Mode	Chế độ phản chiếu
+	Rows	Hàng
+	Columns	Cột
+	Gap X	Khoảng X
+	Gap Y	Khoảng Y
+	Offset %	Độ lệch %
+	Every other row	Cách một hàng
+	Every other column	Cách một cột
+	Scale %	Tỉ lệ %
+	Rotate °	Xoay °
+	Same for every tile	Như nhau
+	Along the rows	Dọc theo hàng
+	Down the columns	Dọc theo cột
+	Both ways	Cả hai chiều
+	Mirror Transforms	Phản chiếu biến đổi
+	Minimize Gaps	Giảm khoảng trống
+	Randomize	Ngẫu nhiên hóa
+	A new random draw for the Random steps	Bốc thăm mới cho các bước ngẫu nhiên

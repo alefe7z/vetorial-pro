@@ -4942,3 +4942,24 @@ theme	Appearance	Apparence
 @msg	picker is disc, classic or values, not `{v}`	picker vaut disc, classic ou values, pas `{v}`
 @msg	cards is true or false	cards vaut true ou false
 @msg	palette is a library id	palette est un identifiant de bibliothèque
+# Vetorial: Tiling
+	Tiling…	Pavage…
+	Tiling	Pavage
+	Mirror Mode	Mode miroir
+	Rows	Rangées
+	Columns	Colonnes
+	Gap X	Écart X
+	Gap Y	Écart Y
+	Offset %	Décalage %
+	Every other row	Une rangée sur deux
+	Every other column	Une colonne sur deux
+	Scale %	Échelle %
+	Rotate °	Rotation °
+	Same for every tile	Identique partout
+	Along the rows	Le long des rangées
+	Down the columns	Le long des colonnes
+	Both ways	Dans les deux sens
+	Mirror Transforms	Refléter les transformations
+	Minimize Gaps	Réduire les écarts
+	Randomize	Aléatoire
+	A new random draw for the Random steps	Un nouveau tirage pour les pas aléatoires

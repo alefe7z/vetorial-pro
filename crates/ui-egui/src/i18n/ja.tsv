@@ -4515,3 +4515,24 @@ lighting	Light	ライト
 @msg	picker is disc, classic or values, not `{v}`	picker は disc、classic、values のいずれかです（`{v}` ではありません）
 @msg	cards is true or false	cards は true か false です
 @msg	palette is a library id	palette はライブラリ ID です
+# Vetorial: Tiling
+	Tiling…	タイル…
+	Tiling	タイル
+	Mirror Mode	ミラーモード
+	Rows	行
+	Columns	列
+	Gap X	間隔 X
+	Gap Y	間隔 Y
+	Offset %	オフセット %
+	Every other row	1 行おき
+	Every other column	1 列おき
+	Scale %	拡大・縮小 %
+	Rotate °	回転 °
+	Same for every tile	すべて同じ
+	Along the rows	行に沿って
+	Down the columns	列に沿って
+	Both ways	両方向
+	Mirror Transforms	変形を反転
+	Minimize Gaps	隙間を最小化
+	Randomize	ランダム化
+	A new random draw for the Random steps	ランダムな段階を引き直します

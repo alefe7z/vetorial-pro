@@ -4517,3 +4517,24 @@ lighting	Light	Свет
 @msg	picker is disc, classic or values, not `{v}`	picker — disc, classic или values, а не `{v}`
 @msg	cards is true or false	cards — true или false
 @msg	palette is a library id	palette — это id библиотеки
+# Vetorial: Tiling
+	Tiling…	Плитки…
+	Tiling	Плитки
+	Mirror Mode	Режим отражения
+	Rows	Строки
+	Columns	Столбцы
+	Gap X	Зазор X
+	Gap Y	Зазор Y
+	Offset %	Смещение %
+	Every other row	Через строку
+	Every other column	Через столбец
+	Scale %	Масштаб %
+	Rotate °	Поворот °
+	Same for every tile	Одинаково для всех
+	Along the rows	Вдоль строк
+	Down the columns	Вниз по столбцам
+	Both ways	В обе стороны
+	Mirror Transforms	Отражать преобразования
+	Minimize Gaps	Уменьшить зазоры
+	Randomize	Перемешать
+	A new random draw for the Random steps	Новый случайный набор для случайных шагов

@@ -2890,7 +2890,7 @@ pub fn menu_tree_named(english_names: bool) -> Vec<(&'static str, Vec<Item>)> {
         // Vetorial: the owner's own menus, filled in later.
         ("Extensions", vec![Item::Header("Nothing here yet")]),
         ("Tools", vec![Item::Header("Nothing here yet")]),
-        ("Modifiers", vec![Item::Header("Nothing here yet")]),
+        ("Modifiers", vec![Item::Cmd("Tiling…", "effect.dialog", json!({ "effect": "distort.tiling" }))]),
     ]
 }
 

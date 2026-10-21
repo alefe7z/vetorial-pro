@@ -4788,3 +4788,24 @@ mark-style	Japanese	Japońskie
 @msg	picker is disc, classic or values, not `{v}`	picker to disc, classic lub values, nie `{v}`
 @msg	cards is true or false	cards to true lub false
 @msg	palette is a library id	palette to identyfikator biblioteki
+# Vetorial: Tiling
+	Tiling…	Kafelki…
+	Tiling	Kafelki
+	Mirror Mode	Tryb lustra
+	Rows	Wiersze
+	Columns	Kolumny
+	Gap X	Odstęp X
+	Gap Y	Odstęp Y
+	Offset %	Przesunięcie %
+	Every other row	Co drugi wiersz
+	Every other column	Co druga kolumna
+	Scale %	Skala %
+	Rotate °	Obrót °
+	Same for every tile	Jednakowo
+	Along the rows	Wzdłuż wierszy
+	Down the columns	W dół kolumn
+	Both ways	W obu kierunkach
+	Mirror Transforms	Odbij przekształcenia
+	Minimize Gaps	Minimalizuj odstępy
+	Randomize	Losuj
+	A new random draw for the Random steps	Nowe losowanie dla losowych kroków

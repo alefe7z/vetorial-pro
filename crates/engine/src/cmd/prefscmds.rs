@@ -141,6 +141,7 @@ pub const PREF_SPECS: &[PrefSpec] = &[
     // Selection & Anchor Display
     p!("selectionTolerance", "Selection & Anchor Display", "Selection", "Tolerance", num(1.0, 8.0, "px")),
     p!("objectSelectionByPathOnly", "Selection & Anchor Display", "Selection", "Object Selection by Path Only", bool),
+    p!("treatAllAsFilled", "Selection & Anchor Display", "Selection", "Treat All Objects as Filled", bool),
     p!("snapToPointTolerance", "Selection & Anchor Display", "Selection", "Snap to Point", num(1.0, 8.0, "px")),
     p!("ctrlClickSelectsBehind", "Selection & Anchor Display", "Selection", "Command Click to Select Objects Behind", bool),
     p!("zoomToSelection", "Selection & Anchor Display", "Selection", "Zoom to Selection", bool),

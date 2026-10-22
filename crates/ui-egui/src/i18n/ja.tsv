@@ -4536,3 +4536,6 @@ lighting	Light	ライト
 	Minimize Gaps	隙間を最小化
 	Randomize	ランダム化
 	A new random draw for the Random steps	ランダムな段階を引き直します
+	Treat All Objects as Filled	すべてのオブジェクトを塗りつぶしとして扱う
+	Treat All Objects as Filled: on (a click inside any object picks it)	すべてのオブジェクトを塗りつぶしとして扱う: オン（オブジェクトの内側をクリックすると選択）
+	Treat All Objects as Filled: off (an object without a fill is picked on its outline)	すべてのオブジェクトを塗りつぶしとして扱う: オフ（塗りのないオブジェクトは輪郭でのみ選択）

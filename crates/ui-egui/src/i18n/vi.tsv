@@ -4524,3 +4524,6 @@ theme	Appearance	Giao diện
 	Minimize Gaps	Giảm khoảng trống
 	Randomize	Ngẫu nhiên hóa
 	A new random draw for the Random steps	Bốc thăm mới cho các bước ngẫu nhiên
+	Treat All Objects as Filled	Coi mọi đối tượng là đã tô
+	Treat All Objects as Filled: on (a click inside any object picks it)	Coi mọi đối tượng là đã tô: bật (nhấp vào bên trong bất kỳ đối tượng nào sẽ chọn nó)
+	Treat All Objects as Filled: off (an object without a fill is picked on its outline)	Coi mọi đối tượng là đã tô: tắt (đối tượng không tô chỉ chọn được ở đường viền)

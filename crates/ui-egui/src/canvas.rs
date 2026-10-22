@@ -1374,6 +1374,7 @@ fn hit_at(app: &VectorcraftApp, p: Point, zoom: f64) -> Option<vectorcraft_doc::
         tol: prefs.selection_tolerance / zoom,
         outline: app.ui.view.outline,
         path_only: prefs.object_selection_by_path_only,
+        all_filled: prefs.treat_all_as_filled,
         type_path_only: prefs.type_selection_by_path_only,
         scope: app.session.active().and_then(|st| st.isolation),
     };

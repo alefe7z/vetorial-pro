@@ -4522,3 +4522,6 @@ lighting	Light	Світло
 	Minimize Gaps	Зменшити проміжки
 	Randomize	Перемішати
 	A new random draw for the Random steps	Новий випадковий набір для випадкових кроків
+	Treat All Objects as Filled	Вважати всі об'єкти заповненими
+	Treat All Objects as Filled: on (a click inside any object picks it)	Вважати всі об'єкти заповненими: увімк. (клацання всередині будь-якого об'єкта вибирає його)
+	Treat All Objects as Filled: off (an object without a fill is picked on its outline)	Вважати всі об'єкти заповненими: вимк. (об'єкт без заливки вибирається лише за контуром)

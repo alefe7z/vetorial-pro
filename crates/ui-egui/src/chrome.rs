@@ -607,6 +607,9 @@ pub fn status_bar(app: &mut VectorcraftApp, ui: &mut Ui) {
         .frame(egui::Frame::NONE.fill(t.panel).inner_margin(egui::Margin::symmetric(8, 0)).stroke(Stroke::new(1.0, t.border)))
         .show(ui, |ui| {
             ui.horizontal_centered(|ui| {
+                // Vetorial: Treat All Objects as Filled, at the bottom left (CorelDRAW).
+                crate::filled_pick::status_switch(app, ui);
+                ui.separator();
                 let zoom = app.view().map(|v| v.zoom).unwrap_or(1.0);
                 egui::ComboBox::from_id_salt("zoom-combo").selected_text(egui::RichText::new(zoom_label(zoom)).size(11.5)).width(76.0).show_ui(
                     ui,

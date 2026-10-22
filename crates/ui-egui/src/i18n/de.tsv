@@ -4497,3 +4497,6 @@ theme	Appearance	Erscheinungsbild
 	Minimize Gaps	Lücken minimieren
 	Randomize	Zufallsmix
 	A new random draw for the Random steps	Eine neue Zufallsverteilung für die zufälligen Schritte
+	Treat All Objects as Filled	Alle Objekte als gefüllt behandeln
+	Treat All Objects as Filled: on (a click inside any object picks it)	Alle Objekte als gefüllt behandeln: ein (ein Klick in ein beliebiges Objekt wählt es aus)
+	Treat All Objects as Filled: off (an object without a fill is picked on its outline)	Alle Objekte als gefüllt behandeln: aus (ein Objekt ohne Füllung wird nur an seiner Kontur gewählt)

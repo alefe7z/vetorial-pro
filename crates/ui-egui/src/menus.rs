@@ -289,6 +289,12 @@ pub const UI_COMMANDS: &[(&str, &str, &str, &str)] = &[
     ),
     ("view.modeToggle", "Toggle View Mode", "Shift+F9", "{} back to the view mode before (the first time, Enhanced ↔ Wireframe) → {mode}"),
     (
+        "select.treatAllAsFilled",
+        "Treat All Objects as Filled",
+        "",
+        "{on?: bool} CorelDRAW's Treat All Objects as Filled: on, a click inside any object picks it (and drags it), even without a fill; off, an object without a fill is picked on its outline only; without `on` it switches → {on}",
+    ),
+    (
         "window.themeColor",
         "Theme Color…",
         "",
@@ -1072,6 +1078,9 @@ pub fn run_ui_command(app: &mut VectorcraftApp, id: &str, p: &Value) -> Option<R
     if let Some(result) = crate::view_modes::command(app, id, p) {
         return Some(result);
     }
+    if let Some(result) = crate::filled_pick::command(app, id, p) {
+        return Some(result);
+    }
     if let Some(result) = crate::panels::color_gear::command(app, id, p) {
         return Some(result);
     }
@@ -1671,6 +1680,9 @@ pub fn checked(app: &VectorcraftApp, id: &str, p: &Value) -> Option<bool> {
         return Some(on);
     }
     if let Some(on) = crate::view_modes::checked(app, id, p) {
+        return Some(on);
+    }
+    if let Some(on) = crate::filled_pick::checked(app, id, p) {
         return Some(on);
     }
     if let Some(on) = crate::modes::checked(app, id, p) {
@@ -2650,6 +2662,8 @@ pub fn menu_tree_named(english_names: bool) -> Vec<(&'static str, Vec<Item>)> {
                 Sep,
                 c("Next Object Above", "select.nextAbove"),
                 c("Next Object Below", "select.nextBelow"),
+                Sep,
+                c("Treat All Objects as Filled", "select.treatAllAsFilled"),
                 Sep,
                 sub(
                     "Same",

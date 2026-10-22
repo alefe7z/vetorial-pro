@@ -639,6 +639,9 @@ pub struct Prefs {
     // Selection & Anchor Display
     pub selection_tolerance: f64,
     pub object_selection_by_path_only: bool,
+    /// Vetorial: CorelDRAW's Treat All Objects as Filled: a click inside an object without a fill
+    /// picks it too, not only on its outline.
+    pub treat_all_as_filled: bool,
     pub snap_to_point_tolerance: f64,
     pub ctrl_click_selects_behind: bool,
     pub zoom_to_selection: bool,
@@ -882,6 +885,7 @@ impl Default for Prefs {
             paste_offset: 10.0,
             selection_tolerance: 3.0,
             object_selection_by_path_only: false,
+            treat_all_as_filled: false,
             snap_to_point_tolerance: 2.0,
             ctrl_click_selects_behind: true,
             zoom_to_selection: true,

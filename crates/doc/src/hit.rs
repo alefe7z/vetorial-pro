@@ -58,6 +58,10 @@ pub struct HitOptions {
     pub outline: bool,
     /// "Object Selection by Path Only" preference.
     pub path_only: bool,
+    /// Vetorial: CorelDRAW's "Treat All Objects as Filled": the inside of a path, compound path
+    /// or mesh picks it even without a fill, in every view mode, over Object Selection by Path
+    /// Only.
+    pub all_filled: bool,
     /// "Type Object Selection by Path Only" preference: type is picked on its type path only
     /// (point type's baseline, area type's frame, type on a path's path), not anywhere in its
     /// bounds.
@@ -66,7 +70,7 @@ pub struct HitOptions {
 
 impl Default for HitOptions {
     fn default() -> Self {
-        Self { tol: 3.0, outline: false, path_only: false, type_path_only: false, scope: None }
+        Self { tol: 3.0, outline: false, path_only: false, all_filled: false, type_path_only: false, scope: None }
     }
 }
 
@@ -298,7 +302,7 @@ fn hit_leaf(n: &Node, p: Point, opt: HitOptions) -> Option<HitKind> {
                 return Some(k);
             }
             let filled = !n.appearance.fill_paint().is_none();
-            if !opt.outline && !opt.path_only && filled && fill_contains(&bp, *rule, p) {
+            if (opt.all_filled || (!opt.outline && !opt.path_only && filled)) && fill_contains(&bp, *rule, p) {
                 return Some(HitKind::Fill);
             }
             None
@@ -308,7 +312,7 @@ fn hit_leaf(n: &Node, p: Point, opt: HitOptions) -> Option<HitKind> {
             if let Some(k) = hit_stroke(n, &bp, *rule, p, opt) {
                 return Some(k);
             }
-            (!opt.outline && !opt.path_only && fill_contains(&bp, *rule, p)).then_some(HitKind::Fill)
+            ((opt.all_filled || (!opt.outline && !opt.path_only)) && fill_contains(&bp, *rule, p)).then_some(HitKind::Fill)
         }
         // The type path lies within the bounds: they rule out the rest before it is measured.
         NodeKind::Text(t) if opt.type_path_only => {
@@ -327,7 +331,7 @@ fn hit_leaf(n: &Node, p: Point, opt: HitOptions) -> Option<HitKind> {
             if stroke_contains(&bp, 0.0, opt.tol, p) {
                 return Some(HitKind::Outline);
             }
-            (!opt.path_only && fill_contains(&bp, vectorcraft_geom::FillRule::NonZero, p)).then_some(HitKind::Fill)
+            ((opt.all_filled || !opt.path_only) && fill_contains(&bp, vectorcraft_geom::FillRule::NonZero, p)).then_some(HitKind::Fill)
         }
         _ => None,
     }
@@ -472,6 +476,12 @@ mod tests {
         .unwrap();
         assert!(hit_test(&d, Point::new(25.0, 25.0), HitOptions::default()).is_none());
         assert!(hit_test(&d, Point::new(50.5, 25.0), HitOptions::default()).is_some());
+        // Vetorial: Treat All Objects as Filled (CorelDRAW): the inside picks it, in Wireframe and
+        // over Object Selection by Path Only too.
+        let filled = HitOptions { all_filled: true, ..Default::default() };
+        assert_eq!(hit_test(&d, Point::new(25.0, 25.0), filled).map(|h| (h.leaf, h.kind)), Some((a, HitKind::Fill)));
+        assert!(hit_test(&d, Point::new(25.0, 25.0), HitOptions { outline: true, path_only: true, ..filled }).is_some());
+        assert!(hit_test(&d, Point::new(80.0, 25.0), filled).is_none(), "outside still misses");
     }
 
     /// #1103: a marquee drawn over a background picks what is on it, not the background, whose

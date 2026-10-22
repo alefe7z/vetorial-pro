@@ -216,6 +216,7 @@ impl Session {
             selection_tolerance: self.prefs.selection_tolerance,
             anchor_size: self.prefs.anchor_size,
             path_only: self.prefs.object_selection_by_path_only,
+            all_filled: self.prefs.treat_all_as_filled,
             type_path_only: self.prefs.type_selection_by_path_only,
             double_click_isolate: self.prefs.double_click_to_isolate,
             select_behind: self.prefs.ctrl_click_selects_behind,

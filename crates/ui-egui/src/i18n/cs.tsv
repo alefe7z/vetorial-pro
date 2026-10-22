@@ -4963,3 +4963,6 @@ mark-style	Japanese	Japonské
 	Minimize Gaps	Minimalizovat mezery
 	Randomize	Náhodně
 	A new random draw for the Random steps	Nové náhodné rozložení pro náhodné kroky
+	Treat All Objects as Filled	Považovat všechny objekty za vyplněné
+	Treat All Objects as Filled: on (a click inside any object picks it)	Považovat všechny objekty za vyplněné: zapnuto (klepnutí dovnitř libovolného objektu jej vybere)
+	Treat All Objects as Filled: off (an object without a fill is picked on its outline)	Považovat všechny objekty za vyplněné: vypnuto (objekt bez výplně se vybere jen za obrys)

@@ -298,6 +298,32 @@ fn selection_preferences_drive_the_selection_tool() {
     assert!(double(&mut s).is_some(), "on: the group is isolated");
 }
 
+/// Vetorial: CorelDRAW's Treat All Objects as Filled. Off, a press inside a rectangle without a
+/// fill picks nothing (a marquee starts), only its outline does; on, the press inside picks it
+/// and a drag moves it.
+#[test]
+fn treat_all_as_filled_picks_and_moves_an_unfilled_object_from_inside() {
+    use vectorcraft_tools::{PointerEvent, PointerKind};
+    let mut s = Session::new();
+    s.execute("file.new", &json!({"width": 400, "height": 400})).unwrap();
+    let r = NodeId(s.execute("shape.rectangle", &json!({"x": 100, "y": 100, "width": 100, "height": 100})).unwrap()["id"].as_u64().unwrap());
+    s.execute("paint.setFill", &json!({"none": true})).unwrap();
+    s.execute("select.none", &json!({})).unwrap();
+    s.select_tool("selection", ViewInfo::default()).unwrap();
+    let drag = |s: &mut Session, to: f64| {
+        for (k, x) in [(PointerKind::Down, 150.0), (PointerKind::Drag, to), (PointerKind::Up, to)] {
+            s.pointer(&PointerEvent::new(k, x, 150.0), ViewInfo::default()).unwrap();
+        }
+    };
+    let x0 = |s: &Session| s.doc().unwrap().doc.node(r).unwrap().geometric_bounds().unwrap().x0;
+    drag(&mut s, 180.0);
+    assert_eq!(x0(&s), 100.0, "off: the inside doesn't take it");
+    s.execute("prefs.set", &json!({"key": "treatAllAsFilled", "value": true})).unwrap();
+    drag(&mut s, 180.0);
+    assert_eq!(x0(&s), 130.0, "on: pressed inside, it moves");
+    assert_eq!(s.doc().unwrap().selection.objects, vec![r]);
+}
+
 /// Double Click To Isolate: a double-click with the Selection tool isolates a single object too,
 /// not only a group. Inside, only it is hit, marqueed and selected by Select All; new art goes
 /// beside it; a double-click on the empty canvas leaves, with it selected. Type isn't isolated:

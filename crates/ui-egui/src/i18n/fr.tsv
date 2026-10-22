@@ -4963,3 +4963,6 @@ theme	Appearance	Apparence
 	Minimize Gaps	Réduire les écarts
 	Randomize	Aléatoire
 	A new random draw for the Random steps	Un nouveau tirage pour les pas aléatoires
+	Treat All Objects as Filled	Traiter tous les objets comme remplis
+	Treat All Objects as Filled: on (a click inside any object picks it)	Traiter tous les objets comme remplis : activé (un clic à l'intérieur de tout objet le sélectionne)
+	Treat All Objects as Filled: off (an object without a fill is picked on its outline)	Traiter tous les objets comme remplis : désactivé (un objet sans fond n'est pris que par son contour)

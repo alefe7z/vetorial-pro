@@ -4538,3 +4538,6 @@ lighting	Light	Свет
 	Minimize Gaps	Уменьшить зазоры
 	Randomize	Перемешать
 	A new random draw for the Random steps	Новый случайный набор для случайных шагов
+	Treat All Objects as Filled	Считать все объекты заполненными
+	Treat All Objects as Filled: on (a click inside any object picks it)	Считать все объекты заполненными: вкл. (щелчок внутри любого объекта выбирает его)
+	Treat All Objects as Filled: off (an object without a fill is picked on its outline)	Считать все объекты заполненными: выкл. (объект без заливки выбирается только по контуру)

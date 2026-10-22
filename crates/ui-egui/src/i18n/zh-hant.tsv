@@ -3911,3 +3911,6 @@ lighting	Light	光源
 	Minimize Gaps	最小化間隙
 	Randomize	隨機化
 	A new random draw for the Random steps	為隨機步驟重新抽取
+	Treat All Objects as Filled	將所有物件視為已填滿
+	Treat All Objects as Filled: on (a click inside any object picks it)	將所有物件視為已填滿：開（在任意物件內部按一下即可選取）
+	Treat All Objects as Filled: off (an object without a fill is picked on its outline)	將所有物件視為已填滿：關（無填色的物件只能在輪廓上選取）

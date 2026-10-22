@@ -4959,3 +4959,6 @@ colorGear	Save	Guardar
 	Minimize Gaps	Minimizar lacunas
 	Randomize	Randomizar
 	A new random draw for the Random steps	Um novo sorteio para os passos aleatórios
+	Treat All Objects as Filled	Tratar Todos os Objetos como Preenchidos
+	Treat All Objects as Filled: on (a click inside any object picks it)	Tratar todos os objetos como preenchidos: ligado (um clique dentro de qualquer objeto o seleciona)
+	Treat All Objects as Filled: off (an object without a fill is picked on its outline)	Tratar todos os objetos como preenchidos: desligado (um objeto sem preenchimento só é pego pela linha)

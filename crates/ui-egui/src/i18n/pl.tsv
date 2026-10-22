@@ -4809,3 +4809,6 @@ mark-style	Japanese	Japońskie
 	Minimize Gaps	Minimalizuj odstępy
 	Randomize	Losuj
 	A new random draw for the Random steps	Nowe losowanie dla losowych kroków
+	Treat All Objects as Filled	Traktuj wszystkie obiekty jako wypełnione
+	Treat All Objects as Filled: on (a click inside any object picks it)	Traktuj wszystkie obiekty jako wypełnione: wł. (kliknięcie wewnątrz dowolnego obiektu go zaznacza)
+	Treat All Objects as Filled: off (an object without a fill is picked on its outline)	Traktuj wszystkie obiekty jako wypełnione: wył. (obiekt bez wypełnienia zaznacza się tylko za kontur)

@@ -4506,3 +4506,6 @@ lighting	Light	광원
 	Minimize Gaps	간격 최소화
 	Randomize	무작위화
 	A new random draw for the Random steps	무작위 단계를 다시 뽑습니다
+	Treat All Objects as Filled	모든 개체를 채워진 것으로 처리
+	Treat All Objects as Filled: on (a click inside any object picks it)	모든 개체를 채워진 것으로 처리: 켜짐 (개체 안쪽을 클릭하면 선택)
+	Treat All Objects as Filled: off (an object without a fill is picked on its outline)	모든 개체를 채워진 것으로 처리: 꺼짐 (칠이 없는 개체는 윤곽선에서만 선택)

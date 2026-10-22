@@ -314,6 +314,9 @@ pub struct ToolContext<'a> {
     /// Selection & Anchor Display → Object Selection by Path Only: a click inside a filled path
     /// doesn't pick it, only one on its path does.
     pub path_only: bool,
+    /// Vetorial: Treat All Objects as Filled (CorelDRAW): the inside of an object without a fill
+    /// picks it too.
+    pub all_filled: bool,
     /// Type → Type Object Selection by Path Only: type is picked on its type path only (point
     /// type's baseline, area type's frame, type on a path's path), not anywhere in its bounds.
     pub type_path_only: bool,
@@ -416,6 +419,7 @@ impl ToolContext<'_> {
             tol: self.pick_tol(),
             outline: self.outline,
             path_only: self.path_only,
+            all_filled: self.all_filled,
             type_path_only: self.type_path_only,
             scope: self.isolation,
         }
@@ -758,6 +762,7 @@ pub(crate) mod testutil {
             selection_tolerance: 3.0,
             anchor_size: 3,
             path_only: false,
+            all_filled: false,
             type_path_only: false,
             double_click_isolate: true,
             select_behind: true,

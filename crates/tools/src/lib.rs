@@ -33,6 +33,7 @@ pub mod shape;
 pub mod slice;
 pub mod symbolism;
 pub mod text;
+pub mod tilingknots;
 pub mod typewidget;
 pub mod vsegment;
 pub mod xform;
@@ -375,6 +376,8 @@ pub struct ToolContext<'a> {
     pub screen: Option<ScreenFrame>,
     /// Where the Plane Switching Widget sits (Perspective Grid Options); None while it's hidden.
     pub plane_widget: Option<distort::perspective::widget::WidgetCorner>,
+    /// Vetorial: the selected objects' Tiling, for its gap handles ([`tilingknots`]).
+    pub tiling: &'a [tilingknots::TilingFrame],
 }
 
 impl ToolContext<'_> {
@@ -784,6 +787,7 @@ pub(crate) mod testutil {
             construction_angles: guides::construction_angles(guides::DEFAULT_CONSTRUCTION_ANGLES),
             screen: None,
             plane_widget: Some(Default::default()),
+            tiling: &[],
         }
     }
 }

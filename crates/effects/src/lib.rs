@@ -46,6 +46,7 @@ mod revolve;
 mod solids;
 pub mod stroke;
 mod stylize;
+pub mod tiling;
 mod util;
 mod warp;
 
@@ -272,8 +273,8 @@ pub fn effect_catalog() -> Vec<EffectInfo> {
             "distort.tiling",
             "Tiling…",
             DT,
-            "{rows: 1..200 (3), columns: 1..200 (3), gapX: pt (0; between columns), gapY: pt (0; between rows), offset: % (0; -100..100, of a tile's size), offsetAxis: \"rows\"|\"columns\" (\"rows\": every other row slides sideways; \"columns\": every other column slides down), scale: % (0; added to each tile's size per step), scaleMode: \"none\"|\"rows\"|\"columns\"|\"both\"|\"random\" (\"columns\": grows along the row, \"rows\": down the columns, \"both\": both ways, \"random\": a random share for each tile), rotate: deg (0; per step, counter-clockwise), rotateMode: as scaleMode, mirror: 0..15 (0; the tiles of every other column flip as mirror % 4 says and those of every other row as mirror / 4: 0 none, 1 left to right, 2 top to bottom, 3 both), mirrorTransforms: bool (false; a flipped tile turns the other way), minimizeGaps: bool (false; each tile takes the room it needs instead of the largest tile's), seed: int (0; the random modes' draw)} repeat the object in a grid of tiles, live (Inkscape's Tiling)",
-            json!({"rows": 3, "columns": 3, "gapX": 0.0, "gapY": 0.0, "offset": 0.0, "offsetAxis": "rows", "scale": 0.0, "scaleMode": "none", "rotate": 0.0, "rotateMode": "none", "mirror": 0, "mirrorTransforms": false, "minimizeGaps": false, "seed": 0}),
+            "{rows: 1..200 (3), columns: 1..200 (3), gapX: pt (0; between columns), gapY: pt (0; between rows), gapXRandom: bool (false; every tile but the first moves left by a random share of Gap X), gapYRandom: bool (false; up by a random share of Gap Y), offset: % (0; of a cell), offsetAxis: \"rows\"|\"columns\" (\"rows\": every other row slides sideways; \"columns\": every other column slides down), scale: % (0; added to the tiles' size), scaleMode: \"rows\"|\"columns\"|\"both\"|\"uniform\"|\"random\" (\"rows\": a step more on each row down, the top row as it is; \"columns\": on each column across; \"both\": on each row and column; \"uniform\": every tile the same; \"random\": a random share for each tile), rotate: deg (0; clockwise, as in Inkscape), rotateMode: as scaleMode (\"rows\"), mirrorRowsX: bool (false; every other row flips left to right), mirrorRowsY: bool (false; every other row flips top to bottom), mirrorColsX: bool (false; every other column flips left to right), mirrorColsY: bool (false; every other column flips top to bottom; rows and columns on the same axis flip a checkerboard), mirrorTransforms: bool (false; the turned tiles of every other row, column or square turn the other way), minimizeGaps: bool (false; each column and row takes the room its own tiles need instead of the largest tile's), split: bool (false; Split Elements: the tiles but the first become separate objects that follow it), linkStyles: bool (false; with split, the tiles take the object's colours and style whenever it changes; off, each keeps its own), seed: int (0; the random draws), satellites: [id] (kept by the program: the split tiles)} repeat the object in a grid of tiles, live (Inkscape's Tiling)",
+            json!({"rows": 3, "columns": 3, "gapX": 0.0, "gapY": 0.0, "gapXRandom": false, "gapYRandom": false, "offset": 0.0, "offsetAxis": "rows", "scale": 0.0, "scaleMode": "rows", "rotate": 0.0, "rotateMode": "rows", "mirrorRowsX": false, "mirrorRowsY": false, "mirrorColsX": false, "mirrorColsY": false, "mirrorTransforms": false, "minimizeGaps": false, "split": false, "linkStyles": false, "seed": 0}),
         ),
         g(
             "distort.tweak",
@@ -748,6 +749,18 @@ impl<'a> GeomContext<'a> {
     }
 }
 
+/// Vetorial: the box geometry effects on object `n` itself refer to: its path's bounds, or for a
+/// group its members' (type outlined) — where Tiling puts its first tile.
+pub fn effect_bounds(n: &Node) -> Option<Rect> {
+    match reshape::leaf_geometry(n) {
+        Some((path, _)) => {
+            let bp = path.to_bezpath();
+            (!bp.elements().is_empty()).then(|| vectorcraft_geom::Shape::bounding_box(&bp))
+        }
+        None => reshape::outlined_members(n).geometric_bounds(),
+    }
+}
+
 /// Evaluate the visible geometry effects of `effects` on `path`, in order. `bounds` is the
 /// reference box of the first effect (usually the object's geometric bounds); each later effect
 /// uses the bounds of its input. Raster and unknown effects are skipped.
@@ -789,7 +802,7 @@ pub(crate) fn apply_one(id: &str, p: &Value, path: &PathData, b: Rect, ctx: &Geo
         "distort.puckerBloat" => distort::pucker_bloat(path, b, num(p, "amount", 0.0)),
         "distort.roughen" => distort::roughen(path, b, p),
         "distort.transform" => distort::transform(path, b, p, ctx.seed),
-        "distort.tiling" => distort::tiling(path, b, p),
+        "distort.tiling" => tiling::tiling(path, b, p),
         "distort.tweak" => distort::tweak(path, b, p),
         "distort.twist" => distort::twist(path, b, num(p, "angle", 10.0)),
         "distort.zigZag" => distort::zig_zag(path, b, p),

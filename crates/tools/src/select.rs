@@ -27,6 +27,7 @@ use crate::corners::{self, CornerDrag, over_widget};
 use crate::guides::Targets;
 use crate::pathtype::{self, BracketDrag, over_bracket};
 use crate::rulerguide::GuideEdit;
+use crate::tilingknots::{self, GapDrag};
 use crate::typewidget;
 use crate::{Action, Cursor, Mods, Overlay, PointerEvent, PointerKind, Tool, ToolContext, json_ids};
 
@@ -76,6 +77,8 @@ enum State {
     Corner(CornerDrag),
     /// Dragging a bracket of type on a path.
     Bracket(BracketDrag),
+    /// Vetorial: a Tiling gap handle pressed or dragged.
+    Gap(GapDrag),
 }
 
 #[derive(Default)]
@@ -318,6 +321,7 @@ impl Tool for SelectionTool {
         match &self.state {
             State::Moving { began: true, .. } | State::Scaling { .. } | State::Rotating { .. } | State::Skewing { .. } => true,
             State::Corner(c) => c.adjusting(),
+            State::Gap(g) => g.adjusting(),
             _ => false,
         }
     }
@@ -366,8 +370,12 @@ impl Tool for SelectionTool {
             }
             (PointerKind::Down, _) => {
                 self.toggled = false;
-                // 1. Live Corners widgets and type on a path's brackets, then the bounding-box
-                // handles of the current selection.
+                // 1. Tiling's gap handles, Live Corners widgets and type on a path's brackets,
+                // then the bounding-box handles of the current selection.
+                if let Some(g) = GapDrag::hit(cx, p) {
+                    self.state = State::Gap(g);
+                    return vec![];
+                }
                 if let Some(c) = CornerDrag::hit(cx, ev, false) {
                     self.state = State::Corner(c);
                     return vec![];
@@ -535,6 +543,15 @@ impl Tool for SelectionTool {
                 self.state = State::Idle;
                 c.finish()
             }
+            (PointerKind::Drag, State::Gap(mut g)) => {
+                let out = g.drag(p);
+                self.state = State::Gap(g);
+                out
+            }
+            (PointerKind::Up, State::Gap(g)) => {
+                self.state = State::Idle;
+                g.finish(m.shift)
+            }
             (PointerKind::Drag, State::Bracket(mut b)) => {
                 let out = b.drag(cx, p, m.cmd);
                 self.state = State::Bracket(b);
@@ -600,6 +617,9 @@ impl Tool for SelectionTool {
             State::Corner(c) => o.extend(c.overlays(cx)),
             _ => {}
         }
+        if matches!(self.state, State::Idle | State::Gap(_)) {
+            o.extend(tilingknots::overlays(cx));
+        }
         o.extend(self.guides.iter().cloned());
         o.extend(self.guide.overlays(cx));
         if let (Some((q, label)), State::Idle, true) = (self.hover, &self.state, cx.smart_guides) {
@@ -623,7 +643,11 @@ impl Tool for SelectionTool {
             State::Moving { began: true, .. } => return Cursor::Arrow,
             State::Corner(_) => return Cursor::CornerRadius,
             State::Bracket(_) => return Cursor::PathBracket,
+            State::Gap(_) => return tilingknots::cursor(cx, p).unwrap_or(Cursor::Crosshair),
             _ => {}
+        }
+        if let Some(c) = tilingknots::cursor(cx, p) {
+            return c;
         }
         if self.guide.busy() {
             return self.guide.cursor(cx, p).unwrap_or_default();

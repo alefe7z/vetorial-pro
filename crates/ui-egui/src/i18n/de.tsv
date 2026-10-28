@@ -4500,3 +4500,36 @@ theme	Appearance	Erscheinungsbild
 	Treat All Objects as Filled	Alle Objekte als gefüllt behandeln
 	Treat All Objects as Filled: on (a click inside any object picks it)	Alle Objekte als gefüllt behandeln: ein (ein Klick in ein beliebiges Objekt wählt es aus)
 	Treat All Objects as Filled: off (an object without a fill is picked on its outline)	Alle Objekte als gefüllt behandeln: aus (ein Objekt ohne Füllung wird nur an seiner Kontur gewählt)
+	Mirroring mode	Spiegelungsmodus
+	Mirror transforms	Transformationen spiegeln
+	Minimize gaps	Abstände minimieren
+	Split elements	Elemente aufteilen
+	Link styles	Stile verknüpfen
+	The turned tiles of every other row, column or square turn the other way	Die gedrehten Kacheln jeder zweiten Zeile, Spalte oder jedes zweiten Feldes drehen andersherum
+	Each column and row takes the room its own tiles need, not the largest tile's	Jede Spalte und Zeile nimmt den Platz ihrer eigenen Kacheln ein, nicht den der größten
+	The tiles become separate objects: each can be selected, coloured and moved on its own	Die Kacheln werden eigene Objekte: jede lässt sich einzeln auswählen, färben und verschieben
+	With Split elements, the tiles take the object's colours and style whenever it changes	Mit Elemente aufteilen übernehmen die Kacheln Farben und Stil des Objekts, sobald es sich ändert
+	Down the rows: the top row as it is, a step more on each row below	Nach Zeilen: die oberste Zeile wie sie ist, jede Zeile darunter einen Schritt mehr
+	Across the columns: the left column as it is, a step more on each column to the right	Nach Spalten: die linke Spalte wie sie ist, jede Spalte rechts davon einen Schritt mehr
+	Diagonally: the top-left tile as it is, a step more on each row and column	Diagonal: die Kachel oben links wie sie ist, jede Zeile und Spalte einen Schritt mehr
+	Every tile the same	Alle Kacheln gleich
+	Random: each tile its own share (Randomize draws again)	Zufällig: jede Kachel ihr eigener Anteil (Zufallsmix würfelt neu)
+	All horizontal gaps the same width	Alle waagerechten Abstände gleich breit
+	Random horizontal gaps (Randomize draws again)	Zufällige waagerechte Abstände (Zufallsmix würfelt neu)
+	All vertical gaps the same height	Alle senkrechten Abstände gleich hoch
+	Random vertical gaps (Randomize draws again)	Zufällige senkrechte Abstände (Zufallsmix würfelt neu)
+	Offset every other row	Jede zweite Zeile versetzen
+	Offset every other column	Jede zweite Spalte versetzen
+	Rows flip left to right	Zeilen von links nach rechts gespiegelt
+	Rows flip top to bottom	Zeilen von oben nach unten gespiegelt
+	Columns flip left to right	Spalten von links nach rechts gespiegelt
+	Columns flip top to bottom	Spalten von oben nach unten gespiegelt
+	No mirroring	Keine Spiegelung
+	A new random draw for the random scale, rotation and gaps	Neu würfeln: zufällige Skalierung, Drehung und Abstände
+	Apply Tiling	Kacheln anwenden
+	Hide Tiling	Kacheln ausblenden
+	Show Tiling	Kacheln einblenden
+	Remove Tiling	Kacheln entfernen
+	Select an object, then apply Tiling to repeat it in a grid of tiles.	Wählen Sie ein Objekt und wenden Sie Kacheln an, um es in einem Raster zu wiederholen.
+	The selection has no Tiling. Apply it to repeat the objects in a grid of tiles.	Die Auswahl hat keine Kacheln. Wenden Sie sie an, um die Objekte in einem Raster zu wiederholen.
+@msg	{C}: no effect at index {index}	{C}: kein Effekt bei Index {index}

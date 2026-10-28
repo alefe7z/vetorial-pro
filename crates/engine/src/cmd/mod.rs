@@ -79,6 +79,7 @@ mod textedit;
 pub mod textstyles;
 pub(crate) mod textwrap;
 pub(crate) mod threads;
+pub(crate) mod tilingsplit;
 pub(crate) mod typecmd;
 mod typemenu;
 mod variablecmds;

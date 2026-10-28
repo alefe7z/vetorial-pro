@@ -340,121 +340,13 @@ fn transform_fields(ui: &mut egui::Ui, d: &mut Dialog, unit: vectorcraft_doc::Un
 /// Vetorial: the Tiling effect (Modifiers › Tiling…; Inkscape's Tiling).
 const TILING: &str = "distort.tiling";
 
-/// The ways a Tiling scale or rotation grows: (value, English label).
-const TILE_STEPS: [(&str, &str); 5] =
-    [("none", "Same for every tile"), ("columns", "Along the rows"), ("rows", "Down the columns"), ("both", "Both ways"), ("random", "Random")];
-
-/// A mirror mode's button: four tiles of a corner triangle, flipped as mode `m` flips every other
-/// column (`m % 4`) and row (`m / 4`).
-fn mirror_button(ui: &mut egui::Ui, m: usize, on: bool) -> egui::Response {
-    let t = Tokens::get(ui.ctx());
-    let (r, resp) = ui.allocate_exact_size(egui::vec2(30.0, 30.0), egui::Sense::click());
-    let fill = if on {
-        t.accent
-    } else if resp.hovered() {
-        t.hover
-    } else {
-        t.button
-    };
-    ui.painter().rect_filled(r, 4.0, fill);
-    let cell = (r.width() - 8.0) / 2.0;
-    for (row, col) in [(0, 0), (0, 1), (1, 0), (1, 1)] {
-        let o = r.min + egui::vec2(4.0 + col as f32 * cell, 4.0 + row as f32 * cell);
-        let flip = |mode: usize| match mode {
-            1 => (true, false),
-            2 => (false, true),
-            3 => (true, true),
-            _ => (false, false),
-        };
-        let (cx, cy) = if col == 1 { flip(m % 4) } else { (false, false) };
-        let (rx, ry) = if row == 1 { flip(m / 4) } else { (false, false) };
-        let (fx, fy) = (cx ^ rx, cy ^ ry);
-        let p = |x: f32, y: f32| o + egui::vec2(if fx { cell - x } else { x }, if fy { cell - y } else { y });
-        let ink = if (row + col) % 2 == 0 { egui::Color32::WHITE } else { egui::Color32::from_rgb(0xe0, 0x45, 0x7b) };
-        ui.painter().add(egui::Shape::convex_polygon(vec![p(1.0, 1.0), p(cell - 1.0, 1.0), p(1.0, cell - 1.0)], ink, egui::Stroke::NONE));
-    }
-    resp
-}
-
-/// Tiling's dialog, laid out as Inkscape's: the sixteen mirror modes, rows and columns, the gaps,
-/// the offset of every other row or column, the growth of scale and rotation and how it steps,
-/// Mirror Transforms, Minimize Gaps and Randomize. Returns whether the values differ from those
-/// last previewed.
+/// Tiling's dialog: the Tiling panel's controls ([`crate::panels::tiling::controls`]). Returns
+/// whether the values differ from those last previewed.
 fn tiling_fields(ui: &mut egui::Ui, d: &mut Dialog, unit: vectorcraft_doc::Unit) -> bool {
-    const LABEL_W: f32 = 110.0;
-    const FIELD_W: f32 = 64.0;
-    widgets::subheader(ui, tl!("Mirror Mode"));
-    let mode = d.f64("mirror", 0.0).clamp(0.0, 15.0) as usize;
-    for row in 0..2 {
-        ui.horizontal(|ui| {
-            ui.spacing_mut().item_spacing.x = 4.0;
-            for k in 0..8 {
-                let m = row * 8 + k;
-                if mirror_button(ui, m, m == mode).on_hover_text(tl!("Mirror Mode")).clicked() {
-                    d.fields.insert("mirror".into(), json!(m));
-                }
-            }
-        });
+    let values = Value::Object(d.fields.clone());
+    if let Some(patch) = crate::panels::tiling::controls(ui, &values, unit, "tiling-dialog") {
+        d.fields.extend(patch);
     }
-    ui.add_space(6.0);
-    ui.horizontal(|ui| {
-        widgets::dim_label(ui, tl!("Rows"));
-        if let Some(n) = widgets::range_field(ui, "tile-rows", d.f64("rows", 3.0), 1.0..=200.0, "", 0, 50.0) {
-            d.fields.insert("rows".into(), json!(n));
-        }
-        ui.add_space(8.0);
-        widgets::dim_label(ui, tl!("Columns"));
-        if let Some(n) = widgets::range_field(ui, "tile-cols", d.f64("columns", 3.0), 1.0..=200.0, "", 0, 50.0) {
-            d.fields.insert("columns".into(), json!(n));
-        }
-    });
-    widgets::label_row(ui, tl!("Gap X"), LABEL_W, |ui| {
-        form::length(ui, d, "gapX", unit, FIELD_W);
-    });
-    widgets::label_row(ui, tl!("Gap Y"), LABEL_W, |ui| {
-        form::length(ui, d, "gapY", unit, FIELD_W);
-    });
-    widgets::label_row(ui, tl!("Offset %"), LABEL_W, |ui| {
-        if let Some(n) = widgets::range_field(ui, "tile-offset", d.f64("offset", 0.0), -100.0..=100.0, "%", 1, FIELD_W) {
-            d.fields.insert("offset".into(), json!(n));
-        }
-        let axis = d.str("offsetAxis");
-        for (value, label) in [("rows", "Every other row"), ("columns", "Every other column")] {
-            if ui.selectable_label(axis == value || (axis.is_empty() && value == "rows"), tl!(label)).clicked() {
-                d.fields.insert("offsetAxis".into(), json!(value));
-            }
-        }
-    });
-    for (key, mode_key, label, range, suffix) in
-        [("scale", "scaleMode", "Scale %", -100.0..=1000.0, "%"), ("rotate", "rotateMode", "Rotate °", -360.0..=360.0, "°")]
-    {
-        widgets::label_row(ui, tl!(label), LABEL_W, |ui| {
-            if let Some(n) = widgets::range_field(ui, ("tile", key), d.f64(key, 0.0), range.clone(), suffix, 1, FIELD_W) {
-                d.fields.insert(key.into(), json!(n));
-            }
-        });
-        ui.horizontal_wrapped(|ui| {
-            ui.add_space(LABEL_W + ui.spacing().item_spacing.x);
-            let cur = d.str(mode_key);
-            for (value, name) in TILE_STEPS {
-                if ui.selectable_label(cur == value || (cur.is_empty() && value == "none"), tl!(name)).clicked() {
-                    d.fields.insert(mode_key.into(), json!(value));
-                }
-            }
-        });
-    }
-    ui.add_space(4.0);
-    ui.horizontal(|ui| {
-        ui.vertical(|ui| {
-            form::check(ui, d, "mirrorTransforms", "Mirror Transforms");
-            form::check(ui, d, "minimizeGaps", "Minimize Gaps");
-        });
-        ui.add_space(12.0);
-        if ui.button(tl!("Randomize")).on_hover_text(tl!("A new random draw for the Random steps")).clicked() {
-            let seed = d.f64("seed", 0.0) + 1.0;
-            d.fields.insert("seed".into(), json!(seed));
-        }
-    });
     values_changed(d)
 }
 

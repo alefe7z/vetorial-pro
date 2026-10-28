@@ -4966,3 +4966,36 @@ theme	Appearance	Apparence
 	Treat All Objects as Filled	Traiter tous les objets comme remplis
 	Treat All Objects as Filled: on (a click inside any object picks it)	Traiter tous les objets comme remplis : activé (un clic à l'intérieur de tout objet le sélectionne)
 	Treat All Objects as Filled: off (an object without a fill is picked on its outline)	Traiter tous les objets comme remplis : désactivé (un objet sans fond n'est pris que par son contour)
+	Mirroring mode	Mode de miroir
+	Mirror transforms	Refléter les transformations
+	Minimize gaps	Réduire les écarts
+	Split elements	Séparer les éléments
+	Link styles	Lier les styles
+	The turned tiles of every other row, column or square turn the other way	Les tuiles tournées d'une rangée, colonne ou case sur deux tournent dans l'autre sens
+	Each column and row takes the room its own tiles need, not the largest tile's	Chaque colonne et rangée prend la place dont ses tuiles ont besoin, pas celle de la plus grande
+	The tiles become separate objects: each can be selected, coloured and moved on its own	Les tuiles deviennent des objets distincts : chacune se sélectionne, se colore et se déplace seule
+	With Split elements, the tiles take the object's colours and style whenever it changes	Avec Séparer les éléments, les tuiles reprennent les couleurs et le style de l'objet quand il change
+	Down the rows: the top row as it is, a step more on each row below	Par rangées : la première rangée telle quelle, un pas de plus à chaque rangée en dessous
+	Across the columns: the left column as it is, a step more on each column to the right	Par colonnes : la première colonne telle quelle, un pas de plus à chaque colonne à droite
+	Diagonally: the top-left tile as it is, a step more on each row and column	En diagonale : la tuile en haut à gauche telle quelle, un pas de plus à chaque rangée et colonne
+	Every tile the same	Identique pour toutes les tuiles
+	Random: each tile its own share (Randomize draws again)	Aléatoire : chaque tuile sa part (Aléatoire tire à nouveau)
+	All horizontal gaps the same width	Tous les écarts horizontaux de même largeur
+	Random horizontal gaps (Randomize draws again)	Écarts horizontaux aléatoires (Aléatoire tire à nouveau)
+	All vertical gaps the same height	Tous les écarts verticaux de même hauteur
+	Random vertical gaps (Randomize draws again)	Écarts verticaux aléatoires (Aléatoire tire à nouveau)
+	Offset every other row	Décaler une rangée sur deux
+	Offset every other column	Décaler une colonne sur deux
+	Rows flip left to right	Rangées en miroir de gauche à droite
+	Rows flip top to bottom	Rangées en miroir de haut en bas
+	Columns flip left to right	Colonnes en miroir de gauche à droite
+	Columns flip top to bottom	Colonnes en miroir de haut en bas
+	No mirroring	Sans miroir
+	A new random draw for the random scale, rotation and gaps	Un nouveau tirage pour l'échelle, la rotation et les écarts aléatoires
+	Apply Tiling	Appliquer le pavage
+	Hide Tiling	Masquer le pavage
+	Show Tiling	Afficher le pavage
+	Remove Tiling	Supprimer le pavage
+	Select an object, then apply Tiling to repeat it in a grid of tiles.	Sélectionnez un objet, puis appliquez Pavage pour le répéter en grille.
+	The selection has no Tiling. Apply it to repeat the objects in a grid of tiles.	La sélection n'a pas de Pavage. Appliquez-le pour répéter les objets en grille.
+@msg	{C}: no effect at index {index}	{C} : aucun effet à l’indice {index}

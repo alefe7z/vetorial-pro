@@ -289,6 +289,12 @@ pub const UI_COMMANDS: &[(&str, &str, &str, &str)] = &[
     ),
     ("view.modeToggle", "Toggle View Mode", "Shift+F9", "{} back to the view mode before (the first time, Enhanced ↔ Wireframe) → {mode}"),
     (
+        "tiling.open",
+        "Tiling…",
+        "",
+        "{} Inkscape's Tiling: apply the Tiling effect (distort.tiling) to the selected objects that lack it and show the Tiling panel, where every change shows at once → {applied: [ids]}",
+    ),
+    (
         "select.treatAllAsFilled",
         "Treat All Objects as Filled",
         "",
@@ -1079,6 +1085,9 @@ pub fn run_ui_command(app: &mut VectorcraftApp, id: &str, p: &Value) -> Option<R
         return Some(result);
     }
     if let Some(result) = crate::filled_pick::command(app, id, p) {
+        return Some(result);
+    }
+    if let Some(result) = crate::panels::tiling::command(app, id, p) {
         return Some(result);
     }
     if let Some(result) = crate::panels::color_gear::command(app, id, p) {
@@ -2867,6 +2876,7 @@ pub fn menu_tree_named(english_names: bool) -> Vec<(&'static str, Vec<Item>)> {
                 todo("SVG Interactivity"),
                 panel("Swatches", "swatches"),
                 panel("Symbols", "symbols"),
+                panel("Tiling", crate::panels::tiling::ID),
                 panel("Transform", "transform"),
                 panel("Transparency", "transparency"),
                 sub(
@@ -2904,7 +2914,7 @@ pub fn menu_tree_named(english_names: bool) -> Vec<(&'static str, Vec<Item>)> {
         // Vetorial: the owner's own menus, filled in later.
         ("Extensions", vec![Item::Header("Nothing here yet")]),
         ("Tools", vec![Item::Header("Nothing here yet")]),
-        ("Modifiers", vec![Item::Cmd("Tiling…", "effect.dialog", json!({ "effect": "distort.tiling" }))]),
+        ("Modifiers", vec![Item::Cmd("Tiling…", "tiling.open", json!({}))]),
     ]
 }
 

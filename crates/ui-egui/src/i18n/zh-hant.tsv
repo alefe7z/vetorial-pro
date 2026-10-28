@@ -3914,3 +3914,35 @@ lighting	Light	光源
 	Treat All Objects as Filled	將所有物件視為已填滿
 	Treat All Objects as Filled: on (a click inside any object picks it)	將所有物件視為已填滿：開（在任意物件內部按一下即可選取）
 	Treat All Objects as Filled: off (an object without a fill is picked on its outline)	將所有物件視為已填滿：關（無填色的物件只能在輪廓上選取）
+	Mirroring mode	鏡像模式
+	Mirror transforms	鏡像變換
+	Minimize gaps	最小化間距
+	Split elements	拆分元素
+	Link styles	連結樣式
+	The turned tiles of every other row, column or square turn the other way	隔列、隔欄或隔格旋轉的平鋪塊朝反方向旋轉
+	Each column and row takes the room its own tiles need, not the largest tile's	每欄每列只佔其平鋪塊所需的空間，而不是最大平鋪塊的空間
+	The tiles become separate objects: each can be selected, coloured and moved on its own	平鋪塊成為獨立物件：每個都可以單獨選取、上色和移動
+	With Split elements, the tiles take the object's colours and style whenever it changes	拆分元素時，物件一改變，平鋪塊就跟隨它的顏色和樣式
+	Down the rows: the top row as it is, a step more on each row below	按列：最上一列不變，往下每列多一步
+	Across the columns: the left column as it is, a step more on each column to the right	按欄：最左一欄不變，往右每欄多一步
+	Diagonally: the top-left tile as it is, a step more on each row and column	對角：左上角的平鋪塊不變，每列每欄多一步
+	Every tile the same	所有平鋪塊相同
+	Random: each tile its own share (Randomize draws again)	隨機：每個平鋪塊各自一份（隨機化重新抽取）
+	All horizontal gaps the same width	所有水平間距寬度相同
+	Random horizontal gaps (Randomize draws again)	隨機水平間距（隨機化重新抽取）
+	All vertical gaps the same height	所有垂直間距高度相同
+	Random vertical gaps (Randomize draws again)	隨機垂直間距（隨機化重新抽取）
+	Offset every other row	隔列偏移
+	Offset every other column	隔欄偏移
+	Rows flip left to right	列左右翻轉
+	Rows flip top to bottom	列上下翻轉
+	Columns flip left to right	欄左右翻轉
+	Columns flip top to bottom	欄上下翻轉
+	No mirroring	不鏡像
+	A new random draw for the random scale, rotation and gaps	重新抽取隨機的縮放、旋轉和間距
+	Apply Tiling	套用平鋪
+	Hide Tiling	隱藏平鋪
+	Show Tiling	顯示平鋪
+	Remove Tiling	移除平鋪
+	Select an object, then apply Tiling to repeat it in a grid of tiles.	選取一個物件，然後套用平鋪，把它重複成網格。
+	The selection has no Tiling. Apply it to repeat the objects in a grid of tiles.	所選內容沒有平鋪。套用後會把物件重複成網格。

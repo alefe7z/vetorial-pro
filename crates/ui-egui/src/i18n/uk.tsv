@@ -4525,3 +4525,36 @@ lighting	Light	Світло
 	Treat All Objects as Filled	Вважати всі об'єкти заповненими
 	Treat All Objects as Filled: on (a click inside any object picks it)	Вважати всі об'єкти заповненими: увімк. (клацання всередині будь-якого об'єкта вибирає його)
 	Treat All Objects as Filled: off (an object without a fill is picked on its outline)	Вважати всі об'єкти заповненими: вимк. (об'єкт без заливки вибирається лише за контуром)
+	Mirroring mode	Режим віддзеркалення
+	Mirror transforms	Віддзеркалювати перетворення
+	Minimize gaps	Зменшити проміжки
+	Split elements	Розділити елементи
+	Link styles	Пов'язати стилі
+	The turned tiles of every other row, column or square turn the other way	Повернуті плитки кожного другого ряду, стовпця або клітинки повертаються у протилежний бік
+	Each column and row takes the room its own tiles need, not the largest tile's	Кожен стовпець і ряд займає стільки місця, скільки потрібно його плиткам, а не найбільшій
+	The tiles become separate objects: each can be selected, coloured and moved on its own	Плитки стають окремими об'єктами: кожну можна виділити, перефарбувати й посунути окремо
+	With Split elements, the tiles take the object's colours and style whenever it changes	З «Розділити елементи» плитки беруть кольори й стиль об'єкта щоразу, коли він змінюється
+	Down the rows: the top row as it is, a step more on each row below	За рядами: верхній ряд як є, кожен нижчий ряд на крок більше
+	Across the columns: the left column as it is, a step more on each column to the right	За стовпцями: лівий стовпець як є, кожен стовпець праворуч на крок більше
+	Diagonally: the top-left tile as it is, a step more on each row and column	По діагоналі: ліва верхня плитка як є, кожен ряд і стовпець на крок більше
+	Every tile the same	Усі плитки однаково
+	Random: each tile its own share (Randomize draws again)	Випадково: у кожної плитки своя частка («Перемішати» розігрує знову)
+	All horizontal gaps the same width	Усі горизонтальні проміжки однакової ширини
+	Random horizontal gaps (Randomize draws again)	Випадкові горизонтальні проміжки («Перемішати» розігрує знову)
+	All vertical gaps the same height	Усі вертикальні проміжки однакової висоти
+	Random vertical gaps (Randomize draws again)	Випадкові вертикальні проміжки («Перемішати» розігрує знову)
+	Offset every other row	Зсунути кожен другий ряд
+	Offset every other column	Зсунути кожен другий стовпець
+	Rows flip left to right	Ряди віддзеркалені зліва направо
+	Rows flip top to bottom	Ряди віддзеркалені згори донизу
+	Columns flip left to right	Стовпці віддзеркалені зліва направо
+	Columns flip top to bottom	Стовпці віддзеркалені згори донизу
+	No mirroring	Без віддзеркалення
+	A new random draw for the random scale, rotation and gaps	Новий розіграш випадкового масштабу, повороту й проміжків
+	Apply Tiling	Застосувати плитки
+	Hide Tiling	Сховати плитки
+	Show Tiling	Показати плитки
+	Remove Tiling	Вилучити плитки
+	Select an object, then apply Tiling to repeat it in a grid of tiles.	Виділіть об'єкт і застосуйте «Плитки», щоб повторити його сіткою.
+	The selection has no Tiling. Apply it to repeat the objects in a grid of tiles.	Виділення не має «Плиток». Застосуйте їх, щоб повторити об'єкти сіткою.
+@msg	{C}: no effect at index {index}	{C}: немає ефекту з індексом {index}

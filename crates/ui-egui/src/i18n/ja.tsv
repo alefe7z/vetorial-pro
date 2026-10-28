@@ -4539,3 +4539,36 @@ lighting	Light	ライト
 	Treat All Objects as Filled	すべてのオブジェクトを塗りつぶしとして扱う
 	Treat All Objects as Filled: on (a click inside any object picks it)	すべてのオブジェクトを塗りつぶしとして扱う: オン（オブジェクトの内側をクリックすると選択）
 	Treat All Objects as Filled: off (an object without a fill is picked on its outline)	すべてのオブジェクトを塗りつぶしとして扱う: オフ（塗りのないオブジェクトは輪郭でのみ選択）
+	Mirroring mode	反転モード
+	Mirror transforms	変形を反転
+	Minimize gaps	間隔を最小化
+	Split elements	要素を分割
+	Link styles	スタイルをリンク
+	The turned tiles of every other row, column or square turn the other way	1つおきの行・列・マスの回転したタイルを逆向きに回転
+	Each column and row takes the room its own tiles need, not the largest tile's	各列と各行を最大のタイルではなく、それぞれのタイルに必要な大きさにする
+	The tiles become separate objects: each can be selected, coloured and moved on its own	タイルを個別のオブジェクトにする：それぞれ選択・着色・移動できる
+	With Split elements, the tiles take the object's colours and style whenever it changes	要素を分割しているとき、オブジェクトが変わるたびにタイルがその色とスタイルを引き継ぐ
+	Down the rows: the top row as it is, a step more on each row below	行ごと：一番上の行はそのまま、下の行ほど1段階ずつ増える
+	Across the columns: the left column as it is, a step more on each column to the right	列ごと：左の列はそのまま、右の列ほど1段階ずつ増える
+	Diagonally: the top-left tile as it is, a step more on each row and column	斜め：左上のタイルはそのまま、行と列ごとに1段階ずつ増える
+	Every tile the same	すべてのタイルを同じに
+	Random: each tile its own share (Randomize draws again)	ランダム：タイルごとに異なる量（ランダム化で引き直し）
+	All horizontal gaps the same width	すべての横の間隔を同じ幅に
+	Random horizontal gaps (Randomize draws again)	横の間隔をランダムに（ランダム化で引き直し）
+	All vertical gaps the same height	すべての縦の間隔を同じ高さに
+	Random vertical gaps (Randomize draws again)	縦の間隔をランダムに（ランダム化で引き直し）
+	Offset every other row	1行おきにずらす
+	Offset every other column	1列おきにずらす
+	Rows flip left to right	行を左右に反転
+	Rows flip top to bottom	行を上下に反転
+	Columns flip left to right	列を左右に反転
+	Columns flip top to bottom	列を上下に反転
+	No mirroring	反転なし
+	A new random draw for the random scale, rotation and gaps	ランダムな拡大縮小・回転・間隔を引き直す
+	Apply Tiling	タイルを適用
+	Hide Tiling	タイルを隠す
+	Show Tiling	タイルを表示
+	Remove Tiling	タイルを削除
+	Select an object, then apply Tiling to repeat it in a grid of tiles.	オブジェクトを選択し、タイルを適用するとグリッド状に繰り返します。
+	The selection has no Tiling. Apply it to repeat the objects in a grid of tiles.	選択範囲にタイルがありません。適用するとオブジェクトをグリッド状に繰り返します。
+@msg	{C}: no effect at index {index}	{C}: インデックス {index} に効果がありません

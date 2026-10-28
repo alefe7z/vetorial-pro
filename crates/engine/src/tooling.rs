@@ -184,6 +184,7 @@ impl Session {
     {
         let Some(st) = self.active.and_then(|i| self.docs.get(i)) else { return R::default() };
         let (unit, stroke_unit) = (self.general_unit(), self.stroke_unit());
+        let tiling = tiling_frames(&st.doc, &st.selection);
         let cx = ToolContext {
             doc: &st.doc,
             revision: (st.uid, st.revision),
@@ -242,6 +243,7 @@ impl Session {
             },
             screen: view.screen,
             plane_widget: self.prefs.perspective_widget.show.then_some(self.prefs.perspective_widget.position),
+            tiling: &tiling,
         };
         let tool = &mut self.tool;
         match crate::guard::catch_panic(|| f(tool.as_mut(), &cx)) {
@@ -523,4 +525,23 @@ impl Session {
         }
         Ok(ui)
     }
+}
+
+/// Vetorial: the Tiling of the selected objects (each one's first, visible, among its own
+/// effects), for the Selection tool's gap handles.
+fn tiling_frames(doc: &vectorcraft_doc::Document, selection: &vectorcraft_doc::Selection) -> Vec<vectorcraft_tools::tilingknots::TilingFrame> {
+    use vectorcraft_render::effects;
+    selection
+        .objects
+        .iter()
+        .take(16)
+        .filter_map(|id| {
+            let n = doc.node(*id)?;
+            let (index, e) = n.appearance.effects.iter().enumerate().find(|(_, e)| e.id == "distort.tiling" && e.visible)?;
+            let p = effects::merged_params(&e.id, &e.params);
+            let (cell, tile, grow) = effects::tiling::frame(effects::effect_bounds(n)?, &p)?;
+            let gap = |k: &str| p.get(k).and_then(serde_json::Value::as_f64).filter(|v| v.is_finite()).unwrap_or(0.0);
+            Some(vectorcraft_tools::tilingknots::TilingFrame { id: *id, index, cell, tile, grow, gap_x: gap("gapX"), gap_y: gap("gapY") })
+        })
+        .collect()
 }

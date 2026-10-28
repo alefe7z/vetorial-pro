@@ -472,3 +472,69 @@ fn tiling_makes_a_grid() {
     assert_eq!(run("distort.tiling", json!({"rows": 1000, "columns": 1000}), &square()).subpaths.len(), 200 * 200);
     assert_eq!(run("distort.tiling", json!({"rows": -5, "columns": "x"}), &square()).subpaths.len(), 3);
 }
+
+/// Vetorial: Tiling behaves as Inkscape's: the scale and rotation step down the rows by default,
+/// or across, both ways, the same for every tile or at random; the mirror modes flip every other
+/// row, column or a checkerboard; random gaps, Split Elements and the gap handles' places.
+#[test]
+fn tiling_matches_inkscapes_modes() {
+    let tile = |out: &PathData, k: usize| PathData::new(vec![out.subpaths[k].clone()]).bounds().unwrap();
+    // The default mode: a step more on each row down, the top row as it is.
+    let out = run("distort.tiling", json!({"rows": 3, "columns": 1, "scale": 100}), &square());
+    assert!(close(tile(&out, 0).width(), 100.0, 1e-6) && close(tile(&out, 2).width(), 300.0, 1e-6));
+    // Uniform: every tile twice as large, the cells too (the tiles still meet).
+    let out = run("distort.tiling", json!({"rows": 1, "columns": 2, "scale": 100, "scaleMode": "uniform"}), &square());
+    assert_eq!(out.bounds().unwrap(), Rect::new(-50.0, -50.0, 350.0, 150.0));
+    // Both ways: the bottom-right tile is the largest.
+    let out = run("distort.tiling", json!({"rows": 2, "columns": 2, "scale": 50, "scaleMode": "both"}), &square());
+    assert!(close(tile(&out, 3).width(), 200.0, 1e-6) && close(tile(&out, 1).width(), 150.0, 1e-6));
+    // Random scale stays between the object's size and the new one.
+    let out = run("distort.tiling", json!({"rows": 3, "columns": 3, "scale": 100, "scaleMode": "random", "seed": 2}), &square());
+    assert!((0..9).all(|k| (100.0 - 1e-6..=200.0 + 1e-6).contains(&tile(&out, k).width())));
+    // Rotation: uniform turns every tile, clockwise; down the rows by default.
+    let bar =
+        PathData::new(vec![SubPath::polyline(&[Point::new(0.0, 0.0), Point::new(100.0, 0.0), Point::new(100.0, 20.0), Point::new(0.0, 20.0)], true)]);
+    let turned =
+        apply_geometry(&[fx("distort.tiling", json!({"rows": 1, "columns": 2, "rotate": 90, "rotateMode": "uniform"}))], &bar, bar.bounds().unwrap());
+    assert!(close(tile(&turned, 0).height(), 100.0, 1e-6) && close(tile(&turned, 1).height(), 100.0, 1e-6));
+    let rows = apply_geometry(&[fx("distort.tiling", json!({"rows": 2, "columns": 1, "rotate": 90}))], &bar, bar.bounds().unwrap());
+    assert!(close(tile(&rows, 0).height(), 20.0, 1e-6) && close(tile(&rows, 1).height(), 100.0, 1e-6));
+    // Mirror: every other row flips left to right; rows and columns together, a checkerboard.
+    let tri = PathData::new(vec![SubPath::polyline(&[Point::new(0.0, 0.0), Point::new(100.0, 0.0), Point::new(0.0, 100.0)], true)]);
+    let tb = tri.bounds().unwrap();
+    let has = |out: &PathData, k: usize, x: f64, y: f64| out.subpaths[k].anchors.iter().any(|a| close(a.p.x, x, 1e-6) && close(a.p.y, y, 1e-6));
+    let m = apply_geometry(&[fx("distort.tiling", json!({"rows": 2, "columns": 1, "mirrorRowsX": true}))], &tri, tb);
+    assert!(has(&m, 1, 100.0, 200.0), "the second row flipped: {:?}", m.subpaths[1]);
+    let m = apply_geometry(&[fx("distort.tiling", json!({"rows": 2, "columns": 2, "mirrorRowsX": true, "mirrorColsX": true}))], &tri, tb);
+    assert!(has(&m, 0, 0.0, 100.0) && has(&m, 1, 200.0, 100.0) && has(&m, 2, 100.0, 200.0) && has(&m, 3, 100.0, 200.0));
+    // Mirror Transforms: the second column turns the other way.
+    let mt = apply_geometry(
+        &[fx("distort.tiling", json!({"rows": 2, "columns": 2, "rotate": 30, "mirrorTransforms": true}))],
+        &bar,
+        bar.bounds().unwrap(),
+    );
+    let lean = |k: usize| {
+        let a = &mt.subpaths[k].anchors;
+        (a[1].p.y - a[0].p.y).signum()
+    };
+    assert_eq!((lean(2), lean(3)), (1.0, -1.0), "row 1 turns one way in column 0, the other in column 1");
+    // Random gaps: every tile but the first moves back, by less than the gap.
+    let out = run("distort.tiling", json!({"rows": 1, "columns": 3, "gapX": 50, "gapXRandom": true, "seed": 1}), &square());
+    assert_eq!(tile(&out, 0).x0, 0.0);
+    assert!((100.0..=150.0).contains(&tile(&out, 1).x0) && (200.0..=300.0).contains(&tile(&out, 2).x0));
+    // Offset by columns: every other column slides down.
+    let b = run("distort.tiling", json!({"rows": 2, "columns": 2, "offset": 50, "offsetAxis": "columns"}), &square()).bounds().unwrap();
+    assert_eq!(b, Rect::new(0.0, 0.0, 200.0, 250.0));
+    // Minimize Gaps also packs turned tiles by their own size.
+    let loose = run("distort.tiling", json!({"rows": 1, "columns": 3, "scale": 50, "scaleMode": "columns", "rotate": 20}), &square());
+    let tight =
+        run("distort.tiling", json!({"rows": 1, "columns": 3, "scale": 50, "scaleMode": "columns", "rotate": 20, "minimizeGaps": true}), &square());
+    assert!(tight.bounds().unwrap().width() < loose.bounds().unwrap().width());
+    // Split Elements: the first tile only (the others are objects of their own).
+    assert_eq!(run("distort.tiling", json!({"rows": 3, "columns": 3, "split": true}), &square()).subpaths.len(), 1);
+    // The gap handles: half the gap beyond the first tile's corners; dragging them back.
+    let l = crate::tiling::layout(Rect::new(0.0, 0.0, 100.0, 100.0), &json!({"gapX": 20, "gapY": 10})).unwrap();
+    assert_eq!((l.gap_x_handle(20.0), l.gap_y_handle(10.0)), (Point::new(110.0, 0.0), Point::new(0.0, 105.0)));
+    assert!(close(l.gap_x_at(130.0), 60.0, 1e-9) && close(l.gap_y_at(100.0), 0.0, 1e-9));
+    assert_eq!(l.cell, Rect::new(-10.0, -5.0, 110.0, 105.0));
+}

@@ -227,8 +227,25 @@ fn remove(s: &mut Session, p: &Value) -> Result<Value> {
     const C: &str = "effect.remove";
     let index = index_param(p, "index", C)?;
     let item = item_target(s, p, C)?;
-    let ids = edit_effects(s, p, item, C, "Remove Effect", &format!("{C}: no effect at index {index}"), |fx| {
-        (index < fx.len()).then(|| fx.remove(index)).is_some()
+    let roots = appearance_targets(s, p)?;
+    let ids = s.edit("Remove Effect", |d, _| {
+        let (mut done, mut removed) = (vec![], vec![]);
+        for id in &roots {
+            let Some(n) = d.node_mut(*id) else { continue };
+            let target = item.effects_item(&n.appearance, C)?;
+            if let Some(fx) = n.appearance.effects_mut(target)
+                && index < fx.len()
+            {
+                removed.push(fx.remove(index));
+                done.push(*id);
+            }
+        }
+        if done.is_empty() {
+            return Err(EngineError::Other(format!("{C}: no effect at index {index}")));
+        }
+        // Vetorial: a split Tiling takes its tiles with it.
+        super::tilingsplit::erase(d, &removed);
+        Ok(done)
     })?;
     Ok(json!({ "ids": ids_json(&ids) }))
 }

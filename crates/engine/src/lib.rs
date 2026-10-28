@@ -1465,6 +1465,8 @@ impl Session {
             Ok(v) => match cmd::shaper::refresh(&before, Arc::make_mut(&mut st.doc)) {
                 Err(e) => Err(e),
                 Ok(()) => {
+                    // Vetorial: Tiling's split tiles follow their objects.
+                    cmd::tilingsplit::refresh(&before, Arc::make_mut(&mut st.doc));
                     // Inline graphics in text follow their symbols.
                     cmd::inline::refresh(&before, Arc::make_mut(&mut st.doc));
                     // Text Wrap: area type follows its wrap objects; then threads re-flow.
@@ -1966,6 +1968,8 @@ mod tests_textedit;
 mod tests_textimport;
 #[cfg(test)]
 mod tests_tileedge;
+#[cfg(test)]
+mod tests_tilingsplit;
 #[cfg(test)]
 mod tests_tints;
 #[cfg(test)]
